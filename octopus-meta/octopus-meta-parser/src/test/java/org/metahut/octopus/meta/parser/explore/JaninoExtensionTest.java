@@ -66,7 +66,7 @@ public class JaninoExtensionTest {
             Assertions.fail("octopus.attribute.HiveAttribute.setTableName()");
         } catch (Exception exception) {
             Assertions.assertAll(
-                    () -> Assertions.assertEquals(exception.getMessage(),"octopus.attribute.HiveAttribute.setTableName()"),
+                    () -> Assertions.assertEquals(exception.getMessage(),"octopus.attribute.HiveAttribute.setTableName(java.lang.String)"),
                     () -> Assertions.assertNull(exception.getCause())
             );
         }
