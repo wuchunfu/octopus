@@ -22,7 +22,7 @@ public class PulsarMetaMessage implements MetaMessage {
         }
     }
 
-    public Producer newProducer() {
+    public void newProducer() {
 
     }
 }
