@@ -24,9 +24,10 @@ metadata and data monitor
 
 实体分为：数据集 和 流程
 
+```
+@已过时
 
-
-主要采用的CMW元模型,跟Atlas 类型系统结构相似
+主要采用的CMW元模型
 
 存储结构
 
@@ -41,47 +42,7 @@ metadata and data monitor
 ---
 属性表：ID,code,key,value,leaf_type（叶子类型），parent_code
 
-
-概念：
-
-枚举：
-
-｜名称｜类型｜描述｜版本｜
-
-| 名称 |     类型 |  描述  | 版本  |     |     |
-|----|-------:| :----: |-----|-----|-----|
-| 测试状态 |   Enum |       | 1.0 |     |     |
-| pg_db | Entity |   6    |     |     |     |
-| 草莓 |     $1 |   7    |     |     |     |
-
-测试状态，枚举，元素[{测试不通过,NOT},{测试通过,NOT}]
-
-{
-"name":"TEST_STATUS",
-"type":"Enum",
-"description": "测试状态",
-"version":1
-"enumElements":[
-{"value":"TEST_SUCCESS","description": "测试通过", "ordinal": 1},
-{"value":"TEST_FAILED","description": "测试失败", "ordinal": 2},
-{"value":"TEST_NOT","description": "未测试", "ordinal": 3}
-]
-}
-{
-"name": "pg_db",
-"type":"Enum",
-"description": "测试状态",
-"version":1
-"attributes":[
-{"value":"TEST_SUCCESS","description": "测试通过", "ordinal": 1},
-{"value":"TEST_FAILED","description": "测试失败", "ordinal": 2},
-{"value":"TEST_NOT","description": "未测试", "ordinal": 3}
-]
-}
-}
-
-
-
+```
 
 ### 元数据存储
 
@@ -143,4 +104,17 @@ metadata and data monitor
 * 基础查询
 * 生成索引数据
 * 高级搜索接口
-4
+
+
+## 计划
+
+|     |        | 
+|-----|-------:|
+| 日期  |   Enum |
+| 任务  |  元数据定义 | 
+| KPI | Entity | 
+| 负责人 |     $1 | 
+| 参与人 |     $1 | 
+| 汇报人 |      s | 
+| 状态  |    进行中 | 
+

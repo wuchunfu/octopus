@@ -9,13 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>octopus-meta</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>octopus-meta-model</module>
-        <module>octopus-meta-message</module>
-        <module>octopus-meta-parser</module>
-    </modules>
+    <artifactId>octopus-scheduler</artifactId>
 
 
 </project>

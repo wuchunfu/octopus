@@ -9,13 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>octopus-meta</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>octopus-meta-model</module>
-        <module>octopus-meta-message</module>
-        <module>octopus-meta-parser</module>
-    </modules>
+    <artifactId>octopus-api</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+    </dependencies>
 </project>
