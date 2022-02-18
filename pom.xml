@@ -11,6 +11,7 @@
     <modules>
         <module>octopus-meta</module>
         <module>octopus-api</module>
+        <module>octopus-scheduler</module>
     </modules>
 
     <properties>
@@ -28,6 +29,7 @@
         <mockito.version>3.9.0</mockito.version>
         <junit.version>5.8.2</junit.version>
         <janino.version>3.1.6</janino.version>
+        <pulsar.version>2.9.1</pulsar.version>
     </properties>
 
     <dependencies>
@@ -54,7 +56,11 @@
                 <version>${project.version}</version>
             </dependency>
 
-
+            <dependency>
+                <groupId>org.apache.pulsar</groupId>
+                <artifactId>pulsar-client</artifactId>
+                <version>${pulsar.version}</version>
+            </dependency>
 
             <!-- junit5 -->
             <dependency>

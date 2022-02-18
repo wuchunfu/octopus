@@ -11,5 +11,15 @@
 
     <artifactId>octopus-meta-message-pulsar</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>org.metahut.octopus</groupId>
+            <artifactId>octopus-meta-message-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.pulsar</groupId>
+            <artifactId>pulsar-client</artifactId>
+        </dependency>
+    </dependencies>
 </project>
