@@ -12,6 +12,7 @@
         <module>octopus-meta</module>
         <module>octopus-api</module>
         <module>octopus-scheduler</module>
+        <module>octopus-examples</module>
     </modules>
 
     <properties>
