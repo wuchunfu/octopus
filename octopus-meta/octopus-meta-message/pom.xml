@@ -11,8 +11,18 @@
 
     <artifactId>octopus-meta-message</artifactId>
     <packaging>pom</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
     <modules>
         <module>octopus-meta-message-api</module>
+        <module>octopus-meta-message-kafka</module>
+        <module>octopus-meta-message-pulsar</module>
     </modules>
 
 

@@ -8,12 +8,15 @@
  * //https://seanwangjs.github.io/2018/03/13/java-runtime-compile.html
  * //janino
  * //http://janino-compiler.github.io/janino/
+<<<<<<< HEAD
  *
  * Meta-level   MOF terms                   Examples
  * M3           meta-metamodel              The MOF Model
  * M2           metamodel, meta-metadata    UMI Metamodel,CW Metamodel
  * MI           model, metadata             UML models, CW metadata
  * MO           object, data                Modeled systems,Warehouse data
+=======
+>>>>>>> af6836df91ef821e50f66436bb12500fa3469eed
  * @author XuYang
  * Create at 2022/2/17
  * @description

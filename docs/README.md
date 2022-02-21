@@ -24,9 +24,10 @@ metadata and data monitor
 
 实体分为：数据集 和 流程
 
+```
+@已过时
 
-
-主要采用的CMW元模型,跟Atlas 类型系统结构相似
+主要采用的CMW元模型
 
 存储结构
 
@@ -41,47 +42,7 @@ metadata and data monitor
 ---
 属性表：ID,code,key,value,leaf_type（叶子类型），parent_code
 
-
-概念：
-
-枚举：
-
-｜名称｜类型｜描述｜版本｜
-
-| 名称 |     类型 |  描述  | 版本  |     |     |
-|----|-------:| :----: |-----|-----|-----|
-| 测试状态 |   Enum |       | 1.0 |     |     |
-| pg_db | Entity |   6    |     |     |     |
-| 草莓 |     $1 |   7    |     |     |     |
-
-测试状态，枚举，元素[{测试不通过,NOT},{测试通过,NOT}]
-
-{
-"name":"TEST_STATUS",
-"type":"Enum",
-"description": "测试状态",
-"version":1
-"enumElements":[
-{"value":"TEST_SUCCESS","description": "测试通过", "ordinal": 1},
-{"value":"TEST_FAILED","description": "测试失败", "ordinal": 2},
-{"value":"TEST_NOT","description": "未测试", "ordinal": 3}
-]
-}
-{
-"name": "pg_db",
-"type":"Enum",
-"description": "测试状态",
-"version":1
-"attributes":[
-{"value":"TEST_SUCCESS","description": "测试通过", "ordinal": 1},
-{"value":"TEST_FAILED","description": "测试失败", "ordinal": 2},
-{"value":"TEST_NOT","description": "未测试", "ordinal": 3}
-]
-}
-}
-
-
-
+```
 
 ### 元数据存储
 
@@ -118,29 +79,49 @@ metadata and data monitor
 
 ## 任务分配
 
+元数据管理一期预计完成时间 2022-03-07
+
 1.元数据定义
 
-* 模型类型和实体定义，转换，验证
-* 模型和数据库交互
-* hive 元数据定义
-* pulsar 元数据定义
-* 多数据源元数据定义（优先级低）
+- [ ] 模型类型和实体定义，转换，验证     
+- [ ] 模型和数据库交互
+- [ ] 元数据API接口                    2022-02-25
+- [ ] hive 元数据定义
+- [ ] pulsar 元数据定义
+- [ ] 支持JSON类型定义和验证（json-schema）
+
+- [ ] 多数据源元数据定义（优先级低）
 
 2.元数据采集
 
-* API 存储元数据
-* 消息系统接收元数据，存储元数据
-* hive 定时采集或者Hook(推荐使用Hook) 采集变更数据上传到消息系统
-* pulsar 元数据手动录入
-* 定时采集主要针对RDMS(优先级低)
-* 对接dolphinscheduler采集元数据
-* 多种数据源对接
+- [ ] scheduler插件化-集成 dolphinscheduler 
+- [ ] 消息系统接收元数据，存储元数据
+- [ ] hive 定时采集或者Hook(推荐使用Hook) 采集变更数据上传到消息系统
+- [ ] pulsar 元数据手动录入
+- [ ] 定时采集主要针对RDMS(优先级低)
+- [ ] 对接 dolphinscheduler 采集元数据
+- [ ] 多种数据源对接
 
 3.元数据血缘
-* 字段级血缘？？？
+- [ ] 字段级血缘？？？
 
 4.元数据探索
-* 基础查询
-* 生成索引数据
-* 高级搜索接口
-4
+- [ ] 基础查询-API
+- [ ] 生成索引数据
+- [ ] 高级搜索接口
+
+
+## 计划
+
+开始日期：2022-02-07
+
+|     |        | 
+|-----|-------:|
+| 日期  |   Enum |
+| 任务  |  元数据定义 | 
+| KPI | Entity | 
+| 负责人 |     $1 | 
+| 参与人 |     $1 | 
+| 汇报人 |      s | 
+| 状态  |    进行中 | 
+

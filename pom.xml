@@ -10,6 +10,9 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>octopus-meta</module>
+        <module>octopus-api</module>
+        <module>octopus-scheduler</module>
+        <module>octopus-examples</module>
     </modules>
 
     <properties>
@@ -29,6 +32,7 @@
         <janino.version>3.1.6</janino.version>
         <slf4j.version>1.7.36</slf4j.version>
         <commonsLang3.version>3.12.0</commonsLang3.version>
+        <pulsar.version>2.9.1</pulsar.version>
     </properties>
 
     <dependencies>
@@ -47,6 +51,18 @@
                 <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <!-- octopus -->
+            <dependency>
+                <groupId>org.metahut.octopus</groupId>
+                <artifactId>octopus-meta-message-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.pulsar</groupId>
+                <artifactId>pulsar-client</artifactId>
+                <version>${pulsar.version}</version>
             </dependency>
 
             <!-- junit5 -->
