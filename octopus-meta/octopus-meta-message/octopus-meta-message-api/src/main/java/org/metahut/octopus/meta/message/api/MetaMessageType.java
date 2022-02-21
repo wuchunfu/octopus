@@ -1,4 +1,4 @@
-package org.metahut.octupus.meta.message.api;
+package org.metahut.octopus.meta.message.api;
 
 public enum MetaMessageType {
 
