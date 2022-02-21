@@ -17,9 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author XuYang
- * Create at 2022/2/17
- * @description
+ *
  */
 public class JaninoTest {
 
