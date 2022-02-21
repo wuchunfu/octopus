@@ -3,6 +3,8 @@ package org.metahut.octopus.meta.parser.domain.compile;
 import org.metahut.octopus.meta.parser.domain.func.IdGenerator;
 import org.metahut.octopus.meta.parser.domain.func.TagLoader;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 /**
  *
  */
@@ -10,7 +12,7 @@ public abstract class AbstractStructModel extends TagLoader {
     /**
      * Serial Version UID
      */
-    private long serialVersionUID;
+    private long serialVersionUID = ThreadLocalRandom.current().nextLong();
 
     /**
      *  TODO

@@ -7,13 +7,11 @@ import org.codehaus.commons.compiler.util.resource.Resource;
 import org.codehaus.commons.compiler.util.resource.StringResource;
 import org.metahut.octopus.meta.parser.domain.compile.AbstractStructModel;
 import org.metahut.octopus.meta.parser.domain.compile.ClassModel;
+import org.metahut.octopus.meta.parser.domain.enums.RelType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * import constant pool
@@ -21,6 +19,17 @@ import java.util.Set;
 public class ClassGenerator {
 
     private static final Logger LOG = LoggerFactory.getLogger(ClassGenerator.class);
+
+    private static final String LIST_IMPORT = "import java.util.List;\n";
+
+    private static final String PACKAGE_SPLIT = ".";
+
+    private static final String LINE_TAIL = ";\n";
+
+    private static final String INDENT = "\t\t";
+
+    private static final String IMPORT = "import ";
+
 
     public static final void load(String classInfo) throws Exception {
         ICompiler compiler = CompilerFactoryFactory.getDefaultCompilerFactory(ClassGenerator.class.getClassLoader()).newCompiler();
@@ -61,6 +70,16 @@ public class ClassGenerator {
         });
     }
 
+    /**
+     * 1.link -> do how
+     * 2.uid
+     * 3.list (complete)
+     * 4.graph ?  because link in list ,need a way to show and analysis it
+     * 5.封装 ？ 定义
+     * @param env
+     * @param model
+     * @return
+     */
     public static final String toClassFile(String env, AbstractStructModel model) {
         if (model instanceof ClassModel) {
             ClassModel classModel = (ClassModel)model;
@@ -70,6 +89,7 @@ public class ClassGenerator {
             LineStringBuilder classNameBuilder = new LineStringBuilder()
                     .appendLine("public class ",classModel.getName() ," {\n");
             LineStringBuilder attributesBuilder = new LineStringBuilder();
+            attributesBuilder.appendLine(INDENT,"private static final long ",String.valueOf(model.getSerialVersionUID()),"L",LINE_TAIL);
             Set<String> imports = new HashSet<>();
             //attribute -> import how o（n）
             classModel.getAttributeModels()
@@ -77,15 +97,27 @@ public class ClassGenerator {
                     .filter(attributeModel -> attributeModel != null
                             && attributeModel.getClassName() != null)
                     .forEach(attributeModel -> {
-                        int index = attributeModel.getClassName().lastIndexOf(".");
-                        if (index == -1) {
-                            attributesBuilder.appendLine("\t\t",attributeModel.getClassName()," ",attributeModel.getName(),";\n");
-                        } else {
-                            String className = attributeModel.getClassName().substring(index + 1);
-                            if (imports.add(className)) {
-                                importBuilder.appendLine("import ",attributeModel.getClassName(),";\n");
+                        int index = attributeModel.getName().lastIndexOf(PACKAGE_SPLIT);
+                        if (attributeModel.isArray() && imports.add(LIST_IMPORT)) {
+                            importBuilder.appendLine(LIST_IMPORT);
+                        }
+                        // import Class
+                        String simpleClassName ;
+                        if (index != -1) {
+                            String preName = "";
+                            if (RelType.CUSTOM == attributeModel.getRelType()) {
+                                preName = env + PACKAGE_SPLIT;
                             }
-                            attributesBuilder.appendLine("\t\t",className," ",attributeModel.getName(),";\n");
+                            importBuilder.appendLine(IMPORT,preName,attributeModel.getClassName(),LINE_TAIL);
+                            simpleClassName = attributeModel.getClassName().substring(index + 1);
+                        } else {
+                            simpleClassName = attributeModel.getClassName();
+                        }
+                        // addAttribute
+                        if (attributeModel.isArray()) {
+                            attributesBuilder.appendLine(INDENT,"List<",simpleClassName,">",attributeModel.getName(),LINE_TAIL);
+                        } else {
+                            attributesBuilder.appendLine(INDENT,simpleClassName,attributeModel.getName(),LINE_TAIL);
                         }
                     });
             return new LineStringBuilder()
@@ -101,5 +133,4 @@ public class ClassGenerator {
         return "";
     }
 
-    //TODO 常量池
 }

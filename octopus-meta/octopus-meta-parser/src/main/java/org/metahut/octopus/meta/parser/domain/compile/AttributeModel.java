@@ -23,10 +23,9 @@ public class AttributeModel {
     private RelType relType = RelType.DEFAULT;
 
     /**
-     * list set add or remove (why remove)
      * Attribute Is Array Or Not
      */
-    private boolean iaArray;
+    private boolean array;
 
 //    private Boolean isProxy        = Boolean.FALSE;
 //    private Boolean isIncomplete   = Boolean.FALSE;
@@ -56,12 +55,12 @@ public class AttributeModel {
         this.className = className;
     }
 
-    public boolean isIaArray() {
-        return iaArray;
+    public RelType getRelType() {
+        return relType;
     }
 
-    public void setIaArray(boolean iaArray) {
-        this.iaArray = iaArray;
+    public void setRelType(RelType relType) {
+        this.relType = relType;
     }
 
     public String getDefaultValue() {
@@ -72,4 +71,11 @@ public class AttributeModel {
         this.defaultValue = defaultValue;
     }
 
+    public boolean isArray() {
+        return array;
+    }
+
+    public void setArray(boolean array) {
+        this.array = array;
+    }
 }
