@@ -222,14 +222,13 @@
         <module name="UnusedImports"/>
 
         <module name="ImportOrder">
-            <property name="staticGroups" value="org.apache,java,javax,org,com"/>
-            <property name="separatedStaticGroups" value="true"/>
-
-            <property name="groups" value="org.apache,java,javax,org,com"/>
-            <property name="ordered" value="true"/>
+            <property name="severity" value="error"/>
+            <property name="groups" value="org.metahut.octopus,*,javax,java,scala"/>
             <property name="separated" value="true"/>
-            <property name="option" value="top"/>
             <property name="sortStaticImportsAlphabetically" value="true"/>
+            <property name="option" value="bottom"/>
+            <property name="tokens" value="STATIC_IMPORT, IMPORT"/>
+            <message key="import.ordering" value="Import {0} appears after other imports that it should precede"/>
         </module>
 
         <module name="NoWhitespaceBefore">
