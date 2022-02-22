@@ -9,6 +9,7 @@ import org.apache.pulsar.client.api.PulsarClient;
 import org.apache.pulsar.client.api.PulsarClientException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -20,6 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * pulsar meta message manager
  */
 @Component
+@ConditionalOnProperty(prefix = "meta.message", name = "type", havingValue = "pulsar")
 public class PulsarMetaMessageManager implements MetaMessageManager {
 
     private static final Logger logger = LoggerFactory.getLogger(PulsarMetaMessageManager.class);

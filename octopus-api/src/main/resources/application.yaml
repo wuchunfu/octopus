@@ -70,3 +70,11 @@ meta:
         auto-offset-reset: earliest # 当各分区下有已提交的offset时，从提交的offset开始消费；无提交的offset时，从头开始消费
         key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
         value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+knife4j:
+  enable: true
+  basic:
+    enable: true
+    username: octopus
+    password: octopus123
+

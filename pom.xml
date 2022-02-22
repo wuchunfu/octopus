@@ -32,6 +32,7 @@
         <janino.version>3.1.6</janino.version>
         <pulsar.version>2.9.1</pulsar.version>
         <slf4j.version>2.0.0-alpha6</slf4j.version>
+        <knife4j.version>3.0.3</knife4j.version>
     </properties>
 
     <dependencies>
@@ -40,6 +41,13 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- octopus -->
+            <dependency>
+                <groupId>org.metahut.octopus</groupId>
+                <artifactId>octopus-meta-message-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <!-- springboot -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -47,11 +55,10 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!-- octopus -->
             <dependency>
-                <groupId>org.metahut.octopus</groupId>
-                <artifactId>octopus-meta-message-api</artifactId>
-                <version>${project.version}</version>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
             </dependency>
 
             <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
