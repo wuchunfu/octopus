@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>octopus-scheduler-api</module>
+        <module>octopus-scheduler-dolphinscheduler</module>
     </modules>
 
 

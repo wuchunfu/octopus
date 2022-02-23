@@ -13,6 +13,9 @@
         <module>octopus-api</module>
         <module>octopus-scheduler</module>
         <module>octopus-examples</module>
+        <module>octopus-quality</module>
+        <module>octopus-alerter</module>
+        <module>octopus-message</module>
     </modules>
 
     <properties>
@@ -44,9 +47,15 @@
             <!-- octopus -->
             <dependency>
                 <groupId>org.metahut.octopus</groupId>
-                <artifactId>octopus-meta-message-api</artifactId>
+                <artifactId>octopus-message-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.metahut.octopus</groupId>
+                <artifactId>octopus-alerter-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <!-- springboot -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>

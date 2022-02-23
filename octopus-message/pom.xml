@@ -9,14 +9,19 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>octopus-meta</artifactId>
+    <artifactId>octopus-message</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>octopus-meta-model</module>
-        <module>octopus-meta-parser</module>
-        <module>octopus-meta-gateway</module>
-        <module>octopus-meta-collector</module>
+        <module>octopus-message-api</module>
+        <module>octopus-message-pulsar</module>
     </modules>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
 </project>

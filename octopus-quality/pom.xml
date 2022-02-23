@@ -9,13 +9,11 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>octopus-meta</artifactId>
+    <artifactId>octopus-quality</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>octopus-meta-model</module>
-        <module>octopus-meta-parser</module>
-        <module>octopus-meta-gateway</module>
-        <module>octopus-meta-collector</module>
+        <module>octopus-quality-parser</module>
+        <module>octopus-quality-monitordb</module>
     </modules>
 
 
