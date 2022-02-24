@@ -13,9 +13,9 @@
     <packaging>pom</packaging>
     <modules>
         <module>octopus-meta-model</module>
-        <module>octopus-meta-message</module>
         <module>octopus-meta-parser</module>
         <module>octopus-meta-gateway</module>
+        <module>octopus-meta-collector</module>
     </modules>
 
 
