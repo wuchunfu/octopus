@@ -7,7 +7,7 @@ import java.util.Map;
 
 @Configuration
 @ConfigurationProperties(
-        prefix = "meta.message"
+        prefix = "octopus.message"
 )
 public class MessageProperties {
 
