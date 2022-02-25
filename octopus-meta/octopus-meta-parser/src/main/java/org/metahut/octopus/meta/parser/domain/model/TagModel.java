@@ -1,4 +1,4 @@
-package org.metahut.octopus.meta.parser.domain.compile.support;
+package org.metahut.octopus.meta.parser.domain.model;
 
 import org.metahut.octopus.meta.parser.domain.enums.TagCategory;
 import org.metahut.octopus.meta.parser.domain.enums.TagLife;

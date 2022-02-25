@@ -1,6 +1,6 @@
 package org.metahut.octopus.meta.parser.domain.func;
 
-import org.metahut.octopus.meta.parser.domain.compile.support.TagModel;
+import org.metahut.octopus.meta.parser.domain.model.TagModel;
 import org.metahut.octopus.meta.parser.domain.enums.TagLife;
 
 import java.util.Map;

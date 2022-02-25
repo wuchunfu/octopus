@@ -1,7 +1,5 @@
-package org.metahut.octopus.meta.parser.domain.compile;
+package org.metahut.octopus.meta.parser.domain.model;
 
-
-import org.metahut.octopus.meta.parser.domain.compile.support.TagModel;
 
 import java.util.List;
 

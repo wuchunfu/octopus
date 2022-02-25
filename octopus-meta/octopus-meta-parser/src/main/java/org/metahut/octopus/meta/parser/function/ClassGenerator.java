@@ -1,35 +1,24 @@
-package org.metahut.octopus.meta.parser.core.function;
+package org.metahut.octopus.meta.parser.function;
 
 import org.codehaus.commons.compiler.CompilerFactoryFactory;
 import org.codehaus.commons.compiler.ICompiler;
 import org.codehaus.commons.compiler.util.resource.MapResourceCreator;
 import org.codehaus.commons.compiler.util.resource.Resource;
 import org.codehaus.commons.compiler.util.resource.StringResource;
-import org.metahut.octopus.meta.parser.domain.compile.AbstractStructModel;
-import org.metahut.octopus.meta.parser.domain.compile.ClassModel;
+import org.metahut.octopus.meta.parser.domain.SymbolConstants;
+import org.metahut.octopus.meta.parser.domain.model.AbstractStructModel;
+import org.metahut.octopus.meta.parser.domain.model.ClassModel;
 import org.metahut.octopus.meta.parser.domain.enums.RelType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * import constant pool
  */
 public class ClassGenerator {
-
-    private static final Logger LOG = LoggerFactory.getLogger(ClassGenerator.class);
-
-    private static final String LIST_IMPORT = "import java.util.List;\n";
-
-    private static final String PACKAGE_SPLIT = ".";
-
-    private static final String LINE_TAIL = ";\n";
-
-    private static final String INDENT = "\t\t";
-
-    private static final String IMPORT = "import ";
-
 
     public static final void load(String classInfo) throws Exception {
         ICompiler compiler = CompilerFactoryFactory.getDefaultCompilerFactory(ClassGenerator.class.getClassLoader()).newCompiler();
@@ -72,10 +61,10 @@ public class ClassGenerator {
 
     /**
      * 1.link -> do how
-     * 2.uid
+     * 2.uid ?
      * 3.list (complete)
-     * 4.graph ?  because link in list ,need a way to show and analysis it
-     * 5.封装 ？ 定义
+     * 4.graph ?  需要个解决依赖的方式
+     * 5.封装 ？ 定义 rel ? 图 ？
      * @param env
      * @param model
      * @return
@@ -89,7 +78,7 @@ public class ClassGenerator {
             LineStringBuilder classNameBuilder = new LineStringBuilder()
                     .appendLine("public class ",classModel.getName() ," {\n");
             LineStringBuilder attributesBuilder = new LineStringBuilder();
-            attributesBuilder.appendLine(INDENT,"private static final long ",String.valueOf(model.getSerialVersionUID()),"L",LINE_TAIL);
+            attributesBuilder.appendLine(SymbolConstants.INDENT,"private static final long ",String.valueOf(model.getSerialVersionUID()),"L", SymbolConstants.LINE_TAIL);
             Set<String> imports = new HashSet<>();
             //attribute -> import how o（n）
             classModel.getAttributeModels()
@@ -97,27 +86,27 @@ public class ClassGenerator {
                     .filter(attributeModel -> attributeModel != null
                             && attributeModel.getClassName() != null)
                     .forEach(attributeModel -> {
-                        int index = attributeModel.getName().lastIndexOf(PACKAGE_SPLIT);
-                        if (attributeModel.isArray() && imports.add(LIST_IMPORT)) {
-                            importBuilder.appendLine(LIST_IMPORT);
+                        int index = attributeModel.getName().lastIndexOf(SymbolConstants.PACKAGE_SPLIT);
+                        if (attributeModel.isArray() && imports.add(SymbolConstants.LIST_IMPORT)) {
+                            importBuilder.appendLine(SymbolConstants.LIST_IMPORT);
                         }
                         // import Class
                         String simpleClassName ;
                         if (index != -1) {
                             String preName = "";
                             if (RelType.CUSTOM == attributeModel.getRelType()) {
-                                preName = env + PACKAGE_SPLIT;
+                                preName = env + SymbolConstants.PACKAGE_SPLIT;
                             }
-                            importBuilder.appendLine(IMPORT,preName,attributeModel.getClassName(),LINE_TAIL);
+                            importBuilder.appendLine(SymbolConstants.IMPORT,preName,attributeModel.getClassName(), SymbolConstants.LINE_TAIL);
                             simpleClassName = attributeModel.getClassName().substring(index + 1);
                         } else {
                             simpleClassName = attributeModel.getClassName();
                         }
                         // addAttribute
                         if (attributeModel.isArray()) {
-                            attributesBuilder.appendLine(INDENT,"List<",simpleClassName,">",attributeModel.getName(),LINE_TAIL);
+                            attributesBuilder.appendLine(SymbolConstants.INDENT,"List<",simpleClassName,">",attributeModel.getName(), SymbolConstants.LINE_TAIL);
                         } else {
-                            attributesBuilder.appendLine(INDENT,simpleClassName,attributeModel.getName(),LINE_TAIL);
+                            attributesBuilder.appendLine(SymbolConstants.INDENT,simpleClassName,attributeModel.getName(), SymbolConstants.LINE_TAIL);
                         }
                     });
             return new LineStringBuilder()
@@ -128,9 +117,9 @@ public class ClassGenerator {
                     .append('}')
                     .toString();
         } else {
-            LOG.error("No support Model type[{}]", model.getClass());
+            SymbolConstants.LOG.error("No support Model type[{}]", model.getClass());
         }
-        return "";
+        return null;
     }
 
 }

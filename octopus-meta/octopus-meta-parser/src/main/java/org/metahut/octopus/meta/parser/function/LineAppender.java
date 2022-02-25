@@ -1,4 +1,4 @@
-package org.metahut.octopus.meta.parser.core.function;
+package org.metahut.octopus.meta.parser.function;
 
 /**
  *
