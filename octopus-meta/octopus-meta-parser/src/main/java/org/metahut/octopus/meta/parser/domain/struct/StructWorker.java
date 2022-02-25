@@ -32,8 +32,6 @@ public class StructWorker {
 
     private Set<String> relClassNames = new HashSet<>();
 
-
-
     public void storageNode() {
 
     }
@@ -43,7 +41,7 @@ public class StructWorker {
      *  NODE TO WHAT
      * @param node
      */
-    public void relTransform(Object node ) {
+    public void relTransform(Object node) {
 
     }
 

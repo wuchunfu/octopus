@@ -1,6 +1,5 @@
 package org.metahut.octopus.meta.parser.domain.model;
 
-
 import java.util.List;
 
 /**
@@ -8,7 +7,7 @@ import java.util.List;
  * Create at 2022/2/18
  * @description
  */
-public class ClassModel extends AbstractStructModel{
+public class ClassModel extends AbstractStructModel {
 
     /**
      * attribute model list

@@ -45,7 +45,6 @@ abstract class EnvironmentUnit {
      */
     public abstract void unload(String env);
 
-
     public final synchronized String rewrite(String env) {
         AtomicLong variableContainer = versionHolder.get(env);
         if (variableContainer == null) {

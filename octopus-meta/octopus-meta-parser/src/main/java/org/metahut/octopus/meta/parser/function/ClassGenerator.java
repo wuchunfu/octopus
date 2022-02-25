@@ -29,33 +29,33 @@ public class ClassGenerator {
 
         // Now compile two units from strings:
         compiler.compile(new Resource[]{
-                new StringResource(
-                        "octopus/model/HiveModel.java",
-                        "package octopus.model;\n"
-                                + "import octopus.attribute.HiveAttribute;\n"
-                                + "public class HiveModel {\n"
-                                + "\t\tprivate HiveAttribute hiveAttribute;\n"
-                                + "\t\tpublic void setHiveAttribute(HiveAttribute hiveAttribute) {\n"
-                                + "\t\t\t\tthis.hiveAttribute = hiveAttribute;\n"
-                                + "\t\t}\n"
-                                + "\t\tpublic HiveAttribute getHiveAttribute(){\n"
-                                + "\t\t\t\treturn this.hiveAttribute;\n"
-                                + "\t\t}\n"
-                                + "}\n"
-                ),
-                new StringResource(
-                        "octopus/attribute/HiveAttribute.java",
-                        "package octopus.attribute;\n"
-                                + "public class HiveAttribute {"
-                                + "\t\tprivate String tableName;\n"
-                                + "\t\tpublic void setTableName(String tableName) {\n"
-                                + "\t\t\t\tthis.tableName = tableName;\n"
-                                + "\t\t}\n"
-                                + "\t\tpublic String getTableName(){\n"
-                                + "\t\t\t\treturn this.tableName;\n"
-                                + "\t\t}\n"
-                                + "}\n"
-                ),
+            new StringResource(
+                    "octopus/model/HiveModel.java",
+                    "package octopus.model;\n"
+                            + "import octopus.attribute.HiveAttribute;\n"
+                            + "public class HiveModel {\n"
+                            + "\t\tprivate HiveAttribute hiveAttribute;\n"
+                            + "\t\tpublic void setHiveAttribute(HiveAttribute hiveAttribute) {\n"
+                            + "\t\t\t\tthis.hiveAttribute = hiveAttribute;\n"
+                            + "\t\t}\n"
+                            + "\t\tpublic HiveAttribute getHiveAttribute(){\n"
+                            + "\t\t\t\treturn this.hiveAttribute;\n"
+                            + "\t\t}\n"
+                            + "}\n"
+            ),
+            new StringResource(
+                    "octopus/attribute/HiveAttribute.java",
+                    "package octopus.attribute;\n"
+                            + "public class HiveAttribute {"
+                            + "\t\tprivate String tableName;\n"
+                            + "\t\tpublic void setTableName(String tableName) {\n"
+                            + "\t\t\t\tthis.tableName = tableName;\n"
+                            + "\t\t}\n"
+                            + "\t\tpublic String getTableName(){\n"
+                            + "\t\t\t\treturn this.tableName;\n"
+                            + "\t\t}\n"
+                            + "}\n"
+            ),
         });
     }
 
@@ -76,7 +76,7 @@ public class ClassGenerator {
             packageBuilder.appendLine("package ",env,".",model.getPackagePath(),";\n");
             LineStringBuilder importBuilder = new LineStringBuilder();
             LineStringBuilder classNameBuilder = new LineStringBuilder()
-                    .appendLine("public class ",classModel.getName() ," {\n");
+                    .appendLine("public class ",classModel.getName()," {\n");
             LineStringBuilder attributesBuilder = new LineStringBuilder();
             attributesBuilder.appendLine(SymbolConstants.INDENT,"private static final long ",String.valueOf(model.getSerialVersionUID()),"L", SymbolConstants.LINE_TAIL);
             Set<String> imports = new HashSet<>();
@@ -91,7 +91,7 @@ public class ClassGenerator {
                             importBuilder.appendLine(SymbolConstants.LIST_IMPORT);
                         }
                         // import Class
-                        String simpleClassName ;
+                        String simpleClassName;
                         if (index != -1) {
                             String preName = "";
                             if (RelType.CUSTOM == attributeModel.getRelType()) {

@@ -10,6 +10,6 @@ public interface IdGenerator {
      * @return
      */
     default String generate() {
-        return "V" ;
+        return "V";
     }
 }

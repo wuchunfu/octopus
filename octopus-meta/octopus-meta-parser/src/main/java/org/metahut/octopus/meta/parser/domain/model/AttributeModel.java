@@ -27,9 +27,9 @@ public class AttributeModel {
      */
     private boolean array;
 
-//    private Boolean isProxy        = Boolean.FALSE;
-//    private Boolean isIncomplete   = Boolean.FALSE;
-//    private Integer provenanceType = 0;
+    //private Boolean isProxy        = Boolean.FALSE;
+    //private Boolean isIncomplete   = Boolean.FALSE;
+    //private Integer provenanceType = 0;
 
 
     /**

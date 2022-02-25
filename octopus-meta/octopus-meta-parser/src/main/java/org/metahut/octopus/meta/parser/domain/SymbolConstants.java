@@ -1,6 +1,7 @@
 package org.metahut.octopus.meta.parser.domain;
 
 import org.metahut.octopus.meta.parser.function.ClassGenerator;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -12,7 +12,6 @@ public class ClassParserHandler {
 
     private EnvironmentUnit environmentUnit;
 
-
     public boolean valid(List<AbstractStructModel> structModels) {
 
         return true;

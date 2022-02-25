@@ -9,7 +9,7 @@ interface LineAppender {
      * function extension for lines
      * @param lines
      */
-    LineAppender appendLine(String ... lines);
+    LineAppender appendLine(String... lines);
 
     /**
      * function extension for line

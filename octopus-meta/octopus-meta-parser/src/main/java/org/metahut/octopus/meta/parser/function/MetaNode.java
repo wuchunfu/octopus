@@ -13,9 +13,6 @@ public class MetaNode {
      */
     private int category;
 
-
-
-
     public int getValue() {
         return 0;
     }

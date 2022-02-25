@@ -9,7 +9,9 @@ final class LineStringBuilder implements LineAppender,Appendable {
 
     private final StringBuilder buffer;
 
-    LineStringBuilder() {this.buffer = new StringBuilder();}
+    LineStringBuilder() {
+        this.buffer = new StringBuilder();
+    }
 
     @Override
     public LineStringBuilder appendLine(String... lines) {

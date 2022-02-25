@@ -49,7 +49,6 @@ interface MetaModelConsoleService<T> {
      */
     T getById(String env,long id);
 
-
     /**
      * 检查版本是否冲突
      * @param model
@@ -76,6 +75,4 @@ interface MetaModelConsoleService<T> {
     default void asd() {
 
     }
-
-
 }
