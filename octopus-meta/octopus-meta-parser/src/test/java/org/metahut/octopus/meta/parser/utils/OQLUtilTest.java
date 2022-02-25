@@ -16,8 +16,10 @@ public class OQLUtilTest {
 
     /**
      * OQL javaVM query language
-     * objectbox-java a database for javaObject
-     * alibaba COLA
+     * objectbox-java a database for javaObject (X)
+     * alibaba COLA (X)
+     * cglib
+     *
      *
      */
 

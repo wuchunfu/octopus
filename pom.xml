@@ -38,7 +38,6 @@
         <pulsar.version>2.9.1</pulsar.version>
         <slf4j.version>2.0.0-alpha6</slf4j.version>
         <knife4j.version>3.0.3</knife4j.version>
-        <objectbox.version>3.1.2</objectbox.version>
     </properties>
 
     <dependencies>
@@ -132,16 +131,6 @@
                 <version>${commonsLang3.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>io.objectbox</groupId>
-                <artifactId>objectbox-java</artifactId>
-                <version>${objectbox.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.objectbox</groupId>
-                <artifactId>objectbox-java-api</artifactId>
-                <version>${objectbox.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
