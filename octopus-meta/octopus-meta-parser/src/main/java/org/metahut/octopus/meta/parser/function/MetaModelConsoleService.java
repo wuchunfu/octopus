@@ -9,6 +9,15 @@ import java.util.List;
  */
 interface MetaModelConsoleService<T> {
 
+    //想象， 整个内存是一个整体大宽表
+    //建立约束和索引
+    //宽表上面创立数据
+    //或者执行表达式验证
+    //work 阶段
+    //model 有验证么 无 它为体系问题
+    //model 整体更新运行 加载transform
+    //instance 有验证
+
     /**
      * init model env
      * @param env envInfo
@@ -17,7 +26,7 @@ interface MetaModelConsoleService<T> {
     void initModelEnv(String env,T jsonModelInfo);
 
     /**
-     * 更新模型
+     * 更新模型？
      * @param env
      * @param root
      * @param jsonModelInfo

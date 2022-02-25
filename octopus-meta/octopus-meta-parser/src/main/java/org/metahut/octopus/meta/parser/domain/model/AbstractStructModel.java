@@ -1,5 +1,6 @@
 package org.metahut.octopus.meta.parser.domain.model;
 
+import org.metahut.octopus.meta.parser.domain.SymbolConstants;
 import org.metahut.octopus.meta.parser.domain.func.IdGenerator;
 import org.metahut.octopus.meta.parser.domain.func.TagLoader;
 
@@ -66,5 +67,10 @@ public abstract class AbstractStructModel extends TagLoader {
 
     public void setPackagePath(String packagePath) {
         this.packagePath = packagePath;
+    }
+
+
+    public final String getFullClassName() {
+        return packagePath + SymbolConstants.PACKAGE_SPLIT + name;
     }
 }

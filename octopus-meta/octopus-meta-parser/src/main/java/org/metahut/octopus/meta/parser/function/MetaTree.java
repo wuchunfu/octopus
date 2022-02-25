@@ -6,7 +6,24 @@ import java.util.List;
 
 /**
  * cateGory 在父容器上不归这个管
+ * 如果通过tree进行实例的创建呢 ？
+ * 为何要局部和整体
+ * model 整体？
+ *  Object[] AbstractStructModels
+ *  类名为唯一
+ *  例：
+ *  提供语法?
+ *  var id = getId()
+ *  add(id,prop,prop,prop)
  *
+ * 实例 （局部） 需要给hook 提供迭代式使用方式。整体的呢
+ * requestId
+ *  add
+ *  add
+ *  add
+ *
+ * commit
+ *  tag on
  */
 public class MetaTree {
 
