@@ -20,6 +20,8 @@ public class ClassParserHandler {
 
     private EnvironmentUnit environmentUnit;
 
+    private MetaStorage metaStorage;
+
     public void valid(List<AbstractStructModel> structModels) throws AbstractParserException {
         if (structModels == null || structModels.size() == 0) {
             throw new DataValidException("Non data in ,please check.");
@@ -59,7 +61,6 @@ public class ClassParserHandler {
         //1.version 没用 class按照类名来的
         //2.class
         //3. graph  nodes(contain id)  and links and category
-
         //classFullName
         structModels
                 .stream()
@@ -73,6 +74,7 @@ public class ClassParserHandler {
                 })
                 ;
 
+        metaStorage.put(rewriteEnv,new MetaTree(structModels));
     }
 
     public void loadInstances(String env,List<?> insances) {

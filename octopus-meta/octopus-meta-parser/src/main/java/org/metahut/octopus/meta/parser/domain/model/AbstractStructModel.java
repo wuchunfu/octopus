@@ -16,11 +16,6 @@ public abstract class AbstractStructModel extends TagLoader {
     private long serialVersionUID = ThreadLocalRandom.current().nextLong();
 
     /**
-     *  TODO
-     */
-    private IdGenerator idGenerator;
-
-    /**
      * name
      */
     private String name;
@@ -43,14 +38,6 @@ public abstract class AbstractStructModel extends TagLoader {
 
     public void setSerialVersionUID(long serialVersionUID) {
         this.serialVersionUID = serialVersionUID;
-    }
-
-    public IdGenerator getIdGenerator() {
-        return idGenerator;
-    }
-
-    public void setIdGenerator(IdGenerator idGenerator) {
-        this.idGenerator = idGenerator;
     }
 
     public String getName() {
