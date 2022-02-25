@@ -10,6 +10,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>octopus-scheduler</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>octopus-scheduler-api</module>
+        <module>octopus-scheduler-dolphinscheduler</module>
+    </modules>
 
 
 </project>

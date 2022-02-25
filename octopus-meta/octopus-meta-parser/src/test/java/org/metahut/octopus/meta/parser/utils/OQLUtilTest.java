@@ -23,6 +23,6 @@ public class OQLUtilTest {
 
     @Test
     public void test() {
-        ObjectB
+        System.out.println("111");
     }
 }

@@ -17,7 +17,7 @@ public class MetaNode {
 
 
     public int getValue() {
-        return
+        return 0;
     }
 
 }

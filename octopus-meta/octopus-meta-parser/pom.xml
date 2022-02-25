@@ -36,12 +36,12 @@
             <artifactId>janino</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+            <groupId>io.objectbox</groupId>
+            <artifactId>objectbox-java</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
+            <groupId>io.objectbox</groupId>
+            <artifactId>objectbox-java-api</artifactId>
         </dependency>
     </dependencies>
 </project>
