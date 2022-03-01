@@ -11,5 +11,11 @@
 
     <artifactId>octopus-scheduler-dolphinscheduler</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.metahut.octopus</groupId>
+            <artifactId>octopus-scheduler-api</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

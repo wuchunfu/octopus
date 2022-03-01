@@ -1,7 +1,7 @@
 package org.metahut.octopus.meta.gateway.message;
 
-import org.metahut.octopus.meta.message.api.MetaMessageConsumer;
-import org.metahut.octopus.meta.message.api.MetaMessageManager;
+import org.metahut.octopus.message.api.MessageConsumer;
+import org.metahut.octopus.message.api.MessageManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,18 +13,18 @@ import javax.annotation.PostConstruct;
 import java.io.IOException;
 
 @Component
-public class MetaMessageHelper {
+public class MessageHelper {
 
-    private static final Logger logger = LoggerFactory.getLogger(MetaMessageHelper.class);
+    private static final Logger logger = LoggerFactory.getLogger(MessageHelper.class);
 
-    private final MetaMessageManager metaMessageManager;
+    private final MessageManager messageManager;
 
-    public MetaMessageHelper(MetaMessageManager metaMessageManager) {
-        this.metaMessageManager = metaMessageManager;
+    public MessageHelper(MessageManager messageManager) {
+        this.messageManager = messageManager;
     }
 
-    public MetaMessageManager getMetaMessageManager() {
-        return metaMessageManager;
+    public MessageManager getMessageManager() {
+        return messageManager;
     }
 
     @PostConstruct
@@ -34,7 +34,7 @@ public class MetaMessageHelper {
 
     @Async
     public void autoMetaEventConsumer() {
-        MetaMessageConsumer consumer = metaMessageManager.getConsumer("");
+        MessageConsumer consumer = messageManager.getConsumer("");
         while (true) {
             try {
                 String receive = consumer.receive();
@@ -49,6 +49,6 @@ public class MetaMessageHelper {
     }
 
     public void close() throws IOException {
-        metaMessageManager.close();
+        messageManager.close();
     }
 }

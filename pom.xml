@@ -36,6 +36,7 @@
         <pulsar.version>2.9.1</pulsar.version>
         <slf4j.version>2.0.0-alpha6</slf4j.version>
         <knife4j.version>3.0.3</knife4j.version>
+        <okhttp3.version>4.9.3</okhttp3.version>
     </properties>
 
     <dependencies>
@@ -53,6 +54,11 @@
             <dependency>
                 <groupId>org.metahut.octopus</groupId>
                 <artifactId>octopus-alerter-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.metahut.octopus</groupId>
+                <artifactId>octopus-scheduler-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -89,6 +95,13 @@
                 <artifactId>janino</artifactId>
                 <version>${janino.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>${okhttp3.version}</version>
+            </dependency>
+
 
             <!-- junit5 test -->
             <dependency>

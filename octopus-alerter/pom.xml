@@ -16,6 +16,7 @@
         <module>octopus-alerter-api</module>
         <module>octopus-alerter-dingtalk</module>
         <module>octopus-alerter-email</module>
+        <module>octopus-alerter-common</module>
     </modules>
 
 
