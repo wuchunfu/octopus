@@ -16,7 +16,7 @@ import java.util.Set;
 /**
  *
  */
-public class ClassParserHandler {
+public class ModelParserHandler {
 
     private EnvironmentUnit environmentUnit;
 
@@ -66,7 +66,7 @@ public class ClassParserHandler {
                 .stream()
                 .filter(abstractStructModel -> abstractStructModel != null)
                 .map(abstractStructModel -> {
-                    String javaResource = ClassGenerator.toClassFile(rewriteEnv, abstractStructModel);
+                    String javaResource = ModelGenerator.toClassFile(rewriteEnv, abstractStructModel);
                     StructWorker structWorker = new StructWorker();
                     structWorker.setJavaResource(javaResource);
 
@@ -74,7 +74,7 @@ public class ClassParserHandler {
                 })
                 ;
 
-        metaStorage.put(rewriteEnv,new MetaTree(structModels));
+        metaStorage.put(rewriteEnv,new MetaMap(structModels));
     }
 
     public void loadInstances(String env,List<?> insances) {

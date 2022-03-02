@@ -11,7 +11,7 @@ import java.util.Set;
 public class StructWorker {
 
     /**
-     * 所以类做了绝大部分的事情，保证运行 （编译本身是因为janino来做的，运行交给classLoader）
+     * 类做了绝大部分的事情，保证运行 （编译本身是因为janino来做的，运行交给classLoader）
      * 那么需要的只有 EnvironmentRouter，reload （ 内部需要简单的方法保持
      * 1。环境隔离
      * 2。运行类

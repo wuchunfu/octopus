@@ -1,4 +1,4 @@
-package org.metahut.octopus.meta.parser.domain.func;
+package org.metahut.octopus.meta.parser.domain.model;
 
 import org.metahut.octopus.meta.parser.domain.model.TagModel;
 import org.metahut.octopus.meta.parser.domain.enums.TagLife;

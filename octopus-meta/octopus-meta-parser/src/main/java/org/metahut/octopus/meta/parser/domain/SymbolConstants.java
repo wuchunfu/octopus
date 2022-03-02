@@ -1,6 +1,6 @@
 package org.metahut.octopus.meta.parser.domain;
 
-import org.metahut.octopus.meta.parser.function.ClassGenerator;
+import org.metahut.octopus.meta.parser.function.ModelGenerator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
  * @description
  */
 public class SymbolConstants {
-    public static final Logger LOG = LoggerFactory.getLogger(ClassGenerator.class);
+    public static final Logger LOG = LoggerFactory.getLogger(ModelGenerator.class);
 
     public static final String PREFIX = "v";
 

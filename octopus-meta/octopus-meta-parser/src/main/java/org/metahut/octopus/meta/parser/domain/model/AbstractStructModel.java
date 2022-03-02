@@ -1,8 +1,6 @@
 package org.metahut.octopus.meta.parser.domain.model;
 
 import org.metahut.octopus.meta.parser.domain.SymbolConstants;
-import org.metahut.octopus.meta.parser.domain.func.IdGenerator;
-import org.metahut.octopus.meta.parser.domain.func.TagLoader;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -24,13 +22,6 @@ public abstract class AbstractStructModel extends TagLoader {
      * package path
      */
     private String packagePath;
-
-    //private boolean isFinal;
-
-    /**
-     * 是否为自定义类型，决定是否能增加属性？  这个应该在ClassModel中
-     */
-    //private boolean isDefType;
 
     public long getSerialVersionUID() {
         return serialVersionUID;
@@ -55,7 +46,6 @@ public abstract class AbstractStructModel extends TagLoader {
     public void setPackagePath(String packagePath) {
         this.packagePath = packagePath;
     }
-
 
     public final String getFullClassName() {
         return packagePath + SymbolConstants.PACKAGE_SPLIT + name;

@@ -18,10 +18,10 @@ import java.util.Set;
 /**
  * import constant pool
  */
-public class ClassGenerator {
+public class ModelGenerator {
 
     public static final void load(String classInfo) throws Exception {
-        ICompiler compiler = CompilerFactoryFactory.getDefaultCompilerFactory(ClassGenerator.class.getClassLoader()).newCompiler();
+        ICompiler compiler = CompilerFactoryFactory.getDefaultCompilerFactory(ModelGenerator.class.getClassLoader()).newCompiler();
 
         // Store generated .class files in a Map:
         Map<String, byte[]> classes = new HashMap<String, byte[]>();

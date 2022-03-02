@@ -14,13 +14,13 @@ import java.util.stream.Collectors;
  */
 public final class MetaStorage {
 
-    private final Map<String,MetaTree> envMetaTreeMap = new ConcurrentHashMap<>();
+    private final Map<String, MetaMap> envMetaTreeMap = new ConcurrentHashMap<>();
 
     public Set<String> getEnvCategories() {
         return envMetaTreeMap.keySet();
     }
 
-    public Collection<MetaTree> getTrees() {
+    public Collection<MetaMap> getTrees() {
         return envMetaTreeMap.values();
     }
 
@@ -29,7 +29,7 @@ public final class MetaStorage {
      * @param env
      * @param tree
      */
-    final void put(String env,MetaTree tree) {
+    final void put(String env, MetaMap tree) {
         this.envMetaTreeMap.put(env,tree);
     }
 
