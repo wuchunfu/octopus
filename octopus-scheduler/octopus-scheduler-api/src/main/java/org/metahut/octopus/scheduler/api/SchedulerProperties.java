@@ -15,6 +15,7 @@ public class SchedulerProperties {
     public static class DolphinScheduler {
         private String serviceUrl;
         private String token;
+        private Long projectCode;
 
         public String getServiceUrl() {
             return serviceUrl;

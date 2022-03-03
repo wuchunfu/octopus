@@ -12,6 +12,7 @@
     <artifactId>octopus-alerter-server</artifactId>
 
     <dependencies>
+        <!-- octopus -->
         <dependency>
             <groupId>org.metahut.octopus</groupId>
             <artifactId>octopus-message-api</artifactId>
@@ -19,6 +20,10 @@
         <dependency>
             <groupId>org.metahut.octopus</groupId>
             <artifactId>octopus-alerter-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.metahut.octopus</groupId>
+            <artifactId>octopus-dao</artifactId>
         </dependency>
 
         <dependency>
