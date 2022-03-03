@@ -225,6 +225,12 @@ public class MetaMap {
 
     }
 
+    //接口一次操作平数据还是 图数据
+    //三种存储方式 文件行，database，graph==classInstance == json
+    //change dian
+    //1。line[{Pid,id}a1,a2,a3,a4]
+    //2。node[] 压缩 compus
+
     /**
      * 实例序列化
      */

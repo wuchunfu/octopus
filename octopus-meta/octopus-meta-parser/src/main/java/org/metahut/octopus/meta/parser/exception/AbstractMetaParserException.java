@@ -6,25 +6,25 @@ import java.io.PrintWriter;
 /**
  *
  */
-public abstract class AbstractParserException extends Exception {
+public abstract class AbstractMetaParserException extends Exception {
 
-    public AbstractParserException() {
+    public AbstractMetaParserException() {
         super();
     }
 
-    public AbstractParserException(String message) {
+    public AbstractMetaParserException(String message) {
         super(message);
     }
 
-    public AbstractParserException(String message, Throwable cause) {
+    public AbstractMetaParserException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public AbstractParserException(Throwable cause) {
+    public AbstractMetaParserException(Throwable cause) {
         super(cause);
     }
 
-    protected AbstractParserException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    protected AbstractMetaParserException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 

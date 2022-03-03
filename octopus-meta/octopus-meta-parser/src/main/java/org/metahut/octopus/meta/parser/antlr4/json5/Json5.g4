@@ -5,7 +5,7 @@
 // JSON5 is a superset of JSON, it included some feature from ES5.1
 // See https://json5.org/
 // Derived from ../json/JSON.g4 which original derived from http://json.org
-grammar JSON5;
+grammar Json5;
 
 json5
    : value? EOF
