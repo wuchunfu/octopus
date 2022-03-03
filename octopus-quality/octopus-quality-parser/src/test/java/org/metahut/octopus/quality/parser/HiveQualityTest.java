@@ -18,5 +18,6 @@ public class HiveQualityTest {
         String sql2 = "select count(1) from table_name; ";
 
 
+
     }
 }

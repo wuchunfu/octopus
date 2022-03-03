@@ -11,5 +11,12 @@
 
     <artifactId>octopus-alerter-dingtalk</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.metahut.octopus</groupId>
+            <artifactId>octopus-alerter-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
 </project>

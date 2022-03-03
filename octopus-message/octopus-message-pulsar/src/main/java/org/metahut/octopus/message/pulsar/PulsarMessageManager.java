@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * pulsar meta message manager
  */
 @Component
-@ConditionalOnProperty(prefix = "octopus.message", name = "type", havingValue = "pulsar")
+@ConditionalOnProperty(prefix = "octopus.message", name = "type", havingValue = "PULSAR")
 public class PulsarMessageManager implements MessageManager {
 
     private static final Logger logger = LoggerFactory.getLogger(PulsarMessageManager.class);

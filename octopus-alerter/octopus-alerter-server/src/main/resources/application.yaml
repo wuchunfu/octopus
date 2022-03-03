@@ -29,37 +29,8 @@ octopus:
     type: none
     pulsar:
       service-url: pulsar://localhost:6650
-      producers:
-        metaProducer:
-          topic-name: my-topic
-          schema: STRING
-          producer-name: meta
       consumers:
-        metaConsumer:
+        octopus-alerter-event:
           topic-name: my-topic
           subscription-name: my-subscription
           subscription-type: Key_Shared
-    kafka:
-      bootstrap-servers: 127.0.0.1:9092,127.0.0.1:9093,127.0.0.1:9094 # kafka集群信息
-      producer: # 生产者配置
-        retries: 3 # 设置大于0的值，则客户端会将发送失败的记录重新发送
-        batch-size: 16384 #16K
-        buffer-memory: 33554432 #32M
-        acks: 1
-        # 指定消息key和消息体的编解码方式
-        key-serializer: org.apache.kafka.common.serialization.StringSerializer
-        value-serializer: org.apache.kafka.common.serialization.StringSerializer
-      consumer:
-        group-id: zhTestGroup # 消费者组
-        enable-auto-commit: false # 关闭自动提交
-        auto-offset-reset: earliest # 当各分区下有已提交的offset时，从提交的offset开始消费；无提交的offset时，从头开始消费
-        key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-        value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-
-knife4j:
-  enable: true
-  basic:
-    enable: true
-    username: octopus
-    password: octopus123
-
