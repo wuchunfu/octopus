@@ -1,7 +1,7 @@
-# octopus
-metadata and data monitor
+# Octopus
+data quality monitor
 
-## Roadmap
+## Roadmap 0.1
 
 ### 元数据管理
 
