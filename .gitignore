@@ -41,6 +41,7 @@ logs.zip
 .DS_Store
 build-target
 out/
+gen/
 /docs/api
 /docs/.bundle
 /docs/.rubydeps

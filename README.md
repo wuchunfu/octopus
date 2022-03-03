@@ -1,2 +1,2 @@
-# octopus
-metadata and data monitor
+# Octopus
+data quality monitor
