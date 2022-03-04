@@ -15,10 +15,6 @@
         <!-- octopus -->
         <dependency>
             <groupId>org.metahut.octopus</groupId>
-            <artifactId>octopus-message-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.metahut.octopus</groupId>
             <artifactId>octopus-alerter-api</artifactId>
         </dependency>
         <dependency>
