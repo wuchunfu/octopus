@@ -1,5 +1,6 @@
 package org.metahut.octopus.dao.repository;
 
+import com.zaxxer.hikari.HikariConfig;
 import org.metahut.octopus.dao.entity.User;
 
 import org.junit.jupiter.api.Assertions;
@@ -16,7 +17,7 @@ public class UserRepositoryTest {
     private UserRepository userRepository;
 
     @Test
-    public void test() {
+    public void testJpa() {
         User user = new User();
         user.setCode(1L);
         user.setName("test");

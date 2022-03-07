@@ -17,6 +17,11 @@
             <artifactId>octopus-alerter-api</artifactId>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.metahut.octopus</groupId>
+            <artifactId>octopus-alerter-common</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

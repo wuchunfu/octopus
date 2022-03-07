@@ -19,5 +19,15 @@
         <module>octopus-alerter-common</module>
     </modules>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.metahut.octopus</groupId>
+                <artifactId>octopus-alerter-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
 
 </project>
