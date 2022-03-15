@@ -38,6 +38,8 @@
         <json-path.version>2.7.0</json-path.version>
         <antlr4.version>4.9.3</antlr4.version>
         <okhttp3.version>4.9.3</okhttp3.version>
+        <commons-codec.version>1.4</commons-codec.version>
+        <commons-collections4.version>4.4</commons-collections4.version>
     </properties>
 
     <dependencies>

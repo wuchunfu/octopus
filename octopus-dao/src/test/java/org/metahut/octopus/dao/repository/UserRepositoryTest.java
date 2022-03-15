@@ -1,6 +1,5 @@
 package org.metahut.octopus.dao.repository;
 
-import com.zaxxer.hikari.HikariConfig;
 import org.metahut.octopus.dao.entity.User;
 
 import org.junit.jupiter.api.Assertions;

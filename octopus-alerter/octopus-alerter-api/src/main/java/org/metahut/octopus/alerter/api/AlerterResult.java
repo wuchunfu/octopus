@@ -20,4 +20,9 @@ public class AlerterResult {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    public AlerterResult(boolean status, String message) {
+        this.status = status;
+        this.message = message;
+    }
 }
