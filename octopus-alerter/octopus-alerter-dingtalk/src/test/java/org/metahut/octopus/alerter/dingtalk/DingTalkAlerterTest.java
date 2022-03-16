@@ -16,6 +16,5 @@ public class DingTalkAlerterTest {
                     + webhook
                     + "\",\"secret\":\"SECda602a546504ce693830ff914f41276106f91b65efe412675d8e72d3e96e3c38\"}");
         dingTalkAlerter.send("title", "test");
-
     }
 }

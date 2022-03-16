@@ -1,4 +1,4 @@
-package org.metahut.octopus.alerter.common.enums;
+package org.metahut.octopus.alerter.enums;
 
 public enum DingTalkMsgType {
 

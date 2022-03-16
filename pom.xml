@@ -40,6 +40,7 @@
         <okhttp3.version>4.9.3</okhttp3.version>
         <commons-codec.version>1.4</commons-codec.version>
         <commons-collections4.version>4.4</commons-collections4.version>
+        <commons-email.version>1.5</commons-email.version>
     </properties>
 
     <dependencies>
@@ -119,7 +120,21 @@
                 <artifactId>h2</artifactId>
                 <version>${h2.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>${commons-collections4.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-email</artifactId>
+                <version>${commons-email.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>${commons-codec.version}</version>
+            </dependency>
 
             <!-- junit5 test -->
             <dependency>
