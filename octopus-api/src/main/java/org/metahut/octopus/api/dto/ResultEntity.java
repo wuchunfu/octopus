@@ -1,8 +1,8 @@
 package org.metahut.octopus.api.dto;
 
-import org.metahut.octopus.api.enums.Status;
+import org.metahut.octopus.common.enums.StatusEnum;
 
-import static org.metahut.octopus.api.enums.Status.SUCCESS;
+import static org.metahut.octopus.common.enums.StatusEnum.SUCCESS;
 
 public class ResultEntity<T> {
 
@@ -16,7 +16,7 @@ public class ResultEntity<T> {
 
     }
 
-    private ResultEntity(T data, Status status) {
+    private ResultEntity(T data, StatusEnum status) {
         this.data = data;
         this.code = status.getCode();
         this.message = status.getMessage();
@@ -47,7 +47,7 @@ public class ResultEntity<T> {
         return !this.isSuccess();
     }
 
-    public boolean isStatus(Status status) {
+    public boolean isStatus(StatusEnum status) {
         return this.code != null && this.code.equals(status.getCode());
     }
 

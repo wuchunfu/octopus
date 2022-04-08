@@ -1,4 +1,4 @@
 package org.metahut.octopus.api.controller;
 
-public class AlerterController {
+public interface AlerterController {
 }

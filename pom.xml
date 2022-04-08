@@ -13,6 +13,19 @@
         <module>octopus-examples</module>
         <module>octopus-alerter</module>
         <module>octopus-dao</module>
+        <module>octopus-ui</module>
+        <module>octopus-server</module>
+        <module>octopus-client</module>
+        <module>octopus-meta</module>
+        <module>octopus-dist</module>
+        <module>octopus-engine</module>
+        <module>octopus-executor</module>
+        <module>octopus-monitordb</module>
+        <module>octopus-scheduler</module>
+        <module>octopus-parser</module>
+        <module>octopus-deploy</module>
+        <module>octopus-common</module>
+        <module>octopus-function</module>
     </modules>
 
     <properties>
@@ -67,12 +80,32 @@
             <!-- octopus -->
             <dependency>
                 <groupId>org.metahut.octopus</groupId>
+                <artifactId>octopus-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.metahut.octopus</groupId>
+                <artifactId>octopus-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.metahut.octopus</groupId>
                 <artifactId>octopus-alerter-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.metahut.octopus</groupId>
                 <artifactId>octopus-dao</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.metahut.octopus</groupId>
+                <artifactId>octopus-executor-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.metahut.octopus</groupId>
+                <artifactId>octopus-parser-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

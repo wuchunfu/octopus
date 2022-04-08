@@ -1,6 +1,6 @@
 package org.metahut.octopus.alerter.server;
 
-import org.metahut.octopus.alerter.api.AlerterManager;
+import org.metahut.octopus.alerter.api.IAlerterManager;
 
 import org.springframework.stereotype.Component;
 
@@ -15,15 +15,15 @@ import java.util.ServiceLoader;
 @Component
 public class AlerterPluginHelper {
 
-    private static final Map<String, AlerterManager> alerterMap = new HashMap<>();
+    private static final Map<String, IAlerterManager> alerterMap = new HashMap<>();
 
     @PostConstruct
     public void init() {
-        ServiceLoader.load(AlerterManager.class).forEach(manager -> {
+        ServiceLoader.load(IAlerterManager.class).forEach(manager -> {
 
             String type = manager.getType();
 
-            AlerterManager alerterManager = alerterMap.get(type);
+            IAlerterManager alerterManager = alerterMap.get(type);
 
             if (Objects.nonNull(alerterManager)) {
                 throw new IllegalArgumentException(MessageFormat.format("Duplicate alerter type exists: {0}", type));
@@ -34,7 +34,7 @@ public class AlerterPluginHelper {
         });
     }
 
-    public AlerterManager getAlerter(String type) {
+    public IAlerterManager getAlerter(String type) {
         return alerterMap.get(type);
     }
 }
