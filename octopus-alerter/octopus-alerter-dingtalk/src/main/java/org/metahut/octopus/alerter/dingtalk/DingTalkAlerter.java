@@ -1,6 +1,6 @@
 package org.metahut.octopus.alerter.dingtalk;
 
-import org.metahut.octopus.alerter.api.Alerter;
+import org.metahut.octopus.alerter.api.IAlerter;
 import org.metahut.octopus.alerter.api.AlerterResult;
 import org.metahut.octopus.alerter.common.utils.JSONUtils;
 import org.metahut.octopus.alerter.common.utils.OkHttpUtils;
@@ -21,7 +21,7 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DingTalkAlerter implements Alerter {
+public class DingTalkAlerter implements IAlerter {
 
     private DingTalkParameter dingTalkParameter;
 

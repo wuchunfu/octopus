@@ -1,6 +1,6 @@
 package org.metahut.octopus.alerter.email;
 
-import org.metahut.octopus.alerter.api.Alerter;
+import org.metahut.octopus.alerter.api.IAlerter;
 import org.metahut.octopus.alerter.api.AlerterException;
 import org.metahut.octopus.alerter.api.AlerterResult;
 
@@ -26,7 +26,7 @@ import java.util.Objects;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
-public class EmailAlerter implements Alerter {
+public class EmailAlerter implements IAlerter {
 
     private EmailParameter emailParameter;
 
