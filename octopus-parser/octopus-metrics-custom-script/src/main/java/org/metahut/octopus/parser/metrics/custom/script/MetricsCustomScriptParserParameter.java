@@ -8,7 +8,6 @@ public class MetricsCustomScriptParserParameter extends AbstractParameter {
 
     private String executorType;
     private String executorScript;
-    private List<String> fields;
 
     @Override
     public boolean checkParameter() {
@@ -29,14 +28,6 @@ public class MetricsCustomScriptParserParameter extends AbstractParameter {
 
     public void setExecutorScript(String executorScript) {
         this.executorScript = executorScript;
-    }
-
-    public List<String> getFields() {
-        return fields;
-    }
-
-    public void setFields(List<String> fields) {
-        this.fields = fields;
     }
 
 }

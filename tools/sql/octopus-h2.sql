@@ -91,11 +91,9 @@ CREATE TABLE tb_octopus_metrics_sample
 (
     id            int(11) NOT NULL AUTO_INCREMENT,
     code     int(11) NOT NULL,
-    name varchar(64) DEFAULT NULL,
+    source_category varchar(64) NOT NULL,
+    params text,
 
-
-
-    description         varchar(64) DEFAULT NULL,
     create_time   datetime    DEFAULT NULL,
     update_time   datetime    DEFAULT NULL,
     creator         int(11) DEFAULT NULL,

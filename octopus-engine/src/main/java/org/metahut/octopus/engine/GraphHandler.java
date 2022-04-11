@@ -1,15 +1,19 @@
 package org.metahut.octopus.engine;
 
-import org.metahut.octopus.common.enums.SubjectCategoryEnum;
-import org.metahut.octopus.dao.entity.Metrics;
 import org.metahut.octopus.dao.entity.RuleInstance;
 import org.metahut.octopus.engine.executor.ExecutorPluginHelper;
 import org.metahut.octopus.engine.parser.ParserPluginHelper;
 import org.metahut.octopus.executor.api.AbstractExecutor;
 import org.metahut.octopus.executor.api.IExecutorManager;
-import org.metahut.octopus.parser.api.*;
+import org.metahut.octopus.parser.api.IParser;
+import org.metahut.octopus.parser.api.ParserNode;
+import org.metahut.octopus.parser.api.ParserResult;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import static org.metahut.octopus.parser.api.TypeUtils.generateKey;
 
@@ -19,11 +23,18 @@ public class GraphHandler {
 
     private ParserPluginHelper parserPluginHelper;
 
+    public GraphHandler(ExecutorPluginHelper executorPluginHelper, ParserPluginHelper parserPluginHelper) {
+        this.executorPluginHelper = executorPluginHelper;
+        this.parserPluginHelper = parserPluginHelper;
+    }
+
     public void metricsHandler(Integer taskCode) {
 
         // 入参： 计算类型：实时，离线；Data:     ;环境Env
 
         // 根据taskCode查询任务表
+
+        String sourceCode = "";
 
         // 根据sourcecode 查询 rule 表 上线 规则集合
         List<RuleInstance> ruleInstances = new ArrayList<>();

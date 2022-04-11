@@ -27,7 +27,7 @@ public class SampleHiveParserManager implements IParserManager {
         sampleHiveParserParameter.setDefaultValue();
 
         switch (sampleHiveParserParameter.getMethod()) {
-            case Block:
+            case BLOCK:
                 return new BlockSampleHiveParser(sampleHiveParserParameter);
             default:
                 throw new ParserException("");

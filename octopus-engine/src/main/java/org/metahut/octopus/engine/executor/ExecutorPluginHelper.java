@@ -1,6 +1,7 @@
 package org.metahut.octopus.engine.executor;
 
 import org.metahut.octopus.executor.api.IExecutorManager;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
@@ -10,6 +11,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.ServiceLoader;
 
+@Component
 public class ExecutorPluginHelper {
 
     private static final Map<String, IExecutorManager> executorMap = new HashMap<>();
