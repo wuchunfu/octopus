@@ -1,25 +1,33 @@
 package org.metahut.octopus.dao.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.metahut.octopus.common.enums.CreateTypeEnum;
+import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
-@Table(name = "tb_oq_metrics")
-public class Metrics {
+@Table(name = "tb_oq_metrics_instance_tmpl")
+public class MetricsInstanceTmpl {
 
     @Id
     @GeneratedValue
     private Integer id;
 
-    private String code;
+    private Integer code;
 
     private String name;
 
-    private String parserHandler;
+    private String metricsCode;
+
+    @Enumerated(value = EnumType.STRING)
+    private CreateTypeEnum createType;
+
+    private String metricsParams;
+
+    @Enumerated(value = EnumType.STRING)
+    private SubjectCategoryEnum subjectCategory;
 
     private String description;
 
@@ -39,11 +47,11 @@ public class Metrics {
         this.id = id;
     }
 
-    public String getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 
@@ -55,12 +63,36 @@ public class Metrics {
         this.name = name;
     }
 
-    public String getParserHandler() {
-        return parserHandler;
+    public String getMetricsCode() {
+        return metricsCode;
     }
 
-    public void setParserHandler(String parserHandler) {
-        this.parserHandler = parserHandler;
+    public void setMetricsCode(String metricsCode) {
+        this.metricsCode = metricsCode;
+    }
+
+    public CreateTypeEnum getCreateType() {
+        return createType;
+    }
+
+    public void setCreateType(CreateTypeEnum createType) {
+        this.createType = createType;
+    }
+
+    public String getMetricsParams() {
+        return metricsParams;
+    }
+
+    public void setMetricsParams(String metricsParams) {
+        this.metricsParams = metricsParams;
+    }
+
+    public SubjectCategoryEnum getSubjectCategory() {
+        return subjectCategory;
+    }
+
+    public void setSubjectCategory(SubjectCategoryEnum subjectCategory) {
+        this.subjectCategory = subjectCategory;
     }
 
     public String getDescription() {

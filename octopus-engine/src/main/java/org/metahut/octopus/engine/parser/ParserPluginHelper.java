@@ -1,6 +1,6 @@
 package org.metahut.octopus.engine.parser;
 
-import org.metahut.octopus.dao.entity.Metrics;
+import org.metahut.octopus.dao.entity.MetricsInstance;
 import org.metahut.octopus.dao.entity.MetricsSample;
 import org.metahut.octopus.parser.api.IParser;
 import org.metahut.octopus.parser.api.IParserManager;
@@ -21,7 +21,7 @@ public class ParserPluginHelper {
 
     public ParserNode generateParser(MetricsSample sample) {
         String category = "sample";
-        String type = Objects.isNull(sample) ? generateKey(category, "none") : generateKey(category, sample.getSourceCategory(), "flink", "sql");
+        String type = Objects.isNull(sample) ? generateKey(category, "none") : generateKey(category, "sample.getSourceCategory()", "flink", "sql");
         return ParserNode.builder()
                 .type(type)
                 .category(category)
@@ -29,7 +29,7 @@ public class ParserPluginHelper {
                 .build();
     }
 
-    public ParserNode generateParser(Metrics metrics) {
+    public ParserNode generateParser(MetricsInstance metrics) {
         return null;
     }
 

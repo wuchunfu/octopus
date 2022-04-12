@@ -1,27 +1,19 @@
 package org.metahut.octopus.dao.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "tb_oq_metrics_sample")
-public class MetricsSample {
+@Table(name = "tb_oq_metrics_instance_tmpl_source_relation")
+public class MetricsInstanceTmplSourceRelation {
 
     @Id
     @GeneratedValue
     private Integer id;
 
-    private Integer code;
+    private Integer templateCode;
 
-    private String sourceCode;
-
-    private String executorType;
-
-    private String params;
+    private String sourceCategory;
 
     private Date createTime;
 
@@ -39,36 +31,20 @@ public class MetricsSample {
         this.id = id;
     }
 
-    public Integer getCode() {
-        return code;
+    public Integer getTemplateCode() {
+        return templateCode;
     }
 
-    public void setCode(Integer code) {
-        this.code = code;
+    public void setTemplateCode(Integer templateCode) {
+        this.templateCode = templateCode;
     }
 
-    public String getSourceCode() {
-        return sourceCode;
+    public String getSourceCategory() {
+        return sourceCategory;
     }
 
-    public void setSourceCode(String sourceCode) {
-        this.sourceCode = sourceCode;
-    }
-
-    public String getExecutorType() {
-        return executorType;
-    }
-
-    public void setExecutorType(String executorType) {
-        this.executorType = executorType;
-    }
-
-    public String getParams() {
-        return params;
-    }
-
-    public void setParams(String params) {
-        this.params = params;
+    public void setSourceCategory(String sourceCategory) {
+        this.sourceCategory = sourceCategory;
     }
 
     public Date getCreateTime() {

@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
-@Table(name = "tb_octopus_rule_instance")
+@Table(name = "tb_oq_rule_instance")
 public class RuleInstance {
 
     @Id
@@ -24,14 +24,8 @@ public class RuleInstance {
     private String sourceCode;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "metrics_code", referencedColumnName = "code")
-    private Metrics metrics;
-
-    private String subjectCode;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "sample_code", referencedColumnName = "code")
-    private MetricsSample metricsSample;
+    @JoinColumn(name = "metrics_instance_code", referencedColumnName = "code")
+    private MetricsInstance metrics;
 
     private String checkType;
 
@@ -75,20 +69,20 @@ public class RuleInstance {
         this.name = name;
     }
 
-    public Metrics getMetrics() {
+    public String getSourceCode() {
+        return sourceCode;
+    }
+
+    public void setSourceCode(String sourceCode) {
+        this.sourceCode = sourceCode;
+    }
+
+    public MetricsInstance getMetrics() {
         return metrics;
     }
 
-    public void setMetrics(Metrics metrics) {
+    public void setMetrics(MetricsInstance metrics) {
         this.metrics = metrics;
-    }
-
-    public MetricsSample getMetricsSample() {
-        return metricsSample;
-    }
-
-    public void setMetricsSample(MetricsSample metricsSample) {
-        this.metricsSample = metricsSample;
     }
 
     public String getCheckType() {
@@ -161,21 +155,5 @@ public class RuleInstance {
 
     public void setUpdater(Integer updater) {
         this.updater = updater;
-    }
-
-    public String getSourceCode() {
-        return sourceCode;
-    }
-
-    public void setSourceCode(String sourceCode) {
-        this.sourceCode = sourceCode;
-    }
-
-    public String getSubjectCode() {
-        return subjectCode;
-    }
-
-    public void setSubjectCode(String subjectCode) {
-        this.subjectCode = subjectCode;
     }
 }

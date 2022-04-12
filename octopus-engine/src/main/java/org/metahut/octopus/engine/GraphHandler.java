@@ -41,10 +41,10 @@ public class GraphHandler {
 
         Map<Integer, ParserNode> parserMap = new HashMap<>();
         ruleInstances.forEach(instance -> {
-            Integer sampleCode = Objects.nonNull(instance.getMetricsSample()) ? instance.getMetricsSample().getCode() : -1;
-            ParserNode sampleNode = parserMap.computeIfAbsent(sampleCode, entry -> parserPluginHelper.generateParser(instance.getMetricsSample()));
-            String metricsInstanceKey = generateKey(instance.getMetrics().getCode().toString(), instance.getSubjectCode());
-            sampleNode.getNextNodes().computeIfAbsent(metricsInstanceKey, entry -> parserPluginHelper.generateParser(instance.getMetrics()));
+//            Integer sampleCode = Objects.nonNull(instance.getMetricsSample()) ? instance.getMetricsSample().getCode() : -1;
+//            ParserNode sampleNode = parserMap.computeIfAbsent(sampleCode, entry -> parserPluginHelper.generateParser(instance.getMetricsSample()));
+//            String metricsInstanceKey = generateKey(instance.getMetrics().getCode().toString(), instance.getSubjectCode());
+//            sampleNode.getNextNodes().computeIfAbsent(metricsInstanceKey, entry -> parserPluginHelper.generateParser(instance.getMetrics()));
 
             // TODO 记录一个指标实例对应的规则 ？？？
 

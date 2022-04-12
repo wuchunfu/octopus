@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
-@Table(name = "tb_octopus_user")
+@Table(name = "tb_oq_user")
 public class User {
 
     @Id

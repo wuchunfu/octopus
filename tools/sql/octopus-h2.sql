@@ -15,8 +15,8 @@
  * limitations under the License.
 */
 
-DROP TABLE IF EXISTS tb_octopus_user CASCADE;
-CREATE TABLE tb_octopus_user
+DROP TABLE IF EXISTS tb_oq_user CASCADE;
+CREATE TABLE tb_oq_user
 (
     id            int(11) NOT NULL AUTO_INCREMENT,
     user_name     varchar(64) DEFAULT NULL,
@@ -34,13 +34,13 @@ CREATE TABLE tb_octopus_user
     UNIQUE KEY user_name_unique (user_name)
 );
 
-DROP TABLE IF EXISTS tb_octopus_metrics_category CASCADE;
-CREATE TABLE tb_octopus_metrics_category
+DROP TABLE IF EXISTS tb_oq_metrics CASCADE;
+CREATE TABLE tb_oq_metrics
 (
     id            int(11) NOT NULL AUTO_INCREMENT,
     code     varchar(64) NOT NULL,
     name varchar(64) NOT NULL,
-    metrics_parser varchar(64) NOT NULL,
+    parser_handler varchar(64) NOT NULL,
 
     description         varchar(64) DEFAULT NULL,
     create_time   datetime    DEFAULT NULL,
@@ -48,16 +48,18 @@ CREATE TABLE tb_octopus_metrics_category
     creator         int(11) DEFAULT NULL,
     updater     int(11) DEFAULT NULL,
     PRIMARY KEY (id),
-    UNIQUE KEY metrics_category_code_unique (code)
+    UNIQUE KEY metrics_code_unique (code),
+    UNIQUE KEY metrics_name_unique (name)
 );
 
-DROP TABLE IF EXISTS tb_octopus_metrics CASCADE;
-CREATE TABLE tb_octopus_metrics
+DROP TABLE IF EXISTS tb_oq_metrics_instance_tmpl CASCADE;
+CREATE TABLE tb_oq_metrics_instance_tmpl
 (
     id            int(11) NOT NULL AUTO_INCREMENT,
     code     int(11) NOT NULL,
     name varchar(64) DEFAULT NULL,
-    metrics_category varchar(64) NOT NULL,
+
+    metrics_code varchar(64) NOT NULL,
     create_type  varchar(16) DEFAULT 'CUSTOM',
     metrics_params varchar(64) NOT NULL,
     subject_category varchar(16) DEFAULT 'TABLE',
@@ -68,47 +70,32 @@ CREATE TABLE tb_octopus_metrics
     creator         int(11) DEFAULT NULL,
     updater     int(11) DEFAULT NULL,
     PRIMARY KEY (id),
-    UNIQUE KEY metrics_code_unique (code)
+    UNIQUE KEY metrics_instance_tmpl_code_unique (code)
 );
 
-DROP TABLE IF EXISTS tb_octopus_metrics_source_relation CASCADE;
-CREATE TABLE tb_octopus_metrics_source_relation
+DROP TABLE IF EXISTS tb_oq_metrics_instance_tmpl_source_relation CASCADE;
+CREATE TABLE tb_oq_metrics_instance_tmpl_source_relation
 (
     id            int(11) NOT NULL AUTO_INCREMENT,
     source_category varchar(64) NOT NULL,
-    metrics_code  int(11) NOT NULL,
+    template_code  int(11) NOT NULL,
 
     create_time   datetime    DEFAULT NULL,
     update_time   datetime    DEFAULT NULL,
     creator         int(11) DEFAULT NULL,
     updater     int(11) DEFAULT NULL,
     PRIMARY KEY (id),
-    UNIQUE KEY metrics_source_unique (source_category,metrics_code)
+    UNIQUE KEY metrics_source_unique (source_category, template_code)
 );
 
-DROP TABLE IF EXISTS tb_octopus_metrics_sample CASCADE;
-CREATE TABLE tb_octopus_metrics_sample
-(
-    id            int(11) NOT NULL AUTO_INCREMENT,
-    code     int(11) NOT NULL,
-    source_category varchar(64) NOT NULL,
-    params text,
-
-    create_time   datetime    DEFAULT NULL,
-    update_time   datetime    DEFAULT NULL,
-    creator         int(11) DEFAULT NULL,
-    updater     int(11) DEFAULT NULL,
-    PRIMARY KEY (id),
-    UNIQUE KEY metrics_code_unique (code)
-);
-
-DROP TABLE IF EXISTS tb_octopus_rule_template CASCADE;
-CREATE TABLE tb_octopus_rule_template
+DROP TABLE IF EXISTS tb_oq_rule_instance_tmpl CASCADE;
+CREATE TABLE tb_oq_rule_instance_tmpl
 (
     id            int(11) NOT NULL AUTO_INCREMENT,
     code     int(11) NOT NULL,
     name varchar(64) DEFAULT NULL,
-    metrics_code int(11) NOT NULL,
+    metrics_instance_template_code int(11) NOT NULL,
+
     check_type varchar(64),
     check_method varchar(64),
     comparison_method varchar(64),
@@ -123,23 +110,66 @@ CREATE TABLE tb_octopus_rule_template
     UNIQUE KEY rule_template_code_unique (code)
 );
 
-DROP TABLE IF EXISTS tb_octopus_rule_instance CASCADE;
-CREATE TABLE tb_octopus_rule_instance
+DROP TABLE IF EXISTS tb_oq_metrics_sample CASCADE;
+CREATE TABLE tb_oq_metrics_sample
+(
+    id            int(11) NOT NULL AUTO_INCREMENT,
+    code     int(11) NOT NULL,
+
+    source_code varchar(64) NOT NULL,
+    executor_type varchar(64),
+    params text,
+
+    create_time   datetime    DEFAULT NULL,
+    update_time   datetime    DEFAULT NULL,
+    creator         int(11) DEFAULT NULL,
+    updater     int(11) DEFAULT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY metrics_sample_code_unique (source_code, executor_type)
+);
+
+DROP TABLE IF EXISTS tb_oq_metrics_instance CASCADE;
+CREATE TABLE tb_oq_metrics_instance
+(
+    id            int(11) NOT NULL AUTO_INCREMENT,
+    code     int(11) NOT NULL,
+    source_code varchar(64) NOT NULL,
+
+    metrics_code varchar(64) NOT NULL,
+    template_code int(11),
+
+    metrics_params varchar(64) NOT NULL,
+    subject_category varchar(16) DEFAULT 'TABLE',
+    subject_code varchar(64),
+    instance_key varchar(254) NOT NULL,
+    filter text,
+
+    sample_code int(11),
+
+    description         varchar(64) DEFAULT NULL,
+    create_time   datetime    DEFAULT NULL,
+    update_time   datetime    DEFAULT NULL,
+    creator         int(11) DEFAULT NULL,
+    updater     int(11) DEFAULT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY metrics_instance_code_unique (source_code, metrics_code, instance_key)
+);
+
+DROP TABLE IF EXISTS tb_oq_rule_instance CASCADE;
+CREATE TABLE tb_oq_rule_instance
 (
     id            int(11) NOT NULL AUTO_INCREMENT,
     code     int(11) NOT NULL,
     name varchar(64) DEFAULT NULL,
     source_code varchar(64) NOT NULL,
 
-    metrics_code int(11) NOT NULL,
-    subject_code varchar(64) NOT NULL,
-    filter varchar(254),
-    sample_code int(11),
+    metrics_instance_code int(11) NOT NULL,
 
     check_type varchar(64),
     check_method varchar(64),
     comparison_method varchar(64),
     expected_value varchar(64),
+
     task_type varchar(64) DEFAULT 'BATCH',
     state varchar(20) DEFAULT 'OFFLINE',
 
@@ -149,14 +179,11 @@ CREATE TABLE tb_octopus_rule_instance
     creator         int(11) DEFAULT NULL,
     updater     int(11) DEFAULT NULL,
     PRIMARY KEY (id),
-    UNIQUE KEY rule_code_unique (code),
-    UNIQUE KEY rule_metrics_unique (source_code,metrics_code,metrics_fields)
+    UNIQUE KEY rule_metrics_instance_unique (source_code, metrics_instance_code, comparison_method)
 );
 
-
-
-DROP TABLE IF EXISTS tb_octopus_task CASCADE;
-CREATE TABLE tb_octopus_task
+DROP TABLE IF EXISTS tb_oq_task CASCADE;
+CREATE TABLE tb_oq_task
 (
     id            int(11) NOT NULL AUTO_INCREMENT,
     code     int(11) NOT NULL,
@@ -173,29 +200,8 @@ CREATE TABLE tb_octopus_task
     UNIQUE KEY task_code_unique (code)
 );
 
-
--- sourcecode, 告警实例, 告警人
-
-DROP TABLE IF EXISTS tb_octopus_task CASCADE;
-CREATE TABLE tb_octopus_task
-(
-    id            int(11) NOT NULL AUTO_INCREMENT,
-    code     int(11) NOT NULL,
-    source_code int(11) NOT NULL,
-    app_ids varchar(64),
-    env varchar(64),
-
-    description         varchar(64) DEFAULT NULL,
-    create_time   datetime    DEFAULT NULL,
-    update_time   datetime    DEFAULT NULL,
-    creator         int(11) DEFAULT NULL,
-    updater     int(11) DEFAULT NULL,
-    PRIMARY KEY (id),
-    UNIQUE KEY task_code_unique (code)
-);
-
-DROP TABLE IF EXISTS tb_octopus_source_alert_relation CASCADE;
-CREATE TABLE tb_octopus_source_alert_relation
+DROP TABLE IF EXISTS tb_oq_source_alert_relation CASCADE;
+CREATE TABLE tb_oq_source_alert_relation
 (
     id            int(11) NOT NULL AUTO_INCREMENT,
     source_code int(11) NOT NULL,
@@ -210,8 +216,8 @@ CREATE TABLE tb_octopus_source_alert_relation
 );
 
 
-DROP TABLE IF EXISTS tb_octopus_alert_instance CASCADE;
-CREATE TABLE tb_octopus_alert_instance
+DROP TABLE IF EXISTS tb_oq_alert_instance CASCADE;
+CREATE TABLE tb_oq_alert_instance
 (
     id                     int NOT NULL AUTO_INCREMENT,
     alert_type       varchar(64) NOT NULL,
