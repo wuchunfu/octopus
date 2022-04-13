@@ -1,33 +1,32 @@
 package org.metahut.octopus.dao.entity;
 
-import org.metahut.octopus.common.enums.CreateTypeEnum;
-import org.metahut.octopus.common.enums.SubjectCategoryEnum;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
-@Table(name = "tb_oq_metrics_instance_tmpl")
-public class MetricsInstanceTmpl {
+@Table(name = "tb_octopus_rule_template")
+public class RuleTemplate {
 
     @Id
     @GeneratedValue
     private Integer id;
 
     private Integer code;
-
     private String name;
 
-    private String metricsCode;
+    private String metricsConfigCode;
 
-    @Enumerated(value = EnumType.STRING)
-    private CreateTypeEnum createType;
+    private String checkType;
 
-    private String metricsParams;
+    private String checkMethod;
 
-    @Enumerated(value = EnumType.STRING)
-    private SubjectCategoryEnum subjectCategory;
+    private String comparisonMethod;
+
+    private String expectedValue;
 
     private String description;
 
@@ -63,36 +62,44 @@ public class MetricsInstanceTmpl {
         this.name = name;
     }
 
-    public String getMetricsCode() {
-        return metricsCode;
+    public String getMetricsConfigCode() {
+        return metricsConfigCode;
     }
 
-    public void setMetricsCode(String metricsCode) {
-        this.metricsCode = metricsCode;
+    public void setMetricsConfigCode(String metricsConfigCode) {
+        this.metricsConfigCode = metricsConfigCode;
     }
 
-    public CreateTypeEnum getCreateType() {
-        return createType;
+    public String getCheckType() {
+        return checkType;
     }
 
-    public void setCreateType(CreateTypeEnum createType) {
-        this.createType = createType;
+    public void setCheckType(String checkType) {
+        this.checkType = checkType;
     }
 
-    public String getMetricsParams() {
-        return metricsParams;
+    public String getCheckMethod() {
+        return checkMethod;
     }
 
-    public void setMetricsParams(String metricsParams) {
-        this.metricsParams = metricsParams;
+    public void setCheckMethod(String checkMethod) {
+        this.checkMethod = checkMethod;
     }
 
-    public SubjectCategoryEnum getSubjectCategory() {
-        return subjectCategory;
+    public String getComparisonMethod() {
+        return comparisonMethod;
     }
 
-    public void setSubjectCategory(SubjectCategoryEnum subjectCategory) {
-        this.subjectCategory = subjectCategory;
+    public void setComparisonMethod(String comparisonMethod) {
+        this.comparisonMethod = comparisonMethod;
+    }
+
+    public String getExpectedValue() {
+        return expectedValue;
+    }
+
+    public void setExpectedValue(String expectedValue) {
+        this.expectedValue = expectedValue;
     }
 
     public String getDescription() {

@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
-@Table(name = "tb_oq_rule_instance")
+@Table(name = "tb_octopus_rule_instance")
 public class RuleInstance {
 
     @Id

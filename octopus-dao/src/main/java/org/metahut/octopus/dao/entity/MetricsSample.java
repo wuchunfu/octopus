@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
-@Table(name = "tb_oq_metrics_sample")
+@Table(name = "tb_octopus_metrics_sample")
 public class MetricsSample {
 
     @Id

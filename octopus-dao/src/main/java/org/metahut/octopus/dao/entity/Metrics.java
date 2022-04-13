@@ -1,6 +1,10 @@
 package org.metahut.octopus.dao.entity;
 
+import org.metahut.octopus.common.enums.MetricsCategoryEnum;
+
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -8,7 +12,7 @@ import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
-@Table(name = "tb_oq_metrics")
+@Table(name = "tb_octopus_metrics")
 public class Metrics {
 
     @Id
@@ -19,7 +23,8 @@ public class Metrics {
 
     private String name;
 
-    private String parserHandler;
+    @Enumerated(value = EnumType.STRING)
+    private MetricsCategoryEnum category;
 
     private String description;
 
@@ -55,12 +60,12 @@ public class Metrics {
         this.name = name;
     }
 
-    public String getParserHandler() {
-        return parserHandler;
+    public MetricsCategoryEnum getCategory() {
+        return category;
     }
 
-    public void setParserHandler(String parserHandler) {
-        this.parserHandler = parserHandler;
+    public void setCategory(MetricsCategoryEnum category) {
+        this.category = category;
     }
 
     public String getDescription() {

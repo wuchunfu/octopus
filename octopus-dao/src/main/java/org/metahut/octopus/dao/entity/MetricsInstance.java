@@ -1,14 +1,21 @@
 package org.metahut.octopus.dao.entity;
 
-import org.metahut.octopus.common.enums.CreateTypeEnum;
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import java.util.Date;
 
 @Entity
-@Table(name = "tb_oq_metrics_instance")
+@Table(name = "tb_octopus_metrics_instance")
 public class MetricsInstance {
 
     @Id
@@ -21,7 +28,7 @@ public class MetricsInstance {
 
     private String metricsCode;
 
-    private String templateCode;
+    private String metricsConfigCode;
 
     private String metricsParams;
 
@@ -80,12 +87,12 @@ public class MetricsInstance {
         this.metricsCode = metricsCode;
     }
 
-    public String getTemplateCode() {
-        return templateCode;
+    public String getMetricsConfigCode() {
+        return metricsConfigCode;
     }
 
-    public void setTemplateCode(String templateCode) {
-        this.templateCode = templateCode;
+    public void setMetricsConfigCode(String metricsConfigCode) {
+        this.metricsConfigCode = metricsConfigCode;
     }
 
     public String getMetricsParams() {
