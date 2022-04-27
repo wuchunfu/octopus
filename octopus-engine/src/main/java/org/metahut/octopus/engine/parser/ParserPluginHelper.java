@@ -1,7 +1,6 @@
 package org.metahut.octopus.engine.parser;
 
-import org.metahut.octopus.dao.entity.MetricsInstance;
-import org.metahut.octopus.dao.entity.MetricsSample;
+import org.metahut.octopus.dao.entity.SampleInstance;
 import org.metahut.octopus.parser.api.IParser;
 import org.metahut.octopus.parser.api.IParserManager;
 import org.metahut.octopus.parser.api.ParserNode;
@@ -19,20 +18,23 @@ import static org.metahut.octopus.parser.api.TypeUtils.generateKey;
 @Component
 public class ParserPluginHelper {
 
-    public ParserNode generateParser(MetricsSample sample) {
+    public String generateType(String sourceCategory, SampleInstance sample) {
         String category = "sample";
-        String type = Objects.isNull(sample) ? generateKey(category, "none") : generateKey(category, "sample.getSourceCategory()", "flink", "sql");
+        String executorTypeDefaultValue = "flink";
+        return Objects.isNull(sample) ? generateKey(category, "none") : generateKey(category, sourceCategory, executorTypeDefaultValue);
+    }
+
+
+    public ParserNode generateParser(String sourceCategory, SampleInstance sample) {
+        String category = "sample";
+        String executorTypeDefaultValue = "flink";
+        String type = Objects.isNull(sample) ? generateKey(category, "none") : generateKey(category, sourceCategory, executorTypeDefaultValue);
         return ParserNode.builder()
                 .type(type)
                 .category(category)
                 .params(sample.getParams())
                 .build();
     }
-
-    public ParserNode generateParser(MetricsInstance metrics) {
-        return null;
-    }
-
 
     private static final Map<String, IParserManager> parserMap = new HashMap<>();
 
@@ -53,12 +55,12 @@ public class ParserPluginHelper {
         });
     }
 
-    public IParserManager getparser(String type) {
+    public IParserManager getParser(String type) {
         return parserMap.get(type);
     }
 
     public IParser generateInstance(String type, String parameter) {
-        IParserManager parser = getparser(type);
+        IParserManager parser = getParser(type);
         if (Objects.isNull(parser)) {
             throw new IllegalArgumentException(MessageFormat.format("parser type is not exists: {0}", type));
         }

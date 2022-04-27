@@ -17,7 +17,7 @@
   -->
 <configuration>
     <property name="LOG_HOME" value="logs" />
-    <property name="APP_NAME" value="octopus-api" />
+    <property name="APP_NAME" value="octopus-server" />
 
     <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
     <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />

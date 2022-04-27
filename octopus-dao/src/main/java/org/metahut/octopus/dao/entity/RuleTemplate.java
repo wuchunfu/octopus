@@ -18,7 +18,7 @@ public class RuleTemplate {
     private Integer code;
     private String name;
 
-    private String metricsConfigCode;
+    private String metricsCode;
 
     private String checkType;
 
@@ -62,12 +62,12 @@ public class RuleTemplate {
         this.name = name;
     }
 
-    public String getMetricsConfigCode() {
-        return metricsConfigCode;
+    public String getMetricsCode() {
+        return metricsCode;
     }
 
-    public void setMetricsConfigCode(String metricsConfigCode) {
-        this.metricsConfigCode = metricsConfigCode;
+    public void setMetricsCode(String metricsCode) {
+        this.metricsCode = metricsCode;
     }
 
     public String getCheckType() {

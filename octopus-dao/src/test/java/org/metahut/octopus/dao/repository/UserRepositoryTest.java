@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Optional;
 
 @SpringBootTest
-public class UserRepositoryTest {
+public class UserRepositoryTest  {
 
     @Autowired
     private UserRepository userRepository;
@@ -27,5 +27,4 @@ public class UserRepositoryTest {
         User user1 = byId.get();
         Assertions.assertNotNull(user1);
     }
-
 }

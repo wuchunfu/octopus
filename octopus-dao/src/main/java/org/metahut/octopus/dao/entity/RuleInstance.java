@@ -1,12 +1,10 @@
 package org.metahut.octopus.dao.entity;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import org.metahut.octopus.common.enums.RuleStateEnum;
+import org.metahut.octopus.common.enums.SubjectCategoryEnum;
+import org.metahut.octopus.common.enums.TaskTypeEnum;
+
+import javax.persistence.*;
 
 import java.util.Date;
 
@@ -23,9 +21,27 @@ public class RuleInstance {
 
     private String sourceCode;
 
+    private String metricsCode;
+
+    private String metricsConfigCode;
+
+    private String metricsParams;
+
+    @Enumerated(value = EnumType.STRING)
+    private SubjectCategoryEnum subjectCategory;
+
+    private String subjectCode;
+
+    private String metricsUniqueKey;
+
+    private String filter;
+
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "metrics_instance_code", referencedColumnName = "code")
-    private MetricsInstance metrics;
+    @JoinColumn(name = "sample_code", referencedColumnName = "code")
+    private SampleInstance sampleInstance;
+
+    @Enumerated(value = EnumType.STRING)
+    private TaskTypeEnum taskType;
 
     private String checkType;
 
@@ -34,6 +50,9 @@ public class RuleInstance {
     private String comparisonMethod;
 
     private String expectedValue;
+
+    @Enumerated(value = EnumType.STRING)
+    private RuleStateEnum state;
 
     private String description;
 
@@ -77,12 +96,76 @@ public class RuleInstance {
         this.sourceCode = sourceCode;
     }
 
-    public MetricsInstance getMetrics() {
-        return metrics;
+    public String getMetricsCode() {
+        return metricsCode;
     }
 
-    public void setMetrics(MetricsInstance metrics) {
-        this.metrics = metrics;
+    public void setMetricsCode(String metricsCode) {
+        this.metricsCode = metricsCode;
+    }
+
+    public String getMetricsConfigCode() {
+        return metricsConfigCode;
+    }
+
+    public void setMetricsConfigCode(String metricsConfigCode) {
+        this.metricsConfigCode = metricsConfigCode;
+    }
+
+    public String getMetricsParams() {
+        return metricsParams;
+    }
+
+    public void setMetricsParams(String metricsParams) {
+        this.metricsParams = metricsParams;
+    }
+
+    public SubjectCategoryEnum getSubjectCategory() {
+        return subjectCategory;
+    }
+
+    public void setSubjectCategory(SubjectCategoryEnum subjectCategory) {
+        this.subjectCategory = subjectCategory;
+    }
+
+    public String getSubjectCode() {
+        return subjectCode;
+    }
+
+    public void setSubjectCode(String subjectCode) {
+        this.subjectCode = subjectCode;
+    }
+
+    public String getMetricsUniqueKey() {
+        return metricsUniqueKey;
+    }
+
+    public void setMetricsUniqueKey(String metricsUniqueKey) {
+        this.metricsUniqueKey = metricsUniqueKey;
+    }
+
+    public String getFilter() {
+        return filter;
+    }
+
+    public void setFilter(String filter) {
+        this.filter = filter;
+    }
+
+    public SampleInstance getSampleInstance() {
+        return sampleInstance;
+    }
+
+    public void setSampleInstance(SampleInstance sampleInstance) {
+        this.sampleInstance = sampleInstance;
+    }
+
+    public TaskTypeEnum getTaskType() {
+        return taskType;
+    }
+
+    public void setTaskType(TaskTypeEnum taskType) {
+        this.taskType = taskType;
     }
 
     public String getCheckType() {
@@ -115,6 +198,14 @@ public class RuleInstance {
 
     public void setExpectedValue(String expectedValue) {
         this.expectedValue = expectedValue;
+    }
+
+    public RuleStateEnum getState() {
+        return state;
+    }
+
+    public void setState(RuleStateEnum state) {
+        this.state = state;
     }
 
     public String getDescription() {
