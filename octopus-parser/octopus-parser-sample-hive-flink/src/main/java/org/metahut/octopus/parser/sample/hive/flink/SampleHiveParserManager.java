@@ -11,7 +11,7 @@ public class SampleHiveParserManager implements IParserManager {
 
     @Override
     public String getType() {
-        return TypeUtils.generateKey("sample", "hive", "flink-sql");
+        return TypeUtils.generateKey("sample", "hive", "flink");
     }
 
     @Override

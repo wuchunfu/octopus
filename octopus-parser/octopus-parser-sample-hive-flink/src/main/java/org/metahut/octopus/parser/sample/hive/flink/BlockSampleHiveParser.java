@@ -17,7 +17,7 @@ public class BlockSampleHiveParser extends SampleHiveParser {
     @Override
     public ParserResult parser() {
         String format = MessageFormat.format(SQL, sqlPrefix, parameter.getNumber(), parameter.getUnit());
-        ParserResult parserResult = new ParserResult("flink-sql", format, sampleTableName);
+        ParserResult parserResult = new ParserResult("flink", format, sampleTableName);
         return parserResult;
     }
 

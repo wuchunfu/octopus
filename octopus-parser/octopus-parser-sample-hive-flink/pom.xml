@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>octopus-sample-hive-flink-sql</artifactId>
+    <artifactId>octopus-parser-sample-hive-flink</artifactId>
 
     <dependencies>
         <dependency>

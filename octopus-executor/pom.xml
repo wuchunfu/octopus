@@ -11,12 +11,10 @@
 
     <artifactId>octopus-executor</artifactId>
     <packaging>pom</packaging>
-    <modules>
-        <module>octopus-executor-python</module>
-        <module>octopus-executor-flink-sql</module>
-        <module>octopus-executor-shell</module>
-        <module>octopus-executor-api</module>
-    </modules>
 
+    <modules>
+        <module>octopus-executor-api</module>
+        <module>octopus-executor-flink</module>
+    </modules>
 
 </project>
