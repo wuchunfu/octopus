@@ -1,11 +1,12 @@
 package org.metahut.octopus.parser.sample.hive;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.metahut.octopus.parser.sample.hive.flink.BlockSampleHiveParserParameter;
 import org.metahut.octopus.parser.sample.hive.flink.JSONUtils;
 import org.metahut.octopus.parser.sample.hive.flink.SampleHiveParserParameter;
 import org.metahut.octopus.parser.sample.hive.flink.SampleMethodEnum;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class SampleHiveParserParameterTest {
 
