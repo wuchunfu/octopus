@@ -1,7 +1,6 @@
 package org.metahut.octopus.alerter.email;
 
 import org.metahut.octopus.alerter.api.AbstractParameter;
-import org.metahut.octopus.alerter.enums.EmailMsgType;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;

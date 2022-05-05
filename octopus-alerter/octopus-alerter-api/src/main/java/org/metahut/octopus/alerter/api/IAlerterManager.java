@@ -4,5 +4,7 @@ public interface IAlerterManager {
 
     String getType();
 
+    AbstractParameter getParameter(String parameter);
+
     IAlerter generateInstance(String parameter);
 }

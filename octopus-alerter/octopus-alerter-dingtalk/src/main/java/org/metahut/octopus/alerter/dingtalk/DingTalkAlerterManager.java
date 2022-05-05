@@ -14,9 +14,8 @@ public class DingTalkAlerterManager implements IAlerterManager {
     }
 
     @Override
-    public DingTalkAlerter generateInstance(String parameter) {
-        DingTalkParameter dingTalkParameter =  JSONUtils
-                .parseObject(parameter, DingTalkParameter.class);
+    public DingTalkParameter getParameter(String parameter) {
+        DingTalkParameter dingTalkParameter =  JSONUtils.parseObject(parameter, DingTalkParameter.class);
         if (Objects.isNull(dingTalkParameter)) {
             throw new AlerterException("Invalid parameters to convert");
         }
@@ -24,7 +23,12 @@ public class DingTalkAlerterManager implements IAlerterManager {
         if (!checkParameter) {
             throw new AlerterException("The incoming parameter can not be empty");
         }
-        return new DingTalkAlerter(dingTalkParameter);
+        return dingTalkParameter;
+    }
+
+    @Override
+    public DingTalkAlerter generateInstance(String parameter) {
+        return new DingTalkAlerter(getParameter(parameter));
     }
 
 }

@@ -1,7 +1,6 @@
 package org.metahut.octopus.alerter.dingtalk;
 
 import org.metahut.octopus.alerter.api.AbstractParameter;
-import org.metahut.octopus.alerter.enums.DingTalkMsgType;
 
 import org.apache.commons.lang3.StringUtils;
 

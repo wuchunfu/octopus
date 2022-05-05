@@ -1,14 +1,13 @@
-package org.metahut.octopus.alerter.enums;
+package org.metahut.octopus.alerter.email;
 
-public enum DingTalkMsgType {
-
+public enum EmailMsgType {
     TEXT(1, "text"),
-    MARKDOWN(2, "markdown");
+    HTML(2, "html");
 
     private final int code;
     private final String message;
 
-    DingTalkMsgType(int code, String message) {
+    EmailMsgType(int code, String message) {
         this.code = code;
         this.message = message;
 
@@ -21,5 +20,4 @@ public enum DingTalkMsgType {
     public String getMessage() {
         return message;
     }
-
 }

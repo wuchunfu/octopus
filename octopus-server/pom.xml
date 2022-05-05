@@ -42,6 +42,10 @@
             <groupId>org.metahut.octopus</groupId>
             <artifactId>octopus-metrics-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.metahut.octopus</groupId>
+            <artifactId>octopus-alerter-api</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

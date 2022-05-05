@@ -4,7 +4,6 @@ import org.metahut.octopus.alerter.api.AlerterResult;
 import org.metahut.octopus.alerter.api.IAlerter;
 import org.metahut.octopus.alerter.common.utils.JSONUtils;
 import org.metahut.octopus.alerter.common.utils.OkHttpUtils;
-import org.metahut.octopus.alerter.enums.DingTalkMsgType;
 
 import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.collections4.CollectionUtils;

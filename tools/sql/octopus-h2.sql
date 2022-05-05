@@ -152,8 +152,8 @@ CREATE TABLE tb_octopus_rule_instance
     UNIQUE KEY rule_metrics_sample_unique (source_code, metrics_code, sample_code)
 );
 
-DROP TABLE IF EXISTS tb_octopus_alert_instance CASCADE;
-CREATE TABLE tb_octopus_alert_instance
+DROP TABLE IF EXISTS tb_octopus_alerter_instance CASCADE;
+CREATE TABLE tb_octopus_alerter_instance
 (
     id                     int NOT NULL AUTO_INCREMENT,
     alert_type       varchar(64) NOT NULL,
