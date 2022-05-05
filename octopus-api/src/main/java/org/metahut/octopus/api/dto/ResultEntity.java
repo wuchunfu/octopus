@@ -1,5 +1,6 @@
 package org.metahut.octopus.api.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.metahut.octopus.common.enums.StatusEnum;
 
 import static org.metahut.octopus.common.enums.StatusEnum.SUCCESS;
@@ -39,10 +40,12 @@ public class ResultEntity<T> {
         return success(null);
     }
 
+    @JsonIgnore
     public boolean isSuccess() {
         return this.isStatus(SUCCESS);
     }
 
+    @JsonIgnore
     public boolean isFailed() {
         return !this.isSuccess();
     }

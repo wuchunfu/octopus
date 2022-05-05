@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -16,17 +17,22 @@ public class Knife4jConfiguration {
     @Bean(value = "defaultApi2")
     public Docket defaultApi2() {
         Docket docket = new Docket(DocumentationType.SWAGGER_2)
-            .apiInfo(new ApiInfoBuilder()
-                .title("Octopus REST APIS")
-                .description("Octopus REST APIS")
-                .version("1.0")
-                .build())
+            .apiInfo(apiInfo())
             .groupName("V1.0")
             .select()
-            .apis(RequestHandlerSelectors.basePackage("org.metahut.octopus.api.controller"))
+            .apis(RequestHandlerSelectors.basePackage("org.metahut.octopus.server.controller"))
             .paths(PathSelectors.any())
             .build();
 
         return docket;
     }
+
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title("Octopus REST APIS")
+                .description("Octopus REST APIS")
+                .version("1.0")
+                .build();
+    }
+
 }

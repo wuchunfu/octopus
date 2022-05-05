@@ -2,6 +2,7 @@ package org.metahut.octopus.server.controller;
 
 import org.metahut.octopus.api.controller.AlerterInstanceController;
 import org.metahut.octopus.api.dto.AlerterInstanceConditionsRequestDTO;
+import org.metahut.octopus.api.dto.AlerterInstanceCreateRequestDTO;
 import org.metahut.octopus.api.dto.PageRequestDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
 import org.metahut.octopus.server.service.AlerterInstanceService;
@@ -11,15 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AlerterInstanceControllerImpl implements AlerterInstanceController {
 
-    private AlerterInstanceService alerterInstanceService;
+    private final AlerterInstanceService alerterInstanceService;
 
     public AlerterInstanceControllerImpl(AlerterInstanceService alerterInstanceService) {
         this.alerterInstanceService = alerterInstanceService;
     }
 
     @Override
-    public ResultEntity queryAllTypes() {
-        return ResultEntity.success(alerterInstanceService.queryAllTypes());
+    public ResultEntity queryAllPluginTypes() {
+        return ResultEntity.success(alerterInstanceService.queryAllPluginTypes());
     }
 
     @Override
@@ -30,5 +31,16 @@ public class AlerterInstanceControllerImpl implements AlerterInstanceController 
     @Override
     public ResultEntity queryList(AlerterInstanceConditionsRequestDTO alerterInstanceConditionsRequestDTO) {
         return ResultEntity.success(alerterInstanceService.queryList(alerterInstanceConditionsRequestDTO));
+    }
+
+    @Override
+    public ResultEntity create(AlerterInstanceCreateRequestDTO alerterInstanceCreateRequestDTO) {
+        return ResultEntity.success(alerterInstanceService.create(alerterInstanceCreateRequestDTO));
+    }
+
+    @Override
+    public ResultEntity deleteById(Integer id) {
+        alerterInstanceService.deleteById(id);
+        return ResultEntity.success();
     }
 }

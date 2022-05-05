@@ -25,8 +25,8 @@ import java.util.List;
 @Service
 public class AlerterInstanceServiceImpl implements AlerterInstanceService {
 
-    private AlerterInstanceRepositoty alerterInstanceRepositoty;
-    private AlerterPluginHelper alerterPluginHelper;
+    private final AlerterInstanceRepositoty alerterInstanceRepositoty;
+    private final AlerterPluginHelper alerterPluginHelper;
 
     public AlerterInstanceServiceImpl(AlerterInstanceRepositoty alerterInstanceRepositoty, AlerterPluginHelper alerterPluginHelper) {
         this.alerterInstanceRepositoty = alerterInstanceRepositoty;
@@ -34,7 +34,7 @@ public class AlerterInstanceServiceImpl implements AlerterInstanceService {
     }
 
     @Override
-    public Collection<String> queryAllTypes() {
+    public Collection<String> queryAllPluginTypes() {
         return alerterPluginHelper.queryAllTypes();
     }
 
@@ -76,6 +76,7 @@ public class AlerterInstanceServiceImpl implements AlerterInstanceService {
         return alerterInstanceRepositoty.findAll(specification);
     }
 
+    @Override
     public AlerterInstance create(AlerterInstanceCreateRequestDTO alerterInstanceCreateRequestDTO) {
 
         // check alerter plugin instance parameter
@@ -92,6 +93,7 @@ public class AlerterInstanceServiceImpl implements AlerterInstanceService {
 
     }
 
+    @Override
     public void deleteById(Integer id) {
         alerterInstanceRepositoty.deleteById(id);
     }

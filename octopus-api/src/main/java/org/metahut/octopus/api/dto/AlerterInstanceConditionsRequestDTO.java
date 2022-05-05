@@ -1,8 +1,14 @@
 package org.metahut.octopus.api.dto;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(value = "AlerterInstanceConditionsRequestDTO")
 public class AlerterInstanceConditionsRequestDTO {
 
+    @ApiModelProperty(value = "name")
     private String name;
+    @ApiModelProperty(value = "type")
     private String type;
 
     public String getName() {
