@@ -1,7 +1,7 @@
 package org.metahut.octopus.alerter.dingtalk;
 
-import org.metahut.octopus.alerter.api.IAlerter;
 import org.metahut.octopus.alerter.api.AlerterResult;
+import org.metahut.octopus.alerter.api.IAlerter;
 import org.metahut.octopus.alerter.common.utils.JSONUtils;
 import org.metahut.octopus.alerter.common.utils.OkHttpUtils;
 import org.metahut.octopus.alerter.enums.DingTalkMsgType;

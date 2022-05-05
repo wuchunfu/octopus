@@ -1,8 +1,8 @@
 package org.metahut.octopus.alerter.email;
 
-import org.metahut.octopus.alerter.api.IAlerter;
 import org.metahut.octopus.alerter.api.AlerterException;
 import org.metahut.octopus.alerter.api.AlerterResult;
+import org.metahut.octopus.alerter.api.IAlerter;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;

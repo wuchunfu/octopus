@@ -38,7 +38,7 @@ public class GraphHandler {
 
         // monitor_metrics_result: 上报渠道???, subject_code, subject_category, metrics_code, metrics_unique_key, metrics_value, create_time
 
-        //executor flink / shell / python / 自动上报
+        //executor flink / shell / python / automatic report
 
         // parser plugin
 

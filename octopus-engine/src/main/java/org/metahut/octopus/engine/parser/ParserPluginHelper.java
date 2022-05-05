@@ -26,7 +26,6 @@ public class ParserPluginHelper {
         return Objects.isNull(sample) ? generateKey(category, "none") : generateKey(category, sourceCategory, executorTypeDefaultValue);
     }
 
-
     public ParserNode generateParser(String sourceCategory, SampleInstance sample) {
         String category = "sample";
         String executorTypeDefaultValue = "flink";
