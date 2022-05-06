@@ -1,6 +1,7 @@
 package org.metahut.octopus.dao.entity;
 
 import org.metahut.octopus.common.enums.MetricsCategoryEnum;
+import org.metahut.octopus.common.enums.MetricsDimensionEnum;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -27,6 +28,9 @@ public class Metrics {
     private MetricsCategoryEnum category;
 
     private String description;
+
+    @Enumerated(value = EnumType.STRING)
+    private MetricsDimensionEnum metricsDimension;
 
     private Date createTime;
 
@@ -106,5 +110,13 @@ public class Metrics {
 
     public void setUpdater(Integer updater) {
         this.updater = updater;
+    }
+
+    public MetricsDimensionEnum getMetricsDimension() {
+        return metricsDimension;
+    }
+
+    public void setMetricsDimension(MetricsDimensionEnum metricsDimension) {
+        this.metricsDimension = metricsDimension;
     }
 }
