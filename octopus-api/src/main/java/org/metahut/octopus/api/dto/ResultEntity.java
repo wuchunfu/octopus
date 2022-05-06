@@ -1,7 +1,8 @@
 package org.metahut.octopus.api.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.metahut.octopus.common.enums.StatusEnum;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import static org.metahut.octopus.common.enums.StatusEnum.SUCCESS;
 
