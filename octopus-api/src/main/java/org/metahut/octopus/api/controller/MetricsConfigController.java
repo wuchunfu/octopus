@@ -4,8 +4,8 @@ import org.metahut.octopus.api.dto.MetricsConfigConditionsRequestDTO;
 import org.metahut.octopus.api.dto.MetricsConfigCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.PageRequestDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
-import org.metahut.octopus.api.dto.response.MetricsConfigResponseDTO;
-import org.metahut.octopus.api.dto.response.PageResponseDTO;
+import org.metahut.octopus.api.dto.MetricsConfigResponseDTO;
+import org.metahut.octopus.api.dto.PageResponseDTO;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

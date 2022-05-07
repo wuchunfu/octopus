@@ -12,11 +12,14 @@ import java.util.List;
 @ApiModel(description = "metrics conditions request dto")
 public class MetricsConditionsRequestDTO {
 
+    @ApiModelProperty(value = "code")
+    private String code;
+
     @ApiModelProperty(value = "name")
     private String name;
 
-    @ApiModelProperty(value = "categorys")
-    private List<MetricsCategoryEnum> categorys;
+    @ApiModelProperty(value = "categories")
+    private List<MetricsCategoryEnum> categories;
 
     @ApiModelProperty(value = "description")
     private String description;
@@ -36,6 +39,14 @@ public class MetricsConditionsRequestDTO {
     @ApiModelProperty(value = "updateEndTime")
     private Date updateEndTime;
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     public String getName() {
         return name;
     }
@@ -44,12 +55,12 @@ public class MetricsConditionsRequestDTO {
         this.name = name;
     }
 
-    public List<MetricsCategoryEnum> getCategorys() {
-        return categorys;
+    public List<MetricsCategoryEnum> getCategories() {
+        return categories;
     }
 
-    public void setCategorys(List<MetricsCategoryEnum> categorys) {
-        this.categorys = categorys;
+    public void setCategories(List<MetricsCategoryEnum> categories) {
+        this.categories = categories;
     }
 
     public String getDescription() {
@@ -58,6 +69,14 @@ public class MetricsConditionsRequestDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<MetricsDimensionEnum> getMetricsDimensions() {
+        return metricsDimensions;
+    }
+
+    public void setMetricsDimensions(List<MetricsDimensionEnum> metricsDimensions) {
+        this.metricsDimensions = metricsDimensions;
     }
 
     public Date getCreateStartTime() {
@@ -90,13 +109,5 @@ public class MetricsConditionsRequestDTO {
 
     public void setUpdateEndTime(Date updateEndTime) {
         this.updateEndTime = updateEndTime;
-    }
-
-    public List<MetricsDimensionEnum> getMetricsDimensions() {
-        return metricsDimensions;
-    }
-
-    public void setMetricsDimensions(List<MetricsDimensionEnum> metricsDimensions) {
-        this.metricsDimensions = metricsDimensions;
     }
 }

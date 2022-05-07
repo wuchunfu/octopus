@@ -5,11 +5,9 @@ import org.metahut.octopus.api.dto.PageRequestDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
 import org.metahut.octopus.api.dto.RuleTemplateRequestDTO;
 import org.metahut.octopus.api.dto.RuleTemplateResponseDTO;
-import org.metahut.octopus.api.dto.response.PageResponseDTO;
+import org.metahut.octopus.api.dto.PageResponseDTO;
 
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 public class RuleTemplateControllerImpl implements RuleTemplateController {

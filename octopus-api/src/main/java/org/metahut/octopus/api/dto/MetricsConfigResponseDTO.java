@@ -1,4 +1,4 @@
-package org.metahut.octopus.api.dto.response;
+package org.metahut.octopus.api.dto;
 
 import org.metahut.octopus.common.enums.CreateTypeEnum;
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
