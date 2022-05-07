@@ -2,16 +2,13 @@ package org.metahut.octopus.api.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 
-public class PageRequestDTO<T> {
+public class PageRequestDTO {
 
     @ApiModelProperty(value = "page number", required = true)
     private Integer pageNo;
 
     @ApiModelProperty(value = "page size", required = true)
     private Integer pageSize;
-
-    @ApiModelProperty(value = "request params")
-    private T params;
 
     public Integer getPageNo() {
         return pageNo;
@@ -29,11 +26,4 @@ public class PageRequestDTO<T> {
         this.pageSize = pageSize;
     }
 
-    public T getParams() {
-        return params;
-    }
-
-    public void setParams(T params) {
-        this.params = params;
-    }
 }

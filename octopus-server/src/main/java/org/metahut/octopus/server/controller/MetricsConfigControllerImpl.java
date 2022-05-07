@@ -3,10 +3,9 @@ package org.metahut.octopus.server.controller;
 import org.metahut.octopus.api.controller.MetricsConfigController;
 import org.metahut.octopus.api.dto.MetricsConfigConditionsRequestDTO;
 import org.metahut.octopus.api.dto.MetricsConfigCreateOrUpdateRequestDTO;
-import org.metahut.octopus.api.dto.PageRequestDTO;
-import org.metahut.octopus.api.dto.ResultEntity;
 import org.metahut.octopus.api.dto.MetricsConfigResponseDTO;
 import org.metahut.octopus.api.dto.PageResponseDTO;
+import org.metahut.octopus.api.dto.ResultEntity;
 
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +20,7 @@ public class MetricsConfigControllerImpl implements MetricsConfigController {
     }
 
     @Override
-    public ResultEntity<PageResponseDTO<MetricsConfigResponseDTO>> queryListPage(PageRequestDTO<MetricsConfigConditionsRequestDTO> pageRequestDTO) {
+    public ResultEntity<PageResponseDTO<MetricsConfigResponseDTO>> queryListPage(MetricsConfigConditionsRequestDTO metricsConfigConditionsRequestDTO) {
         return ResultEntity.success();
     }
 

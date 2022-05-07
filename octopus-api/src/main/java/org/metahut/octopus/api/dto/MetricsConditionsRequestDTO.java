@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 @ApiModel(description = "metrics conditions request dto")
-public class MetricsConditionsRequestDTO {
+public class MetricsConditionsRequestDTO extends PageRequestDTO {
 
     @ApiModelProperty(value = "code")
     private String code;

@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 @ApiModel(description = "metrics config conditions request dto")
-public class MetricsConfigConditionsRequestDTO {
+public class MetricsConfigConditionsRequestDTO extends PageRequestDTO {
 
     @ApiModelProperty(value = "name")
     private String name;

@@ -1,7 +1,6 @@
 package org.metahut.octopus.server.controller;
 
 import org.metahut.octopus.api.controller.RuleTemplateController;
-import org.metahut.octopus.api.dto.PageRequestDTO;
 import org.metahut.octopus.api.dto.PageResponseDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
 import org.metahut.octopus.api.dto.RuleTemplateRequestDTO;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RuleTemplateControllerImpl implements RuleTemplateController {
 
     @Override
-    public ResultEntity<PageResponseDTO<RuleTemplateResponseDTO>> queryRuleTemplatePage(PageRequestDTO<RuleTemplateRequestDTO> ruleTemplateRequest) {
+    public ResultEntity<PageResponseDTO<RuleTemplateResponseDTO>> queryRuleTemplatePage(RuleTemplateRequestDTO ruleTemplateRequestDTO) {
         return ResultEntity.success();
     }
 

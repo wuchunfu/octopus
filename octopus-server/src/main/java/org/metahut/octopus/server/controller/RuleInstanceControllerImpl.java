@@ -24,7 +24,7 @@ public class RuleInstanceControllerImpl implements RuleInstanceController {
     }
 
     @Override
-    public ResultEntity<PageResponseDTO<RuleInstanceResponseDTO>> queryRuleInstancePage(PageResponseDTO<RuleInstanceConditionRequestDTO> ruleInstanceConditionRequestDTO) {
+    public ResultEntity<PageResponseDTO<RuleInstanceResponseDTO>> queryRuleInstancePage(RuleInstanceConditionRequestDTO ruleInstanceConditionRequestDTO) {
         return ResultEntity.success();
     }
 }

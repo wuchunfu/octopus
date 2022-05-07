@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-public class RuleTemplateRequestDTO {
+public class RuleTemplateRequestDTO extends PageRequestDTO {
 
     private Long code;
 

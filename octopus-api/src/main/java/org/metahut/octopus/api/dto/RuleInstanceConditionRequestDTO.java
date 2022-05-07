@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Date;
 
-public class RuleInstanceConditionRequestDTO {
+public class RuleInstanceConditionRequestDTO extends PageRequestDTO {
 
     @ApiModelProperty(value = "tableCode")
     private Integer tableCode;

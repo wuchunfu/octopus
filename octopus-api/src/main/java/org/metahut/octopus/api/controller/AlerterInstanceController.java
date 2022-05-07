@@ -1,21 +1,12 @@
 package org.metahut.octopus.api.controller;
 
-import org.metahut.octopus.api.dto.AlerterInstanceConditionsRequestDTO;
-import org.metahut.octopus.api.dto.AlerterInstanceCreateRequestDTO;
-import org.metahut.octopus.api.dto.AlerterInstanceResponseDTO;
-import org.metahut.octopus.api.dto.PageRequestDTO;
-import org.metahut.octopus.api.dto.ResultEntity;
+import org.metahut.octopus.api.dto.*;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
@@ -29,11 +20,11 @@ public interface AlerterInstanceController {
 
     @ApiOperation(value = "queryListPage", notes = "QUERY_ALERTER_INSTANCE_LIST_PAGE_NOTES")
     @GetMapping("queryListPage")
-    ResultEntity queryListPage(@RequestBody PageRequestDTO<AlerterInstanceConditionsRequestDTO> pageRequestDTO);
+    ResultEntity queryListPage(AlerterInstanceConditionsRequestDTO alerterInstanceConditionsRequestDTO);
 
     @ApiOperation(value = "queryList", notes = "QUERY_ALERTER_INSTANCE_LIST_NOTES")
     @GetMapping("queryList")
-    ResultEntity queryList(@RequestBody AlerterInstanceConditionsRequestDTO alerterInstanceConditionsRequestDTO);
+    ResultEntity queryList(AlerterInstanceConditionsRequestDTO alerterInstanceConditionsRequestDTO);
 
     @ApiOperation(value = "create", notes = "CREATE_ALERTER_INSTANCE_NOTES")
     @PostMapping("create")

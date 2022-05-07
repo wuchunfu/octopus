@@ -15,7 +15,7 @@ public interface AlerterInstanceService {
 
     Collection<String> queryAllPluginTypes();
 
-    Page<AlerterInstance> queryListPage(PageRequestDTO<AlerterInstanceConditionsRequestDTO> pageRequestDTO);
+    Page<AlerterInstance> queryListPage(AlerterInstanceConditionsRequestDTO alerterInstanceConditionsRequestDTO);
 
     List<AlerterInstance> queryList(AlerterInstanceConditionsRequestDTO alerterInstanceConditionsRequestDTO);
 

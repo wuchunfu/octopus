@@ -39,5 +39,5 @@ public interface RuleInstanceController {
 
     @ApiOperation(value = "queryRuleInstancePage",  notes = "QUERY_RULE_INSTANCE_PAGE_NOTES")
     @GetMapping("/queryListPage")
-    ResultEntity<PageResponseDTO<RuleInstanceResponseDTO>> queryRuleInstancePage(PageResponseDTO<RuleInstanceConditionRequestDTO> ruleInstanceConditionRequestDTO);
+    ResultEntity<PageResponseDTO<RuleInstanceResponseDTO>> queryRuleInstancePage(RuleInstanceConditionRequestDTO ruleInstanceConditionRequestDTO);
 }
