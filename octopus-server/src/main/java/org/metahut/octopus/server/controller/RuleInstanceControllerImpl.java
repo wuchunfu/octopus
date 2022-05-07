@@ -7,6 +7,9 @@ import org.metahut.octopus.api.dto.RuleInstanceConditionRequestDTO;
 import org.metahut.octopus.api.dto.RuleInstanceRequestDTO;
 import org.metahut.octopus.api.dto.RuleInstanceResponseDTO;
 
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
 public class RuleInstanceControllerImpl implements RuleInstanceController {
     @Override
     public ResultEntity<RuleInstanceResponseDTO> createRuleInstance(RuleInstanceRequestDTO ruleInstanceRequestDTO) {
