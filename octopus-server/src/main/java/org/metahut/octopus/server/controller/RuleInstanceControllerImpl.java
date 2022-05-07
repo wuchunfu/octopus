@@ -14,7 +14,7 @@ public class RuleInstanceControllerImpl implements RuleInstanceController {
     }
 
     @Override
-    public ResultEntity<Boolean> deleteRuleInstance(Integer id) {
+    public ResultEntity deleteRuleInstance(Integer id) {
         return ResultEntity.success();
     }
 

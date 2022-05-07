@@ -1,7 +1,10 @@
 package org.metahut.octopus.api.controller;
 
+import org.metahut.octopus.api.dto.PageRequestDTO;
+import org.metahut.octopus.api.dto.PageResponseDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
 import org.metahut.octopus.api.dto.RuleTemplateRequestDTO;
+import org.metahut.octopus.api.dto.RuleTemplateResponseDTO;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -21,7 +24,7 @@ public interface RuleTemplateController {
 
     @ApiOperation(value = "queryRuleTemplatePage", notes = "QUERY_RULE_TEMPLATE_PAGE_NOTES")
     @GetMapping("/queryListPage")
-    ResultEntity queryRuleTemplatePage(RuleTemplateRequestDTO ruleTemplateRequestDTO);
+    ResultEntity<PageResponseDTO<RuleTemplateResponseDTO>> queryRuleTemplatePage(@RequestBody RuleTemplateRequestDTO ruleTemplateRequest);
 
     @ApiOperation(value = "deleteRuleTemplate", notes = "DELETE_RULE_TEMPLATE_NOTES")
     @ApiImplicitParams({
@@ -32,9 +35,9 @@ public interface RuleTemplateController {
 
     @ApiOperation(value = "createRuleTemplate", notes = "CREATE_RULE_TEMPLATE_NOTES")
     @PostMapping
-    ResultEntity createRuleTemplate(@RequestBody RuleTemplateRequestDTO ruleTemplateRequest);
+    ResultEntity<RuleTemplateResponseDTO> createRuleTemplate(@RequestBody RuleTemplateRequestDTO ruleTemplateRequest);
 
     @ApiOperation(value = "updateRuleTemplate", notes = "UPDATE_RULE_TEMPLATE_NOTES")
     @PutMapping("/{code}")
-    ResultEntity updateRuleTemplate(@RequestBody RuleTemplateRequestDTO ruleTemplateRequest);
+    ResultEntity<RuleTemplateResponseDTO> updateRuleTemplate(@RequestBody RuleTemplateRequestDTO ruleTemplateRequest);
 }

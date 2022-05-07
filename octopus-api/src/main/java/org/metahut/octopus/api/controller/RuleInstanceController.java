@@ -31,7 +31,7 @@ public interface RuleInstanceController {
             @ApiImplicitParam(name = "id", value = "RULE_INSTANCE_ID", required = true, dataType = "Integer", example = "1")
     })
     @DeleteMapping("/{id}")
-    ResultEntity<Boolean> deleteRuleInstance(@PathVariable(value = "id") Integer id);
+    ResultEntity deleteRuleInstance(@PathVariable(value = "id") Integer id);
 
     @ApiOperation(value = "updateRuleInstance",  notes = "UPDATE_RULE_INSTANCE_NOTES")
     @PutMapping("/{code}")
