@@ -28,10 +28,10 @@ public interface RuleTemplateController {
 
     @ApiOperation(value = "deleteRuleTemplate", notes = "DELETE_RULE_TEMPLATE_NOTES")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "RULE_TEMPLATE_ID", required = true, dataType = "Integer", example = "1")
+        @ApiImplicitParam(name = "id", value = "RULE_TEMPLATE_ID", required = true, dataType = "Integer", example = "1")
     })
     @DeleteMapping("/{id}")
-    ResultEntity  deleteRuleTemplate(@PathVariable(value = "id") Integer id);
+    ResultEntity deleteRuleTemplate(@PathVariable(value = "id") Integer id);
 
     @ApiOperation(value = "createRuleTemplate", notes = "CREATE_RULE_TEMPLATE_NOTES")
     @PostMapping
