@@ -1,7 +1,7 @@
 package org.metahut.octopus.api.dto;
 
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
-import org.metahut.octopus.common.enums.ThresholdUnit;
+import org.metahut.octopus.common.enums.ThresholdUnitEnum;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -34,7 +34,7 @@ public class RuleTemplateResponseDTO {
     private String verificationWay;
 
     @ApiModelProperty(value = "thresholdUnit")
-    private ThresholdUnit thresholdUnit;
+    private ThresholdUnitEnum thresholdUnit;
 
     @ApiModelProperty(value = "thresholds")
     private List<BigDecimal> thresholds;
@@ -47,7 +47,6 @@ public class RuleTemplateResponseDTO {
 
     @ApiModelProperty(value = "createTime")
     private Date createTime;
-
 
     @ApiModelProperty(value = "updateTime")
     private Date updateTime;

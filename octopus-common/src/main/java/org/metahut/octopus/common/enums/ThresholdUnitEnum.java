@@ -1,6 +1,6 @@
 package org.metahut.octopus.common.enums;
 
-public enum ThresholdUnit {
+public enum ThresholdUnitEnum {
     PERCENT,
     DAY,
     HOUR,

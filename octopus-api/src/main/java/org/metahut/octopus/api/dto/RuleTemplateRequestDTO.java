@@ -1,13 +1,13 @@
 package org.metahut.octopus.api.dto;
 
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
-import org.metahut.octopus.common.enums.ThresholdUnit;
+import org.metahut.octopus.common.enums.ThresholdUnitEnum;
 
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-public class RuleTemplateRequestDTO {
+public class RuleTemplateRequestDTO extends PageRequestDTO {
 
     private Long code;
 
@@ -21,7 +21,7 @@ public class RuleTemplateRequestDTO {
 
     private String verificationWay;
 
-    private ThresholdUnit thresholdUnit;
+    private ThresholdUnitEnum thresholdUnit;
 
     private List<BigDecimal> thresholds;
 
@@ -36,7 +36,7 @@ public class RuleTemplateRequestDTO {
     public RuleTemplateRequestDTO() {
     }
 
-    public RuleTemplateRequestDTO(Long code, String templateName, String metricsName, SubjectCategoryEnum subjectCategoryEnum, String verificationType, String verificationWay, ThresholdUnit thresholdUnit, List<BigDecimal> thresholds,
+    public RuleTemplateRequestDTO(Long code, String templateName, String metricsName, SubjectCategoryEnum subjectCategoryEnum, String verificationType, String verificationWay, ThresholdUnitEnum thresholdUnit, List<BigDecimal> thresholds,
                                   Date createStartTime, Date createEndTime, Date updateStartTime, Date updateEndTime) {
         this.code = code;
         this.templateName = templateName;
@@ -100,11 +100,11 @@ public class RuleTemplateRequestDTO {
         this.verificationWay = verificationWay;
     }
 
-    public ThresholdUnit getThresholdUnit() {
+    public ThresholdUnitEnum getThresholdUnit() {
         return thresholdUnit;
     }
 
-    public void setThresholdUnit(ThresholdUnit thresholdUnit) {
+    public void setThresholdUnit(ThresholdUnitEnum thresholdUnit) {
         this.thresholdUnit = thresholdUnit;
     }
 
