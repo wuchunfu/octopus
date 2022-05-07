@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public interface RuleTemplateController {
 
     @ApiOperation(value = "queryRuleTemplatePage", notes = "QUERY_RULE_TEMPLATE_PAGE_NOTES")
-    @GetMapping("/list")
+    @GetMapping("/queryListPage")
     ResultEntity queryRuleTemplatePage(@RequestBody PageRequestDTO<RuleTemplateRequestDTO> ruleTemplateRequest);
 
     @ApiOperation(value = "deleteRuleTemplate", notes = "DELETE_RULE_TEMPLATE_NOTES")
