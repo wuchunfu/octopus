@@ -2,6 +2,7 @@ package org.metahut.octopus.api.controller;
 
 import org.metahut.octopus.api.dto.AlerterInstanceConditionsRequestDTO;
 import org.metahut.octopus.api.dto.AlerterInstanceCreateRequestDTO;
+import org.metahut.octopus.api.dto.AlerterInstanceResponseDTO;
 import org.metahut.octopus.api.dto.PageRequestDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
 
@@ -36,7 +37,7 @@ public interface AlerterInstanceController {
 
     @ApiOperation(value = "create", notes = "CREATE_ALERTER_INSTANCE_NOTES")
     @PostMapping("create")
-    ResultEntity create(@RequestBody AlerterInstanceCreateRequestDTO alerterInstanceCreateRequestDTO);
+    ResultEntity<AlerterInstanceResponseDTO> create(@RequestBody AlerterInstanceCreateRequestDTO alerterInstanceCreateRequestDTO);
 
     @ApiOperation(value = "deleteById", notes = "DELETE_ALERTER_INSTANCE_BY_ID_NOTES")
     @ApiImplicitParams({

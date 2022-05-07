@@ -3,6 +3,7 @@ package org.metahut.octopus.server.controller;
 import org.metahut.octopus.api.controller.AlerterInstanceController;
 import org.metahut.octopus.api.dto.AlerterInstanceConditionsRequestDTO;
 import org.metahut.octopus.api.dto.AlerterInstanceCreateRequestDTO;
+import org.metahut.octopus.api.dto.AlerterInstanceResponseDTO;
 import org.metahut.octopus.api.dto.PageRequestDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
 import org.metahut.octopus.server.service.AlerterInstanceService;
@@ -34,7 +35,7 @@ public class AlerterInstanceControllerImpl implements AlerterInstanceController 
     }
 
     @Override
-    public ResultEntity create(AlerterInstanceCreateRequestDTO alerterInstanceCreateRequestDTO) {
+    public ResultEntity<AlerterInstanceResponseDTO> create(AlerterInstanceCreateRequestDTO alerterInstanceCreateRequestDTO) {
         return ResultEntity.success(alerterInstanceService.create(alerterInstanceCreateRequestDTO));
     }
 

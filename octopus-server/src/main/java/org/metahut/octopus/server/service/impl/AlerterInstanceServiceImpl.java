@@ -2,6 +2,7 @@ package org.metahut.octopus.server.service.impl;
 
 import org.metahut.octopus.api.dto.AlerterInstanceConditionsRequestDTO;
 import org.metahut.octopus.api.dto.AlerterInstanceCreateRequestDTO;
+import org.metahut.octopus.api.dto.AlerterInstanceResponseDTO;
 import org.metahut.octopus.api.dto.PageRequestDTO;
 import org.metahut.octopus.dao.entity.AlerterInstance;
 import org.metahut.octopus.dao.entity.AlerterInstance_;
@@ -10,6 +11,7 @@ import org.metahut.octopus.server.alerter.AlerterPluginHelper;
 import org.metahut.octopus.server.service.AlerterInstanceService;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -27,10 +29,12 @@ public class AlerterInstanceServiceImpl implements AlerterInstanceService {
 
     private final AlerterInstanceRepositoty alerterInstanceRepositoty;
     private final AlerterPluginHelper alerterPluginHelper;
+    private final ConversionService conversionService;
 
-    public AlerterInstanceServiceImpl(AlerterInstanceRepositoty alerterInstanceRepositoty, AlerterPluginHelper alerterPluginHelper) {
+    public AlerterInstanceServiceImpl(AlerterInstanceRepositoty alerterInstanceRepositoty, AlerterPluginHelper alerterPluginHelper, ConversionService conversionService) {
         this.alerterInstanceRepositoty = alerterInstanceRepositoty;
         this.alerterPluginHelper = alerterPluginHelper;
+        this.conversionService = conversionService;
     }
 
     @Override
@@ -77,7 +81,7 @@ public class AlerterInstanceServiceImpl implements AlerterInstanceService {
     }
 
     @Override
-    public AlerterInstance create(AlerterInstanceCreateRequestDTO alerterInstanceCreateRequestDTO) {
+    public AlerterInstanceResponseDTO create(AlerterInstanceCreateRequestDTO alerterInstanceCreateRequestDTO) {
 
         // check alerter plugin instance parameter
         alerterPluginHelper.getParameter(alerterInstanceCreateRequestDTO.getType(), alerterInstanceCreateRequestDTO.getParams());
@@ -86,7 +90,8 @@ public class AlerterInstanceServiceImpl implements AlerterInstanceService {
         instance.setAlertType(alerterInstanceCreateRequestDTO.getType());
         instance.setAlertParams(alerterInstanceCreateRequestDTO.getType());
         instance.setName(alerterInstanceCreateRequestDTO.getName());
-        return alerterInstanceRepositoty.save(instance);
+        AlerterInstance save = alerterInstanceRepositoty.save(instance);
+        return conversionService.convert(save, AlerterInstanceResponseDTO.class);
     }
 
     public void update() {
