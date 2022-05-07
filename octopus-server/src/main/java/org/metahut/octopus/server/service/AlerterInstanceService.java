@@ -3,7 +3,6 @@ package org.metahut.octopus.server.service;
 import org.metahut.octopus.api.dto.AlerterInstanceConditionsRequestDTO;
 import org.metahut.octopus.api.dto.AlerterInstanceCreateRequestDTO;
 import org.metahut.octopus.api.dto.AlerterInstanceResponseDTO;
-import org.metahut.octopus.api.dto.PageRequestDTO;
 import org.metahut.octopus.dao.entity.AlerterInstance;
 
 import org.springframework.data.domain.Page;

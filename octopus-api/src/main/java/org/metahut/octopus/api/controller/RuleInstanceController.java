@@ -28,7 +28,7 @@ public interface RuleInstanceController {
 
     @ApiOperation(value = "deleteRuleInstance",  notes = "DELETE_RULE_INSTANCE_NOTES")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "RULE_INSTANCE_ID", required = true, dataType = "Integer", example = "1")
+        @ApiImplicitParam(name = "id", value = "RULE_INSTANCE_ID", required = true, dataType = "Integer", example = "1")
     })
     @DeleteMapping("/{id}")
     ResultEntity<Boolean> deleteRuleInstance(@PathVariable(value = "id") Integer id);

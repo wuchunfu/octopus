@@ -36,8 +36,8 @@ public class RuleTemplateRequestDTO extends PageRequestDTO {
     public RuleTemplateRequestDTO() {
     }
 
-    public RuleTemplateRequestDTO(Long code, String templateName, String metricsName, SubjectCategoryEnum subjectCategoryEnum, String verificationType, String verificationWay, ThresholdUnitEnum thresholdUnit, List<BigDecimal> thresholds,
-                                  Date createStartTime, Date createEndTime, Date updateStartTime, Date updateEndTime) {
+    public RuleTemplateRequestDTO(Long code, String templateName, String metricsName, SubjectCategoryEnum subjectCategoryEnum, String verificationType, String verificationWay,
+                                  ThresholdUnitEnum thresholdUnit, List<BigDecimal> thresholds,Date createStartTime, Date createEndTime, Date updateStartTime, Date updateEndTime) {
         this.code = code;
         this.templateName = templateName;
         this.metricsName = metricsName;
