@@ -5,9 +5,15 @@ import org.metahut.octopus.api.dto.MetricsConditionsRequestDTO;
 import org.metahut.octopus.api.dto.MetricsCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.PageRequestDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
+import org.metahut.octopus.api.dto.response.MetricsResponseDTO;
+import org.metahut.octopus.api.dto.response.PageResponseDTO;
 import org.metahut.octopus.server.service.MetricsService;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class MetricsControllerImpl implements MetricsController {
@@ -19,22 +25,26 @@ public class MetricsControllerImpl implements MetricsController {
     }
 
     @Override
-    public ResultEntity queryAll() {
-        return ResultEntity.success(metricsService.findAll());
+    public ResultEntity<List<MetricsResponseDTO>> queryAll() {
+        return ResultEntity.success(metricsService.findAll().stream().map(metrics -> {
+            MetricsResponseDTO responseDTO = new MetricsResponseDTO();
+            BeanUtils.copyProperties(metrics, responseDTO);
+            return responseDTO;
+        }).collect(Collectors.toList()));
     }
 
     @Override
-    public ResultEntity queryListPage(PageRequestDTO<MetricsConditionsRequestDTO> pageRequestDTO) {
+    public ResultEntity<PageResponseDTO<MetricsResponseDTO>> queryListPage(PageRequestDTO<MetricsConditionsRequestDTO> pageRequestDTO) {
         return ResultEntity.success();
     }
 
     @Override
-    public ResultEntity create(MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO) {
+    public ResultEntity<MetricsResponseDTO> create(MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO) {
         return ResultEntity.success();
     }
 
     @Override
-    public ResultEntity update(MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO) {
+    public ResultEntity<MetricsResponseDTO> update(MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO) {
         return ResultEntity.success();
     }
 
@@ -42,6 +52,4 @@ public class MetricsControllerImpl implements MetricsController {
     public ResultEntity deleteById(Integer id) {
         return ResultEntity.success();
     }
-
-
 }

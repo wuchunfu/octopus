@@ -41,7 +41,7 @@ CREATE TABLE tb_octopus_metrics
     code     varchar(64) NOT NULL,
     name varchar(64) NOT NULL,
     category varchar(64),
-
+    metrics_dimension varchar(64),
     description         varchar(64) DEFAULT NULL,
     create_time   datetime    DEFAULT NULL,
     update_time   datetime    DEFAULT NULL,

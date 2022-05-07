@@ -4,6 +4,8 @@ import org.metahut.octopus.api.dto.MetricsConditionsRequestDTO;
 import org.metahut.octopus.api.dto.MetricsCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.PageRequestDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
+import org.metahut.octopus.api.dto.response.MetricsResponseDTO;
+import org.metahut.octopus.api.dto.response.PageResponseDTO;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -17,25 +19,27 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @Api(tags = "METRICS_TAG")
 @RequestMapping("metrics")
 public interface MetricsController {
 
     @ApiOperation(value = "queryAll", notes = "QUERY_ALL_NOTES")
     @GetMapping("queryAll")
-    ResultEntity queryAll();
+    ResultEntity<List<MetricsResponseDTO>> queryAll();
 
     @ApiOperation(value = "queryListPage", notes = "QUERY_METRICS_LIST_PAGE_NOTES")
     @GetMapping("queryListPage")
-    ResultEntity queryListPage(@RequestBody PageRequestDTO<MetricsConditionsRequestDTO> pageRequestDTO);
+    ResultEntity<PageResponseDTO<MetricsResponseDTO>> queryListPage(@RequestBody PageRequestDTO<MetricsConditionsRequestDTO> pageRequestDTO);
 
     @ApiOperation(value = "create", notes = "CREATE_METRICS_NOTES")
     @PostMapping("create")
-    ResultEntity create(@RequestBody MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO);
+    ResultEntity<MetricsResponseDTO> create(@RequestBody MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO);
 
     @ApiOperation(value = "update", notes = "UPDATE_METRICS_NOTES")
     @PutMapping("update")
-    ResultEntity update(@RequestBody MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO);
+    ResultEntity<MetricsResponseDTO> update(@RequestBody MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO);
 
     @ApiOperation(value = "deleteById", notes = "DELETE_METRICS_BY_ID_NOTES")
     @ApiImplicitParams({
