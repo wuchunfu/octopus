@@ -43,16 +43,16 @@ public class AlerterInstanceServiceImpl implements AlerterInstanceService {
     }
 
     @Override
-    public Page<AlerterInstance> queryListPage(PageRequestDTO<AlerterInstanceConditionsRequestDTO> pageRequestDTO) {
-        Pageable pageable = PageRequest.of(pageRequestDTO.getPageNo(), pageRequestDTO.getPageSize());
+    public Page<AlerterInstance> queryListPage(AlerterInstanceConditionsRequestDTO alerterInstanceConditionsRequestDTO) {
+        Pageable pageable = PageRequest.of(alerterInstanceConditionsRequestDTO.getPageNo(), alerterInstanceConditionsRequestDTO.getPageSize());
         Specification<AlerterInstance> specification = (root, query, builder) -> {
             List<Predicate> conditions = new ArrayList<>();
-            if (StringUtils.isNotBlank(pageRequestDTO.getParams().getName())) {
-                conditions.add(builder.like(root.get(AlerterInstance_.name), "%" + pageRequestDTO.getParams().getName() + "%"));
+            if (StringUtils.isNotBlank(alerterInstanceConditionsRequestDTO.getName())) {
+                conditions.add(builder.like(root.get(AlerterInstance_.name), "%" + alerterInstanceConditionsRequestDTO.getName() + "%"));
             }
 
-            if (StringUtils.isNotBlank(pageRequestDTO.getParams().getType())) {
-                conditions.add(builder.equal(root.get(AlerterInstance_.alertType), pageRequestDTO.getParams().getType()));
+            if (StringUtils.isNotBlank(alerterInstanceConditionsRequestDTO.getType())) {
+                conditions.add(builder.equal(root.get(AlerterInstance_.alertType), alerterInstanceConditionsRequestDTO.getType()));
             }
 
             return builder.and(conditions.toArray(new Predicate[conditions.size()]));

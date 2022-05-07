@@ -1,6 +1,5 @@
 package org.metahut.octopus.api.controller;
 
-import org.metahut.octopus.api.dto.PageRequestDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
 import org.metahut.octopus.api.dto.RuleTemplateRequestDTO;
 
@@ -22,7 +21,7 @@ public interface RuleTemplateController {
 
     @ApiOperation(value = "queryRuleTemplatePage", notes = "QUERY_RULE_TEMPLATE_PAGE_NOTES")
     @GetMapping("/list")
-    ResultEntity queryRuleTemplatePage(@RequestBody PageRequestDTO<RuleTemplateRequestDTO> ruleTemplateRequest);
+    ResultEntity queryRuleTemplatePage(RuleTemplateRequestDTO ruleTemplateRequestDTO);
 
     @ApiOperation(value = "deleteRuleTemplate", notes = "DELETE_RULE_TEMPLATE_NOTES")
     @ApiImplicitParams({

@@ -2,10 +2,10 @@ package org.metahut.octopus.api.controller;
 
 import org.metahut.octopus.api.dto.MetricsConfigConditionsRequestDTO;
 import org.metahut.octopus.api.dto.MetricsConfigCreateOrUpdateRequestDTO;
-import org.metahut.octopus.api.dto.PageRequestDTO;
-import org.metahut.octopus.api.dto.ResultEntity;
 import org.metahut.octopus.api.dto.MetricsConfigResponseDTO;
+import org.metahut.octopus.api.dto.PageRequestDTO;
 import org.metahut.octopus.api.dto.PageResponseDTO;
+import org.metahut.octopus.api.dto.ResultEntity;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -31,7 +31,7 @@ public interface MetricsConfigController {
 
     @ApiOperation(value = "queryListPage", notes = "QUERY_METRICS_CONFIG_LIST_PAGE_NOTES")
     @GetMapping("queryListPage")
-    ResultEntity<PageResponseDTO<MetricsConfigResponseDTO>> queryListPage(@RequestBody PageRequestDTO<MetricsConfigConditionsRequestDTO> pageRequestDTO);
+    ResultEntity<PageResponseDTO<MetricsConfigResponseDTO>> queryListPage(MetricsConfigConditionsRequestDTO metricsConfigConditionsRequestDTO);
 
     @ApiOperation(value = "create", notes = "CREATE_METRICS_CONFIG_NOTES")
     @PostMapping("create")
