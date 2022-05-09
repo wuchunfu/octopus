@@ -11,5 +11,10 @@
 
     <artifactId>octopus-executor-flink</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>org.metahut.octopus</groupId>
+            <artifactId>octopus-executor-api</artifactId>
+        </dependency>
+    </dependencies>
 </project>

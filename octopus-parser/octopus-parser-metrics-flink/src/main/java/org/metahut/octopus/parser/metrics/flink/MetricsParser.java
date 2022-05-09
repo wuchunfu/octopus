@@ -27,6 +27,8 @@ public class MetricsParser implements IParser {
         query.append(" as metrics_code,");
         query.append(parameter.getMetricsUniqueKey());
         query.append(" as metrics_unique_key,");
+        query.append(parameter.getRules());
+        query.append(" as rules,");
         query.append(" NOW() as create_time,");
         query.append("* as metrics_value ");
         query.append(" FROM (");

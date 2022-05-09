@@ -64,7 +64,7 @@
         <junit.version>5.8.2</junit.version>
         <janino.version>3.1.6</janino.version>
         <slf4j.version>1.7.36</slf4j.version>
-        <commonsLang3.version>3.12.0</commonsLang3.version>
+        <commons-lang3.version>3.12.0</commons-lang3.version>
         <pulsar.version>2.9.1</pulsar.version>
         <knife4j.version>3.0.3</knife4j.version>
         <h2.version>2.1.210</h2.version>
@@ -244,7 +244,7 @@
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
-                <version>${commonsLang3.version}</version>
+                <version>${commons-lang3.version}</version>
             </dependency>
 
             <dependency>

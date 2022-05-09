@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @RestController
 public class MetricsControllerImpl implements MetricsController {
 
-    private MetricsService metricsService;
+    private final MetricsService metricsService;
 
     public MetricsControllerImpl(MetricsService metricsService) {
         this.metricsService = metricsService;
