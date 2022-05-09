@@ -38,6 +38,10 @@ public class MetricsConfig {
 
     private String description;
 
+    private String computeMode;
+
+    private String computeScript;
+
     private Date createTime;
 
     private Date updateTime;
@@ -148,5 +152,21 @@ public class MetricsConfig {
 
     public void setSourceCategory(String sourceCategory) {
         this.sourceCategory = sourceCategory;
+    }
+
+    public String getComputeMode() {
+        return computeMode;
+    }
+
+    public void setComputeMode(String computeMode) {
+        this.computeMode = computeMode;
+    }
+
+    public String getComputeScript() {
+        return computeScript;
+    }
+
+    public void setComputeScript(String computeScript) {
+        this.computeScript = computeScript;
     }
 }

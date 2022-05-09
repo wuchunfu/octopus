@@ -1,6 +1,5 @@
 package org.metahut.octopus.api.dto;
 
-import org.metahut.octopus.common.enums.MetricsCategoryEnum;
 import org.metahut.octopus.common.enums.MetricsDimensionEnum;
 
 import io.swagger.annotations.ApiModel;
@@ -17,9 +16,6 @@ public class MetricsConditionsRequestDTO extends PageRequestDTO {
 
     @ApiModelProperty(value = "name")
     private String name;
-
-    @ApiModelProperty(value = "categories")
-    private List<MetricsCategoryEnum> categories;
 
     @ApiModelProperty(value = "description")
     private String description;
@@ -54,15 +50,7 @@ public class MetricsConditionsRequestDTO extends PageRequestDTO {
     public void setName(String name) {
         this.name = name;
     }
-
-    public List<MetricsCategoryEnum> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<MetricsCategoryEnum> categories) {
-        this.categories = categories;
-    }
-
+    
     public String getDescription() {
         return description;
     }

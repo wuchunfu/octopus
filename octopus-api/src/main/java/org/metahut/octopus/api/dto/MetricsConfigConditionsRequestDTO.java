@@ -1,6 +1,5 @@
 package org.metahut.octopus.api.dto;
 
-import org.metahut.octopus.common.enums.CreateTypeEnum;
 import org.metahut.octopus.common.enums.MetricsDimensionEnum;
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 
@@ -13,29 +12,26 @@ import java.util.List;
 @ApiModel(description = "metrics config conditions request dto")
 public class MetricsConfigConditionsRequestDTO extends PageRequestDTO {
 
-    @ApiModelProperty(value = "name")
+    @ApiModelProperty(value = "metrics config name")
     private String name;
 
     @ApiModelProperty(value = "metricsCode")
     private String metricsCode;
 
-    @ApiModelProperty(value = "createTypes")
-    private List<CreateTypeEnum> createTypes;
+    @ApiModelProperty(value = "metricsName")
+    private String metricsName;
 
-    @ApiModelProperty(value = "metricsParams")
-    private String metricsParams;
+    @ApiModelProperty(value = "metricsDescription")
+    private String metricsDesc;
+
+    @ApiModelProperty(value = "metricsDimensions")
+    private List<MetricsDimensionEnum> metricsDimensions;
 
     @ApiModelProperty(value = "subjectCategorys")
     private List<SubjectCategoryEnum> subjectCategorys;
 
     @ApiModelProperty(value = "sourceCategorys")
     private List<String> sourceCategorys;
-
-    @ApiModelProperty(value = "description")
-    private String description;
-
-    @ApiModelProperty(value = "metricsDimensions")
-    private List<MetricsDimensionEnum> metricsDimensions;
 
     @ApiModelProperty(value = "createStartTime")
     private Date createStartTime;
@@ -73,22 +69,6 @@ public class MetricsConfigConditionsRequestDTO extends PageRequestDTO {
         this.metricsCode = metricsCode;
     }
 
-    public List<CreateTypeEnum> getCreateTypes() {
-        return createTypes;
-    }
-
-    public void setCreateTypes(List<CreateTypeEnum> createTypes) {
-        this.createTypes = createTypes;
-    }
-
-    public String getMetricsParams() {
-        return metricsParams;
-    }
-
-    public void setMetricsParams(String metricsParams) {
-        this.metricsParams = metricsParams;
-    }
-
     public List<SubjectCategoryEnum> getSubjectCategorys() {
         return subjectCategorys;
     }
@@ -103,14 +83,6 @@ public class MetricsConfigConditionsRequestDTO extends PageRequestDTO {
 
     public void setSourceCategorys(List<String> sourceCategorys) {
         this.sourceCategorys = sourceCategorys;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public Date getCreateStartTime() {
@@ -143,5 +115,21 @@ public class MetricsConfigConditionsRequestDTO extends PageRequestDTO {
 
     public void setUpdateEndTime(Date updateEndTime) {
         this.updateEndTime = updateEndTime;
+    }
+
+    public String getMetricsName() {
+        return metricsName;
+    }
+
+    public void setMetricsName(String metricsName) {
+        this.metricsName = metricsName;
+    }
+
+    public String getMetricsDesc() {
+        return metricsDesc;
+    }
+
+    public void setMetricsDesc(String metricsDesc) {
+        this.metricsDesc = metricsDesc;
     }
 }

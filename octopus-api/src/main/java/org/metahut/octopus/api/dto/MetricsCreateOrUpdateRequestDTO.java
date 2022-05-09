@@ -21,7 +21,7 @@ public class MetricsCreateOrUpdateRequestDTO {
     @ApiModelProperty(value = "description")
     private String description;
 
-    @ApiModelProperty(value = "metricsDimension")
+    @ApiModelProperty(value = "metrics dimension")
     private MetricsDimensionEnum metricsDimension;
 
     public MetricsDimensionEnum getMetricsDimension() {

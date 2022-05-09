@@ -1,6 +1,7 @@
 package org.metahut.octopus.api.dto;
 
 import org.metahut.octopus.common.enums.CreateTypeEnum;
+import org.metahut.octopus.common.enums.MetricsDimensionEnum;
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 
 import io.swagger.annotations.ApiModel;
@@ -22,6 +23,15 @@ public class MetricsConfigResponseDTO {
     @ApiModelProperty(value = "metricsCode")
     private String metricsCode;
 
+    @ApiModelProperty(value = "metricsName")
+    private String metricsName;
+
+    @ApiModelProperty(value = "metrics description")
+    private String metricsDesc;
+
+    @ApiModelProperty(value = "metricsDimension")
+    private MetricsDimensionEnum metricsDimension;
+
     @ApiModelProperty(value = "createType")
     private CreateTypeEnum createType;
 
@@ -36,6 +46,12 @@ public class MetricsConfigResponseDTO {
 
     @ApiModelProperty(value = "description")
     private String description;
+
+    @ApiModelProperty(value = "computeMode")
+    private String computeMode;
+
+    @ApiModelProperty(value = "computeScript")
+    private String computeScript;
 
     @ApiModelProperty(value = "createTime")
     private Date createTime;
@@ -151,5 +167,45 @@ public class MetricsConfigResponseDTO {
 
     public void setUpdater(Integer updater) {
         this.updater = updater;
+    }
+
+    public String getMetricsName() {
+        return metricsName;
+    }
+
+    public void setMetricsName(String metricsName) {
+        this.metricsName = metricsName;
+    }
+
+    public String getMetricsDesc() {
+        return metricsDesc;
+    }
+
+    public void setMetricsDesc(String metricsDesc) {
+        this.metricsDesc = metricsDesc;
+    }
+
+    public MetricsDimensionEnum getMetricsDimension() {
+        return metricsDimension;
+    }
+
+    public void setMetricsDimension(MetricsDimensionEnum metricsDimension) {
+        this.metricsDimension = metricsDimension;
+    }
+
+    public String getComputeMode() {
+        return computeMode;
+    }
+
+    public void setComputeMode(String computeMode) {
+        this.computeMode = computeMode;
+    }
+
+    public String getComputeScript() {
+        return computeScript;
+    }
+
+    public void setComputeScript(String computeScript) {
+        this.computeScript = computeScript;
     }
 }
