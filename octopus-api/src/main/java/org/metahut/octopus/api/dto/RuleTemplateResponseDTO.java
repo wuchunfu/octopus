@@ -6,9 +6,7 @@ import org.metahut.octopus.common.enums.ThresholdUnitEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 @ApiModel(value = "ruleTemplate response")
 public class RuleTemplateResponseDTO {
@@ -18,26 +16,29 @@ public class RuleTemplateResponseDTO {
     @ApiModelProperty(value = "code")
     private Long code;
 
-    @ApiModelProperty(value = "templateName")
-    private String templateName;
+    @ApiModelProperty(value = "name")
+    private String name;
 
-    @ApiModelProperty(value = "metricsName")
-    private String metricsName;
+    @ApiModelProperty(value = "metricsCode")
+    private String metricsCode;
 
-    @ApiModelProperty(value = "subjectCategoryEnum")
-    private SubjectCategoryEnum subjectCategoryEnum;
+    @ApiModelProperty(value = "subjectCategory")
+    private SubjectCategoryEnum subjectCategory;
 
-    @ApiModelProperty(value = "verificationType")
-    private String verificationType;
+    @ApiModelProperty(value = "checkType")
+    private String checkType;
 
-    @ApiModelProperty(value = "verificationWay")
-    private String verificationWay;
+    @ApiModelProperty(value = "checkMethod")
+    private String checkMethod;
+
+    @ApiModelProperty(value = "comparisonMethod")
+    private String comparisonMethod;
 
     @ApiModelProperty(value = "thresholdUnit")
     private ThresholdUnitEnum thresholdUnit;
 
-    @ApiModelProperty(value = "thresholds")
-    private List<BigDecimal> thresholds;
+    @ApiModelProperty(value = "expectedValue")
+    private String expectedValue;
 
     @ApiModelProperty(value = "creator")
     private Integer creator;

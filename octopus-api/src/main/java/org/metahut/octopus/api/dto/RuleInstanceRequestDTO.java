@@ -7,7 +7,10 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(description = "rule create or update request dto")
-public class RuleInstanceRequestDTO {
+public class RuleInstanceRequestDTO extends PageRequestDTO {
+
+    @ApiModelProperty(value = "id")
+    private Integer id;
 
     @ApiModelProperty(value = "code")
     private Long code;

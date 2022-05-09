@@ -22,22 +22,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("rule")
 public interface RuleInstanceController {
 
-    @ApiOperation(value = "createRuleInstance",  notes = "CREATE_RULE_INSTANCE_NOTES")
+    @ApiOperation(value = "createRuleInstance", notes = "CREATE_RULE_INSTANCE_NOTES")
     @PostMapping
     ResultEntity<RuleInstanceResponseDTO> createRuleInstance(@RequestBody RuleInstanceRequestDTO ruleInstanceRequestDTO);
 
-    @ApiOperation(value = "deleteRuleInstance",  notes = "DELETE_RULE_INSTANCE_NOTES")
+    @ApiOperation(value = "deleteRuleInstance", notes = "DELETE_RULE_INSTANCE_NOTES")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "id", value = "RULE_INSTANCE_ID", required = true, dataType = "Integer", example = "1")
     })
     @DeleteMapping("/{id}")
-    ResultEntity<Boolean> deleteRuleInstance(@PathVariable(value = "id") Integer id);
+    ResultEntity deleteRuleInstance(@PathVariable(value = "id") Integer id);
 
-    @ApiOperation(value = "updateRuleInstance",  notes = "UPDATE_RULE_INSTANCE_NOTES")
+    @ApiOperation(value = "updateRuleInstance", notes = "UPDATE_RULE_INSTANCE_NOTES")
     @PutMapping("/{code}")
     ResultEntity<RuleInstanceResponseDTO> updateRuleInstance(@RequestBody RuleInstanceRequestDTO ruleInstanceRequestDTO);
 
-    @ApiOperation(value = "queryRuleInstancePage",  notes = "QUERY_RULE_INSTANCE_PAGE_NOTES")
+    @ApiOperation(value = "queryRuleInstancePage", notes = "QUERY_RULE_INSTANCE_PAGE_NOTES")
     @GetMapping("/queryListPage")
     ResultEntity<PageResponseDTO<RuleInstanceResponseDTO>> queryRuleInstancePage(RuleInstanceConditionRequestDTO ruleInstanceConditionRequestDTO);
 }

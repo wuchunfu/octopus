@@ -10,7 +10,7 @@ import java.util.Date;
 public class RuleInstanceResponseDTO {
 
     @ApiModelProperty(value = "id")
-    private Long id;
+    private Integer id;
 
     @ApiModelProperty(value = "code")
     private Long code;

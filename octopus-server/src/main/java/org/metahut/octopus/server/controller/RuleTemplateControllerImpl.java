@@ -17,7 +17,7 @@ public class RuleTemplateControllerImpl implements RuleTemplateController {
     }
 
     @Override
-    public ResultEntity<Boolean> deleteRuleTemplate(Integer id) {
+    public ResultEntity deleteRuleTemplate(Integer id) {
         return ResultEntity.success();
     }
 
