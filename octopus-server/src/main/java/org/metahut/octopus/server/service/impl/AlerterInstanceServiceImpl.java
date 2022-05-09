@@ -5,7 +5,7 @@ import org.metahut.octopus.api.dto.AlerterInstanceCreateRequestDTO;
 import org.metahut.octopus.api.dto.AlerterInstanceResponseDTO;
 import org.metahut.octopus.dao.entity.AlerterInstance;
 import org.metahut.octopus.dao.entity.AlerterInstance_;
-import org.metahut.octopus.dao.repository.AlerterInstanceRepositoty;
+import org.metahut.octopus.dao.repository.AlerterInstanceRepository;
 import org.metahut.octopus.server.alerter.AlerterPluginHelper;
 import org.metahut.octopus.server.service.AlerterInstanceService;
 
@@ -26,12 +26,12 @@ import java.util.List;
 @Service
 public class AlerterInstanceServiceImpl implements AlerterInstanceService {
 
-    private final AlerterInstanceRepositoty alerterInstanceRepositoty;
+    private final AlerterInstanceRepository alerterInstanceRepository;
     private final AlerterPluginHelper alerterPluginHelper;
     private final ConversionService conversionService;
 
-    public AlerterInstanceServiceImpl(AlerterInstanceRepositoty alerterInstanceRepositoty, AlerterPluginHelper alerterPluginHelper, ConversionService conversionService) {
-        this.alerterInstanceRepositoty = alerterInstanceRepositoty;
+    public AlerterInstanceServiceImpl(AlerterInstanceRepository alerterInstanceRepository, AlerterPluginHelper alerterPluginHelper, ConversionService conversionService) {
+        this.alerterInstanceRepository = alerterInstanceRepository;
         this.alerterPluginHelper = alerterPluginHelper;
         this.conversionService = conversionService;
     }
@@ -57,7 +57,7 @@ public class AlerterInstanceServiceImpl implements AlerterInstanceService {
             return builder.and(conditions.toArray(new Predicate[conditions.size()]));
         };
 
-        return alerterInstanceRepositoty.findAll(specification, pageable);
+        return alerterInstanceRepository.findAll(specification, pageable);
     }
 
     @Override
@@ -76,7 +76,7 @@ public class AlerterInstanceServiceImpl implements AlerterInstanceService {
             return builder.and(conditions.toArray(new Predicate[conditions.size()]));
         };
 
-        return alerterInstanceRepositoty.findAll(specification);
+        return alerterInstanceRepository.findAll(specification);
     }
 
     @Override
@@ -89,7 +89,7 @@ public class AlerterInstanceServiceImpl implements AlerterInstanceService {
         instance.setAlertType(alerterInstanceCreateRequestDTO.getType());
         instance.setAlertParams(alerterInstanceCreateRequestDTO.getType());
         instance.setName(alerterInstanceCreateRequestDTO.getName());
-        AlerterInstance save = alerterInstanceRepositoty.save(instance);
+        AlerterInstance save = alerterInstanceRepository.save(instance);
         return conversionService.convert(save, AlerterInstanceResponseDTO.class);
     }
 
@@ -99,6 +99,6 @@ public class AlerterInstanceServiceImpl implements AlerterInstanceService {
 
     @Override
     public void deleteById(Integer id) {
-        alerterInstanceRepositoty.deleteById(id);
+        alerterInstanceRepository.deleteById(id);
     }
 }

@@ -15,7 +15,7 @@ public class MetricsControllerImplTest {
 
     @Test
     public void testQueryAll() {
-        ResultEntity resultEntity = metricsController.queryAll(null);
+        ResultEntity resultEntity = metricsController.queryList(null);
         Assertions.assertEquals(200, resultEntity.getCode());
     }
 }

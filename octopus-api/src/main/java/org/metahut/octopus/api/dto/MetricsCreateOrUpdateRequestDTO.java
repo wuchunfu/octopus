@@ -9,6 +9,9 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(description = "metrics create or update request dto")
 public class MetricsCreateOrUpdateRequestDTO {
 
+    @ApiModelProperty(value = "id")
+    private Integer id;
+
     @ApiModelProperty(value = "code")
     private String code;
 
@@ -24,12 +27,12 @@ public class MetricsCreateOrUpdateRequestDTO {
     @ApiModelProperty(value = "metricsDimension")
     private MetricsDimensionEnum metricsDimension;
 
-    public MetricsDimensionEnum getMetricsDimension() {
-        return metricsDimension;
+    public Integer getId() {
+        return id;
     }
 
-    public void setMetricsDimension(MetricsDimensionEnum metricsDimension) {
-        this.metricsDimension = metricsDimension;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getCode() {
@@ -62,5 +65,13 @@ public class MetricsCreateOrUpdateRequestDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public MetricsDimensionEnum getMetricsDimension() {
+        return metricsDimension;
+    }
+
+    public void setMetricsDimension(MetricsDimensionEnum metricsDimension) {
+        this.metricsDimension = metricsDimension;
     }
 }
