@@ -9,6 +9,4 @@ import org.springframework.core.convert.converter.Converter;
 @Mapper(componentModel = "spring")
 public interface AlerterInstanceToDTOConverter extends Converter<AlerterInstance, AlerterInstanceResponseDTO> {
 
-    @Override
-    AlerterInstanceResponseDTO convert(AlerterInstance source);
 }
