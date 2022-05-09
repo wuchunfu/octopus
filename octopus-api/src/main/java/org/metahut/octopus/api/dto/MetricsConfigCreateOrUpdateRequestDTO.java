@@ -1,6 +1,7 @@
 package org.metahut.octopus.api.dto;
 
 import org.metahut.octopus.common.enums.CreateTypeEnum;
+import org.metahut.octopus.common.enums.MetricsDimensionEnum;
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 
 import io.swagger.annotations.ApiModel;
@@ -12,11 +13,14 @@ public class MetricsConfigCreateOrUpdateRequestDTO {
     @ApiModelProperty(value = "code")
     private Integer code;
 
-    @ApiModelProperty(value = "name")
-    private String name;
-
     @ApiModelProperty(value = "metricsCode")
     private String metricsCode;
+
+    @ApiModelProperty(value = "metricsName")
+    private String metricsName;
+
+    @ApiModelProperty(value = "metricsDimension")
+    private MetricsDimensionEnum metricsDimension;
 
     @ApiModelProperty(value = "createType")
     private CreateTypeEnum createType;
@@ -33,20 +37,19 @@ public class MetricsConfigCreateOrUpdateRequestDTO {
     @ApiModelProperty(value = "description")
     private String description;
 
+    @ApiModelProperty(value = "computeMode")
+    private String computeMode;
+
+    @ApiModelProperty(value = "computeScript")
+    private String computeScript;
+
+
     public Integer getCode() {
         return code;
     }
 
     public void setCode(Integer code) {
         this.code = code;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getMetricsCode() {
@@ -95,5 +98,37 @@ public class MetricsConfigCreateOrUpdateRequestDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getMetricsName() {
+        return metricsName;
+    }
+
+    public void setMetricsName(String metricsName) {
+        this.metricsName = metricsName;
+    }
+
+    public MetricsDimensionEnum getMetricsDimension() {
+        return metricsDimension;
+    }
+
+    public void setMetricsDimension(MetricsDimensionEnum metricsDimension) {
+        this.metricsDimension = metricsDimension;
+    }
+
+    public String getComputeMode() {
+        return computeMode;
+    }
+
+    public void setComputeMode(String computeMode) {
+        this.computeMode = computeMode;
+    }
+
+    public String getComputeScript() {
+        return computeScript;
+    }
+
+    public void setComputeScript(String computeScript) {
+        this.computeScript = computeScript;
     }
 }

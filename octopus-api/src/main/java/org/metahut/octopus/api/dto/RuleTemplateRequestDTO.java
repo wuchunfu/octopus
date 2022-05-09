@@ -13,7 +13,7 @@ public class RuleTemplateRequestDTO extends PageRequestDTO {
     private Integer id;
 
     @ApiModelProperty(value = "code")
-    private Long code;
+    private Integer code;
 
     @ApiModelProperty(value = "name")
     private String name;
@@ -50,5 +50,117 @@ public class RuleTemplateRequestDTO extends PageRequestDTO {
 
     @ApiModelProperty(value = "updateEndTime")
     private Date updateEndTime;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getMetricsCode() {
+        return metricsCode;
+    }
+
+    public void setMetricsCode(String metricsCode) {
+        this.metricsCode = metricsCode;
+    }
+
+    public SubjectCategoryEnum getSubjectCategory() {
+        return subjectCategory;
+    }
+
+    public void setSubjectCategory(SubjectCategoryEnum subjectCategory) {
+        this.subjectCategory = subjectCategory;
+    }
+
+    public String getCheckType() {
+        return checkType;
+    }
+
+    public void setCheckType(String checkType) {
+        this.checkType = checkType;
+    }
+
+    public String getCheckMethod() {
+        return checkMethod;
+    }
+
+    public void setCheckMethod(String checkMethod) {
+        this.checkMethod = checkMethod;
+    }
+
+    public String getComparisonMethod() {
+        return comparisonMethod;
+    }
+
+    public void setComparisonMethod(String comparisonMethod) {
+        this.comparisonMethod = comparisonMethod;
+    }
+
+    public ThresholdUnitEnum getThresholdUnit() {
+        return thresholdUnit;
+    }
+
+    public void setThresholdUnit(ThresholdUnitEnum thresholdUnit) {
+        this.thresholdUnit = thresholdUnit;
+    }
+
+    public String getExpectedValue() {
+        return expectedValue;
+    }
+
+    public void setExpectedValue(String expectedValue) {
+        this.expectedValue = expectedValue;
+    }
+
+    public Date getCreateStartTime() {
+        return createStartTime;
+    }
+
+    public void setCreateStartTime(Date createStartTime) {
+        this.createStartTime = createStartTime;
+    }
+
+    public Date getCreateEndTime() {
+        return createEndTime;
+    }
+
+    public void setCreateEndTime(Date createEndTime) {
+        this.createEndTime = createEndTime;
+    }
+
+    public Date getUpdateStartTime() {
+        return updateStartTime;
+    }
+
+    public void setUpdateStartTime(Date updateStartTime) {
+        this.updateStartTime = updateStartTime;
+    }
+
+    public Date getUpdateEndTime() {
+        return updateEndTime;
+    }
+
+    public void setUpdateEndTime(Date updateEndTime) {
+        this.updateEndTime = updateEndTime;
+    }
 
 }
