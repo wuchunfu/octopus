@@ -7,7 +7,6 @@ import org.metahut.octopus.engine.domain.RuleExecuteInstance;
 import org.metahut.octopus.engine.domain.SampleExecuteInstance;
 import org.metahut.octopus.engine.executor.ExecutorPluginHelper;
 import org.metahut.octopus.engine.parser.ParserPluginHelper;
-import org.metahut.octopus.executor.api.AbstractExecutor;
 import org.metahut.octopus.executor.api.IExecutor;
 import org.metahut.octopus.executor.api.IExecutorManager;
 import org.metahut.octopus.parser.api.IParser;
