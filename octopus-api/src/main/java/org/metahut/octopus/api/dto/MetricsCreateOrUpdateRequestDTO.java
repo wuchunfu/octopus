@@ -1,6 +1,5 @@
 package org.metahut.octopus.api.dto;
 
-import org.metahut.octopus.common.enums.MetricsCategoryEnum;
 import org.metahut.octopus.common.enums.MetricsDimensionEnum;
 
 import io.swagger.annotations.ApiModel;
@@ -9,6 +8,9 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(description = "metrics create or update request dto")
 public class MetricsCreateOrUpdateRequestDTO {
 
+    @ApiModelProperty(value = "id")
+    private Integer id;
+
     @ApiModelProperty(value = "code")
     private String code;
 
@@ -16,7 +18,7 @@ public class MetricsCreateOrUpdateRequestDTO {
     private String name;
 
     @ApiModelProperty(value = "category")
-    private MetricsCategoryEnum category;
+    private String category;
 
     @ApiModelProperty(value = "description")
     private String description;
@@ -24,12 +26,12 @@ public class MetricsCreateOrUpdateRequestDTO {
     @ApiModelProperty(value = "metrics dimension")
     private MetricsDimensionEnum metricsDimension;
 
-    public MetricsDimensionEnum getMetricsDimension() {
-        return metricsDimension;
+    public Integer getId() {
+        return id;
     }
 
-    public void setMetricsDimension(MetricsDimensionEnum metricsDimension) {
-        this.metricsDimension = metricsDimension;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getCode() {
@@ -48,11 +50,11 @@ public class MetricsCreateOrUpdateRequestDTO {
         this.name = name;
     }
 
-    public MetricsCategoryEnum getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(MetricsCategoryEnum category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
@@ -62,5 +64,13 @@ public class MetricsCreateOrUpdateRequestDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public MetricsDimensionEnum getMetricsDimension() {
+        return metricsDimension;
+    }
+
+    public void setMetricsDimension(MetricsDimensionEnum metricsDimension) {
+        this.metricsDimension = metricsDimension;
     }
 }

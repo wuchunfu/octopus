@@ -1,6 +1,5 @@
 package org.metahut.octopus.api.controller;
 
-import org.metahut.octopus.api.dto.PageRequestDTO;
 import org.metahut.octopus.api.dto.PageResponseDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
 import org.metahut.octopus.api.dto.RuleTemplateRequestDTO;

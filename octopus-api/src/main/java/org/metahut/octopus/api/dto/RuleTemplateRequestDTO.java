@@ -162,4 +162,5 @@ public class RuleTemplateRequestDTO extends PageRequestDTO {
     public void setUpdateEndTime(Date updateEndTime) {
         this.updateEndTime = updateEndTime;
     }
+
 }

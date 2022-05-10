@@ -15,6 +15,9 @@ public class MetricsConfigConditionsRequestDTO extends PageRequestDTO {
     @ApiModelProperty(value = "metrics config name")
     private String name;
 
+    @ApiModelProperty(value = "sourceCategories")
+    private List<String> sourceCategories;
+
     @ApiModelProperty(value = "metricsCode")
     private String metricsCode;
 
@@ -22,16 +25,13 @@ public class MetricsConfigConditionsRequestDTO extends PageRequestDTO {
     private String metricsName;
 
     @ApiModelProperty(value = "metricsDescription")
-    private String metricsDesc;
+    private String metricsDescription;
 
     @ApiModelProperty(value = "metricsDimensions")
     private List<MetricsDimensionEnum> metricsDimensions;
 
-    @ApiModelProperty(value = "subjectCategorys")
-    private List<SubjectCategoryEnum> subjectCategorys;
-
-    @ApiModelProperty(value = "sourceCategorys")
-    private List<String> sourceCategorys;
+    @ApiModelProperty(value = "subjectCategories")
+    private List<SubjectCategoryEnum> subjectCategories;
 
     @ApiModelProperty(value = "createStartTime")
     private Date createStartTime;
@@ -45,20 +45,20 @@ public class MetricsConfigConditionsRequestDTO extends PageRequestDTO {
     @ApiModelProperty(value = "updateEndTime")
     private Date updateEndTime;
 
-    public List<MetricsDimensionEnum> getMetricsDimensions() {
-        return metricsDimensions;
-    }
-
-    public void setMetricsDimensions(List<MetricsDimensionEnum> metricsDimensions) {
-        this.metricsDimensions = metricsDimensions;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<String> getSourceCategories() {
+        return sourceCategories;
+    }
+
+    public void setSourceCategories(List<String> sourceCategories) {
+        this.sourceCategories = sourceCategories;
     }
 
     public String getMetricsCode() {
@@ -69,20 +69,36 @@ public class MetricsConfigConditionsRequestDTO extends PageRequestDTO {
         this.metricsCode = metricsCode;
     }
 
-    public List<SubjectCategoryEnum> getSubjectCategorys() {
-        return subjectCategorys;
+    public String getMetricsName() {
+        return metricsName;
     }
 
-    public void setSubjectCategorys(List<SubjectCategoryEnum> subjectCategorys) {
-        this.subjectCategorys = subjectCategorys;
+    public void setMetricsName(String metricsName) {
+        this.metricsName = metricsName;
     }
 
-    public List<String> getSourceCategorys() {
-        return sourceCategorys;
+    public String getMetricsDescription() {
+        return metricsDescription;
     }
 
-    public void setSourceCategorys(List<String> sourceCategorys) {
-        this.sourceCategorys = sourceCategorys;
+    public void setMetricsDescription(String metricsDescription) {
+        this.metricsDescription = metricsDescription;
+    }
+
+    public List<MetricsDimensionEnum> getMetricsDimensions() {
+        return metricsDimensions;
+    }
+
+    public void setMetricsDimensions(List<MetricsDimensionEnum> metricsDimensions) {
+        this.metricsDimensions = metricsDimensions;
+    }
+
+    public List<SubjectCategoryEnum> getSubjectCategories() {
+        return subjectCategories;
+    }
+
+    public void setSubjectCategories(List<SubjectCategoryEnum> subjectCategories) {
+        this.subjectCategories = subjectCategories;
     }
 
     public Date getCreateStartTime() {
@@ -115,21 +131,5 @@ public class MetricsConfigConditionsRequestDTO extends PageRequestDTO {
 
     public void setUpdateEndTime(Date updateEndTime) {
         this.updateEndTime = updateEndTime;
-    }
-
-    public String getMetricsName() {
-        return metricsName;
-    }
-
-    public void setMetricsName(String metricsName) {
-        this.metricsName = metricsName;
-    }
-
-    public String getMetricsDesc() {
-        return metricsDesc;
-    }
-
-    public void setMetricsDesc(String metricsDesc) {
-        this.metricsDesc = metricsDesc;
     }
 }

@@ -10,6 +10,7 @@ public class MetricsParserParameter extends AbstractParserParameter {
     private String filter;
     private String metricsParams;
     private String metricsUniqueKey;
+    private String rules;
 
     @Override
     public boolean checkParameter() {
@@ -62,5 +63,13 @@ public class MetricsParserParameter extends AbstractParserParameter {
 
     public void setMetricsUniqueKey(String metricsUniqueKey) {
         this.metricsUniqueKey = metricsUniqueKey;
+    }
+
+    public String getRules() {
+        return rules;
+    }
+
+    public void setRules(String rules) {
+        this.rules = rules;
     }
 }

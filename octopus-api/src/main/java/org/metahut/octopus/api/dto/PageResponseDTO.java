@@ -17,6 +17,15 @@ public class PageResponseDTO<T> {
     @ApiModelProperty(value = "data")
     private List<T> data;
 
+    public static <T> PageResponseDTO of(Integer pageNo, Integer pageSize, Integer total, List<T> data) {
+        PageResponseDTO response = new PageResponseDTO<>();
+        response.setPageNo(pageNo);
+        response.setPageSize(pageSize);
+        response.setTotal(total);
+        response.setData(data);
+        return response;
+    }
+
     public Integer getPageNo() {
         return pageNo;
     }

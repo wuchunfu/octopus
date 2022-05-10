@@ -6,6 +6,7 @@ import org.metahut.octopus.api.dto.MetricsConfigCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.MetricsConfigResponseDTO;
 import org.metahut.octopus.api.dto.PageResponseDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
+import org.metahut.octopus.server.service.MetricsConfigService;
 
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,28 +15,35 @@ import java.util.List;
 @RestController
 public class MetricsConfigControllerImpl implements MetricsConfigController {
 
+    private final MetricsConfigService metricsConfigService;
+
+    public MetricsConfigControllerImpl(MetricsConfigService metricsConfigService) {
+        this.metricsConfigService = metricsConfigService;
+    }
+
     @Override
-    public ResultEntity<List<MetricsConfigResponseDTO>> queryAll() {
-        return ResultEntity.success();
+    public ResultEntity<List<MetricsConfigResponseDTO>> queryList(MetricsConfigConditionsRequestDTO metricsConfigConditionsRequestDTO) {
+        return ResultEntity.success(metricsConfigService.findList(metricsConfigConditionsRequestDTO));
     }
 
     @Override
     public ResultEntity<PageResponseDTO<MetricsConfigResponseDTO>> queryListPage(MetricsConfigConditionsRequestDTO metricsConfigConditionsRequestDTO) {
-        return ResultEntity.success();
+        return ResultEntity.success(metricsConfigService.queryListPage(metricsConfigConditionsRequestDTO));
     }
 
     @Override
     public ResultEntity<MetricsConfigResponseDTO> create(MetricsConfigCreateOrUpdateRequestDTO metricsConfigCreateOrUpdateRequestDTO) {
-        return ResultEntity.success();
+        return ResultEntity.success(metricsConfigService.createOrUpdate(metricsConfigCreateOrUpdateRequestDTO));
     }
 
     @Override
     public ResultEntity<MetricsConfigResponseDTO> update(MetricsConfigCreateOrUpdateRequestDTO metricsConfigCreateOrUpdateRequestDTO) {
-        return ResultEntity.success();
+        return ResultEntity.success(metricsConfigService.createOrUpdate(metricsConfigCreateOrUpdateRequestDTO));
     }
 
     @Override
     public ResultEntity deleteById(Integer id) {
+        metricsConfigService.deleteById(id);
         return ResultEntity.success();
     }
 }

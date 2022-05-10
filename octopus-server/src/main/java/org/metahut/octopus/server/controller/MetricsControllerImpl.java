@@ -15,34 +15,39 @@ import java.util.List;
 @RestController
 public class MetricsControllerImpl implements MetricsController {
 
-    private MetricsService metricsService;
+    private final MetricsService metricsService;
 
     public MetricsControllerImpl(MetricsService metricsService) {
         this.metricsService = metricsService;
     }
 
     @Override
-    public ResultEntity<List<MetricsResponseDTO>> queryAll(MetricsConditionsRequestDTO requestDTO) {
-        return ResultEntity.success(metricsService.findAll(requestDTO));
+    public ResultEntity<List<MetricsResponseDTO>> queryList(MetricsConditionsRequestDTO requestDTO) {
+        return ResultEntity.success(metricsService.findList(requestDTO));
     }
 
     @Override
     public ResultEntity<PageResponseDTO<MetricsResponseDTO>> queryListPage(MetricsConditionsRequestDTO metricsConditionsRequestDTO) {
-        return ResultEntity.success();
+        return ResultEntity.success(metricsService.queryListPage(metricsConditionsRequestDTO));
     }
 
     @Override
     public ResultEntity<MetricsResponseDTO> create(MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO) {
-        return ResultEntity.success();
+        // check parameter
+
+        return ResultEntity.success(metricsService.createOrUpdate(metricsCreateOrUpdateRequestDTO));
     }
 
     @Override
     public ResultEntity<MetricsResponseDTO> update(MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO) {
-        return ResultEntity.success();
+        // check parameter
+
+        return ResultEntity.success(metricsService.createOrUpdate(metricsCreateOrUpdateRequestDTO));
     }
 
     @Override
     public ResultEntity deleteById(Integer id) {
+        metricsService.deleteById(id);
         return ResultEntity.success();
     }
 }

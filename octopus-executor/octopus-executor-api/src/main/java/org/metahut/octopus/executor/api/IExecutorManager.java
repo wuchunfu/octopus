@@ -5,4 +5,6 @@ public interface IExecutorManager {
     String getType();
 
     AbstractExecutor generateInstance(String parameter);
+
+    boolean isLazyRunMode();
 }

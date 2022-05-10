@@ -3,11 +3,14 @@ package org.metahut.octopus.dao.entity;
 import org.metahut.octopus.common.enums.CreateTypeEnum;
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import java.util.Date;
@@ -24,7 +27,9 @@ public class MetricsConfig {
 
     private String name;
 
-    private String metricsCode;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "metrics_code", referencedColumnName = "code")
+    private Metrics metrics;
 
     @Enumerated(value = EnumType.STRING)
     private CreateTypeEnum createType;
@@ -74,12 +79,12 @@ public class MetricsConfig {
         this.name = name;
     }
 
-    public String getMetricsCode() {
-        return metricsCode;
+    public Metrics getMetrics() {
+        return metrics;
     }
 
-    public void setMetricsCode(String metricsCode) {
-        this.metricsCode = metricsCode;
+    public void setMetrics(Metrics metrics) {
+        this.metrics = metrics;
     }
 
     public CreateTypeEnum getCreateType() {

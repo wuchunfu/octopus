@@ -1,0 +1,18 @@
+package org.metahut.octopus.server.service;
+
+import org.metahut.octopus.api.dto.MetricsConfigConditionsRequestDTO;
+import org.metahut.octopus.api.dto.MetricsConfigCreateOrUpdateRequestDTO;
+import org.metahut.octopus.api.dto.MetricsConfigResponseDTO;
+import org.metahut.octopus.api.dto.PageResponseDTO;
+
+import java.util.List;
+
+public interface MetricsConfigService {
+    List<MetricsConfigResponseDTO> findList(MetricsConfigConditionsRequestDTO requestDTO);
+
+    PageResponseDTO<MetricsConfigResponseDTO> queryListPage(MetricsConfigConditionsRequestDTO requestDTO);
+
+    MetricsConfigResponseDTO createOrUpdate(MetricsConfigCreateOrUpdateRequestDTO metricsConfigCreateOrUpdateRequestDTO);
+
+    void deleteById(Integer id);
+}

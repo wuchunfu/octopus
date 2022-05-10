@@ -8,7 +8,6 @@ import org.metahut.octopus.api.dto.ResultEntity;
 import org.metahut.octopus.api.dto.RuleInstanceConditionRequestDTO;
 import org.metahut.octopus.api.dto.RuleInstanceRequestDTO;
 import org.metahut.octopus.api.dto.RuleInstanceResponseDTO;
-import org.metahut.octopus.api.dto.SampleInstanceRequestDTO;
 import org.metahut.octopus.api.dto.SampleInstanceResponseDTO;
 
 import org.springframework.web.bind.annotation.RestController;

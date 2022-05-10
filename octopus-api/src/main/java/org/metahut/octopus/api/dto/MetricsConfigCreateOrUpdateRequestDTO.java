@@ -1,7 +1,5 @@
 package org.metahut.octopus.api.dto;
 
-import org.metahut.octopus.common.enums.CreateTypeEnum;
-import org.metahut.octopus.common.enums.MetricsDimensionEnum;
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 
 import io.swagger.annotations.ApiModel;
@@ -10,20 +8,23 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(description = "metrics config create or update request dto")
 public class MetricsConfigCreateOrUpdateRequestDTO {
 
+    @ApiModelProperty(value = "id")
+    private Integer id;
+
+    @ApiModelProperty(value = "sourceCategory")
+    private String sourceCategory;
+
     @ApiModelProperty(value = "code")
     private Integer code;
 
     @ApiModelProperty(value = "metricsCode")
     private String metricsCode;
 
-    @ApiModelProperty(value = "metricsName")
-    private String metricsName;
+    //@ApiModelProperty(value = "executorType")
+    //private String executorType;
 
-    @ApiModelProperty(value = "metricsDimension")
-    private MetricsDimensionEnum metricsDimension;
-
-    @ApiModelProperty(value = "createType")
-    private CreateTypeEnum createType;
+    //@ApiModelProperty(value = "executorScript")
+    //private String executorScript;
 
     @ApiModelProperty(value = "metricsParams")
     private String metricsParams;
@@ -31,18 +32,24 @@ public class MetricsConfigCreateOrUpdateRequestDTO {
     @ApiModelProperty(value = "subjectCategory")
     private SubjectCategoryEnum subjectCategory;
 
-    @ApiModelProperty(value = "sourceCategory")
-    private String sourceCategory;
-
     @ApiModelProperty(value = "description")
     private String description;
 
-    @ApiModelProperty(value = "computeMode")
-    private String computeMode;
+    public Integer getId() {
+        return id;
+    }
 
-    @ApiModelProperty(value = "computeScript")
-    private String computeScript;
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
+    public String getSourceCategory() {
+        return sourceCategory;
+    }
+
+    public void setSourceCategory(String sourceCategory) {
+        this.sourceCategory = sourceCategory;
+    }
 
     public Integer getCode() {
         return code;
@@ -58,14 +65,6 @@ public class MetricsConfigCreateOrUpdateRequestDTO {
 
     public void setMetricsCode(String metricsCode) {
         this.metricsCode = metricsCode;
-    }
-
-    public CreateTypeEnum getCreateType() {
-        return createType;
-    }
-
-    public void setCreateType(CreateTypeEnum createType) {
-        this.createType = createType;
     }
 
     public String getMetricsParams() {
@@ -84,51 +83,11 @@ public class MetricsConfigCreateOrUpdateRequestDTO {
         this.subjectCategory = subjectCategory;
     }
 
-    public String getSourceCategory() {
-        return sourceCategory;
-    }
-
-    public void setSourceCategory(String sourceCategory) {
-        this.sourceCategory = sourceCategory;
-    }
-
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getMetricsName() {
-        return metricsName;
-    }
-
-    public void setMetricsName(String metricsName) {
-        this.metricsName = metricsName;
-    }
-
-    public MetricsDimensionEnum getMetricsDimension() {
-        return metricsDimension;
-    }
-
-    public void setMetricsDimension(MetricsDimensionEnum metricsDimension) {
-        this.metricsDimension = metricsDimension;
-    }
-
-    public String getComputeMode() {
-        return computeMode;
-    }
-
-    public void setComputeMode(String computeMode) {
-        this.computeMode = computeMode;
-    }
-
-    public String getComputeScript() {
-        return computeScript;
-    }
-
-    public void setComputeScript(String computeScript) {
-        this.computeScript = computeScript;
     }
 }

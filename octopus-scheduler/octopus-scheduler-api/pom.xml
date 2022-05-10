@@ -3,18 +3,12 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>octopus-executor</artifactId>
+        <artifactId>octopus-scheduler</artifactId>
         <groupId>org.metahut.octopus</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>octopus-executor-flink</artifactId>
+    <artifactId>octopus-scheduler-api</artifactId>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.metahut.octopus</groupId>
-            <artifactId>octopus-executor-api</artifactId>
-        </dependency>
-    </dependencies>
 </project>

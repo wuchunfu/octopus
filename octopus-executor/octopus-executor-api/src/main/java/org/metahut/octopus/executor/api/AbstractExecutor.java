@@ -1,9 +1,8 @@
 package org.metahut.octopus.executor.api;
 
-public abstract class AbstractExecutor {
+public abstract class AbstractExecutor implements IExecutor {
 
-    public abstract void execute();
-
+    @Override
     public void addTransform(String script) {
 
     }

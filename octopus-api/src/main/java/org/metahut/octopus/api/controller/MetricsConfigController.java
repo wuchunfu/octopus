@@ -3,7 +3,6 @@ package org.metahut.octopus.api.controller;
 import org.metahut.octopus.api.dto.MetricsConfigConditionsRequestDTO;
 import org.metahut.octopus.api.dto.MetricsConfigCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.MetricsConfigResponseDTO;
-import org.metahut.octopus.api.dto.PageRequestDTO;
 import org.metahut.octopus.api.dto.PageResponseDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
 
@@ -26,8 +25,8 @@ import java.util.List;
 public interface MetricsConfigController {
 
     @ApiOperation(value = "queryAll", notes = "QUERY_ALL_NOTES")
-    @GetMapping("queryAll")
-    ResultEntity<List<MetricsConfigResponseDTO>> queryAll();
+    @GetMapping("queryList")
+    ResultEntity<List<MetricsConfigResponseDTO>> queryList(MetricsConfigConditionsRequestDTO metricsConfigConditionsRequestDTO);
 
     @ApiOperation(value = "queryListPage", notes = "QUERY_METRICS_CONFIG_LIST_PAGE_NOTES")
     @GetMapping("queryListPage")

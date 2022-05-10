@@ -178,9 +178,9 @@ public class UserRepositoryTest  {
         Sort.TypedSort<User> typedSort = Sort.sort(User.class);
         Sort sort = typedSort.by(User::getUpdateTime).descending()
                 .and(typedSort.by(User::getId)).ascending();
-        PageRequest of = PageRequest.of(0, 2, sort);
+        PageRequest of = PageRequest.of(1, 2, sort);
         Page<User> mr = userRepositoryExtension.findAll((Specification<User>) (root, query, builder) -> {
-            return builder.like(root.get(User_.name), "%Mr%");
+            return builder.like(root.get(User_.name), "%Mr.W%");
         }, of);
         Assertions.assertTrue(mr.getTotalElements() == 2);
     }
