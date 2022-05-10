@@ -10,24 +10,22 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import java.util.Date;
 
 @Entity
 @Table(name = "tb_octopus_metrics_config")
-public class MetricsConfig {
+public class MetricsConfig extends BaseEntity {
 
     @Id
     @GeneratedValue
     private Integer id;
 
-    private Integer code;
+    private Long code;
 
     private String name;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "metrics_code", referencedColumnName = "code")
     private Metrics metrics;
 
@@ -43,18 +41,6 @@ public class MetricsConfig {
 
     private String description;
 
-    private String computeMode;
-
-    private String computeScript;
-
-    private Date createTime;
-
-    private Date updateTime;
-
-    private Integer creator;
-
-    private Integer updater;
-
     public Integer getId() {
         return id;
     }
@@ -63,11 +49,11 @@ public class MetricsConfig {
         this.id = id;
     }
 
-    public Integer getCode() {
+    public Long getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(Long code) {
         this.code = code;
     }
 
@@ -111,46 +97,6 @@ public class MetricsConfig {
         this.subjectCategory = subjectCategory;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Integer getCreator() {
-        return creator;
-    }
-
-    public void setCreator(Integer creator) {
-        this.creator = creator;
-    }
-
-    public Integer getUpdater() {
-        return updater;
-    }
-
-    public void setUpdater(Integer updater) {
-        this.updater = updater;
-    }
-
     public String getSourceCategory() {
         return sourceCategory;
     }
@@ -159,19 +105,11 @@ public class MetricsConfig {
         this.sourceCategory = sourceCategory;
     }
 
-    public String getComputeMode() {
-        return computeMode;
+    public String getDescription() {
+        return description;
     }
 
-    public void setComputeMode(String computeMode) {
-        this.computeMode = computeMode;
-    }
-
-    public String getComputeScript() {
-        return computeScript;
-    }
-
-    public void setComputeScript(String computeScript) {
-        this.computeScript = computeScript;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

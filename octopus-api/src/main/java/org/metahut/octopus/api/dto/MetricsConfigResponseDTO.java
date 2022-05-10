@@ -1,7 +1,6 @@
 package org.metahut.octopus.api.dto;
 
 import org.metahut.octopus.common.enums.CreateTypeEnum;
-import org.metahut.octopus.common.enums.MetricsDimensionEnum;
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 
 import io.swagger.annotations.ApiModel;
@@ -15,22 +14,19 @@ public class MetricsConfigResponseDTO {
     private Integer id;
 
     @ApiModelProperty(value = "code")
-    private Integer code;
+    private Long code;
 
     @ApiModelProperty(value = "name")
     private String name;
 
-    @ApiModelProperty(value = "metricsCode")
-    private String metricsCode;
+    @ApiModelProperty(value = "sourceCategory")
+    private String sourceCategory;
 
-    @ApiModelProperty(value = "metricsName")
-    private String metricsName;
+    @ApiModelProperty(value = "metrics")
+    private MetricsResponseDTO metrics;
 
-    @ApiModelProperty(value = "metrics description")
-    private String metricsDesc;
-
-    @ApiModelProperty(value = "metricsDimension")
-    private MetricsDimensionEnum metricsDimension;
+    @ApiModelProperty(value = "subjectCategory")
+    private SubjectCategoryEnum subjectCategory;
 
     @ApiModelProperty(value = "createType")
     private CreateTypeEnum createType;
@@ -38,20 +34,8 @@ public class MetricsConfigResponseDTO {
     @ApiModelProperty(value = "metricsParams")
     private String metricsParams;
 
-    @ApiModelProperty(value = "subjectCategory")
-    private SubjectCategoryEnum subjectCategory;
-
-    @ApiModelProperty(value = "sourceCategory")
-    private String sourceCategory;
-
     @ApiModelProperty(value = "description")
     private String description;
-
-    @ApiModelProperty(value = "computeMode")
-    private String computeMode;
-
-    @ApiModelProperty(value = "computeScript")
-    private String computeScript;
 
     @ApiModelProperty(value = "createTime")
     private Date createTime;
@@ -73,11 +57,11 @@ public class MetricsConfigResponseDTO {
         this.id = id;
     }
 
-    public Integer getCode() {
+    public Long getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(Long code) {
         this.code = code;
     }
 
@@ -89,12 +73,28 @@ public class MetricsConfigResponseDTO {
         this.name = name;
     }
 
-    public String getMetricsCode() {
-        return metricsCode;
+    public String getSourceCategory() {
+        return sourceCategory;
     }
 
-    public void setMetricsCode(String metricsCode) {
-        this.metricsCode = metricsCode;
+    public void setSourceCategory(String sourceCategory) {
+        this.sourceCategory = sourceCategory;
+    }
+
+    public MetricsResponseDTO getMetrics() {
+        return metrics;
+    }
+
+    public void setMetrics(MetricsResponseDTO metrics) {
+        this.metrics = metrics;
+    }
+
+    public SubjectCategoryEnum getSubjectCategory() {
+        return subjectCategory;
+    }
+
+    public void setSubjectCategory(SubjectCategoryEnum subjectCategory) {
+        this.subjectCategory = subjectCategory;
     }
 
     public CreateTypeEnum getCreateType() {
@@ -111,22 +111,6 @@ public class MetricsConfigResponseDTO {
 
     public void setMetricsParams(String metricsParams) {
         this.metricsParams = metricsParams;
-    }
-
-    public SubjectCategoryEnum getSubjectCategory() {
-        return subjectCategory;
-    }
-
-    public void setSubjectCategory(SubjectCategoryEnum subjectCategory) {
-        this.subjectCategory = subjectCategory;
-    }
-
-    public String getSourceCategory() {
-        return sourceCategory;
-    }
-
-    public void setSourceCategory(String sourceCategory) {
-        this.sourceCategory = sourceCategory;
     }
 
     public String getDescription() {
@@ -167,45 +151,5 @@ public class MetricsConfigResponseDTO {
 
     public void setUpdater(Integer updater) {
         this.updater = updater;
-    }
-
-    public String getMetricsName() {
-        return metricsName;
-    }
-
-    public void setMetricsName(String metricsName) {
-        this.metricsName = metricsName;
-    }
-
-    public String getMetricsDesc() {
-        return metricsDesc;
-    }
-
-    public void setMetricsDesc(String metricsDesc) {
-        this.metricsDesc = metricsDesc;
-    }
-
-    public MetricsDimensionEnum getMetricsDimension() {
-        return metricsDimension;
-    }
-
-    public void setMetricsDimension(MetricsDimensionEnum metricsDimension) {
-        this.metricsDimension = metricsDimension;
-    }
-
-    public String getComputeMode() {
-        return computeMode;
-    }
-
-    public void setComputeMode(String computeMode) {
-        this.computeMode = computeMode;
-    }
-
-    public String getComputeScript() {
-        return computeScript;
-    }
-
-    public void setComputeScript(String computeScript) {
-        this.computeScript = computeScript;
     }
 }

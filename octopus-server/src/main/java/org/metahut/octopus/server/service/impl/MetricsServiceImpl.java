@@ -9,10 +9,12 @@ import org.metahut.octopus.dao.entity.Metrics;
 import org.metahut.octopus.dao.entity.Metrics_;
 import org.metahut.octopus.dao.repository.MetricsRepository;
 import org.metahut.octopus.server.service.MetricsService;
+import org.metahut.octopus.server.utils.Assert;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.convert.ConversionService;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +26,9 @@ import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+
+import static org.metahut.octopus.common.enums.StatusEnum.METRICS_NOT_EXIST;
 
 @Service
 public class MetricsServiceImpl implements MetricsService {
@@ -34,6 +39,15 @@ public class MetricsServiceImpl implements MetricsService {
     public MetricsServiceImpl(MetricsRepository metricsRepository, ConversionService conversionService) {
         this.metricsRepository = metricsRepository;
         this.conversionService = conversionService;
+    }
+
+    @Override
+    public Metrics findOneByCode(String metricsCode) {
+        Metrics metrics = new Metrics();
+        metrics.setCode(metricsCode);
+        Optional<Metrics> optional = metricsRepository.findOne(Example.of(metrics));
+        Assert.notPresent(optional, METRICS_NOT_EXIST, new String[] {metricsCode});
+        return optional.get();
     }
 
     @Override

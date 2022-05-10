@@ -1,5 +1,6 @@
 package org.metahut.octopus.api.dto;
 
+import org.metahut.octopus.common.enums.CreateTypeEnum;
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 
 import io.swagger.annotations.ApiModel;
@@ -15,10 +16,13 @@ public class MetricsConfigCreateOrUpdateRequestDTO {
     private String sourceCategory;
 
     @ApiModelProperty(value = "code")
-    private Integer code;
+    private Long code;
 
     @ApiModelProperty(value = "metricsCode")
     private String metricsCode;
+
+    @ApiModelProperty(value = "createType")
+    private CreateTypeEnum createType;
 
     //@ApiModelProperty(value = "executorType")
     //private String executorType;
@@ -51,11 +55,11 @@ public class MetricsConfigCreateOrUpdateRequestDTO {
         this.sourceCategory = sourceCategory;
     }
 
-    public Integer getCode() {
+    public Long getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(Long code) {
         this.code = code;
     }
 
@@ -65,6 +69,14 @@ public class MetricsConfigCreateOrUpdateRequestDTO {
 
     public void setMetricsCode(String metricsCode) {
         this.metricsCode = metricsCode;
+    }
+
+    public CreateTypeEnum getCreateType() {
+        return createType;
+    }
+
+    public void setCreateType(CreateTypeEnum createType) {
+        this.createType = createType;
     }
 
     public String getMetricsParams() {

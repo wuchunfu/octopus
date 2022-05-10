@@ -3,7 +3,9 @@ package org.metahut.octopus.common.enums;
 public enum StatusEnum {
 
     SUCCESS(200, "success"),
-    UNKNOWN_EXCEPTION(10000, "UNKNOWN_EXCEPTION")
+    UNKNOWN_EXCEPTION(10000, "UNKNOWN_EXCEPTION"),
+
+    METRICS_NOT_EXIST(20001, "METRICS_NOT_EXIST")
     ;
 
     private int code;

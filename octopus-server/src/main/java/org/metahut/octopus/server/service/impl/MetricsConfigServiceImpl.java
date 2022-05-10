@@ -12,6 +12,7 @@ import org.metahut.octopus.dao.entity.MetricsConfig_;
 import org.metahut.octopus.dao.entity.Metrics_;
 import org.metahut.octopus.dao.repository.MetricsConfigRepository;
 import org.metahut.octopus.server.service.MetricsConfigService;
+import org.metahut.octopus.server.service.MetricsService;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -35,10 +36,12 @@ public class MetricsConfigServiceImpl implements MetricsConfigService {
 
     private final MetricsConfigRepository metricsConfigRepository;
     private final ConversionService conversionService;
+    private final MetricsService metricsService;
 
-    public MetricsConfigServiceImpl(MetricsConfigRepository metricsConfigRepository, ConversionService conversionService) {
+    public MetricsConfigServiceImpl(MetricsConfigRepository metricsConfigRepository, ConversionService conversionService, MetricsService metricsService) {
         this.metricsConfigRepository = metricsConfigRepository;
         this.conversionService = conversionService;
+        this.metricsService = metricsService;
     }
 
     @Override
@@ -103,7 +106,9 @@ public class MetricsConfigServiceImpl implements MetricsConfigService {
 
     @Override
     public MetricsConfigResponseDTO createOrUpdate(MetricsConfigCreateOrUpdateRequestDTO metricsConfigCreateOrUpdateRequestDTO) {
+        Metrics metrics = metricsService.findOneByCode(metricsConfigCreateOrUpdateRequestDTO.getMetricsCode());
         MetricsConfig convert = conversionService.convert(metricsConfigCreateOrUpdateRequestDTO, MetricsConfig.class);
+        convert.setMetrics(metrics);
         MetricsConfig save = metricsConfigRepository.save(convert);
         return conversionService.convert(save, MetricsConfigResponseDTO.class);
     }

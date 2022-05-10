@@ -24,7 +24,7 @@ import java.util.List;
 @RequestMapping("metrics")
 public interface MetricsController {
 
-    @ApiOperation(value = "queryList", notes = "QUERY_ALL_NOTES")
+    @ApiOperation(value = "queryList", notes = "QUERY_LIST_NOTES")
     @GetMapping("queryList")
     ResultEntity<List<MetricsResponseDTO>> queryList(MetricsConditionsRequestDTO requestDTO);
 

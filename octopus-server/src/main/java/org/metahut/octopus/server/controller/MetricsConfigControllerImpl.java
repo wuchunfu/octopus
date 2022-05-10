@@ -7,6 +7,7 @@ import org.metahut.octopus.api.dto.MetricsConfigResponseDTO;
 import org.metahut.octopus.api.dto.PageResponseDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
 import org.metahut.octopus.server.service.MetricsConfigService;
+import org.metahut.octopus.server.utils.SnowflakeIdGenerator;
 
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,6 +34,7 @@ public class MetricsConfigControllerImpl implements MetricsConfigController {
 
     @Override
     public ResultEntity<MetricsConfigResponseDTO> create(MetricsConfigCreateOrUpdateRequestDTO metricsConfigCreateOrUpdateRequestDTO) {
+        metricsConfigCreateOrUpdateRequestDTO.setCode(SnowflakeIdGenerator.getInstance().nextId());
         return ResultEntity.success(metricsConfigService.createOrUpdate(metricsConfigCreateOrUpdateRequestDTO));
     }
 

@@ -9,11 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import java.util.Date;
-
 @Entity
 @Table(name = "tb_octopus_metrics")
-public class Metrics {
+public class Metrics extends BaseEntity {
 
     @Id
     @GeneratedValue
@@ -29,14 +27,6 @@ public class Metrics {
 
     @Enumerated(value = EnumType.STRING)
     private MetricsDimensionEnum metricsDimension;
-
-    private Date createTime;
-
-    private Date updateTime;
-
-    private Integer creator;
-
-    private Integer updater;
 
     public Integer getId() {
         return id;
@@ -76,38 +66,6 @@ public class Metrics {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Integer getCreator() {
-        return creator;
-    }
-
-    public void setCreator(Integer creator) {
-        this.creator = creator;
-    }
-
-    public Integer getUpdater() {
-        return updater;
-    }
-
-    public void setUpdater(Integer updater) {
-        this.updater = updater;
     }
 
     public MetricsDimensionEnum getMetricsDimension() {
