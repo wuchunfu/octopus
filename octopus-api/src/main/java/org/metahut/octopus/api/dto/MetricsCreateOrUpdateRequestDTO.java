@@ -1,6 +1,5 @@
 package org.metahut.octopus.api.dto;
 
-import org.metahut.octopus.common.enums.MetricsCategoryEnum;
 import org.metahut.octopus.common.enums.MetricsDimensionEnum;
 
 import io.swagger.annotations.ApiModel;
@@ -19,7 +18,7 @@ public class MetricsCreateOrUpdateRequestDTO {
     private String name;
 
     @ApiModelProperty(value = "category")
-    private MetricsCategoryEnum category;
+    private String category;
 
     @ApiModelProperty(value = "description")
     private String description;
@@ -51,11 +50,11 @@ public class MetricsCreateOrUpdateRequestDTO {
         this.name = name;
     }
 
-    public MetricsCategoryEnum getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(MetricsCategoryEnum category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
