@@ -1,6 +1,5 @@
 package org.metahut.octopus.server.controller;
 
-import org.junit.jupiter.api.Disabled;
 import org.metahut.octopus.api.dto.MetricsConfigConditionsRequestDTO;
 import org.metahut.octopus.api.dto.MetricsConfigCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.MetricsConfigResponseDTO;
@@ -17,7 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-@Disabled
 @SpringBootTest
 public class MetricsConfigControllerImplTest {
 
@@ -75,7 +73,8 @@ public class MetricsConfigControllerImplTest {
         MetricsConfigResponseDTO createData = create(requestDTO);
 
         MetricsConfigCreateOrUpdateRequestDTO updateRequestDTO = JSONUtils.parseObject(JSONUtils.toJSONString(createData), MetricsConfigCreateOrUpdateRequestDTO.class);
-        String updateStr = "HBase";
+        String updateStr = "HBase1";
+        updateRequestDTO.setMetricsCode(createData.getMetrics().getCode());
         updateRequestDTO.setSourceCategory(updateStr);
         updateRequestDTO.setDescription(updateStr);
         ResultEntity<MetricsConfigResponseDTO> update = metricsConfigController.update(updateRequestDTO);
@@ -94,16 +93,16 @@ public class MetricsConfigControllerImplTest {
 
         MetricsConfigCreateOrUpdateRequestDTO requestDTO1 = new MetricsConfigCreateOrUpdateRequestDTO();
         requestDTO1.setMetricsCode(metrics.getCode());
-        requestDTO1.setSourceCategory("Hive");
+        requestDTO1.setSourceCategory("Hive2");
         create(requestDTO1);
 
         MetricsConfigCreateOrUpdateRequestDTO requestDTO2 = new MetricsConfigCreateOrUpdateRequestDTO();
         requestDTO2.setMetricsCode(metrics.getCode());
-        requestDTO2.setSourceCategory("HBase");
+        requestDTO2.setSourceCategory("HBase2");
         create(requestDTO2);
 
         MetricsConfigConditionsRequestDTO conditionsRequestDTO = new MetricsConfigConditionsRequestDTO();
-        conditionsRequestDTO.setMetricsCode("c_count2");
+        conditionsRequestDTO.setMetricsCode(metrics.getCode());
         ResultEntity<List<MetricsConfigResponseDTO>> result = metricsConfigController.queryList(conditionsRequestDTO);
         Assertions.assertTrue(result.isSuccess());
         List<MetricsConfigResponseDTO> data = result.getData();
@@ -113,25 +112,42 @@ public class MetricsConfigControllerImplTest {
     @Test
     public void testQueryListPage() {
         MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO = new MetricsCreateOrUpdateRequestDTO();
-        metricsCreateOrUpdateRequestDTO.setCode("x");
+        metricsCreateOrUpdateRequestDTO.setCode("c_count3");
         metricsCreateOrUpdateRequestDTO.setName("c_count3");
         MetricsResponseDTO metrics = createMetrics(metricsCreateOrUpdateRequestDTO);
 
         MetricsConfigCreateOrUpdateRequestDTO requestDTO1 = new MetricsConfigCreateOrUpdateRequestDTO();
         requestDTO1.setMetricsCode(metrics.getCode());
-        requestDTO1.setSourceCategory("Hive");
+        requestDTO1.setSourceCategory("Hive3");
         create(requestDTO1);
 
         MetricsConfigCreateOrUpdateRequestDTO requestDTO2 = new MetricsConfigCreateOrUpdateRequestDTO();
         requestDTO2.setMetricsCode(metrics.getCode());
-        requestDTO2.setSourceCategory("HBase");
+        requestDTO2.setSourceCategory("HBase3");
         create(requestDTO2);
 
         MetricsConfigConditionsRequestDTO conditionsRequestDTO = new MetricsConfigConditionsRequestDTO();
+        conditionsRequestDTO.setPageNo(1);
+        conditionsRequestDTO.setPageSize(10);
         conditionsRequestDTO.setMetricsCode(metrics.getCode());
         ResultEntity<PageResponseDTO<MetricsConfigResponseDTO>> result = metricsConfigController.queryListPage(conditionsRequestDTO);
         Assertions.assertTrue(result.isSuccess());
         PageResponseDTO<MetricsConfigResponseDTO> data = result.getData();
         Assertions.assertEquals(2, data.getTotal());
+    }
+
+    @Test
+    public void testDeleteById() {
+        MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO = new MetricsCreateOrUpdateRequestDTO();
+        metricsCreateOrUpdateRequestDTO.setCode("c_count4");
+        metricsCreateOrUpdateRequestDTO.setName("c_count4");
+        MetricsResponseDTO metrics = createMetrics(metricsCreateOrUpdateRequestDTO);
+
+        MetricsConfigCreateOrUpdateRequestDTO requestDTO1 = new MetricsConfigCreateOrUpdateRequestDTO();
+        requestDTO1.setMetricsCode(metrics.getCode());
+        requestDTO1.setSourceCategory("Hive4");
+        MetricsConfigResponseDTO createData = create(requestDTO1);
+        ResultEntity result = metricsConfigController.deleteById(createData.getId());
+        Assertions.assertTrue(result.isSuccess());
     }
 }

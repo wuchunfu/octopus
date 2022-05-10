@@ -14,6 +14,7 @@ import org.metahut.octopus.server.utils.Assert;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.convert.ConversionService;
+import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -52,15 +53,19 @@ public class MetricsServiceImpl implements MetricsService {
 
     @Override
     public List<MetricsResponseDTO> findList(MetricsConditionsRequestDTO requestDTO) {
-        return conversionService.convert(metricsRepository.findAll(withConditions(requestDTO)), List.class);
+        return (List<MetricsResponseDTO>) conversionService.convert(metricsRepository.findAll(withConditions(requestDTO)),
+                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(Metrics.class)),
+                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MetricsResponseDTO.class)));
     }
 
     @Override
     public PageResponseDTO<MetricsResponseDTO> queryListPage(MetricsConditionsRequestDTO requestDTO) {
         Pageable pageable = PageRequest.of(requestDTO.getPageNo() - 1, requestDTO.getPageSize());
         Page<Metrics> metricsPage = metricsRepository.findAll(withConditions(requestDTO), pageable);
-        List convert = conversionService.convert(metricsPage.getContent(), List.class);
-        return PageResponseDTO.of(requestDTO.getPageNo(), requestDTO.getPageSize(), metricsPage.getTotalPages(), convert);
+        List<MetricsResponseDTO> convert = (List<MetricsResponseDTO>) conversionService.convert(metricsPage.getContent(),
+                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(Metrics.class)),
+                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MetricsResponseDTO.class)));
+        return PageResponseDTO.of(requestDTO.getPageNo(), requestDTO.getPageSize(), metricsPage.getTotalElements(), convert);
     }
 
     private Specification<Metrics> withConditions(MetricsConditionsRequestDTO requestDTO) {

@@ -17,6 +17,7 @@ import org.metahut.octopus.server.service.MetricsService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.convert.ConversionService;
+import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -46,15 +47,19 @@ public class MetricsConfigServiceImpl implements MetricsConfigService {
 
     @Override
     public List<MetricsConfigResponseDTO> findList(MetricsConfigConditionsRequestDTO requestDTO) {
-        return conversionService.convert(metricsConfigRepository.findAll(withConditions(requestDTO)), List.class);
+        return (List<MetricsConfigResponseDTO>) conversionService.convert(metricsConfigRepository.findAll(withConditions(requestDTO)),
+                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MetricsConfig.class)),
+                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MetricsConfigResponseDTO.class)));
     }
 
     @Override
     public PageResponseDTO<MetricsConfigResponseDTO> queryListPage(MetricsConfigConditionsRequestDTO requestDTO) {
         Pageable pageable = PageRequest.of(requestDTO.getPageNo() - 1, requestDTO.getPageSize());
         Page<MetricsConfig> metricsConfigPage = metricsConfigRepository.findAll(withConditions(requestDTO), pageable);
-        List convert = conversionService.convert(metricsConfigPage.getContent(), List.class);
-        return PageResponseDTO.of(requestDTO.getPageNo(), requestDTO.getPageSize(), metricsConfigPage.getTotalPages(), convert);
+        List<MetricsConfigResponseDTO> convert = (List<MetricsConfigResponseDTO>) conversionService.convert(metricsConfigPage.getContent(),
+                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MetricsConfig.class)),
+                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MetricsConfigResponseDTO.class)));
+        return PageResponseDTO.of(requestDTO.getPageNo(), requestDTO.getPageSize(), metricsConfigPage.getTotalElements(), convert);
     }
 
     private Specification<MetricsConfig> withConditions(MetricsConfigConditionsRequestDTO requestDTO) {
