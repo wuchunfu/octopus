@@ -1,7 +1,6 @@
 package org.metahut.octopus.api.dto;
 
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
-import org.metahut.octopus.common.enums.ThresholdUnitEnum;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -9,13 +8,10 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 
 @ApiModel(description = "rule create or update request dto")
-public class RuleInstanceRequestDTO extends PageRequestDTO {
+public class RuleInstanceRequestDTO {
 
-    @ApiModelProperty(value = "id")
-    private Integer id;
-
-    @ApiModelProperty(value = "code")
-    private Integer code;
+    @ApiModelProperty(value = "name")
+    private String name;
 
     @ApiModelProperty(value = "subjectCategory")
     private SubjectCategoryEnum subjectCategory;
@@ -23,8 +19,8 @@ public class RuleInstanceRequestDTO extends PageRequestDTO {
     @ApiModelProperty(value = "metricsCode")
     private String metricsCode;
 
-    @ApiModelProperty(value = "metricsConfigName")
-    private String metricsConfigName;
+    @ApiModelProperty(value = "metricsConfigCode")
+    private Integer metricsConfigCode;
 
     @ApiModelProperty(value = "checkType")
     private String checkType;
@@ -35,23 +31,17 @@ public class RuleInstanceRequestDTO extends PageRequestDTO {
     @ApiModelProperty(value = "comparisonMethod")
     private String comparisonMethod;
 
-    @ApiModelProperty(value = "thresholdUnit")
-    private ThresholdUnitEnum thresholdUnit;
-
     @ApiModelProperty(value = "expectedValue")
     private String expectedValue;
 
-    @ApiModelProperty(value = "sampleCode")
-    private Integer sampleCode;
+    @ApiModelProperty(value = "samplevlue")
+    private String samplevlue;
 
     @ApiModelProperty(value = "sourceCode")
     private String sourceCode;
 
-    @ApiModelProperty(value = "tableCode")
-    private Integer tableCode;
-
-    @ApiModelProperty(value = "fieldCode")
-    private Integer fieldCode;
+    @ApiModelProperty(value = "subjectCode")
+    private String subjectCode;
 
     @ApiModelProperty(value = "crontab")
     private String crontab;
@@ -59,23 +49,12 @@ public class RuleInstanceRequestDTO extends PageRequestDTO {
     @ApiModelProperty(value = "alarmGoup")
     private String alarmGoup;
 
-    @ApiModelProperty(value = "perpDate")
-    private Date perpDate;
-
-    public Integer getId() {
-        return id;
+    public Integer getMetricsConfigCode() {
+        return metricsConfigCode;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getCode() {
-        return code;
-    }
-
-    public void setCode(Integer code) {
-        this.code = code;
+    public void setMetricsConfigCode(Integer metricsConfigCode) {
+        this.metricsConfigCode = metricsConfigCode;
     }
 
     public SubjectCategoryEnum getSubjectCategory() {
@@ -92,14 +71,6 @@ public class RuleInstanceRequestDTO extends PageRequestDTO {
 
     public void setMetricsCode(String metricsCode) {
         this.metricsCode = metricsCode;
-    }
-
-    public String getMetricsConfigName() {
-        return metricsConfigName;
-    }
-
-    public void setMetricsConfigName(String metricsConfigName) {
-        this.metricsConfigName = metricsConfigName;
     }
 
     public String getCheckType() {
@@ -126,14 +97,6 @@ public class RuleInstanceRequestDTO extends PageRequestDTO {
         this.comparisonMethod = comparisonMethod;
     }
 
-    public ThresholdUnitEnum getThresholdUnit() {
-        return thresholdUnit;
-    }
-
-    public void setThresholdUnit(ThresholdUnitEnum thresholdUnit) {
-        this.thresholdUnit = thresholdUnit;
-    }
-
     public String getExpectedValue() {
         return expectedValue;
     }
@@ -142,12 +105,12 @@ public class RuleInstanceRequestDTO extends PageRequestDTO {
         this.expectedValue = expectedValue;
     }
 
-    public Integer getSampleCode() {
-        return sampleCode;
+    public String getSamplevlue() {
+        return samplevlue;
     }
 
-    public void setSampleCode(Integer sampleCode) {
-        this.sampleCode = sampleCode;
+    public void setSamplevlue(String samplevlue) {
+        this.samplevlue = samplevlue;
     }
 
     public String getSourceCode() {
@@ -158,20 +121,12 @@ public class RuleInstanceRequestDTO extends PageRequestDTO {
         this.sourceCode = sourceCode;
     }
 
-    public Integer getTableCode() {
-        return tableCode;
+    public String getSubjectCode() {
+        return subjectCode;
     }
 
-    public void setTableCode(Integer tableCode) {
-        this.tableCode = tableCode;
-    }
-
-    public Integer getFieldCode() {
-        return fieldCode;
-    }
-
-    public void setFieldCode(Integer fieldCode) {
-        this.fieldCode = fieldCode;
+    public void setSubjectCode(String subjectCode) {
+        this.subjectCode = subjectCode;
     }
 
     public String getCrontab() {
@@ -190,11 +145,11 @@ public class RuleInstanceRequestDTO extends PageRequestDTO {
         this.alarmGoup = alarmGoup;
     }
 
-    public Date getPerpDate() {
-        return perpDate;
+    public String getName() {
+        return name;
     }
 
-    public void setPerpDate(Date perpDate) {
-        this.perpDate = perpDate;
+    public void setName(String name) {
+        this.name = name;
     }
 }

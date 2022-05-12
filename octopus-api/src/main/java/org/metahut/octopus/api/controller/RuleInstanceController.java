@@ -21,13 +21,15 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @Api(tags = "RULE_TAG")
 @RequestMapping("rule")
 public interface RuleInstanceController {
 
     @ApiOperation(value = "createRuleInstance", notes = "CREATE_RULE_INSTANCE_NOTES")
     @PostMapping
-    ResultEntity<RuleInstanceResponseDTO> createRuleInstance(@RequestBody RuleInstanceRequestDTO ruleInstanceRequestDTO);
+    ResultEntity batchCreateRuleInstance(@RequestBody List<RuleInstanceRequestDTO> ruleInstanceRequestDTOs);
 
     @ApiOperation(value = "deleteRuleInstance", notes = "DELETE_RULE_INSTANCE_NOTES")
     @ApiImplicitParams({

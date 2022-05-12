@@ -1,7 +1,6 @@
 package org.metahut.octopus.api.dto;
 
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
-import org.metahut.octopus.common.enums.ThresholdUnitEnum;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -33,9 +32,6 @@ public class RuleTemplateResponseDTO {
 
     @ApiModelProperty(value = "comparisonMethod")
     private String comparisonMethod;
-
-    @ApiModelProperty(value = "thresholdUnit")
-    private ThresholdUnitEnum thresholdUnit;
 
     @ApiModelProperty(value = "expectedValue")
     private String expectedValue;
@@ -114,14 +110,6 @@ public class RuleTemplateResponseDTO {
 
     public void setComparisonMethod(String comparisonMethod) {
         this.comparisonMethod = comparisonMethod;
-    }
-
-    public ThresholdUnitEnum getThresholdUnit() {
-        return thresholdUnit;
-    }
-
-    public void setThresholdUnit(ThresholdUnitEnum thresholdUnit) {
-        this.thresholdUnit = thresholdUnit;
     }
 
     public String getExpectedValue() {
