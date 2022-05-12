@@ -3,7 +3,6 @@ package org.metahut.octopus.dao.entity;
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 import org.metahut.octopus.common.enums.ThresholdUnitEnum;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;

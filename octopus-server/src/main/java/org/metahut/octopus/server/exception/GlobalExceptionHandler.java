@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 import static org.metahut.octopus.common.enums.StatusEnum.UNKNOWN_EXCEPTION;
@@ -25,7 +24,7 @@ public class GlobalExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-    private MessageSource messageSource;
+    private final MessageSource messageSource;
 
     public GlobalExceptionHandler(MessageSource messageSource) {
         this.messageSource = messageSource;

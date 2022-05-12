@@ -152,7 +152,8 @@ public class MetricsConfigControllerImplTest extends WebApplicationTest {
                 .queryParam("pageSize", 10);
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(builder.build().encode().toUri(), String.class);
         Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
-        ResultEntity<PageResponseDTO<MetricsConfigResponseDTO>> result = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<PageResponseDTO<MetricsConfigResponseDTO>>>() {});
+        ResultEntity<PageResponseDTO<MetricsConfigResponseDTO>> result =
+                JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<PageResponseDTO<MetricsConfigResponseDTO>>>() {});
         Assertions.assertTrue(result.isSuccess());
         PageResponseDTO<MetricsConfigResponseDTO> data = result.getData();
         Assertions.assertEquals(2, data.getTotal());

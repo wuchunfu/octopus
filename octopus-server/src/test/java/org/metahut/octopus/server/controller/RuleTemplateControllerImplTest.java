@@ -21,7 +21,7 @@ public class RuleTemplateControllerImplTest {
     @Autowired
     private MetricsControllerImpl metricsController;
 
-    private RuleTemplateResponseDTO create(RuleTemplateRequestDTO requestDTO){
+    private RuleTemplateResponseDTO create(RuleTemplateRequestDTO requestDTO) {
         ResultEntity<RuleTemplateResponseDTO> ruleTemplate = ruleTemplateController.createRuleTemplate(requestDTO);
         Assertions.assertTrue(ruleTemplate.isSuccess());
         RuleTemplateResponseDTO createData = ruleTemplate.getData();

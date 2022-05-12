@@ -24,7 +24,6 @@ public class RuleInstanceControllerImpl implements RuleInstanceController {
         this.ruleInstanceService = ruleInstanceService;
     }
 
-
     @Override
     public ResultEntity batchCreateRuleInstance(List<RuleInstanceRequestDTO> ruleInstanceRequestDTOs) {
         return ResultEntity.success(ruleInstanceService.createOrUpdate(ruleInstanceRequestDTOs));
