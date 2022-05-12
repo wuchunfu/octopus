@@ -13,13 +13,13 @@ public class RuleTemplateResponseDTO {
     private Integer id;
 
     @ApiModelProperty(value = "code")
-    private Integer code;
+    private Long code;
 
     @ApiModelProperty(value = "name")
     private String name;
 
-    @ApiModelProperty(value = "metricsCode")
-    private String metricsCode;
+    @ApiModelProperty(value = "metrics")
+    private MetricsResponseDTO metrics;
 
     @ApiModelProperty(value = "subjectCategory")
     private SubjectCategoryEnum subjectCategory;
@@ -56,11 +56,11 @@ public class RuleTemplateResponseDTO {
         this.id = id;
     }
 
-    public Integer getCode() {
+    public Long getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(Long code) {
         this.code = code;
     }
 
@@ -72,12 +72,12 @@ public class RuleTemplateResponseDTO {
         this.name = name;
     }
 
-    public String getMetricsCode() {
-        return metricsCode;
+    public MetricsResponseDTO getMetrics() {
+        return metrics;
     }
 
-    public void setMetricsCode(String metricsCode) {
-        this.metricsCode = metricsCode;
+    public void setMetrics(MetricsResponseDTO metrics) {
+        this.metrics = metrics;
     }
 
     public SubjectCategoryEnum getSubjectCategory() {

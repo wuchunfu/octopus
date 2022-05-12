@@ -10,6 +10,7 @@ import org.metahut.octopus.api.dto.ResultEntity;
 import org.metahut.octopus.metrics.api.JSONUtils;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

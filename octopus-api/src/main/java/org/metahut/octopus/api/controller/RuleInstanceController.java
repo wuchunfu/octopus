@@ -40,7 +40,7 @@ public interface RuleInstanceController {
 
     @ApiOperation(value = "updateRuleInstance", notes = "UPDATE_RULE_INSTANCE_NOTES")
     @PutMapping("/{code}")
-    ResultEntity<RuleInstanceResponseDTO> updateRuleInstance(@RequestBody RuleInstanceRequestDTO ruleInstanceRequestDTO);
+    ResultEntity updateRuleInstance(@RequestBody List<RuleInstanceRequestDTO> ruleInstanceRequestDTO);
 
     @ApiOperation(value = "queryRuleInstancePage", notes = "QUERY_RULE_INSTANCE_PAGE_NOTES")
     @GetMapping("/queryListPage")

@@ -1,8 +1,16 @@
 package org.metahut.octopus.dao.entity;
 
+import org.metahut.octopus.common.enums.SubjectCategoryEnum;
+import org.metahut.octopus.common.enums.ThresholdUnitEnum;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import java.util.Date;
@@ -15,10 +23,13 @@ public class RuleTemplate {
     @GeneratedValue
     private Integer id;
 
-    private Integer code;
+    private Long code;
+
     private String name;
 
-    private String metricsCode;
+    @ManyToOne
+    @JoinColumn(name = "metrics_code", referencedColumnName = "code")
+    private Metrics metrics;
 
     private String checkType;
 
@@ -38,6 +49,12 @@ public class RuleTemplate {
 
     private Integer updater;
 
+    @Enumerated(value = EnumType.STRING)
+    private SubjectCategoryEnum subjectCategory;
+
+    @Enumerated(value = EnumType.STRING)
+    private ThresholdUnitEnum thresholdUnit;
+
     public Integer getId() {
         return id;
     }
@@ -46,11 +63,11 @@ public class RuleTemplate {
         this.id = id;
     }
 
-    public Integer getCode() {
+    public Long getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(Long code) {
         this.code = code;
     }
 
@@ -62,12 +79,20 @@ public class RuleTemplate {
         this.name = name;
     }
 
-    public String getMetricsCode() {
-        return metricsCode;
+    public SubjectCategoryEnum getSubjectCategory() {
+        return subjectCategory;
     }
 
-    public void setMetricsCode(String metricsCode) {
-        this.metricsCode = metricsCode;
+    public void setSubjectCategory(SubjectCategoryEnum subjectCategory) {
+        this.subjectCategory = subjectCategory;
+    }
+
+    public ThresholdUnitEnum getThresholdUnit() {
+        return thresholdUnit;
+    }
+
+    public void setThresholdUnit(ThresholdUnitEnum thresholdUnit) {
+        this.thresholdUnit = thresholdUnit;
     }
 
     public String getCheckType() {
@@ -140,5 +165,13 @@ public class RuleTemplate {
 
     public void setUpdater(Integer updater) {
         this.updater = updater;
+    }
+
+    public Metrics getMetrics() {
+        return metrics;
+    }
+
+    public void setMetrics(Metrics metrics) {
+        this.metrics = metrics;
     }
 }

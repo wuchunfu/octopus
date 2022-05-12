@@ -9,6 +9,7 @@ import org.metahut.octopus.api.dto.RuleInstanceConditionRequestDTO;
 import org.metahut.octopus.api.dto.RuleInstanceRequestDTO;
 import org.metahut.octopus.api.dto.RuleInstanceResponseDTO;
 import org.metahut.octopus.api.dto.SampleInstanceResponseDTO;
+import org.metahut.octopus.server.service.RuleInstanceService;
 
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,24 +17,33 @@ import java.util.List;
 
 @RestController
 public class RuleInstanceControllerImpl implements RuleInstanceController {
+
+    private final RuleInstanceService ruleInstanceService;
+
+    public RuleInstanceControllerImpl(RuleInstanceService ruleInstanceService) {
+        this.ruleInstanceService = ruleInstanceService;
+    }
+
+
     @Override
     public ResultEntity batchCreateRuleInstance(List<RuleInstanceRequestDTO> ruleInstanceRequestDTOs) {
-        return ResultEntity.success();
+        return ResultEntity.success(ruleInstanceService.createOrUpdate(ruleInstanceRequestDTOs));
     }
 
     @Override
     public ResultEntity deleteRuleInstance(Integer id) {
+        ruleInstanceService.deleteById(id);
         return ResultEntity.success();
     }
 
     @Override
-    public ResultEntity<RuleInstanceResponseDTO> updateRuleInstance(RuleInstanceRequestDTO ruleInstanceRequestDTO) {
-        return ResultEntity.success();
+    public ResultEntity updateRuleInstance(List<RuleInstanceRequestDTO> ruleInstanceRequestDTO) {
+        return ResultEntity.success(ruleInstanceService.createOrUpdate(ruleInstanceRequestDTO));
     }
 
     @Override
     public ResultEntity<PageResponseDTO<RuleInstanceResponseDTO>> queryRuleInstancePage(RuleInstanceConditionRequestDTO ruleInstanceConditionRequestDTO) {
-        return ResultEntity.success();
+        return ResultEntity.success(ruleInstanceService.queryListPage(ruleInstanceConditionRequestDTO));
     }
 
     @Override

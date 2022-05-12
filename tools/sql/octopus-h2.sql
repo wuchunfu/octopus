@@ -88,7 +88,8 @@ CREATE TABLE tb_octopus_rule_template
     check_method      varchar(64),
     comparison_method varchar(64),
     expected_value    varchar(64),
-
+    threshold_unit    varchar(16),
+    subject_category varchar(16) DEFAULT 'TABLE',
     description       varchar(64) DEFAULT NULL,
     create_time       datetime    DEFAULT NULL,
     update_time       datetime    DEFAULT NULL,

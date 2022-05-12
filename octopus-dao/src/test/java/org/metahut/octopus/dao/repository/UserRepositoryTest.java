@@ -6,6 +6,7 @@ import org.metahut.octopus.dao.entity.User_;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -22,6 +23,7 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
+@Disabled
 @SpringBootTest
 public class UserRepositoryTest  {
 

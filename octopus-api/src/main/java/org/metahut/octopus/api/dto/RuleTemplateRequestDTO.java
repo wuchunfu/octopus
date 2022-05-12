@@ -12,7 +12,7 @@ public class RuleTemplateRequestDTO extends PageRequestDTO {
     private Integer id;
 
     @ApiModelProperty(value = "code")
-    private Integer code;
+    private Long code;
 
     @ApiModelProperty(value = "name")
     private String name;
@@ -55,11 +55,11 @@ public class RuleTemplateRequestDTO extends PageRequestDTO {
         this.id = id;
     }
 
-    public Integer getCode() {
+    public Long getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(Long code) {
         this.code = code;
     }
 
