@@ -1,16 +1,18 @@
 package org.metahut.octopus.server.controller;
 
+import org.metahut.octopus.api.dto.MetricsConfigResponseDTO;
 import org.metahut.octopus.api.dto.MetricsCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.MetricsResponseDTO;
 import org.metahut.octopus.api.dto.PageResponseDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
-import org.metahut.octopus.common.enums.StatusEnum;
 import org.metahut.octopus.metrics.api.JSONUtils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -20,7 +22,7 @@ public class MetricsControllerImplTest extends WebApplicationTest {
 
     private static final String REST_FUNCTION_URL_PREFIX = "/metrics/";
 
-    private MetricsResponseDTO create(MetricsCreateOrUpdateRequestDTO requestDTO) {
+    protected MetricsResponseDTO create(MetricsCreateOrUpdateRequestDTO requestDTO) {
         String url = REST_FUNCTION_URL_PREFIX + "create";
 
         HttpEntity httpEntity = new HttpEntity(requestDTO);
@@ -56,16 +58,15 @@ public class MetricsControllerImplTest extends WebApplicationTest {
         updateRequestDTO.setCategory(null);
 
         String url = REST_FUNCTION_URL_PREFIX + "update";
-        restTemplate.put(url, updateRequestDTO);
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity httpEntity = new HttpEntity(updateRequestDTO, headers);
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, httpEntity, String.class);
 
-        url = REST_FUNCTION_URL_PREFIX + updateRequestDTO.getCode();
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
         Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
-        ResultEntity<MetricsResponseDTO> update = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<MetricsResponseDTO>>() {});
+        ResultEntity<MetricsConfigResponseDTO> update = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<MetricsConfigResponseDTO>>() {});
         Assertions.assertTrue(update.isSuccess());
-        MetricsResponseDTO updateData = update.getData();
-        Assertions.assertEquals(updateName, updateData.getName());
-        Assertions.assertNotNull(updateData.getDescription());
+        MetricsConfigResponseDTO data = update.getData();
+        Assertions.assertEquals(updateName, data.getName());
     }
 
     @Test
@@ -133,13 +134,12 @@ public class MetricsControllerImplTest extends WebApplicationTest {
         MetricsResponseDTO metricsResponseDTO = create(requestDTO1);
 
         String url = REST_FUNCTION_URL_PREFIX + metricsResponseDTO.getId();
-        restTemplate.delete(url);
 
-        url = REST_FUNCTION_URL_PREFIX + metricsResponseDTO.getCode();
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity httpEntity = new HttpEntity(headers);
+        ResponseEntity<ResultEntity> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, httpEntity, ResultEntity.class);
         Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
-        ResultEntity<MetricsResponseDTO> result = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<MetricsResponseDTO>>() {});
-        Assertions.assertEquals(StatusEnum.METRICS_NOT_EXIST.getCode(), result.getCode());
+        Assertions.assertTrue(responseEntity.getBody().isSuccess());
     }
 
 }

@@ -1,6 +1,5 @@
 package org.metahut.octopus.server.controller;
 
-import org.metahut.octopus.api.dto.MetricsConfigConditionsRequestDTO;
 import org.metahut.octopus.api.dto.MetricsConfigCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.MetricsConfigResponseDTO;
 import org.metahut.octopus.api.dto.MetricsCreateOrUpdateRequestDTO;
@@ -9,25 +8,28 @@ import org.metahut.octopus.api.dto.PageResponseDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
 import org.metahut.octopus.metrics.api.JSONUtils;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
-@SpringBootTest
-public class MetricsConfigControllerImplTest {
+public class MetricsConfigControllerImplTest extends WebApplicationTest {
 
-    @Autowired
-    private MetricsConfigControllerImpl metricsConfigController;
-
-    @Autowired
-    private MetricsControllerImpl metricsController;
+    private static final String REST_FUNCTION_URL_PREFIX = "/metricsConfig/";
 
     private MetricsConfigResponseDTO create(MetricsConfigCreateOrUpdateRequestDTO requestDTO) {
-        ResultEntity<MetricsConfigResponseDTO> create = metricsConfigController.create(requestDTO);
+        String url = REST_FUNCTION_URL_PREFIX + "create";
+
+        HttpEntity httpEntity = new HttpEntity(requestDTO);
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, httpEntity, String.class);
+        Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
+        ResultEntity<MetricsConfigResponseDTO> create = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<MetricsConfigResponseDTO>>() {});
         Assertions.assertTrue(create.isSuccess());
         MetricsConfigResponseDTO createData = create.getData();
         Assertions.assertNotNull(createData.getId());
@@ -41,7 +43,13 @@ public class MetricsConfigControllerImplTest {
      * @return
      */
     private MetricsResponseDTO createMetrics(MetricsCreateOrUpdateRequestDTO requestDTO) {
-        ResultEntity<MetricsResponseDTO> create = metricsController.create(requestDTO);
+
+        String url = "/metrics/create";
+
+        HttpEntity httpEntity = new HttpEntity(requestDTO);
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, httpEntity, String.class);
+        Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
+        ResultEntity<MetricsResponseDTO> create = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<MetricsResponseDTO>>() {});
         Assertions.assertTrue(create.isSuccess());
         MetricsResponseDTO createData = create.getData();
         Assertions.assertNotNull(createData.getId());
@@ -78,11 +86,18 @@ public class MetricsConfigControllerImplTest {
         updateRequestDTO.setMetricsCode(createData.getMetrics().getCode());
         updateRequestDTO.setSourceCategory(updateStr);
         updateRequestDTO.setDescription(updateStr);
-        ResultEntity<MetricsConfigResponseDTO> update = metricsConfigController.update(updateRequestDTO);
+
+        String url = REST_FUNCTION_URL_PREFIX + "update";
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity httpEntity = new HttpEntity(updateRequestDTO, headers);
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, httpEntity, String.class);
+
+        Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
+        ResultEntity<MetricsConfigResponseDTO> update = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<MetricsConfigResponseDTO>>() {});
         Assertions.assertTrue(update.isSuccess());
-        MetricsConfigResponseDTO updateData = update.getData();
-        Assertions.assertEquals(updateStr, updateData.getSourceCategory());
-        Assertions.assertNotNull(updateData.getDescription());
+        MetricsConfigResponseDTO data = update.getData();
+        Assertions.assertEquals(updateStr, data.getSourceCategory());
+
     }
 
     @Test
@@ -102,9 +117,12 @@ public class MetricsConfigControllerImplTest {
         requestDTO2.setSourceCategory("HBase2");
         create(requestDTO2);
 
-        MetricsConfigConditionsRequestDTO conditionsRequestDTO = new MetricsConfigConditionsRequestDTO();
-        conditionsRequestDTO.setMetricsCode(metrics.getCode());
-        ResultEntity<List<MetricsConfigResponseDTO>> result = metricsConfigController.queryList(conditionsRequestDTO);
+        String url = this.base + REST_FUNCTION_URL_PREFIX + "queryList";
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
+                .queryParam("code", metrics.getCode());
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(builder.build().encode().toUri(), String.class);
+        Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
+        ResultEntity<List<MetricsConfigResponseDTO>> result = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<List<MetricsConfigResponseDTO>>>() {});
         Assertions.assertTrue(result.isSuccess());
         List<MetricsConfigResponseDTO> data = result.getData();
         Assertions.assertEquals(2, data.size());
@@ -127,11 +145,14 @@ public class MetricsConfigControllerImplTest {
         requestDTO2.setSourceCategory("HBase3");
         create(requestDTO2);
 
-        MetricsConfigConditionsRequestDTO conditionsRequestDTO = new MetricsConfigConditionsRequestDTO();
-        conditionsRequestDTO.setPageNo(1);
-        conditionsRequestDTO.setPageSize(10);
-        conditionsRequestDTO.setMetricsCode(metrics.getCode());
-        ResultEntity<PageResponseDTO<MetricsConfigResponseDTO>> result = metricsConfigController.queryListPage(conditionsRequestDTO);
+        String url = this.base + REST_FUNCTION_URL_PREFIX + "queryListPage";
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
+                .queryParam("metricsCode", metrics.getCode())
+                .queryParam("pageNo", 1)
+                .queryParam("pageSize", 10);
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(builder.build().encode().toUri(), String.class);
+        Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
+        ResultEntity<PageResponseDTO<MetricsConfigResponseDTO>> result = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<PageResponseDTO<MetricsConfigResponseDTO>>>() {});
         Assertions.assertTrue(result.isSuccess());
         PageResponseDTO<MetricsConfigResponseDTO> data = result.getData();
         Assertions.assertEquals(2, data.getTotal());
@@ -148,7 +169,13 @@ public class MetricsConfigControllerImplTest {
         requestDTO1.setMetricsCode(metrics.getCode());
         requestDTO1.setSourceCategory("Hive4");
         MetricsConfigResponseDTO createData = create(requestDTO1);
-        ResultEntity result = metricsConfigController.deleteById(createData.getId());
-        Assertions.assertTrue(result.isSuccess());
+
+        String url = REST_FUNCTION_URL_PREFIX + createData.getId();
+
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity httpEntity = new HttpEntity(headers);
+        ResponseEntity<ResultEntity> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, httpEntity, ResultEntity.class);
+        Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
+        Assertions.assertTrue(responseEntity.getBody().isSuccess());
     }
 }
