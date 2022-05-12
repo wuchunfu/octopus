@@ -26,6 +26,10 @@ import java.util.List;
 @Validated
 public interface MetricsController {
 
+    @ApiOperation(value = "findByCode", notes = "QUERY_BY_CODE_NOTES")
+    @GetMapping("{code}")
+    ResultEntity<MetricsResponseDTO> findByCode(@PathVariable String code);
+
     @ApiOperation(value = "queryList", notes = "QUERY_LIST_NOTES")
     @GetMapping("queryList")
     ResultEntity<List<MetricsResponseDTO>> queryList(MetricsConditionsRequestDTO requestDTO);

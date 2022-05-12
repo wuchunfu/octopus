@@ -12,6 +12,8 @@ public interface MetricsService {
 
     Metrics findOneByCode(String metricsCode);
 
+    MetricsResponseDTO findByCode(String metricsCode);
+
     List<MetricsResponseDTO> findList(MetricsConditionsRequestDTO requestDTO);
 
     PageResponseDTO<MetricsResponseDTO> queryListPage(MetricsConditionsRequestDTO requestDTO);

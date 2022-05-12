@@ -33,7 +33,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = BusinessException.class)
     public ResultEntity exceptionHandler(BusinessException exception) {
         logger.error(exception.getMessage(), exception);
-        String message = messageSource.getMessage(exception.getMessage(), exception.getArgs(), LocaleContextHolder.getLocale());
+        String message = exception.getMessage();
+        try {
+            message = messageSource.getMessage(exception.getMessage(), exception.getArgs(), LocaleContextHolder.getLocale());
+        } catch (Throwable throwable) {
+            logger.error(throwable.getMessage(), throwable);
+        }
         return ResultEntity.of(exception.getCode(), message);
     }
 

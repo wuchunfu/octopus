@@ -17,7 +17,7 @@ public class WebApplicationTest {
     protected URL base;
 
     @Autowired
-    protected TestRestTemplate template;
+    protected TestRestTemplate restTemplate;
 
     @BeforeEach
     public void setUp() throws Exception {

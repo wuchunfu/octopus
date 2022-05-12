@@ -52,6 +52,11 @@ public class MetricsServiceImpl implements MetricsService {
     }
 
     @Override
+    public MetricsResponseDTO findByCode(String metricsCode) {
+        return conversionService.convert(findOneByCode(metricsCode), MetricsResponseDTO.class);
+    }
+
+    @Override
     public List<MetricsResponseDTO> findList(MetricsConditionsRequestDTO requestDTO) {
         return (List<MetricsResponseDTO>) conversionService.convert(metricsRepository.findAll(withConditions(requestDTO)),
                 TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(Metrics.class)),

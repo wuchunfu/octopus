@@ -22,6 +22,11 @@ public class MetricsControllerImpl implements MetricsController {
     }
 
     @Override
+    public ResultEntity<MetricsResponseDTO> findByCode(String code) {
+        return ResultEntity.success(metricsService.findByCode(code));
+    }
+
+    @Override
     public ResultEntity<List<MetricsResponseDTO>> queryList(MetricsConditionsRequestDTO requestDTO) {
         return ResultEntity.success(metricsService.findList(requestDTO));
     }
