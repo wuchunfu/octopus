@@ -4,6 +4,7 @@ public enum StatusEnum {
 
     SUCCESS(200, "success"),
     UNKNOWN_EXCEPTION(10000, "UNKNOWN_EXCEPTION"),
+    VALIDATOR_EXCEPTION(10001, ""),
 
     METRICS_NOT_EXIST(20001, "METRICS_NOT_EXIST")
     ;

@@ -7,10 +7,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+
+import java.util.stream.Collectors;
+
 import static org.metahut.octopus.common.enums.StatusEnum.UNKNOWN_EXCEPTION;
+import static org.metahut.octopus.common.enums.StatusEnum.VALIDATOR_EXCEPTION;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -35,6 +42,32 @@ public class GlobalExceptionHandler {
         logger.error(exception.getMessage(), exception);
         String message = messageSource.getMessage(UNKNOWN_EXCEPTION.getMessage(), new Object[]{exception.getMessage()}, LocaleContextHolder.getLocale());
         return ResultEntity.of(UNKNOWN_EXCEPTION.getCode(), message);
+    }
+
+    /**
+     * constraint violation exception handler
+     * @param exception ConstraintViolationException
+     * @return
+     */
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResultEntity constraintViolationException(ConstraintViolationException exception) {
+        logger.error(exception.getMessage(), exception);
+        String message = exception.getConstraintViolations().stream()
+                .map(ConstraintViolation::getMessage)
+                .collect(Collectors.joining(", "));
+        return ResultEntity.of(VALIDATOR_EXCEPTION.getCode(), message);
+    }
+
+    /**
+     * method argument not valid exception handler
+     * @param exception MethodArgumentNotValidException
+     * @return
+     */
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResultEntity handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+        logger.error(exception.getMessage(), exception);
+        String message = exception.getBindingResult().getFieldError().getDefaultMessage();
+        return ResultEntity.of(VALIDATOR_EXCEPTION.getCode(), message);
     }
 
 }

@@ -5,16 +5,22 @@ import org.metahut.octopus.common.enums.MetricsDimensionEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 @ApiModel(description = "metrics create or update request dto")
 public class MetricsCreateOrUpdateRequestDTO {
 
     @ApiModelProperty(value = "id")
+    @NotNull(message = "{parameter.not.null}", groups = Update.class)
     private Integer id;
 
     @ApiModelProperty(value = "code")
+    @NotEmpty(message = "{parameter.not.null}")
     private String code;
 
     @ApiModelProperty(value = "name")
+    @NotEmpty(message = "{parameter.not.null}")
     private String name;
 
     @ApiModelProperty(value = "category")
@@ -25,6 +31,14 @@ public class MetricsCreateOrUpdateRequestDTO {
 
     @ApiModelProperty(value = "metrics dimension")
     private MetricsDimensionEnum metricsDimension;
+
+    public interface Create {
+
+    }
+
+    public interface Update {
+
+    }
 
     public Integer getId() {
         return id;
