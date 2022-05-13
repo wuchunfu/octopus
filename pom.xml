@@ -136,6 +136,16 @@
                 <artifactId>octopus-metrics-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.metahut.octopus</groupId>
+                <artifactId>octopus-monitordb-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.metahut.octopus</groupId>
+                <artifactId>octopus-meta-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <!-- springboot -->
             <dependency>

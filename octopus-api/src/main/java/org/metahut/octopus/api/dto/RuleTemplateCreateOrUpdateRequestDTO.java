@@ -4,9 +4,7 @@ import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.Date;
-
-public class RuleTemplateRequestDTO extends PageRequestDTO {
+public class RuleTemplateCreateOrUpdateRequestDTO {
 
     @ApiModelProperty(value = "id")
     private Integer id;
@@ -34,18 +32,6 @@ public class RuleTemplateRequestDTO extends PageRequestDTO {
 
     @ApiModelProperty(value = "expectedValue")
     private String expectedValue;
-
-    @ApiModelProperty(value = "createStartTime")
-    private Date createStartTime;
-
-    @ApiModelProperty(value = "createEndTime")
-    private Date createEndTime;
-
-    @ApiModelProperty(value = "updateStartTime")
-    private Date updateStartTime;
-
-    @ApiModelProperty(value = "updateEndTime")
-    private Date updateEndTime;
 
     public Integer getId() {
         return id;
@@ -118,37 +104,4 @@ public class RuleTemplateRequestDTO extends PageRequestDTO {
     public void setExpectedValue(String expectedValue) {
         this.expectedValue = expectedValue;
     }
-
-    public Date getCreateStartTime() {
-        return createStartTime;
-    }
-
-    public void setCreateStartTime(Date createStartTime) {
-        this.createStartTime = createStartTime;
-    }
-
-    public Date getCreateEndTime() {
-        return createEndTime;
-    }
-
-    public void setCreateEndTime(Date createEndTime) {
-        this.createEndTime = createEndTime;
-    }
-
-    public Date getUpdateStartTime() {
-        return updateStartTime;
-    }
-
-    public void setUpdateStartTime(Date updateStartTime) {
-        this.updateStartTime = updateStartTime;
-    }
-
-    public Date getUpdateEndTime() {
-        return updateEndTime;
-    }
-
-    public void setUpdateEndTime(Date updateEndTime) {
-        this.updateEndTime = updateEndTime;
-    }
-
 }

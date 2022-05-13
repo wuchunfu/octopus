@@ -55,3 +55,7 @@ knife4j:
     username: octopus
     password: octopus123
 
+octopus:
+  monitordb:
+    type: elasticsearch
+

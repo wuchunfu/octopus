@@ -37,10 +37,10 @@ public class RuleTemplateResponseDTO {
     private String expectedValue;
 
     @ApiModelProperty(value = "creator")
-    private Integer creator;
+    private Long creator;
 
     @ApiModelProperty(value = "operator")
-    private Integer operator;
+    private Long operator;
 
     @ApiModelProperty(value = "createTime")
     private Date createTime;
@@ -120,19 +120,19 @@ public class RuleTemplateResponseDTO {
         this.expectedValue = expectedValue;
     }
 
-    public Integer getCreator() {
+    public Long getCreator() {
         return creator;
     }
 
-    public void setCreator(Integer creator) {
+    public void setCreator(Long creator) {
         this.creator = creator;
     }
 
-    public Integer getOperator() {
+    public Long getOperator() {
         return operator;
     }
 
-    public void setOperator(Integer operator) {
+    public void setOperator(Long operator) {
         this.operator = operator;
     }
 

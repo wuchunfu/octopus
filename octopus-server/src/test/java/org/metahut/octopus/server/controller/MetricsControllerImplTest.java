@@ -1,6 +1,5 @@
 package org.metahut.octopus.server.controller;
 
-import org.metahut.octopus.api.dto.MetricsConfigResponseDTO;
 import org.metahut.octopus.api.dto.MetricsCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.MetricsResponseDTO;
 import org.metahut.octopus.api.dto.PageResponseDTO;
@@ -63,9 +62,9 @@ public class MetricsControllerImplTest extends WebApplicationTest {
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, httpEntity, String.class);
 
         Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
-        ResultEntity<MetricsConfigResponseDTO> update = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<MetricsConfigResponseDTO>>() {});
+        ResultEntity<MetricsResponseDTO> update = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<MetricsResponseDTO>>() {});
         Assertions.assertTrue(update.isSuccess());
-        MetricsConfigResponseDTO data = update.getData();
+        MetricsResponseDTO data = update.getData();
         Assertions.assertEquals(updateName, data.getName());
     }
 
@@ -79,15 +78,15 @@ public class MetricsControllerImplTest extends WebApplicationTest {
         create(requestDTO1);
 
         MetricsCreateOrUpdateRequestDTO requestDTO2 = new MetricsCreateOrUpdateRequestDTO();
-        requestDTO2.setCode("count1");
-        requestDTO2.setName("count1");
+        requestDTO2.setCode("m_count1");
+        requestDTO2.setName("m_count1");
         requestDTO2.setCategory("single");
         MetricsResponseDTO createData2 = create(requestDTO2);
 
         String url = this.base + REST_FUNCTION_URL_PREFIX + "queryList";
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
-                .queryParam("code", "count1")
-                .queryParam("name", "count1");
+                .queryParam("code", "m_count1")
+                .queryParam("name", "m_count1");
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(builder.build().encode().toUri(), String.class);
         Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
         ResultEntity<List<MetricsResponseDTO>> result = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<List<MetricsResponseDTO>>>() {});
@@ -106,14 +105,14 @@ public class MetricsControllerImplTest extends WebApplicationTest {
         create(requestDTO1);
 
         MetricsCreateOrUpdateRequestDTO requestDTO2 = new MetricsCreateOrUpdateRequestDTO();
-        requestDTO2.setCode("count2");
-        requestDTO2.setName("count2");
+        requestDTO2.setCode("m_count2");
+        requestDTO2.setName("m_count2");
         requestDTO2.setCategory("single");
         MetricsResponseDTO createData2 = create(requestDTO2);
 
         String url = this.base + REST_FUNCTION_URL_PREFIX + "queryListPage";
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
-                .queryParam("code", "count2")
+                .queryParam("code", "m_count2")
                 .queryParam("pageNo", 1)
                 .queryParam("pageSize", 10);
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(builder.build().encode().toUri(), String.class);

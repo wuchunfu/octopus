@@ -1,7 +1,6 @@
 package org.metahut.octopus.dao.entity;
 
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
-import org.metahut.octopus.common.enums.ThresholdUnitEnum;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,11 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import java.util.Date;
-
 @Entity
 @Table(name = "tb_octopus_rule_template")
-public class RuleTemplate {
+public class RuleTemplate extends BaseEntity {
 
     @Id
     @GeneratedValue
@@ -40,19 +37,8 @@ public class RuleTemplate {
 
     private String description;
 
-    private Date createTime;
-
-    private Date updateTime;
-
-    private Integer creator;
-
-    private Integer updater;
-
     @Enumerated(value = EnumType.STRING)
     private SubjectCategoryEnum subjectCategory;
-
-    @Enumerated(value = EnumType.STRING)
-    private ThresholdUnitEnum thresholdUnit;
 
     public Integer getId() {
         return id;
@@ -78,20 +64,12 @@ public class RuleTemplate {
         this.name = name;
     }
 
-    public SubjectCategoryEnum getSubjectCategory() {
-        return subjectCategory;
+    public Metrics getMetrics() {
+        return metrics;
     }
 
-    public void setSubjectCategory(SubjectCategoryEnum subjectCategory) {
-        this.subjectCategory = subjectCategory;
-    }
-
-    public ThresholdUnitEnum getThresholdUnit() {
-        return thresholdUnit;
-    }
-
-    public void setThresholdUnit(ThresholdUnitEnum thresholdUnit) {
-        this.thresholdUnit = thresholdUnit;
+    public void setMetrics(Metrics metrics) {
+        this.metrics = metrics;
     }
 
     public String getCheckType() {
@@ -134,43 +112,11 @@ public class RuleTemplate {
         this.description = description;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public SubjectCategoryEnum getSubjectCategory() {
+        return subjectCategory;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Integer getCreator() {
-        return creator;
-    }
-
-    public void setCreator(Integer creator) {
-        this.creator = creator;
-    }
-
-    public Integer getUpdater() {
-        return updater;
-    }
-
-    public void setUpdater(Integer updater) {
-        this.updater = updater;
-    }
-
-    public Metrics getMetrics() {
-        return metrics;
-    }
-
-    public void setMetrics(Metrics metrics) {
-        this.metrics = metrics;
+    public void setSubjectCategory(SubjectCategoryEnum subjectCategory) {
+        this.subjectCategory = subjectCategory;
     }
 }

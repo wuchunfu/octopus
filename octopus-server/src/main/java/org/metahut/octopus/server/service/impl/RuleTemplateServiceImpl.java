@@ -1,8 +1,10 @@
 package org.metahut.octopus.server.service.impl;
 
 import org.metahut.octopus.api.dto.PageResponseDTO;
-import org.metahut.octopus.api.dto.RuleTemplateRequestDTO;
+import org.metahut.octopus.api.dto.RuleTemplateConditionRequestDTO;
+import org.metahut.octopus.api.dto.RuleTemplateCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.RuleTemplateResponseDTO;
+import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 import org.metahut.octopus.dao.entity.Metrics;
 import org.metahut.octopus.dao.entity.Metrics_;
 import org.metahut.octopus.dao.entity.RuleTemplate;
@@ -11,6 +13,7 @@ import org.metahut.octopus.dao.repository.RuleTemplateRespository;
 import org.metahut.octopus.server.service.MetricsService;
 import org.metahut.octopus.server.service.RuleTemplateService;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.TypeDescriptor;
@@ -42,7 +45,7 @@ public class RuleTemplateServiceImpl implements RuleTemplateService {
     }
 
     @Override
-    public PageResponseDTO<RuleTemplateResponseDTO> queryListPage(RuleTemplateRequestDTO ruleTemplateRequestDTO) {
+    public PageResponseDTO<RuleTemplateResponseDTO> queryListPage(RuleTemplateConditionRequestDTO ruleTemplateRequestDTO) {
         Pageable pageable = PageRequest.of(ruleTemplateRequestDTO.getPageNo() - 1, ruleTemplateRequestDTO.getPageSize());
         Page<RuleTemplate> ruleTemplatePage = ruleTemplateRespository.findAll(withConditions(ruleTemplateRequestDTO), pageable);
         List<RuleTemplateResponseDTO> convert = (List<RuleTemplateResponseDTO>)conversionService.convert(ruleTemplateRespository.findAll(withConditions(ruleTemplateRequestDTO)),
@@ -51,31 +54,39 @@ public class RuleTemplateServiceImpl implements RuleTemplateService {
         return PageResponseDTO.of(ruleTemplateRequestDTO.getPageNo(), ruleTemplateRequestDTO.getPageSize(), ruleTemplatePage.getTotalElements(), convert);
     }
 
-    private Specification<RuleTemplate> withConditions(RuleTemplateRequestDTO ruleTemplateRequestDTO) {
+    private Specification<RuleTemplate> withConditions(RuleTemplateConditionRequestDTO requestDTO) {
         return (root, query, builder) -> {
             List<Predicate> conditions = new ArrayList<>();
-            if (StringUtils.isNotBlank(ruleTemplateRequestDTO.getName())) {
-                conditions.add(builder.like(root.get(RuleTemplate_.name), "%" + ruleTemplateRequestDTO.getName() + "%"));
+            if (StringUtils.isNotBlank(requestDTO.getName())) {
+                conditions.add(builder.like(root.get(RuleTemplate_.name), "%" + requestDTO.getName() + "%"));
             }
 
-            if (StringUtils.isNotBlank(ruleTemplateRequestDTO.getCheckType())) {
-                conditions.add(builder.equal(root.get(RuleTemplate_.checkType), "%" + ruleTemplateRequestDTO.getCheckType() + "%"));
+            if (CollectionUtils.isNotEmpty(requestDTO.getSubjectCategories())) {
+                conditions.add(builder.in(root.get(RuleTemplate_.subjectCategory).as(SubjectCategoryEnum.class).in(requestDTO.getSubjectCategories())));
             }
 
-            if (StringUtils.isNotBlank(ruleTemplateRequestDTO.getCheckMethod())) {
-                conditions.add(builder.equal(root.get(RuleTemplate_.checkMethod), "%" + ruleTemplateRequestDTO.getCheckMethod() + "%"));
+            if (CollectionUtils.isNotEmpty(requestDTO.getCheckTypes())) {
+                conditions.add(builder.in(root.get(RuleTemplate_.checkType).as(String.class).in(requestDTO.getCheckTypes())));
             }
 
-            if (Objects.nonNull(ruleTemplateRequestDTO.getCreateStartTime()) && Objects.nonNull(ruleTemplateRequestDTO.getCreateEndTime())) {
-                conditions.add(builder.between(root.get(RuleTemplate_.createTime), ruleTemplateRequestDTO.getCreateStartTime(), ruleTemplateRequestDTO.getCreateEndTime()));
+            if (CollectionUtils.isNotEmpty(requestDTO.getCheckMethods())) {
+                conditions.add(builder.in(root.get(RuleTemplate_.checkMethod).as(String.class).in(requestDTO.getCheckMethods())));
             }
 
-            if (Objects.nonNull(ruleTemplateRequestDTO.getUpdateStartTime()) && Objects.nonNull(ruleTemplateRequestDTO.getUpdateEndTime())) {
-                conditions.add(builder.between(root.get(RuleTemplate_.updateTime), ruleTemplateRequestDTO.getUpdateStartTime(), ruleTemplateRequestDTO.getUpdateEndTime()));
+            if (Objects.nonNull(requestDTO.getCreateStartTime()) && Objects.nonNull(requestDTO.getCreateEndTime())) {
+                conditions.add(builder.between(root.get(RuleTemplate_.createTime), requestDTO.getCreateStartTime(), requestDTO.getCreateEndTime()));
             }
+
+            if (Objects.nonNull(requestDTO.getUpdateStartTime()) && Objects.nonNull(requestDTO.getUpdateEndTime())) {
+                conditions.add(builder.between(root.get(RuleTemplate_.updateTime), requestDTO.getUpdateStartTime(), requestDTO.getUpdateEndTime()));
+            }
+
             Join<RuleTemplate, Metrics> metricsJoin = root.join(RuleTemplate_.metrics, JoinType.INNER);
-            if (StringUtils.isNotBlank(ruleTemplateRequestDTO.getMetricsCode())) {
-                conditions.add(builder.like(metricsJoin.get(Metrics_.code), "%" + ruleTemplateRequestDTO.getMetricsCode() + "%"));
+            if (StringUtils.isNotBlank(requestDTO.getMetricsCode())) {
+                conditions.add(builder.like(metricsJoin.get(Metrics_.code), "%" + requestDTO.getMetricsCode() + "%"));
+            }
+            if (StringUtils.isNotBlank(requestDTO.getMetricsName())) {
+                conditions.add(builder.like(metricsJoin.get(Metrics_.name), "%" + requestDTO.getMetricsName() + "%"));
             }
 
             return builder.and(conditions.toArray(new Predicate[conditions.size()]));
@@ -83,7 +94,7 @@ public class RuleTemplateServiceImpl implements RuleTemplateService {
     }
 
     @Override
-    public RuleTemplateResponseDTO createOrUpdate(RuleTemplateRequestDTO ruleTemplateRequestDTO) {
+    public RuleTemplateResponseDTO createOrUpdate(RuleTemplateCreateOrUpdateRequestDTO ruleTemplateRequestDTO) {
         Metrics metrics = metricsService.findOneByCode(ruleTemplateRequestDTO.getMetricsCode());
         RuleTemplate ruleTemplate = conversionService.convert(ruleTemplateRequestDTO, RuleTemplate.class);
         ruleTemplate.setMetrics(metrics);

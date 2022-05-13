@@ -35,10 +35,10 @@ public class MetricsResponseDTO {
     private Date updateTime;
 
     @ApiModelProperty(value = "creator")
-    private Integer creator;
+    private Long creator;
 
     @ApiModelProperty(value = "updater")
-    private Integer updater;
+    private Long updater;
 
     public Integer getId() {
         return id;
@@ -96,19 +96,19 @@ public class MetricsResponseDTO {
         this.updateTime = updateTime;
     }
 
-    public Integer getCreator() {
+    public Long getCreator() {
         return creator;
     }
 
-    public void setCreator(Integer creator) {
+    public void setCreator(Long creator) {
         this.creator = creator;
     }
 
-    public Integer getUpdater() {
+    public Long getUpdater() {
         return updater;
     }
 
-    public void setUpdater(Integer updater) {
+    public void setUpdater(Long updater) {
         this.updater = updater;
     }
 
