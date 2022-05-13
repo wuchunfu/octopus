@@ -1,29 +1,20 @@
-package org.metahut.octopus.dao.entity;
+package org.metahut.octopus.api.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
-@Entity
-@Table(name = "tb_octopus_flow_definition")
-public class FlowDefinition extends BaseEntity {
+public class FlowDefinitionCreateRequestDTO {
 
-    @Id
-    @GeneratedValue
-    private Integer id;
+    @NotEmpty(message = "{parameter.not.null}")
     private String sourceCode;
+
+    @NotEmpty(message = "{parameter.not.null}")
     private String env;
+
+    @NotEmpty(message = "{parameter.not.null}")
     private String crontab;
+
+    @NotEmpty(message = "{parameter.not.null}")
     private String schedulerCode;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getSourceCode() {
         return sourceCode;

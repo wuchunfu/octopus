@@ -89,7 +89,7 @@ CREATE TABLE tb_octopus_rule_template
     comparison_method varchar(64),
     expected_value    varchar(64),
     threshold_unit    varchar(16),
-    subject_category varchar(16) DEFAULT 'TABLE',
+    subject_category  varchar(16) DEFAULT 'TABLE',
     description       varchar(64) DEFAULT NULL,
     create_time       datetime    DEFAULT NULL,
     update_time       datetime    DEFAULT NULL,
@@ -191,7 +191,7 @@ DROP TABLE IF EXISTS tb_octopus_flow_definition CASCADE;
 CREATE TABLE tb_octopus_flow_definition
 (
     id             int(11) NOT NULL AUTO_INCREMENT,
-    source_code    int(11) NOT NULL,
+    source_code    varchar(200) NOT NULL,
     env            varchar(200),
     crontab        varchar(200) NOT NULL,
     scheduler_code varchar(254) NOT NULL,

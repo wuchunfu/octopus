@@ -11,10 +11,10 @@ import java.util.Date;
 public class MonitorTaskConditionsRequestDTO extends PageRequestDTO {
 
     @ApiModelProperty(value = "data soucre instance name")
-    private String sourceName;
+    private String datasourceName;
 
     @ApiModelProperty(value = "data set name")
-    private String sourceCode;
+    private String datasetName;
 
     @ApiModelProperty(value = "task name")
     private String taskName;
@@ -37,20 +37,20 @@ public class MonitorTaskConditionsRequestDTO extends PageRequestDTO {
     @ApiModelProperty(value = "endTask end time")
     private Date endTaskEndTime;
 
-    public String getSourceName() {
-        return sourceName;
+    public String getDatasourceName() {
+        return datasourceName;
     }
 
-    public void setSourceName(String sourceName) {
-        this.sourceName = sourceName;
+    public void setDatasourceName(String datasourceName) {
+        this.datasourceName = datasourceName;
     }
 
-    public String getSourceCode() {
-        return sourceCode;
+    public String getDatasetName() {
+        return datasetName;
     }
 
-    public void setSourceCode(String sourceCode) {
-        this.sourceCode = sourceCode;
+    public void setDatasetName(String datasetName) {
+        this.datasetName = datasetName;
     }
 
     public String getTaskName() {

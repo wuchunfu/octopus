@@ -12,10 +12,10 @@ public class MonitorTaskResponseDTO {
     private Integer id;
 
     @ApiModelProperty(value = "data soucre instance name")
-    private String sourceName;
+    private String dataSourceName;
 
     @ApiModelProperty(value = "data set name")
-    private String sourceCode;
+    private String dataSetName;
 
     @ApiModelProperty(value = "task name")
     private String taskName;
@@ -46,20 +46,20 @@ public class MonitorTaskResponseDTO {
         this.id = id;
     }
 
-    public String getSourceName() {
-        return sourceName;
+    public String getDataSourceName() {
+        return dataSourceName;
     }
 
-    public void setSourceName(String sourceName) {
-        this.sourceName = sourceName;
+    public void setDataSourceName(String dataSourceName) {
+        this.dataSourceName = dataSourceName;
     }
 
-    public String getSourceCode() {
-        return sourceCode;
+    public String getDataSetName() {
+        return dataSetName;
     }
 
-    public void setSourceCode(String sourceCode) {
-        this.sourceCode = sourceCode;
+    public void setDataSetName(String dataSetName) {
+        this.dataSetName = dataSetName;
     }
 
     public String getTaskName() {
