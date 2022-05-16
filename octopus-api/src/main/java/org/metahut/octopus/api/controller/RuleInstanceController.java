@@ -5,7 +5,7 @@ import org.metahut.octopus.api.dto.PageResponseDTO;
 import org.metahut.octopus.api.dto.PrepTimeRequestDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
 import org.metahut.octopus.api.dto.RuleInstanceConditionRequestDTO;
-import org.metahut.octopus.api.dto.RuleInstanceRequestDTO;
+import org.metahut.octopus.api.dto.RuleInstanceCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.RuleInstanceResponseDTO;
 import org.metahut.octopus.api.dto.SampleInstanceResponseDTO;
 
@@ -27,24 +27,24 @@ import java.util.List;
 @RequestMapping("rule")
 public interface RuleInstanceController {
 
-    @ApiOperation(value = "createRuleInstance", notes = "CREATE_RULE_INSTANCE_NOTES")
-    @PostMapping
-    ResultEntity batchCreateRuleInstance(@RequestBody List<RuleInstanceRequestDTO> ruleInstanceRequestDTOs);
+    @ApiOperation(value = "batchCreate", notes = "BATCH_CREATE_RULE_INSTANCE_NOTES")
+    @PostMapping("batchCreate")
+    ResultEntity<List<RuleInstanceResponseDTO>> batchCreate(@RequestBody List<RuleInstanceCreateOrUpdateRequestDTO> ruleInstanceCreateOrUpdateRequestDTOS);
 
-    @ApiOperation(value = "deleteRuleInstance", notes = "DELETE_RULE_INSTANCE_NOTES")
+    @ApiOperation(value = "deleteById", notes = "DELETE_RULE_INSTANCE_BY_ID_NOTES")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "id", value = "RULE_INSTANCE_ID", required = true, dataType = "Integer", example = "1")
     })
-    @DeleteMapping("/{id}")
-    ResultEntity deleteRuleInstance(@PathVariable(value = "id") Integer id);
+    @DeleteMapping("{id}")
+    ResultEntity deleteById(@PathVariable(value = "id") Integer id);
 
-    @ApiOperation(value = "updateRuleInstance", notes = "UPDATE_RULE_INSTANCE_NOTES")
-    @PutMapping("/{code}")
-    ResultEntity updateRuleInstance(@RequestBody List<RuleInstanceRequestDTO> ruleInstanceRequestDTO);
+    @ApiOperation(value = "update", notes = "UPDATE_RULE_INSTANCE_NOTES")
+    @PutMapping("update")
+    ResultEntity<RuleInstanceResponseDTO> update(@RequestBody RuleInstanceCreateOrUpdateRequestDTO ruleInstanceCreateOrUpdateRequestDTO);
 
-    @ApiOperation(value = "queryRuleInstancePage", notes = "QUERY_RULE_INSTANCE_PAGE_NOTES")
-    @GetMapping("/queryListPage")
-    ResultEntity<PageResponseDTO<RuleInstanceResponseDTO>> queryRuleInstancePage(RuleInstanceConditionRequestDTO ruleInstanceConditionRequestDTO);
+    @ApiOperation(value = "queryListPage", notes = "QUERY_RULE_INSTANCE_PAGE_NOTES")
+    @GetMapping("queryListPage")
+    ResultEntity<PageResponseDTO<RuleInstanceResponseDTO>> queryListPage(RuleInstanceConditionRequestDTO ruleInstanceConditionRequestDTO);
 
     @ApiOperation(value = "querySampleInstance", notes = "QUERY_SAMPLE_INSTANCE_NOTES")
     @GetMapping("/sampleInstance/{code}")
@@ -60,7 +60,7 @@ public interface RuleInstanceController {
 
     @ApiOperation(value = "prepRun", notes = "PREP_RUN_NOTES")
     @PutMapping("/prepRun")
-    ResultEntity prepRun(@RequestBody RuleInstanceRequestDTO ruleInstanceRequestDTO);
+    ResultEntity prepRun(@RequestBody RuleInstanceCreateOrUpdateRequestDTO ruleInstanceCreateOrUpdateRequestDTO);
 
     @ApiOperation(value = "getPrepTime", notes = "GET_PREP_TIME_NOTES")
     @GetMapping

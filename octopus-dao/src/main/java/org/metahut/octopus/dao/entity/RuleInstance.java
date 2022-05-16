@@ -11,6 +11,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -18,20 +19,23 @@ import java.util.Date;
 
 @Entity
 @Table(name = "tb_octopus_rule_instance")
-public class RuleInstance {
+public class RuleInstance extends BaseEntity {
 
     @Id
     @GeneratedValue
     private Integer id;
 
-    private Integer code;
+    private Long code;
+
     private String name;
 
-    private String sourceCode;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "metrics_code", referencedColumnName = "code")
+    private Metrics metrics;
 
-    private String metricsCode;
-
-    private String metricsConfigCode;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "metrics_config_code", referencedColumnName = "code")
+    private MetricsConfig metricsConfig;
 
     private String metricsParams;
 
@@ -44,7 +48,7 @@ public class RuleInstance {
 
     private String filter;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "sample_code", referencedColumnName = "code")
     private SampleInstance sampleInstance;
 
@@ -62,15 +66,11 @@ public class RuleInstance {
     @Enumerated(value = EnumType.STRING)
     private RuleStateEnum state;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "source_code", referencedColumnName = "sourceCode")
+    private FlowDefinition flowDefinition;
+
     private String description;
-
-    private Date createTime;
-
-    private Date updateTime;
-
-    private Integer creator;
-
-    private Integer updater;
 
     public Integer getId() {
         return id;
@@ -80,12 +80,37 @@ public class RuleInstance {
         this.id = id;
     }
 
-    public Integer getCode() {
+    public Long getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(Long code) {
         this.code = code;
+    }
+
+    public Metrics getMetrics() {
+        return metrics;
+    }
+
+    public void setMetrics(Metrics metrics) {
+        this.metrics = metrics;
+    }
+
+    public MetricsConfig getMetricsConfig() {
+        return metricsConfig;
+    }
+
+    public void setMetricsConfig(MetricsConfig metricsConfig) {
+        this.metricsConfig = metricsConfig;
+    }
+
+
+    public FlowDefinition getFlowDefinition() {
+        return flowDefinition;
+    }
+
+    public void setFlowDefinition(FlowDefinition flowDefinition) {
+        this.flowDefinition = flowDefinition;
     }
 
     public String getName() {
@@ -94,30 +119,6 @@ public class RuleInstance {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getSourceCode() {
-        return sourceCode;
-    }
-
-    public void setSourceCode(String sourceCode) {
-        this.sourceCode = sourceCode;
-    }
-
-    public String getMetricsCode() {
-        return metricsCode;
-    }
-
-    public void setMetricsCode(String metricsCode) {
-        this.metricsCode = metricsCode;
-    }
-
-    public String getMetricsConfigCode() {
-        return metricsConfigCode;
-    }
-
-    public void setMetricsConfigCode(String metricsConfigCode) {
-        this.metricsConfigCode = metricsConfigCode;
     }
 
     public String getMetricsParams() {
@@ -222,37 +223,5 @@ public class RuleInstance {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Integer getCreator() {
-        return creator;
-    }
-
-    public void setCreator(Integer creator) {
-        this.creator = creator;
-    }
-
-    public Integer getUpdater() {
-        return updater;
-    }
-
-    public void setUpdater(Integer updater) {
-        this.updater = updater;
     }
 }

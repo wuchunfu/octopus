@@ -1,27 +1,25 @@
 package org.metahut.octopus.api.dto;
 
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Date;
 
-@ApiModel(value = "sampleInstance request")
-public class SampleInstanceResponseDTO {
+public class FlowDefinitionResponseDTO {
 
     @ApiModelProperty(value = "id")
     private Integer id;
 
-    @ApiModelProperty(value = "code")
-    private Long code;
-
     @ApiModelProperty(value = "sourceCode")
     private String sourceCode;
 
-    @ApiModelProperty(value = "executorType")
-    private String executorType;
+    @ApiModelProperty(value = "env")
+    private String env;
 
-    @ApiModelProperty(value = "params")
-    private String params;
+    @ApiModelProperty(value = "crontab")
+    private String crontab;
+
+    @ApiModelProperty(value = "schedulerCode")
+    private String schedulerCode;
 
     @ApiModelProperty(value = "creator")
     private Long creator;
@@ -43,14 +41,6 @@ public class SampleInstanceResponseDTO {
         this.id = id;
     }
 
-    public Long getCode() {
-        return code;
-    }
-
-    public void setCode(Long code) {
-        this.code = code;
-    }
-
     public String getSourceCode() {
         return sourceCode;
     }
@@ -59,20 +49,28 @@ public class SampleInstanceResponseDTO {
         this.sourceCode = sourceCode;
     }
 
-    public String getExecutorType() {
-        return executorType;
+    public String getEnv() {
+        return env;
     }
 
-    public void setExecutorType(String executorType) {
-        this.executorType = executorType;
+    public void setEnv(String env) {
+        this.env = env;
     }
 
-    public String getParams() {
-        return params;
+    public String getCrontab() {
+        return crontab;
     }
 
-    public void setParams(String params) {
-        this.params = params;
+    public void setCrontab(String crontab) {
+        this.crontab = crontab;
+    }
+
+    public String getSchedulerCode() {
+        return schedulerCode;
+    }
+
+    public void setSchedulerCode(String schedulerCode) {
+        this.schedulerCode = schedulerCode;
     }
 
     public Long getCreator() {

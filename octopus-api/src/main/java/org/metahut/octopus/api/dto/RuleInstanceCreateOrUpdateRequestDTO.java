@@ -6,7 +6,13 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(description = "rule create or update request dto")
-public class RuleInstanceRequestDTO {
+public class RuleInstanceCreateOrUpdateRequestDTO {
+
+    @ApiModelProperty(value = "id")
+    private Integer id;
+
+    @ApiModelProperty(value = "code")
+    private Long code;
 
     @ApiModelProperty(value = "name")
     private String name;
@@ -18,7 +24,7 @@ public class RuleInstanceRequestDTO {
     private String metricsCode;
 
     @ApiModelProperty(value = "metricsConfigCode")
-    private Integer metricsConfigCode;
+    private Long metricsConfigCode;
 
     @ApiModelProperty(value = "checkType")
     private String checkType;
@@ -47,11 +53,27 @@ public class RuleInstanceRequestDTO {
     @ApiModelProperty(value = "alarmGoup")
     private String alarmGoup;
 
-    public Integer getMetricsConfigCode() {
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Long getCode() {
+        return code;
+    }
+
+    public void setCode(Long code) {
+        this.code = code;
+    }
+
+    public Long getMetricsConfigCode() {
         return metricsConfigCode;
     }
 
-    public void setMetricsConfigCode(Integer metricsConfigCode) {
+    public void setMetricsConfigCode(Long metricsConfigCode) {
         this.metricsConfigCode = metricsConfigCode;
     }
 

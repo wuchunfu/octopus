@@ -48,4 +48,9 @@ public class MetricsConfigControllerImpl implements MetricsConfigController {
         metricsConfigService.deleteById(id);
         return ResultEntity.success();
     }
+
+    @Override
+    public ResultEntity<MetricsConfigResponseDTO> findByCode(Long code) {
+        return ResultEntity.success(metricsConfigService.findByCode(code));
+    }
 }

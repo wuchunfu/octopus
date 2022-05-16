@@ -6,10 +6,11 @@ import org.metahut.octopus.api.dto.PageResponseDTO;
 import org.metahut.octopus.api.dto.PrepTimeRequestDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
 import org.metahut.octopus.api.dto.RuleInstanceConditionRequestDTO;
-import org.metahut.octopus.api.dto.RuleInstanceRequestDTO;
+import org.metahut.octopus.api.dto.RuleInstanceCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.RuleInstanceResponseDTO;
 import org.metahut.octopus.api.dto.SampleInstanceResponseDTO;
 import org.metahut.octopus.server.service.RuleInstanceService;
+import org.metahut.octopus.server.utils.SnowflakeIdGenerator;
 
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,24 +25,25 @@ public class RuleInstanceControllerImpl implements RuleInstanceController {
         this.ruleInstanceService = ruleInstanceService;
     }
 
+
     @Override
-    public ResultEntity batchCreateRuleInstance(List<RuleInstanceRequestDTO> ruleInstanceRequestDTOs) {
-        return ResultEntity.success(ruleInstanceService.createOrUpdate(ruleInstanceRequestDTOs));
+    public ResultEntity<List<RuleInstanceResponseDTO>> batchCreate(List<RuleInstanceCreateOrUpdateRequestDTO> ruleInstanceCreateOrUpdateRequestDTOS) {
+        ruleInstanceCreateOrUpdateRequestDTOS.forEach(item -> item.setCode(SnowflakeIdGenerator.getInstance().nextId()));
+        return ResultEntity.success(ruleInstanceService.batchCreate(ruleInstanceCreateOrUpdateRequestDTOS));
     }
 
     @Override
-    public ResultEntity deleteRuleInstance(Integer id) {
-        ruleInstanceService.deleteById(id);
-        return ResultEntity.success();
+    public ResultEntity deleteById(Integer id) {
+        return ResultEntity.success(id);
     }
 
     @Override
-    public ResultEntity updateRuleInstance(List<RuleInstanceRequestDTO> ruleInstanceRequestDTO) {
-        return ResultEntity.success(ruleInstanceService.createOrUpdate(ruleInstanceRequestDTO));
+    public ResultEntity<RuleInstanceResponseDTO> update(RuleInstanceCreateOrUpdateRequestDTO ruleInstanceCreateOrUpdateRequestDTO) {
+        return ResultEntity.success(ruleInstanceService.update(ruleInstanceCreateOrUpdateRequestDTO));
     }
 
     @Override
-    public ResultEntity<PageResponseDTO<RuleInstanceResponseDTO>> queryRuleInstancePage(RuleInstanceConditionRequestDTO ruleInstanceConditionRequestDTO) {
+    public ResultEntity<PageResponseDTO<RuleInstanceResponseDTO>> queryListPage(RuleInstanceConditionRequestDTO ruleInstanceConditionRequestDTO) {
         return ResultEntity.success(ruleInstanceService.queryListPage(ruleInstanceConditionRequestDTO));
     }
 
@@ -61,7 +63,7 @@ public class RuleInstanceControllerImpl implements RuleInstanceController {
     }
 
     @Override
-    public ResultEntity prepRun(RuleInstanceRequestDTO ruleInstanceRequestDTO) {
+    public ResultEntity prepRun(RuleInstanceCreateOrUpdateRequestDTO ruleInstanceCreateOrUpdateRequestDTO) {
         return ResultEntity.success();
     }
 

@@ -125,7 +125,7 @@ public class MetricsConfigControllerImplTest extends WebApplicationTest {
         ResultEntity<List<MetricsConfigResponseDTO>> result = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<List<MetricsConfigResponseDTO>>>() {});
         Assertions.assertTrue(result.isSuccess());
         List<MetricsConfigResponseDTO> data = result.getData();
-        Assertions.assertEquals(2, data.size());
+        Assertions.assertEquals(6, data.size());
     }
 
     @Test

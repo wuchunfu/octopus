@@ -12,7 +12,7 @@ public class RuleInstanceResponseDTO {
     private Integer id;
 
     @ApiModelProperty(value = "code")
-    private Integer code;
+    private Long code;
 
     @ApiModelProperty(value = "name")
     private String name;
@@ -21,10 +21,10 @@ public class RuleInstanceResponseDTO {
     private SubjectCategoryEnum subjectCategory;
 
     @ApiModelProperty(value = "metricsCode")
-    private String metricsCode;
+    private MetricsResponseDTO metrics;
 
     @ApiModelProperty(value = "metricsConfigCode")
-    private Integer metricsConfigCode;
+    private MetricsConfigResponseDTO metricsConfig;
 
     @ApiModelProperty(value = "checkType")
     private String checkType;
@@ -38,8 +38,8 @@ public class RuleInstanceResponseDTO {
     @ApiModelProperty(value = "expectedValue")
     private String expectedValue;
 
-    @ApiModelProperty(value = "samplevlue")
-    private String samplevlue;
+    @ApiModelProperty(value = "sampleInstance")
+    private SampleInstanceResponseDTO sampleInstance;
 
     @ApiModelProperty(value = "sourceCode")
     private String sourceCode;
@@ -47,17 +47,17 @@ public class RuleInstanceResponseDTO {
     @ApiModelProperty(value = "subjectCode")
     private String subjectCode;
 
-    @ApiModelProperty(value = "crontab")
-    private String crontab;
+    @ApiModelProperty(value = "flowDefinition")
+    private FlowDefinitionResponseDTO flowDefinition;
 
     @ApiModelProperty(value = "alarmGoup")
     private String alarmGoup;
 
     @ApiModelProperty(value = "creator")
-    private Integer creator;
+    private Long creator;
 
     @ApiModelProperty(value = "operator")
-    private Integer operator;
+    private Long operator;
 
     @ApiModelProperty(value = "createTime")
     private Date createTime;
@@ -73,11 +73,11 @@ public class RuleInstanceResponseDTO {
         this.id = id;
     }
 
-    public Integer getCode() {
+    public Long getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(Long code) {
         this.code = code;
     }
 
@@ -97,20 +97,20 @@ public class RuleInstanceResponseDTO {
         this.subjectCategory = subjectCategory;
     }
 
-    public String getMetricsCode() {
-        return metricsCode;
+    public MetricsResponseDTO getMetrics() {
+        return metrics;
     }
 
-    public void setMetricsCode(String metricsCode) {
-        this.metricsCode = metricsCode;
+    public void setMetrics(MetricsResponseDTO metrics) {
+        this.metrics = metrics;
     }
 
-    public Integer getMetricsConfigCode() {
-        return metricsConfigCode;
+    public MetricsConfigResponseDTO getMetricsConfig() {
+        return metricsConfig;
     }
 
-    public void setMetricsConfigCode(Integer metricsConfigCode) {
-        this.metricsConfigCode = metricsConfigCode;
+    public void setMetricsConfig(MetricsConfigResponseDTO metricsConfig) {
+        this.metricsConfig = metricsConfig;
     }
 
     public String getCheckType() {
@@ -145,12 +145,12 @@ public class RuleInstanceResponseDTO {
         this.expectedValue = expectedValue;
     }
 
-    public String getSamplevlue() {
-        return samplevlue;
+    public SampleInstanceResponseDTO getSampleInstance() {
+        return sampleInstance;
     }
 
-    public void setSamplevlue(String samplevlue) {
-        this.samplevlue = samplevlue;
+    public void setSampleInstance(SampleInstanceResponseDTO sampleInstance) {
+        this.sampleInstance = sampleInstance;
     }
 
     public String getSourceCode() {
@@ -169,12 +169,12 @@ public class RuleInstanceResponseDTO {
         this.subjectCode = subjectCode;
     }
 
-    public String getCrontab() {
-        return crontab;
+    public FlowDefinitionResponseDTO getFlowDefinition() {
+        return flowDefinition;
     }
 
-    public void setCrontab(String crontab) {
-        this.crontab = crontab;
+    public void setFlowDefinition(FlowDefinitionResponseDTO flowDefinition) {
+        this.flowDefinition = flowDefinition;
     }
 
     public String getAlarmGoup() {
@@ -185,19 +185,19 @@ public class RuleInstanceResponseDTO {
         this.alarmGoup = alarmGoup;
     }
 
-    public Integer getCreator() {
+    public Long getCreator() {
         return creator;
     }
 
-    public void setCreator(Integer creator) {
+    public void setCreator(Long creator) {
         this.creator = creator;
     }
 
-    public Integer getOperator() {
+    public Long getOperator() {
         return operator;
     }
 
-    public void setOperator(Integer operator) {
+    public void setOperator(Long operator) {
         this.operator = operator;
     }
 

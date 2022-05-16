@@ -9,27 +9,19 @@ import java.util.Date;
 
 @Entity
 @Table(name = "tb_octopus_sample_instance")
-public class SampleInstance {
+public class SampleInstance  extends BaseEntity {
 
     @Id
     @GeneratedValue
     private Integer id;
 
-    private Integer code;
+    private Long code;
 
     private String sourceCode;
 
     private String executorType;
 
     private String params;
-
-    private Date createTime;
-
-    private Date updateTime;
-
-    private Integer creator;
-
-    private Integer updater;
 
     public Integer getId() {
         return id;
@@ -39,11 +31,11 @@ public class SampleInstance {
         this.id = id;
     }
 
-    public Integer getCode() {
+    public Long getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(Long code) {
         this.code = code;
     }
 
@@ -71,35 +63,4 @@ public class SampleInstance {
         this.params = params;
     }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Integer getCreator() {
-        return creator;
-    }
-
-    public void setCreator(Integer creator) {
-        this.creator = creator;
-    }
-
-    public Integer getUpdater() {
-        return updater;
-    }
-
-    public void setUpdater(Integer updater) {
-        this.updater = updater;
-    }
 }

@@ -13,11 +13,13 @@ import org.metahut.octopus.dao.entity.Metrics_;
 import org.metahut.octopus.dao.repository.MetricsConfigRepository;
 import org.metahut.octopus.server.service.MetricsConfigService;
 import org.metahut.octopus.server.service.MetricsService;
+import org.metahut.octopus.server.utils.Assert;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.TypeDescriptor;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +33,9 @@ import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+
+import static org.metahut.octopus.common.enums.StatusEnum.METRICS_CONFIG_NOT_EXIST;
 
 @Service
 public class MetricsConfigServiceImpl implements MetricsConfigService {
@@ -121,5 +126,19 @@ public class MetricsConfigServiceImpl implements MetricsConfigService {
     @Override
     public void deleteById(Integer id) {
         metricsConfigRepository.deleteById(id);
+    }
+
+    @Override
+    public MetricsConfigResponseDTO findByCode(Long metricsConfigCode) {
+        return conversionService.convert(findOneByCode(metricsConfigCode), MetricsConfigResponseDTO.class);
+    }
+
+    @Override
+    public MetricsConfig findOneByCode(Long code) {
+        MetricsConfig metricsConfig = new MetricsConfig();
+        metricsConfig.setCode(code);
+        Optional<MetricsConfig> optional = metricsConfigRepository.findOne(Example.of(metricsConfig));
+        Assert.notPresent(optional, METRICS_CONFIG_NOT_EXIST, new Long[] {code});
+        return optional.get();
     }
 }

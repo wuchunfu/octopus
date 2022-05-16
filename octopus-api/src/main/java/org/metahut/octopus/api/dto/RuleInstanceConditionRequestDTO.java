@@ -6,14 +6,14 @@ import java.util.Date;
 
 public class RuleInstanceConditionRequestDTO extends PageRequestDTO {
 
-    @ApiModelProperty(value = "tableCode")
-    private Integer tableCode;
+    @ApiModelProperty(value = "subjectCode")
+    private String subjectCode;
 
     @ApiModelProperty(value = "sourceCode")
-    private Integer sourceCode;
+    private String sourceCode;
 
-    @ApiModelProperty(value = "dataType")
-    private Integer dataType;
+    @ApiModelProperty(value = "sourceType")
+    private String sourceType;
 
     @ApiModelProperty(value = "createStartTime")
     private Date createStartTime;
@@ -27,28 +27,28 @@ public class RuleInstanceConditionRequestDTO extends PageRequestDTO {
     @ApiModelProperty(value = "updateEndTime")
     private Date updateEndTime;
 
-    public Integer getTableCode() {
-        return tableCode;
+    public String getSubjectCode() {
+        return subjectCode;
     }
 
-    public void setTableCode(Integer tableCode) {
-        this.tableCode = tableCode;
+    public void setSubjectCode(String subjectCode) {
+        this.subjectCode = subjectCode;
     }
 
-    public Integer getSourceCode() {
+    public String getSourceCode() {
         return sourceCode;
     }
 
-    public void setSourceCode(Integer sourceCode) {
+    public void setSourceCode(String sourceCode) {
         this.sourceCode = sourceCode;
     }
 
-    public Integer getDataType() {
-        return dataType;
+    public String getSourceType() {
+        return sourceType;
     }
 
-    public void setDataType(Integer dataType) {
-        this.dataType = dataType;
+    public void setSourceType(String sourceType) {
+        this.sourceType = sourceType;
     }
 
     public Date getCreateStartTime() {
