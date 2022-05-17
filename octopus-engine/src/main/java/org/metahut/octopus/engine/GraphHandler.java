@@ -21,7 +21,6 @@ import java.util.Objects;
 public class GraphHandler {
 
     private final ExecutorPluginHelper executorPluginHelper;
-
     private final ParserPluginHelper parserPluginHelper;
 
     public GraphHandler(ExecutorPluginHelper executorPluginHelper, ParserPluginHelper parserPluginHelper) {
@@ -30,6 +29,13 @@ public class GraphHandler {
     }
 
     // Only supports flink engine
+
+    /**
+     * <p>
+     *     Only supports flink engine
+     *     When it is a real-time task, the task needs to be restarted to support the metrics change
+     * </p>
+     */
     public void metricsHandler() {
         // 根据sourceCode查询Flow表
 

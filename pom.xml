@@ -77,6 +77,7 @@
         <reflections.version>0.10.2</reflections.version>
         <org.mapstruct.extensions.spring.version>0.1.1</org.mapstruct.extensions.spring.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
+        <clickhouse.version>0.1.52</clickhouse.version>
     </properties>
 
     <dependencies>
@@ -223,6 +224,12 @@
                 <groupId>org.mapstruct.extensions.spring</groupId>
                 <artifactId>mapstruct-spring-annotations</artifactId>
                 <version>${org.mapstruct.extensions.spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>ru.yandex.clickhouse</groupId>
+                <artifactId>clickhouse-jdbc</artifactId>
+                <version>${clickhouse.version}</version>
             </dependency>
 
             <!-- junit5 test -->
