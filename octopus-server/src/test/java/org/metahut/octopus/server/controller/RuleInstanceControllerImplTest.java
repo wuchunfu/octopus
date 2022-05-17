@@ -86,9 +86,15 @@ public class RuleInstanceControllerImplTest  extends WebApplicationTest {
         ruleInstanceCreateOrUpdateRequestDTO.setSourceCode("sourceCode_create");
         ruleInstanceCreateOrUpdateRequestDTO.setCrontab("/5*****");
         ruleInstanceCreateOrUpdateRequestDTO.setSamplevlue("60");
+        ArrayList<Long> codes = new ArrayList<>();
+        codes.add(1L);
+        ArrayList<String> peoples = new ArrayList<>();
+        peoples.add("xiaolaing.wang");
+        ruleInstanceCreateOrUpdateRequestDTO.setAlertInstanceList(codes);
+        ruleInstanceCreateOrUpdateRequestDTO.setAlertPeopleList(peoples);
         ArrayList<RuleInstanceCreateOrUpdateRequestDTO> list = new ArrayList<RuleInstanceCreateOrUpdateRequestDTO>();
         list.add(ruleInstanceCreateOrUpdateRequestDTO);
-        create(list);
+        List<RuleInstanceResponseDTO> ruleInstanceResponseDTOS = create(list);
     }
 
     @Test
@@ -109,6 +115,12 @@ public class RuleInstanceControllerImplTest  extends WebApplicationTest {
         ruleInstanceCreateOrUpdateRequestDTO.setSourceCode("sourceCode_update");
         ruleInstanceCreateOrUpdateRequestDTO.setCrontab("/5*****");
         ruleInstanceCreateOrUpdateRequestDTO.setSamplevlue("60");
+        ArrayList<Long> codes = new ArrayList<>();
+        codes.add(1L);
+        ArrayList<String> peoples = new ArrayList<>();
+        peoples.add("xiaolaing.wang");
+        ruleInstanceCreateOrUpdateRequestDTO.setAlertInstanceList(codes);
+        ruleInstanceCreateOrUpdateRequestDTO.setAlertPeopleList(peoples);
         ArrayList<RuleInstanceCreateOrUpdateRequestDTO> list = new ArrayList<RuleInstanceCreateOrUpdateRequestDTO>();
         list.add(ruleInstanceCreateOrUpdateRequestDTO);
         List<RuleInstanceResponseDTO> createData = create(list);
@@ -147,6 +159,12 @@ public class RuleInstanceControllerImplTest  extends WebApplicationTest {
         ruleInstanceCreateOrUpdateRequestDTO.setSourceCode("sourceCode_delete");
         ruleInstanceCreateOrUpdateRequestDTO.setCrontab("/5*****");
         ruleInstanceCreateOrUpdateRequestDTO.setSamplevlue("60");
+        ArrayList<Long> codes = new ArrayList<>();
+        codes.add(1L);
+        ArrayList<String> peoples = new ArrayList<>();
+        peoples.add("xiaolaing.wang");
+        ruleInstanceCreateOrUpdateRequestDTO.setAlertInstanceList(codes);
+        ruleInstanceCreateOrUpdateRequestDTO.setAlertPeopleList(peoples);
         ArrayList<RuleInstanceCreateOrUpdateRequestDTO> list = new ArrayList<RuleInstanceCreateOrUpdateRequestDTO>();
         list.add(ruleInstanceCreateOrUpdateRequestDTO);
         List<RuleInstanceResponseDTO> createData = create(list);
@@ -177,6 +195,12 @@ public class RuleInstanceControllerImplTest  extends WebApplicationTest {
         ruleInstanceCreateOrUpdateRequestDTO.setSourceCode("sourceCode_query");
         ruleInstanceCreateOrUpdateRequestDTO.setCrontab("/5*****");
         ruleInstanceCreateOrUpdateRequestDTO.setSamplevlue("60");
+        ArrayList<Long> codes = new ArrayList<>();
+        codes.add(1L);
+        ArrayList<String> peoples = new ArrayList<>();
+        peoples.add("xiaolaing.wang");
+        ruleInstanceCreateOrUpdateRequestDTO.setAlertInstanceList(codes);
+        ruleInstanceCreateOrUpdateRequestDTO.setAlertPeopleList(peoples);
         ArrayList<RuleInstanceCreateOrUpdateRequestDTO> list = new ArrayList<RuleInstanceCreateOrUpdateRequestDTO>();
         list.add(ruleInstanceCreateOrUpdateRequestDTO);
         List<RuleInstanceResponseDTO> createData = create(list);

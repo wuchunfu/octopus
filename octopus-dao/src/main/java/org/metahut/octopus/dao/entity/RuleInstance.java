@@ -12,10 +12,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_octopus_rule_instance")
@@ -29,11 +30,11 @@ public class RuleInstance extends BaseEntity {
 
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "metrics_code", referencedColumnName = "code")
     private Metrics metrics;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "metrics_config_code", referencedColumnName = "code")
     private MetricsConfig metricsConfig;
 
@@ -48,7 +49,7 @@ public class RuleInstance extends BaseEntity {
 
     private String filter;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "sample_code", referencedColumnName = "code")
     private SampleInstance sampleInstance;
 
@@ -103,7 +104,6 @@ public class RuleInstance extends BaseEntity {
     public void setMetricsConfig(MetricsConfig metricsConfig) {
         this.metricsConfig = metricsConfig;
     }
-
 
     public FlowDefinition getFlowDefinition() {
         return flowDefinition;

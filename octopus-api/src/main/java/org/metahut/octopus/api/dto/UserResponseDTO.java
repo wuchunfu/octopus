@@ -1,53 +1,49 @@
-package org.metahut.octopus.dao.entity;
+package org.metahut.octopus.api.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Date;
 
-@Entity
-@Table(name = "tb_octopus_user")
-public class User  extends BaseEntity {
+@ApiModel(description = "user response dto")
+public class UserResponseDTO {
 
-    @Id
-    @GeneratedValue
+    @ApiModelProperty(value = "id")
     private Integer id;
 
+    @ApiModelProperty(value = "code")
     private Long code;
 
+    @ApiModelProperty(value = "name")
     private String name;
 
-    /**
-     * user's Chinese name
-     */
+    @ApiModelProperty(value = "cnName")
     private String cnName;
 
-    /**
-     * user password
-     */
-    private String password;
-
-    /**
-     * mail
-     */
+    @ApiModelProperty(value = "email")
     private String email;
 
-    /**
-     * phone number
-     */
+    @ApiModelProperty(value = "phoneNumber")
     private String phoneNumber;
 
-    /**
-     * department name
-     */
+    @ApiModelProperty(value = "departmentName")
     private String departmentName;
 
-    /**
-     * group name
-     */
+    @ApiModelProperty(value = "groupName")
     private String groupName;
+
+
+    @ApiModelProperty(value = "creator")
+    private Long creator;
+
+    @ApiModelProperty(value = "operator")
+    private Long operator;
+
+    @ApiModelProperty(value = "createTime")
+    private Date createTime;
+
+    @ApiModelProperty(value = "updateTime")
+    private Date updateTime;
 
     public Integer getId() {
         return id;
@@ -81,14 +77,6 @@ public class User  extends BaseEntity {
         this.cnName = cnName;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -119,5 +107,37 @@ public class User  extends BaseEntity {
 
     public void setGroupName(String groupName) {
         this.groupName = groupName;
+    }
+
+    public Long getCreator() {
+        return creator;
+    }
+
+    public void setCreator(Long creator) {
+        this.creator = creator;
+    }
+
+    public Long getOperator() {
+        return operator;
+    }
+
+    public void setOperator(Long operator) {
+        this.operator = operator;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }

@@ -176,7 +176,7 @@ DROP TABLE IF EXISTS tb_octopus_source_alert_relation CASCADE;
 CREATE TABLE tb_octopus_source_alert_relation
 (
     id                  int(11) NOT NULL AUTO_INCREMENT,
-    source_code         int(11) NOT NULL,
+    source_code         varchar(64) NOT NULL,
     alert_instance_code int(11) NOT NULL,
     alerter             varchar(200),
 

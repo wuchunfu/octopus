@@ -5,6 +5,7 @@ import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Date;
+import java.util.List;
 
 public class RuleInstanceResponseDTO {
 
@@ -50,8 +51,8 @@ public class RuleInstanceResponseDTO {
     @ApiModelProperty(value = "flowDefinition")
     private FlowDefinitionResponseDTO flowDefinition;
 
-    @ApiModelProperty(value = "alarmGoup")
-    private String alarmGoup;
+    @ApiModelProperty(value = "sourceAlertRelations")
+    List<SourceAlertRelationResponseDTO> sourceAlertRelations;
 
     @ApiModelProperty(value = "creator")
     private Long creator;
@@ -177,12 +178,12 @@ public class RuleInstanceResponseDTO {
         this.flowDefinition = flowDefinition;
     }
 
-    public String getAlarmGoup() {
-        return alarmGoup;
+    public List<SourceAlertRelationResponseDTO> getSourceAlertRelations() {
+        return sourceAlertRelations;
     }
 
-    public void setAlarmGoup(String alarmGoup) {
-        this.alarmGoup = alarmGoup;
+    public void setSourceAlertRelations(List<SourceAlertRelationResponseDTO> sourceAlertRelations) {
+        this.sourceAlertRelations = sourceAlertRelations;
     }
 
     public Long getCreator() {

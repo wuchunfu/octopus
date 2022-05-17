@@ -4,6 +4,7 @@ import org.metahut.octopus.api.dto.PageResponseDTO;
 import org.metahut.octopus.api.dto.RuleInstanceConditionRequestDTO;
 import org.metahut.octopus.api.dto.RuleInstanceCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.RuleInstanceResponseDTO;
+import org.metahut.octopus.api.dto.SourceAlertRelationResponseDTO;
 import org.metahut.octopus.dao.entity.FlowDefinition;
 import org.metahut.octopus.dao.entity.FlowDefinition_;
 import org.metahut.octopus.dao.entity.Metrics;
@@ -11,9 +12,11 @@ import org.metahut.octopus.dao.entity.MetricsConfig;
 import org.metahut.octopus.dao.entity.RuleInstance;
 import org.metahut.octopus.dao.entity.RuleInstance_;
 import org.metahut.octopus.dao.entity.SampleInstance;
+import org.metahut.octopus.dao.entity.SourceAlertRelation;
 import org.metahut.octopus.dao.repository.FlowDefinitionRepository;
 import org.metahut.octopus.dao.repository.RuleInstanceRepository;
 import org.metahut.octopus.dao.repository.SampleInstanceRepository;
+import org.metahut.octopus.dao.repository.SourceAlertRelationRepository;
 import org.metahut.octopus.server.service.MetricsConfigService;
 import org.metahut.octopus.server.service.MetricsService;
 import org.metahut.octopus.server.service.RuleInstanceService;
@@ -53,14 +56,16 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
     private final SampleInstanceRepository sampleInstanceRepository;
     private final MetricsService metricsService;
     private final MetricsConfigService metricsConfigService;
+    private final SourceAlertRelationRepository sourceAlertRelationRepository;
 
-    public RuleInstanceServiceImpl(RuleInstanceRepository ruleInstanceRepository, ConversionService conversionService, FlowDefinitionRepository flowDefinitionRepository, SampleInstanceRepository sampleInstanceRepository, MetricsService metricsService, MetricsConfigService metricsConfigService) {
+    public RuleInstanceServiceImpl(RuleInstanceRepository ruleInstanceRepository, ConversionService conversionService, FlowDefinitionRepository flowDefinitionRepository, SampleInstanceRepository sampleInstanceRepository, MetricsService metricsService, MetricsConfigService metricsConfigService, SourceAlertRelationRepository sourceAlertRelationRepository) {
         this.ruleInstanceRepository = ruleInstanceRepository;
         this.conversionService = conversionService;
         this.flowDefinitionRepository = flowDefinitionRepository;
         this.sampleInstanceRepository = sampleInstanceRepository;
         this.metricsService = metricsService;
         this.metricsConfigService = metricsConfigService;
+        this.sourceAlertRelationRepository = sourceAlertRelationRepository;
     }
 
     @Override
@@ -118,7 +123,10 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
             //AbstractMetricsParameter abstractMetricsParameter = JSONUtils.parseObject(metricsParams, AbstractMetricsParameter.class);
             convert.setMetricsUniqueKey("test");
             RuleInstance save = ruleInstanceRepository.save(convert);
-            return conversionService.convert(save, RuleInstanceResponseDTO.class);
+            List<SourceAlertRelationResponseDTO> sourceAlertRelations = createSourceAlertRelations(item.getAlertInstanceList(), item.getAlertPeopleList(), save);
+            RuleInstanceResponseDTO ruleInstanceResponseDTO = conversionService.convert(save, RuleInstanceResponseDTO.class);
+            ruleInstanceResponseDTO.setSourceAlertRelations(sourceAlertRelations);
+            return ruleInstanceResponseDTO;
         }).collect(Collectors.toList());
         return list;
     }
@@ -138,6 +146,8 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
         }
         convert.setSampleInstance(sampleInstance);
         RuleInstance save = ruleInstanceRepository.save(convert);
+
+
         return conversionService.convert(save, RuleInstanceResponseDTO.class);
     }
 
@@ -170,16 +180,14 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
         sampleInstance.setCode(SnowflakeIdGenerator.getInstance().nextId());
         sampleInstance.setSourceCode(sourceCode);
         sampleInstance.setParams(sampleValue);
-        SampleInstance save = sampleInstanceRepository.save(sampleInstance);
-        return save;
+        return sampleInstance;
     }
 
     private SampleInstance updateSampleInstance(Long sampleCode, String sampleValue, String sourceCode) {
         SampleInstance sampleInstance = findBySampleCode(sampleCode);
         sampleInstance.setParams(sampleValue);
         sampleInstance.setSourceCode(sourceCode);
-        SampleInstance save = sampleInstanceRepository.save(sampleInstance);
-        return save;
+        return sampleInstance;
     }
 
     private void deleteSampleInstance(Integer smapleId){
@@ -200,19 +208,33 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
         flowDefinition.setSchedulerCode(String.valueOf(SnowflakeIdGenerator.getInstance().nextId()));
         flowDefinition.setSourceCode(sourceCode);
         flowDefinition.setCrontab(crontab);
-        FlowDefinition save = flowDefinitionRepository.save(flowDefinition);
-        return save;
+        return flowDefinition;
     }
 
     private FlowDefinition updateFlowDefinition(String sourceCode, String crontab) {
         FlowDefinition flow = findBySourceCode(sourceCode);
         flow.setSourceCode(sourceCode);
         flow.setCrontab(crontab);
-        FlowDefinition save = flowDefinitionRepository.save(flow);
-        return save;
+        return flow;
     }
 
     private void deleteFlowDefinition(Integer id){
         flowDefinitionRepository.deleteById(id);
     }
+
+    private List<SourceAlertRelationResponseDTO> createSourceAlertRelations(List<Long> alertCodes, List<String> peoples, RuleInstance ruleInstance){
+        List<SourceAlertRelationResponseDTO> sourceAlertRelations = new ArrayList<>();
+        SourceAlertRelation sourceAlertRelation = new SourceAlertRelation();
+        sourceAlertRelation.setRuleInstance(ruleInstance);
+        alertCodes.forEach(instance -> {
+            peoples.forEach(people -> {
+                sourceAlertRelation.setAlertInstancecode(instance);
+                sourceAlertRelation.setAlerter(people);
+                SourceAlertRelationResponseDTO sourceAlertRelationResponseDTO = conversionService.convert(sourceAlertRelationRepository.save(sourceAlertRelation), SourceAlertRelationResponseDTO.class);
+                sourceAlertRelations.add(sourceAlertRelationResponseDTO);
+            });
+        });
+        return sourceAlertRelations;
+    }
+
 }

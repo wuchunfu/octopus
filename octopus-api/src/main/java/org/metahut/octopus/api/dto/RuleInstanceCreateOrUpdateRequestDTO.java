@@ -5,6 +5,8 @@ import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.util.List;
+
 @ApiModel(description = "rule create or update request dto")
 public class RuleInstanceCreateOrUpdateRequestDTO {
 
@@ -50,8 +52,11 @@ public class RuleInstanceCreateOrUpdateRequestDTO {
     @ApiModelProperty(value = "crontab")
     private String crontab;
 
-    @ApiModelProperty(value = "alarmGoup")
-    private String alarmGoup;
+    @ApiModelProperty(value = "alertInstanceList")
+    private List<Long> alertInstanceList;
+
+    @ApiModelProperty(value = "alertPeopleList")
+    private List<String> alertPeopleList;
 
     public Integer getId() {
         return id;
@@ -87,6 +92,22 @@ public class RuleInstanceCreateOrUpdateRequestDTO {
 
     public String getMetricsCode() {
         return metricsCode;
+    }
+
+    public List<Long> getAlertInstanceList() {
+        return alertInstanceList;
+    }
+
+    public void setAlertInstanceList(List<Long> alertInstanceList) {
+        this.alertInstanceList = alertInstanceList;
+    }
+
+    public List<String> getAlertPeopleList() {
+        return alertPeopleList;
+    }
+
+    public void setAlertPeopleList(List<String> alertPeopleList) {
+        this.alertPeopleList = alertPeopleList;
     }
 
     public void setMetricsCode(String metricsCode) {
@@ -155,14 +176,6 @@ public class RuleInstanceCreateOrUpdateRequestDTO {
 
     public void setCrontab(String crontab) {
         this.crontab = crontab;
-    }
-
-    public String getAlarmGoup() {
-        return alarmGoup;
-    }
-
-    public void setAlarmGoup(String alarmGoup) {
-        this.alarmGoup = alarmGoup;
     }
 
     public String getName() {
