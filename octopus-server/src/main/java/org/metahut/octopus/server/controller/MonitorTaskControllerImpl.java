@@ -34,5 +34,4 @@ public class MonitorTaskControllerImpl implements MonitorTaskController {
         return ResultEntity.success(monitorTaskService.create(createRequest));
     }
 
-
 }

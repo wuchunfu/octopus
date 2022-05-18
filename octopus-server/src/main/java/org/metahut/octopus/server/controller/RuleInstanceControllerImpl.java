@@ -25,7 +25,6 @@ public class RuleInstanceControllerImpl implements RuleInstanceController {
         this.ruleInstanceService = ruleInstanceService;
     }
 
-
     @Override
     public ResultEntity<List<RuleInstanceResponseDTO>> batchCreate(List<RuleInstanceCreateOrUpdateRequestDTO> ruleInstanceCreateOrUpdateRequestDTOS) {
         ruleInstanceCreateOrUpdateRequestDTOS.forEach(item -> item.setCode(SnowflakeIdGenerator.getInstance().nextId()));

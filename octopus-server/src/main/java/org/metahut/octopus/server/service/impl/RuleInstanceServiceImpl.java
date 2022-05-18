@@ -58,7 +58,13 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
     private final MetricsConfigService metricsConfigService;
     private final SourceAlertRelationRepository sourceAlertRelationRepository;
 
-    public RuleInstanceServiceImpl(RuleInstanceRepository ruleInstanceRepository, ConversionService conversionService, FlowDefinitionRepository flowDefinitionRepository, SampleInstanceRepository sampleInstanceRepository, MetricsService metricsService, MetricsConfigService metricsConfigService, SourceAlertRelationRepository sourceAlertRelationRepository) {
+    public RuleInstanceServiceImpl(RuleInstanceRepository ruleInstanceRepository,
+                                   ConversionService conversionService,
+                                   FlowDefinitionRepository flowDefinitionRepository,
+                                   SampleInstanceRepository sampleInstanceRepository,
+                                   MetricsService metricsService,
+                                   MetricsConfigService metricsConfigService,
+                                   SourceAlertRelationRepository sourceAlertRelationRepository) {
         this.ruleInstanceRepository = ruleInstanceRepository;
         this.conversionService = conversionService;
         this.flowDefinitionRepository = flowDefinitionRepository;

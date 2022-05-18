@@ -2,7 +2,7 @@ package org.metahut.octopus.monitordb.api;
 
 import java.util.List;
 
-public interface IMonitorDBSource {
+public interface IMonitorDBSource extends AutoCloseable {
 
     String customSQLQuery();
 

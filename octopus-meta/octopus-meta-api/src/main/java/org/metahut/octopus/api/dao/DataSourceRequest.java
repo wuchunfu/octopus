@@ -1,6 +1,5 @@
 package org.metahut.octopus.api.dao;
 
-
 public class DataSourceRequest {
     private String description;
     private String name;

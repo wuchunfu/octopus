@@ -57,5 +57,10 @@ knife4j:
 
 octopus:
   monitordb:
-    type: elasticsearch
+    type: clickhouse
+    clickhouse:
+      driverClassName: xxx.xx
+      jdbcUrl: xxx
+      user: xxx
+      password: xxx
 

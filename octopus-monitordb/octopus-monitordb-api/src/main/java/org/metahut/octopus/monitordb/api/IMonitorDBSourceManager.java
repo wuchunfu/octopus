@@ -1,7 +1,10 @@
 package org.metahut.octopus.monitordb.api;
 
-public interface IMonitorDBSourceManager {
+public interface IMonitorDBSourceManager extends AutoCloseable {
 
-    String getType();
+    MonitorDBTypeEnum getType();
+
+    void init(MonitorDBProperties monitorDBProperties);
+
     IMonitorDBSource getMonitorDBSource();
 }

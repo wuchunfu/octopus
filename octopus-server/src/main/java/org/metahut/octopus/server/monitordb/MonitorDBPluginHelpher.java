@@ -1,44 +1,37 @@
 package org.metahut.octopus.server.monitordb;
 
-import org.metahut.octopus.alerter.api.AbstractParameter;
-import org.metahut.octopus.alerter.api.IAlerter;
-import org.metahut.octopus.alerter.api.IAlerterManager;
+import org.metahut.octopus.monitordb.api.IMonitorDBSource;
 import org.metahut.octopus.monitordb.api.IMonitorDBSourceManager;
+import org.metahut.octopus.monitordb.api.MonitorDBProperties;
+import org.metahut.octopus.monitordb.api.MonitorDBTypeEnum;
+import org.metahut.octopus.server.utils.YamlFactory;
+
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.text.MessageFormat;
-import java.util.*;
+
+import java.util.ServiceLoader;
 
 @Component
 public class MonitorDBPluginHelpher {
 
-    private static final Map<String, IMonitorDBSourceManager> MONITOR_DB_SOURCE_MANAGER_MAP = new HashMap<>();
+    private IMonitorDBSourceManager monitorDBSourceManager;
 
     @PostConstruct
     public void init() {
+        MonitorDBProperties monitorDBProperties = YamlFactory.parseObject("octopus.monitordb", "application.yaml", new MonitorDBProperties());
         ServiceLoader.load(IMonitorDBSourceManager.class).forEach(manager -> {
-
-            String type = manager.getType();
-
-            IMonitorDBSourceManager monitorDBSourceManager = MONITOR_DB_SOURCE_MANAGER_MAP.get(type);
-
-            if (Objects.nonNull(monitorDBSourceManager)) {
-                throw new IllegalArgumentException(MessageFormat.format("Duplicate monitorDB type exists: {0}", type));
+            MonitorDBTypeEnum type = manager.getType();
+            if (monitorDBProperties.getType() == type) {
+                monitorDBSourceManager = manager;
+                monitorDBSourceManager.init(monitorDBProperties);
+                return;
             }
-
-            MONITOR_DB_SOURCE_MANAGER_MAP.put(type, manager);
-
         });
     }
 
-    private IMonitorDBSourceManager getMonitorDBSourceManager(String type) {
-        IMonitorDBSourceManager manager = MONITOR_DB_SOURCE_MANAGER_MAP.get(type);
-        if (Objects.isNull(manager)) {
-            throw new IllegalArgumentException(MessageFormat.format("monitorDB type does not exists: {0}", type));
-        }
-        return manager;
+    public IMonitorDBSource getMonitorDBSource() {
+        return monitorDBSourceManager.getMonitorDBSource();
     }
-
 
 }

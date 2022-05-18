@@ -67,7 +67,6 @@ public class RuleInstanceControllerImplTest  extends WebApplicationTest {
         return createData;
     }
 
-
     @Test
     public void testCreate() {
         MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO = new MetricsCreateOrUpdateRequestDTO();
