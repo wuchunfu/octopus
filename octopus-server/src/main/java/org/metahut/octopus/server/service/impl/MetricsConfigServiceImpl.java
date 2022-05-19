@@ -70,9 +70,6 @@ public class MetricsConfigServiceImpl implements MetricsConfigService {
     private Specification<MetricsConfig> withConditions(MetricsConfigConditionsRequestDTO requestDTO) {
         return (root, query, builder) -> {
             List<Predicate> conditions = new ArrayList<>();
-            if (StringUtils.isNotBlank(requestDTO.getName())) {
-                conditions.add(builder.like(root.get(MetricsConfig_.name), "%" + requestDTO.getName() + "%"));
-            }
 
             if (StringUtils.isNotBlank(requestDTO.getName())) {
                 conditions.add(builder.like(root.get(MetricsConfig_.name), "%" + requestDTO.getName() + "%"));

@@ -231,10 +231,9 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
     private List<SourceAlertRelationResponseDTO> createSourceAlertRelations(List<Long> alertCodes, List<String> peoples, RuleInstance ruleInstance){
         List<SourceAlertRelationResponseDTO> sourceAlertRelations = new ArrayList<>();
         SourceAlertRelation sourceAlertRelation = new SourceAlertRelation();
-        sourceAlertRelation.setRuleInstance(ruleInstance);
         alertCodes.forEach(instance -> {
             peoples.forEach(people -> {
-                sourceAlertRelation.setAlertInstancecode(instance);
+                sourceAlertRelation.setAlertInstanceCode(instance);
                 sourceAlertRelation.setAlerter(people);
                 SourceAlertRelationResponseDTO sourceAlertRelationResponseDTO = conversionService.convert(sourceAlertRelationRepository.save(sourceAlertRelation), SourceAlertRelationResponseDTO.class);
                 sourceAlertRelations.add(sourceAlertRelationResponseDTO);

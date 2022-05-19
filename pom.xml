@@ -46,6 +46,7 @@
         <module>octopus-connectors</module>
         <module>octopus-rule</module>
         <module>octopus-metrics</module>
+        <module>octopus-tools</module>
     </modules>
 
     <properties>

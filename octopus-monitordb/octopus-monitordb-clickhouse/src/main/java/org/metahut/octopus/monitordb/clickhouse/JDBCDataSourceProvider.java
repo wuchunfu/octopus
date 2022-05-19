@@ -48,8 +48,8 @@ public class JDBCDataSourceProvider {
         dataSource.setUsername(properties.getUser());
         dataSource.setPassword(properties.getPassword());
 
-        dataSource.setMinimumIdle(properties.getMinimumIdle());
-        dataSource.setMaximumPoolSize(properties.getMaximumPoolSize());
+        dataSource.setMinimumIdle(Objects.nonNull(properties.getMinimumIdle()) ? properties.getMinimumIdle() : 5);
+        dataSource.setMaximumPoolSize(Objects.nonNull(properties.getMaximumPoolSize()) ? properties.getMaximumPoolSize() : 50);
         dataSource.setConnectionTestQuery(properties.getValidationQuery());
 
         return dataSource;
