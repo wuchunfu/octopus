@@ -59,8 +59,8 @@ octopus:
   monitordb:
     type: clickhouse
     clickhouse:
-      driverClassName: xxx.xx
-      jdbcUrl: xxx
-      user: xxx
-      password: xxx
+      driverClassName: ru.yandex.clickhouse.ClickHouseDriver
+      jdbcUrl: jdbc:clickhouse://172.17.60.11:8123/octopus_qa
+      user: default
+      password:
 

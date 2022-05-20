@@ -8,7 +8,6 @@ import org.springframework.core.convert.converter.Converter;
 
 import java.util.List;
 
-
 @Mapper(componentModel = "spring")
 public interface SourceAlertRelationToDTOConverter extends Converter<SourceAlertRelation, SourceAlertRelationResponseDTO> {
 

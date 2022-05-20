@@ -24,11 +24,11 @@ CREATE TABLE tb_octopus_user
     user_type     tinyint(4)  DEFAULT NULL,
     email         varchar(64) DEFAULT NULL,
     phone         varchar(11) DEFAULT NULL,
-    tenant_id     int(11) DEFAULT NULL,
+    tenant_id     int(11)     DEFAULT NULL,
     create_time   datetime    DEFAULT NULL,
     update_time   datetime    DEFAULT NULL,
     queue         varchar(64) DEFAULT NULL,
-    state         int(1) DEFAULT 1,
+    state         int(1)      DEFAULT 1,
     time_zone     varchar(32) DEFAULT NULL,
     PRIMARY KEY (id),
     UNIQUE KEY user_name_unique (user_name)
@@ -37,7 +37,7 @@ CREATE TABLE tb_octopus_user
 DROP TABLE IF EXISTS tb_octopus_metrics CASCADE;
 CREATE TABLE tb_octopus_metrics
 (
-    id                int(11) NOT NULL AUTO_INCREMENT,
+    id                int(11)     NOT NULL AUTO_INCREMENT,
     code              varchar(64) NOT NULL,
     name              varchar(64) NOT NULL,
     category          varchar(64),
@@ -45,8 +45,8 @@ CREATE TABLE tb_octopus_metrics
     description       varchar(64) DEFAULT NULL,
     create_time       datetime    DEFAULT NULL,
     update_time       datetime    DEFAULT NULL,
-    creator           int(11) DEFAULT NULL,
-    updater           int(11) DEFAULT NULL,
+    creator           int(11)     DEFAULT NULL,
+    updater           int(11)     DEFAULT NULL,
     PRIMARY KEY (id),
     UNIQUE KEY metrics_code_unique (code),
     UNIQUE KEY metrics_name_unique (name)
@@ -55,8 +55,8 @@ CREATE TABLE tb_octopus_metrics
 DROP TABLE IF EXISTS tb_octopus_metrics_config CASCADE;
 CREATE TABLE tb_octopus_metrics_config
 (
-    id               int(11) NOT NULL AUTO_INCREMENT,
-    code             int(11) NOT NULL,
+    id               int(11)     NOT NULL AUTO_INCREMENT,
+    code             int(11)     NOT NULL,
     name             varchar(64) DEFAULT NULL,
 
     metrics_code     varchar(64) NOT NULL,
@@ -70,8 +70,8 @@ CREATE TABLE tb_octopus_metrics_config
     description      varchar(64) DEFAULT NULL,
     create_time      datetime    DEFAULT NULL,
     update_time      datetime    DEFAULT NULL,
-    creator          int(11) DEFAULT NULL,
-    updater          int(11) DEFAULT NULL,
+    creator          int(11)     DEFAULT NULL,
+    updater          int(11)     DEFAULT NULL,
     PRIMARY KEY (id),
     UNIQUE KEY metrics_config_code_unique (code)
 );
@@ -79,8 +79,8 @@ CREATE TABLE tb_octopus_metrics_config
 DROP TABLE IF EXISTS tb_octopus_rule_template CASCADE;
 CREATE TABLE tb_octopus_rule_template
 (
-    id                int(11) NOT NULL AUTO_INCREMENT,
-    code              int(11) NOT NULL,
+    id                int(11)     NOT NULL AUTO_INCREMENT,
+    code              int(11)     NOT NULL,
     name              varchar(64) DEFAULT NULL,
     metrics_code      varchar(64) NOT NULL,
 
@@ -89,12 +89,12 @@ CREATE TABLE tb_octopus_rule_template
     comparison_method varchar(64),
     expected_value    varchar(64),
 --     threshold_unit    varchar(16),
-    subject_category varchar(16) DEFAULT 'TABLE',
+    subject_category  varchar(16) DEFAULT 'TABLE',
     description       varchar(64) DEFAULT NULL,
     create_time       datetime    DEFAULT NULL,
     update_time       datetime    DEFAULT NULL,
-    creator           int(11) DEFAULT NULL,
-    updater           int(11) DEFAULT NULL,
+    creator           int(11)     DEFAULT NULL,
+    updater           int(11)     DEFAULT NULL,
     PRIMARY KEY (id),
     UNIQUE KEY rule_template_code_unique (code)
 );
@@ -102,8 +102,8 @@ CREATE TABLE tb_octopus_rule_template
 DROP TABLE IF EXISTS tb_octopus_sample_instance CASCADE;
 CREATE TABLE tb_octopus_sample_instance
 (
-    id            int(11) NOT NULL AUTO_INCREMENT,
-    code          int(11) NOT NULL,
+    id            int(11)     NOT NULL AUTO_INCREMENT,
+    code          int(11)     NOT NULL,
 
     source_code   varchar(64) NOT NULL,
     executor_type varchar(64),
@@ -111,8 +111,8 @@ CREATE TABLE tb_octopus_sample_instance
 
     create_time   datetime DEFAULT NULL,
     update_time   datetime DEFAULT NULL,
-    creator       int(11) DEFAULT NULL,
-    updater       int(11) DEFAULT NULL,
+    creator       int(11)  DEFAULT NULL,
+    updater       int(11)  DEFAULT NULL,
     PRIMARY KEY (id),
     UNIQUE KEY sample_instance_code_unique (source_code, executor_type)
 );
@@ -120,8 +120,8 @@ CREATE TABLE tb_octopus_sample_instance
 DROP TABLE IF EXISTS tb_octopus_rule_instance CASCADE;
 CREATE TABLE tb_octopus_rule_instance
 (
-    id                  int(11) NOT NULL AUTO_INCREMENT,
-    code                int(11) NOT NULL,
+    id                  int(11)      NOT NULL AUTO_INCREMENT,
+    code                int(11)      NOT NULL,
     name                varchar(64) DEFAULT NULL,
     source_code         varchar(64)  NOT NULL,
 
@@ -147,8 +147,8 @@ CREATE TABLE tb_octopus_rule_instance
     description         varchar(64) DEFAULT NULL,
     create_time         datetime    DEFAULT NULL,
     update_time         datetime    DEFAULT NULL,
-    creator             int(11) DEFAULT NULL,
-    updater             int(11) DEFAULT NULL,
+    creator             int(11)     DEFAULT NULL,
+    updater             int(11)     DEFAULT NULL,
     PRIMARY KEY (id),
     UNIQUE KEY rule_metrics_unique (source_code, metrics_unique_key, comparison_method),
     -- One metrics of one table has only one sampling proportion
@@ -160,37 +160,37 @@ CREATE TABLE tb_octopus_alerter_instance
 (
     id           int         NOT NULL AUTO_INCREMENT,
     alert_type   varchar(64) NOT NULL,
-    code         int(11) NOT NULL,
+    code         int(11)     NOT NULL,
     name         varchar(200) DEFAULT NULL,
     alert_params text,
 
     description  varchar(64)  DEFAULT NULL,
     create_time  datetime     DEFAULT NULL,
     update_time  datetime     DEFAULT NULL,
-    creator      int(11) DEFAULT NULL,
-    updater      int(11) DEFAULT NULL,
+    creator      int(11)      DEFAULT NULL,
+    updater      int(11)      DEFAULT NULL,
     PRIMARY KEY (id)
 );
 
 DROP TABLE IF EXISTS tb_octopus_source_alert_relation CASCADE;
 CREATE TABLE tb_octopus_source_alert_relation
 (
-    id                  int(11) NOT NULL AUTO_INCREMENT,
+    id                  int(11)     NOT NULL AUTO_INCREMENT,
     source_code         varchar(64) NOT NULL,
-    alert_instance_code int(11) NOT NULL,
+    alert_instance_code int(11)     NOT NULL,
     alerter             varchar(200),
 
     create_time         datetime DEFAULT NULL,
     update_time         datetime DEFAULT NULL,
-    creator             int(11) DEFAULT NULL,
-    updater             int(11) DEFAULT NULL,
+    creator             int(11)  DEFAULT NULL,
+    updater             int(11)  DEFAULT NULL,
     PRIMARY KEY (id)
 );
 
 DROP TABLE IF EXISTS tb_octopus_flow_definition CASCADE;
 CREATE TABLE tb_octopus_flow_definition
 (
-    id             int(11) NOT NULL AUTO_INCREMENT,
+    id             int(11)      NOT NULL AUTO_INCREMENT,
     source_code    varchar(200) NOT NULL,
     env            varchar(200),
     crontab        varchar(200) NOT NULL,
@@ -198,8 +198,8 @@ CREATE TABLE tb_octopus_flow_definition
 
     create_time    datetime DEFAULT NULL,
     update_time    datetime DEFAULT NULL,
-    creator        int(11) DEFAULT NULL,
-    updater        int(11) DEFAULT NULL,
+    creator        int(11)  DEFAULT NULL,
+    updater        int(11)  DEFAULT NULL,
     PRIMARY KEY (id)
 );
 
@@ -207,14 +207,11 @@ CREATE TABLE tb_octopus_flow_definition
 DROP TABLE IF EXISTS tb_octopus_task_instance CASCADE;
 CREATE TABLE tb_octopus_task_instance
 (
-    id          int(11) NOT NULL AUTO_INCREMENT,
-    source_code int(11) NOT NULL,
+    id          int(11)     NOT NULL AUTO_INCREMENT,
+    source_code int(11)     NOT NULL,
     task_type   varchar(64) NOT NULL,
     app_ids     varchar(64),
 
     create_time datetime DEFAULT NULL,
     PRIMARY KEY (id)
 );
-
-
-

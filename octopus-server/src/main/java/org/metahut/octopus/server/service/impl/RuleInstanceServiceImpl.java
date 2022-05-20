@@ -79,9 +79,9 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
     public PageResponseDTO<RuleInstanceResponseDTO> queryListPage(RuleInstanceConditionRequestDTO requestDTO) {
         Pageable pageable = PageRequest.of(requestDTO.getPageNo() - 1, requestDTO.getPageSize());
         Page<RuleInstance> ruleInstancePage = ruleInstanceRepository.findAll(withConditions(requestDTO), pageable);
-        List<RuleInstanceResponseDTO> convert = (List<RuleInstanceResponseDTO>)conversionService.convert(ruleInstanceRepository.findAll(withConditions(requestDTO)),
-                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleInstance.class)),
-                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleInstanceResponseDTO.class)));
+        List<RuleInstanceResponseDTO> convert = (List<RuleInstanceResponseDTO>) conversionService.convert(ruleInstanceRepository.findAll(withConditions(requestDTO)),
+            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleInstance.class)),
+            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleInstanceResponseDTO.class)));
         return PageResponseDTO.of(requestDTO.getPageNo(), requestDTO.getPageSize(), ruleInstancePage.getTotalElements(), convert);
     }
 
@@ -151,7 +151,6 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
         convert.setSampleInstance(sampleInstance);
         RuleInstance save = ruleInstanceRepository.save(convert);
 
-
         return conversionService.convert(save, RuleInstanceResponseDTO.class);
     }
 
@@ -176,7 +175,7 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
         return sample.get();
     }
 
-    private SampleInstance createSampleInstance(String sampleValue, String sourceCode){
+    private SampleInstance createSampleInstance(String sampleValue, String sourceCode) {
         SampleInstance sampleInstance = new SampleInstance();
         sampleInstance.setCode(SnowflakeIdGenerator.getInstance().nextId());
         sampleInstance.setSourceCode(sourceCode);
@@ -191,7 +190,7 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
         return sampleInstance;
     }
 
-    private void deleteSampleInstance(Integer smapleId){
+    private void deleteSampleInstance(Integer smapleId) {
         sampleInstanceRepository.deleteById(smapleId);
     }
 
@@ -202,7 +201,6 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
         Assert.notPresent(flow, FLOW_DEFINITION_NOT_EXIST, new String[] {sourceCode});
         return flow.get();
     }
-
 
     private FlowDefinition createFlowDefinition(String sourceCode, String crontab, Map<Long, String> map) {
         FlowDefinition flowDefinition = new FlowDefinition();
@@ -236,7 +234,23 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
         return flow;
     }
 
-    private void deleteFlowDefinition(Integer id){
+    private void deleteFlowDefinition(Integer id) {
         flowDefinitionRepository.deleteById(id);
     }
+  
+    private List<SourceAlertRelationResponseDTO> createSourceAlertRelations(List<Long> alertCodes, List<String> peoples, RuleInstance ruleInstance) {
+        List<SourceAlertRelationResponseDTO> sourceAlertRelations = new ArrayList<>();
+        SourceAlertRelation sourceAlertRelation = new SourceAlertRelation();
+        alertCodes.forEach(instance -> {
+            peoples.forEach(people -> {
+                sourceAlertRelation.setAlertInstanceCode(instance);
+                sourceAlertRelation.setAlerter(people);
+                SourceAlertRelationResponseDTO sourceAlertRelationResponseDTO =
+                    conversionService.convert(sourceAlertRelationRepository.save(sourceAlertRelation), SourceAlertRelationResponseDTO.class);
+                sourceAlertRelations.add(sourceAlertRelationResponseDTO);
+            });
+        });
+        return sourceAlertRelations;
+    }
+
 }

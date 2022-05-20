@@ -32,8 +32,8 @@ public class GraphHandler {
 
     /**
      * <p>
-     *     Only supports flink engine
-     *     When it is a real-time task, the task needs to be restarted to support the metrics change
+     * Only supports flink engine
+     * When it is a real-time task, the task needs to be restarted to support the metrics change
      * </p>
      */
     public void metricsHandler() {
@@ -114,7 +114,7 @@ public class GraphHandler {
 
         IExecutorManager executorManager = executorPluginHelper.getExecutor(result.getExecutorType());
         IExecutor executor = executorMap.get(result.getExecutorType());
-        if (executorManager.isLazyRunMode() &&  Objects.nonNull(executor)) {
+        if (executorManager.isLazyRunMode() && Objects.nonNull(executor)) {
             executor.addTransform(result.getExecutorScript());
             return null;
         }

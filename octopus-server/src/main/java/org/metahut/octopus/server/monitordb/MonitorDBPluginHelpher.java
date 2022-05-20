@@ -6,6 +6,7 @@ import org.metahut.octopus.monitordb.api.MonitorDBProperties;
 import org.metahut.octopus.monitordb.api.MonitorDBTypeEnum;
 import org.metahut.octopus.server.utils.YamlFactory;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -30,6 +31,7 @@ public class MonitorDBPluginHelpher {
         });
     }
 
+    @Bean
     public IMonitorDBSource getMonitorDBSource() {
         return monitorDBSourceManager.getMonitorDBSource();
     }

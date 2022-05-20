@@ -5,11 +5,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import java.util.Date;
-
 @Entity
 @Table(name = "tb_octopus_sample_instance")
-public class SampleInstance  extends BaseEntity {
+public class SampleInstance extends BaseEntity {
 
     @Id
     @GeneratedValue

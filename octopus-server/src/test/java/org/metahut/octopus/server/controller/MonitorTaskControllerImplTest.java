@@ -14,7 +14,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 public class MonitorTaskControllerImplTest extends WebApplicationTest {
 
-    private void create() {
+    private MonitorTaskResponseDTO create() {
         FlowDefinitionCreateRequestDTO createRequest = new FlowDefinitionCreateRequestDTO();
         createRequest.setEnv("dev");
         createRequest.setSourceCode("1");
@@ -26,13 +26,14 @@ public class MonitorTaskControllerImplTest extends WebApplicationTest {
         ResultEntity<MonitorTaskResponseDTO> result = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<MonitorTaskResponseDTO>>() {
         });
         Assertions.assertTrue(result.isSuccess());
+        return result.getData();
     }
 
     @Test
     public void queryByIdTest() {
-        create();
+        MonitorTaskResponseDTO responseDTO = create();
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(this.base + "monitorTask/queryById")
-            .queryParam("id", 1);
+            .queryParam("id", responseDTO.getId());
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(builder.build().encode().toUri(), String.class);
         Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
 
@@ -40,7 +41,7 @@ public class MonitorTaskControllerImplTest extends WebApplicationTest {
         });
         Assertions.assertTrue(result.isSuccess());
         Assertions.assertNotNull(result.getData());
-        Assertions.assertEquals(result.getData().getId(), 1);
+        Assertions.assertEquals(result.getData().getId(), responseDTO.getId());
     }
 
     @Test
