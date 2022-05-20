@@ -12,7 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -46,7 +45,7 @@ public class RuleInstance extends BaseEntity {
 
     private String filter;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "sample_code", referencedColumnName = "code")
     private SampleInstance sampleInstance;
 
@@ -63,10 +62,6 @@ public class RuleInstance extends BaseEntity {
 
     @Enumerated(value = EnumType.STRING)
     private RuleStateEnum state;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "source_code", referencedColumnName = "sourceCode")
-    private FlowDefinition flowDefinition;
 
     private String description;
 
@@ -100,14 +95,6 @@ public class RuleInstance extends BaseEntity {
 
     public void setMetricsConfig(MetricsConfig metricsConfig) {
         this.metricsConfig = metricsConfig;
-    }
-
-    public FlowDefinition getFlowDefinition() {
-        return flowDefinition;
-    }
-
-    public void setFlowDefinition(FlowDefinition flowDefinition) {
-        this.flowDefinition = flowDefinition;
     }
 
     public String getName() {

@@ -1,4 +1,4 @@
-package org.metahut.octopus.monitordb.api.entity;
+package org.metahut.octopus.monitordb.api;
 
 import java.sql.Timestamp;
 import java.util.Date;

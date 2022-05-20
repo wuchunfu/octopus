@@ -1,6 +1,7 @@
 package org.metahut.octopus.api.controller;
 
 import org.metahut.octopus.api.dto.ResultEntity;
+import org.metahut.octopus.api.dto.UserConditionsRequestDTO;
 import org.metahut.octopus.api.dto.UserResponseDTO;
 
 import io.swagger.annotations.Api;
@@ -14,7 +15,7 @@ import java.util.List;
 @RequestMapping("user")
 public interface UserController {
 
-    @ApiOperation(value = "queryList", notes = "QUERY_LIST_NOTES")
+    @ApiOperation(value = "queryList", notes = "USER_QUERY_LIST_NOTES")
     @GetMapping("queryList")
-    ResultEntity<List<UserResponseDTO>> queryList();
+    ResultEntity<List<UserResponseDTO>> queryList(UserConditionsRequestDTO requestDTO);
 }

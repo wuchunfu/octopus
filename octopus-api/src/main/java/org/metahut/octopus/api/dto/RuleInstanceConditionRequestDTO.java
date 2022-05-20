@@ -6,14 +6,14 @@ import java.util.Date;
 
 public class RuleInstanceConditionRequestDTO extends PageRequestDTO {
 
-    @ApiModelProperty(value = "subjectCode")
-    private String subjectCode;
-
     @ApiModelProperty(value = "sourceCode")
     private String sourceCode;
 
-    @ApiModelProperty(value = "sourceType")
-    private String sourceType;
+    private String sourceName;
+
+    private String metricsName;
+
+    private String metricsCode;
 
     @ApiModelProperty(value = "createStartTime")
     private Date createStartTime;
@@ -27,14 +27,6 @@ public class RuleInstanceConditionRequestDTO extends PageRequestDTO {
     @ApiModelProperty(value = "updateEndTime")
     private Date updateEndTime;
 
-    public String getSubjectCode() {
-        return subjectCode;
-    }
-
-    public void setSubjectCode(String subjectCode) {
-        this.subjectCode = subjectCode;
-    }
-
     public String getSourceCode() {
         return sourceCode;
     }
@@ -43,12 +35,28 @@ public class RuleInstanceConditionRequestDTO extends PageRequestDTO {
         this.sourceCode = sourceCode;
     }
 
-    public String getSourceType() {
-        return sourceType;
+    public String getSourceName() {
+        return sourceName;
     }
 
-    public void setSourceType(String sourceType) {
-        this.sourceType = sourceType;
+    public void setSourceName(String sourceName) {
+        this.sourceName = sourceName;
+    }
+
+    public String getMetricsName() {
+        return metricsName;
+    }
+
+    public void setMetricsName(String metricsName) {
+        this.metricsName = metricsName;
+    }
+
+    public String getMetricsCode() {
+        return metricsCode;
+    }
+
+    public void setMetricsCode(String metricsCode) {
+        this.metricsCode = metricsCode;
     }
 
     public Date getCreateStartTime() {

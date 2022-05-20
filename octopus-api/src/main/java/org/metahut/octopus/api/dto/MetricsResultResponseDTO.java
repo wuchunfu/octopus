@@ -1,32 +1,37 @@
 package org.metahut.octopus.api.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import org.metahut.octopus.common.enums.SubjectCategoryEnum;
+
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Date;
 
-public class MetricsResultResponseDTO extends PageRequestDTO {
+public class MetricsResultResponseDTO {
 
     @ApiModelProperty(value = "datasoucreName")
     private String datasourceName;
 
+    @ApiModelProperty(value = "datasoucreName")
+    private String datasourceCode;
+
     @ApiModelProperty(value = "datasetName")
     private String datasetName;
 
-    @ApiModelProperty(value = "metricsName")
+    @ApiModelProperty(value = "datasetCode")
+    private String datasetCode;
+
+    private String subjectCode;
+
+    private SubjectCategoryEnum subjectCategory;
+
     private String metricsName;
 
-    @ApiModelProperty(value = "metricsConfigName")
-    private String metricsConfigName;
+    private String metricsCode;
 
-    @ApiModelProperty(value = "isSample")
-    private Boolean isSample;
+    private String metricsValue;
 
-    @ApiModelProperty(value = "value")
-    private String value;
+    private String metricsUniqueKey;
 
-    @ApiModelProperty(value = "createTime")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
     public String getDatasourceName() {
@@ -37,12 +42,44 @@ public class MetricsResultResponseDTO extends PageRequestDTO {
         this.datasourceName = datasourceName;
     }
 
+    public String getDatasourceCode() {
+        return datasourceCode;
+    }
+
+    public void setDatasourceCode(String datasourceCode) {
+        this.datasourceCode = datasourceCode;
+    }
+
     public String getDatasetName() {
         return datasetName;
     }
 
     public void setDatasetName(String datasetName) {
         this.datasetName = datasetName;
+    }
+
+    public String getDatasetCode() {
+        return datasetCode;
+    }
+
+    public void setDatasetCode(String datasetCode) {
+        this.datasetCode = datasetCode;
+    }
+
+    public String getSubjectCode() {
+        return subjectCode;
+    }
+
+    public void setSubjectCode(String subjectCode) {
+        this.subjectCode = subjectCode;
+    }
+
+    public SubjectCategoryEnum getSubjectCategory() {
+        return subjectCategory;
+    }
+
+    public void setSubjectCategory(SubjectCategoryEnum subjectCategory) {
+        this.subjectCategory = subjectCategory;
     }
 
     public String getMetricsName() {
@@ -53,28 +90,28 @@ public class MetricsResultResponseDTO extends PageRequestDTO {
         this.metricsName = metricsName;
     }
 
-    public String getMetricsConfigName() {
-        return metricsConfigName;
+    public String getMetricsCode() {
+        return metricsCode;
     }
 
-    public void setMetricsConfigName(String metricsConfigName) {
-        this.metricsConfigName = metricsConfigName;
+    public void setMetricsCode(String metricsCode) {
+        this.metricsCode = metricsCode;
     }
 
-    public Boolean getSample() {
-        return isSample;
+    public String getMetricsValue() {
+        return metricsValue;
     }
 
-    public void setSample(Boolean sample) {
-        isSample = sample;
+    public void setMetricsValue(String metricsValue) {
+        this.metricsValue = metricsValue;
     }
 
-    public String getValue() {
-        return value;
+    public String getMetricsUniqueKey() {
+        return metricsUniqueKey;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setMetricsUniqueKey(String metricsUniqueKey) {
+        this.metricsUniqueKey = metricsUniqueKey;
     }
 
     public Date getCreateTime() {

@@ -126,6 +126,7 @@ CREATE TABLE tb_octopus_rule_instance
     source_code         varchar(64)  NOT NULL,
 
     metrics_code        varchar(64)  NOT NULL,
+    -- custom execution script
     metrics_config_code int(11),
 
     metrics_params      varchar(64)  NOT NULL,
@@ -191,6 +192,7 @@ DROP TABLE IF EXISTS tb_octopus_flow_definition CASCADE;
 CREATE TABLE tb_octopus_flow_definition
 (
     id             int(11)      NOT NULL AUTO_INCREMENT,
+    code         int(11)     NOT NULL,
     source_code    varchar(200) NOT NULL,
     env            varchar(200),
     crontab        varchar(200) NOT NULL,
@@ -200,18 +202,8 @@ CREATE TABLE tb_octopus_flow_definition
     update_time    datetime DEFAULT NULL,
     creator        int(11)  DEFAULT NULL,
     updater        int(11)  DEFAULT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    UNIQUE KEY flow_definition_code_unique (source_code)
+
 );
 
-
-DROP TABLE IF EXISTS tb_octopus_task_instance CASCADE;
-CREATE TABLE tb_octopus_task_instance
-(
-    id          int(11)     NOT NULL AUTO_INCREMENT,
-    source_code int(11)     NOT NULL,
-    task_type   varchar(64) NOT NULL,
-    app_ids     varchar(64),
-
-    create_time datetime DEFAULT NULL,
-    PRIMARY KEY (id)
-);

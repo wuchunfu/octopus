@@ -3,8 +3,12 @@ package org.metahut.octopus.api.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-@ApiModel(value = "sampleInstance response")
-public class SampleInstanceRequestDTO {
+@ApiModel(value = "sample instance create or update request dto")
+public class SampleInstanceCreateOrUpdateRequestDTO {
+
+    private Integer id;
+
+    private Long code;
 
     @ApiModelProperty(value = "sourceCode")
     private String sourceCode;
@@ -14,6 +18,22 @@ public class SampleInstanceRequestDTO {
 
     @ApiModelProperty(value = "params")
     private String params;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Long getCode() {
+        return code;
+    }
+
+    public void setCode(Long code) {
+        this.code = code;
+    }
 
     public String getSourceCode() {
         return sourceCode;

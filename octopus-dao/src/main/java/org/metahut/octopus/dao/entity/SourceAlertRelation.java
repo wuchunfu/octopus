@@ -3,6 +3,8 @@ package org.metahut.octopus.dao.entity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -13,7 +15,9 @@ public class SourceAlertRelation extends BaseEntity {
     @GeneratedValue
     private Integer id;
 
-    private Long alertInstanceCode;
+    @ManyToOne
+    @JoinColumn(name = "source_code", referencedColumnName = "code")
+    private AlerterInstance alertInstance;
 
     private String alerter;
 
@@ -25,12 +29,12 @@ public class SourceAlertRelation extends BaseEntity {
         this.id = id;
     }
 
-    public Long getAlertInstanceCode() {
-        return alertInstanceCode;
+    public AlerterInstance getAlertInstance() {
+        return alertInstance;
     }
 
-    public void setAlertInstanceCode(Long alertInstanceCode) {
-        this.alertInstanceCode = alertInstanceCode;
+    public void setAlertInstance(AlerterInstance alertInstance) {
+        this.alertInstance = alertInstance;
     }
 
     public String getAlerter() {

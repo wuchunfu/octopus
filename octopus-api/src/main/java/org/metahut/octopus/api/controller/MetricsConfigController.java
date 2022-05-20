@@ -49,5 +49,5 @@ public interface MetricsConfigController {
 
     @ApiOperation(value = "findByCode", notes = "QUERY_METRICS_CONFIG_BY_CODE_NOTES")
     @GetMapping("{code}")
-    ResultEntity<MetricsConfigResponseDTO> findByCode(@PathVariable Long code);
+    ResultEntity<MetricsConfigResponseDTO> findByCode(@PathVariable(value = "code") Long code);
 }

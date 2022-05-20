@@ -1,9 +1,6 @@
 package org.metahut.octopus.dao.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "tb_octopus_sample_instance")
@@ -15,6 +12,7 @@ public class SampleInstance extends BaseEntity {
 
     private Long code;
 
+    @Column(name = "source_code")
     private String sourceCode;
 
     private String executorType;

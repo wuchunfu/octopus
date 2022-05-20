@@ -34,7 +34,7 @@ public interface RuleTemplateController {
     @ApiImplicitParams({
         @ApiImplicitParam(name = "id", value = "RULE_TEMPLATE_ID", required = true, dataType = "Integer", example = "1")
     })
-    @DeleteMapping("/{id}")
+    @DeleteMapping("{id}")
     ResultEntity deleteById(@PathVariable(value = "id") Integer id);
 
     @ApiOperation(value = "create", notes = "CREATE_RULE_TEMPLATE_NOTES")

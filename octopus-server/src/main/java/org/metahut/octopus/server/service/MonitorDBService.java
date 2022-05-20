@@ -13,13 +13,7 @@ public interface MonitorDBService {
 
     List<Map<String, Object>> customSQLQuery(String sql);
 
-    List<MonitorLogResponseDTO> monitorLogQueryAll(MonitorLogConditionsRequestDTO request);
+    PageResponseDTO<MonitorLogResponseDTO> queryMonitorLogListPage(MonitorLogConditionsRequestDTO requestDTO);
 
-    PageResponseDTO<MonitorLogResponseDTO> monitorLogQueryListPage(MonitorLogConditionsRequestDTO request);
-
-    MonitorLogResponseDTO monitorLogQueryById(Integer id);
-
-    List<MetricsResultResponseDTO> metricsResultQueryAll(MetricsResultConditionsRequestDTO request);
-
-    PageResponseDTO<MetricsResultResponseDTO> metricsResultQueryListPage(MetricsResultConditionsRequestDTO request);
+    PageResponseDTO<MetricsResultResponseDTO> queryMetricsResultListPage(MetricsResultConditionsRequestDTO requestDTO);
 }

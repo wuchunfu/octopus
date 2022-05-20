@@ -1,7 +1,5 @@
 package org.metahut.octopus.api.dto;
 
-import org.metahut.octopus.common.enums.CheckMethodEnum;
-import org.metahut.octopus.common.enums.CheckTypeEnum;
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 
 import io.swagger.annotations.ApiModel;
@@ -12,78 +10,50 @@ import java.util.Date;
 @ApiModel(description = "monitor log conditions request dto")
 public class MonitorLogConditionsRequestDTO extends PageRequestDTO {
 
-    @ApiModelProperty(value = "id")
-    private Integer id;
+    @ApiModelProperty(value = "datasourceCode")
+    private String datasourceCode;
 
-    @ApiModelProperty(value = "datasoucreName")
-    private String datasourceName;
-
-    @ApiModelProperty(value = "datasetName")
-    private String datasetName;
-
-    @ApiModelProperty(value = "ruleName")
-    private String ruleName;
+    @ApiModelProperty(value = "datasetCode")
+    private String datasetCode;
 
     @ApiModelProperty(value = "subjectCategory")
     private SubjectCategoryEnum subjectCategory;
 
-    @ApiModelProperty(value = "metricsName")
-    private String metricsName;
+    @ApiModelProperty(value = "metricsCode")
+    private String metricsCode;
 
-    @ApiModelProperty(value = "metricsConfigName")
-    private String metricsConfigName;
-
-    @ApiModelProperty(value = "isSample")
-    private Boolean isSample;
-
-    @ApiModelProperty(value = "sampleScale")
-    private Double sampleScale;
+    @ApiModelProperty(value = "metricsConfigCode")
+    private String metricsConfigCode;
 
     @ApiModelProperty(value = "checkType")
-    private CheckTypeEnum checkType;
+    private String checkType;
 
     @ApiModelProperty(value = "checkMethod")
-    private CheckMethodEnum checkMethod;
+    private String checkMethod;
 
-    @ApiModelProperty(value = "isError")
-    private Boolean isError;
+    @ApiModelProperty(value = "error")
+    private Boolean error;
 
-    @ApiModelProperty(value = "reportStartTime")
-    private Date reportStartTime;
+    @ApiModelProperty(value = "errorStartTime")
+    private Date errorStartTime;
 
-    @ApiModelProperty(value = "reportEndTime")
-    private Date reportEndTime;
+    @ApiModelProperty(value = "errorEndTime")
+    private Date errorEndTime;
 
-    public Integer getId() {
-        return id;
+    public String getDatasourceCode() {
+        return datasourceCode;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setDatasourceCode(String datasourceCode) {
+        this.datasourceCode = datasourceCode;
     }
 
-    public String getDatasourceName() {
-        return datasourceName;
+    public String getDatasetCode() {
+        return datasetCode;
     }
 
-    public void setDatasourceName(String datasourceName) {
-        this.datasourceName = datasourceName;
-    }
-
-    public String getDatasetName() {
-        return datasetName;
-    }
-
-    public void setDatasetName(String datasetName) {
-        this.datasetName = datasetName;
-    }
-
-    public String getRuleName() {
-        return ruleName;
-    }
-
-    public void setRuleName(String ruleName) {
-        this.ruleName = ruleName;
+    public void setDatasetCode(String datasetCode) {
+        this.datasetCode = datasetCode;
     }
 
     public SubjectCategoryEnum getSubjectCategory() {
@@ -94,75 +64,59 @@ public class MonitorLogConditionsRequestDTO extends PageRequestDTO {
         this.subjectCategory = subjectCategory;
     }
 
-    public String getMetricsName() {
-        return metricsName;
+    public String getMetricsCode() {
+        return metricsCode;
     }
 
-    public void setMetricsName(String metricsName) {
-        this.metricsName = metricsName;
+    public void setMetricsCode(String metricsCode) {
+        this.metricsCode = metricsCode;
     }
 
-    public String getMetricsConfigName() {
-        return metricsConfigName;
+    public String getMetricsConfigCode() {
+        return metricsConfigCode;
     }
 
-    public void setMetricsConfigName(String metricsConfigName) {
-        this.metricsConfigName = metricsConfigName;
+    public void setMetricsConfigCode(String metricsConfigCode) {
+        this.metricsConfigCode = metricsConfigCode;
     }
 
-    public Boolean getSample() {
-        return isSample;
-    }
-
-    public void setSample(Boolean sample) {
-        isSample = sample;
-    }
-
-    public Double getSampleScale() {
-        return sampleScale;
-    }
-
-    public void setSampleScale(Double sampleScale) {
-        this.sampleScale = sampleScale;
-    }
-
-    public CheckTypeEnum getCheckType() {
+    public String getCheckType() {
         return checkType;
     }
 
-    public void setCheckType(CheckTypeEnum checkType) {
+    public void setCheckType(String checkType) {
         this.checkType = checkType;
     }
 
-    public CheckMethodEnum getCheckMethod() {
+    public String getCheckMethod() {
         return checkMethod;
     }
 
-    public void setCheckMethod(CheckMethodEnum checkMethod) {
+    public void setCheckMethod(String checkMethod) {
         this.checkMethod = checkMethod;
     }
 
     public Boolean getError() {
-        return isError;
+        return error;
     }
 
     public void setError(Boolean error) {
-        isError = error;
+        this.error = error;
     }
 
-    public Date getReportStartTime() {
-        return reportStartTime;
+    public Date getErrorStartTime() {
+        return errorStartTime;
     }
 
-    public void setReportStartTime(Date reportStartTime) {
-        this.reportStartTime = reportStartTime;
+    public void setErrorStartTime(Date errorStartTime) {
+        this.errorStartTime = errorStartTime;
     }
 
-    public Date getReportEndTime() {
-        return reportEndTime;
+    public Date getErrorEndTime() {
+        return errorEndTime;
     }
 
-    public void setReportEndTime(Date reportEndTime) {
-        this.reportEndTime = reportEndTime;
+    public void setErrorEndTime(Date errorEndTime) {
+        this.errorEndTime = errorEndTime;
     }
 }

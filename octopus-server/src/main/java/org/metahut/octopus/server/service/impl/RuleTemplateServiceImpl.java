@@ -114,5 +114,4 @@ public class RuleTemplateServiceImpl implements RuleTemplateService {
                 TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleTemplateResponseDTO.class)));
     }
 
-
 }

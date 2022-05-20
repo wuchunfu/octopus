@@ -2,6 +2,7 @@ package org.metahut.octopus.server.controller;
 
 import org.metahut.octopus.api.controller.UserController;
 import org.metahut.octopus.api.dto.ResultEntity;
+import org.metahut.octopus.api.dto.UserConditionsRequestDTO;
 import org.metahut.octopus.api.dto.UserResponseDTO;
 import org.metahut.octopus.server.service.UserService;
 
@@ -19,7 +20,7 @@ public class UserControllerImpl implements UserController {
     }
 
     @Override
-    public ResultEntity<List<UserResponseDTO>> queryList() {
-        return ResultEntity.success(userService.findList());
+    public ResultEntity<List<UserResponseDTO>> queryList(UserConditionsRequestDTO requestDTO) {
+        return ResultEntity.success(userService.findList(requestDTO));
     }
 }

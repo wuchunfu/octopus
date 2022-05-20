@@ -1,14 +1,11 @@
 package org.metahut.octopus.api.dto;
 
-import org.metahut.octopus.common.enums.SubjectCategoryEnum;
+import org.metahut.octopus.common.enums.RuleStateEnum;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.List;
-import java.util.Map;
-
-@ApiModel(description = "rule create or update request dto")
+@ApiModel(description = "rule instance create or update request dto")
 public class RuleInstanceCreateOrUpdateRequestDTO {
 
     @ApiModelProperty(value = "id")
@@ -20,41 +17,24 @@ public class RuleInstanceCreateOrUpdateRequestDTO {
     @ApiModelProperty(value = "name")
     private String name;
 
-    @ApiModelProperty(value = "subjectCategory")
-    private SubjectCategoryEnum subjectCategory;
-
-    @ApiModelProperty(value = "metricsCode")
-    private String metricsCode;
-
-    @ApiModelProperty(value = "metricsConfigCode")
-    private Long metricsConfigCode;
-
-    @ApiModelProperty(value = "checkType")
-    private String checkType;
-
-    @ApiModelProperty(value = "checkMethod")
-    private String checkMethod;
-
-    @ApiModelProperty(value = "comparisonMethod")
-    private String comparisonMethod;
-
-    @ApiModelProperty(value = "expectedValue")
-    private String expectedValue;
-
-    @ApiModelProperty(value = "samplevlue")
-    private String samplevlue;
-
-    @ApiModelProperty(value = "sourceCode")
     private String sourceCode;
 
-    @ApiModelProperty(value = "subjectCode")
-    private String subjectCode;
+    private String metricsCode;
+    private Long metricsConfigCode;
 
-    @ApiModelProperty(value = "crontab")
-    private String crontab;
+    private String checkType;
 
-    @ApiModelProperty(value = "alertGroup")
-    private Map<Long, String> alertGroup;
+    private String checkMethod;
+
+    private String comparisonMethod;
+
+    private String expectedValue;
+
+    private RuleStateEnum state;
+
+    private String description;
+
+    private SampleInstanceCreateOrUpdateRequestDTO sampleInstance;
 
     public Integer getId() {
         return id;
@@ -72,36 +52,36 @@ public class RuleInstanceCreateOrUpdateRequestDTO {
         this.code = code;
     }
 
-    public Long getMetricsConfigCode() {
-        return metricsConfigCode;
+    public String getName() {
+        return name;
     }
 
-    public void setMetricsConfigCode(Long metricsConfigCode) {
-        this.metricsConfigCode = metricsConfigCode;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public SubjectCategoryEnum getSubjectCategory() {
-        return subjectCategory;
+    public String getSourceCode() {
+        return sourceCode;
     }
 
-    public void setSubjectCategory(SubjectCategoryEnum subjectCategory) {
-        this.subjectCategory = subjectCategory;
+    public void setSourceCode(String sourceCode) {
+        this.sourceCode = sourceCode;
     }
 
     public String getMetricsCode() {
         return metricsCode;
     }
 
-    public Map<Long, String> getAlertGroup() {
-        return alertGroup;
-    }
-
-    public void setAlertGroup(Map<Long, String> alertGroup) {
-        this.alertGroup = alertGroup;
-    }
-
     public void setMetricsCode(String metricsCode) {
         this.metricsCode = metricsCode;
+    }
+
+    public Long getMetricsConfigCode() {
+        return metricsConfigCode;
+    }
+
+    public void setMetricsConfigCode(Long metricsConfigCode) {
+        this.metricsConfigCode = metricsConfigCode;
     }
 
     public String getCheckType() {
@@ -136,43 +116,27 @@ public class RuleInstanceCreateOrUpdateRequestDTO {
         this.expectedValue = expectedValue;
     }
 
-    public String getSamplevlue() {
-        return samplevlue;
+    public RuleStateEnum getState() {
+        return state;
     }
 
-    public void setSamplevlue(String samplevlue) {
-        this.samplevlue = samplevlue;
+    public void setState(RuleStateEnum state) {
+        this.state = state;
     }
 
-    public String getSourceCode() {
-        return sourceCode;
+    public String getDescription() {
+        return description;
     }
 
-    public void setSourceCode(String sourceCode) {
-        this.sourceCode = sourceCode;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getSubjectCode() {
-        return subjectCode;
+    public SampleInstanceCreateOrUpdateRequestDTO getSampleInstance() {
+        return sampleInstance;
     }
 
-    public void setSubjectCode(String subjectCode) {
-        this.subjectCode = subjectCode;
-    }
-
-    public String getCrontab() {
-        return crontab;
-    }
-
-    public void setCrontab(String crontab) {
-        this.crontab = crontab;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setSampleInstance(SampleInstanceCreateOrUpdateRequestDTO sampleInstance) {
+        this.sampleInstance = sampleInstance;
     }
 }

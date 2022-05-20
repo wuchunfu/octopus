@@ -8,10 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Objects;
 
 public class JDBCDataSourceProvider {
@@ -36,8 +32,8 @@ public class JDBCDataSourceProvider {
         return singleton;
     }
 
-    public Connection getConnection() throws SQLException {
-        return datasource.getConnection();
+    public DataSource getDatasource() {
+        return datasource;
     }
 
     private HikariDataSource initDataSource(MonitorDBProperties.Clickhouse properties) {
@@ -53,30 +49,6 @@ public class JDBCDataSourceProvider {
         dataSource.setConnectionTestQuery(properties.getValidationQuery());
 
         return dataSource;
-    }
-
-    public void close(Connection connection, PreparedStatement preparedStatement, ResultSet resultSet) {
-        if (Objects.nonNull(resultSet)) {
-            try {
-                resultSet.close();
-            } catch (SQLException e) {
-                logger.error(e.getMessage(), e);
-            }
-        }
-        if (Objects.nonNull(preparedStatement)) {
-            try {
-                preparedStatement.close();
-            } catch (SQLException e) {
-                logger.error(e.getMessage(), e);
-            }
-        }
-        if (Objects.nonNull(connection)) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.error(e.getMessage(), e);
-            }
-        }
     }
 
 }

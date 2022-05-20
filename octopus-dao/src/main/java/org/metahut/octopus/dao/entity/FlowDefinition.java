@@ -1,12 +1,6 @@
 package org.metahut.octopus.dao.entity;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import java.util.List;
 
@@ -17,11 +11,23 @@ public class FlowDefinition extends BaseEntity {
     @Id
     @GeneratedValue
     private Integer id;
+
+    private Long code;
+
+    @Column(name = "source_code", insertable = false, updatable = false)
     private String sourceCode;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "source_code", referencedColumnName = "sourceCode")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "source_code", referencedColumnName = "source_code")
     private List<SourceAlertRelation> sourceAlertRelations;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "source_code", referencedColumnName = "source_code")
+    private List<RuleInstance> ruleInstances;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "source_code", referencedColumnName = "source_code")
+    private SampleInstance sampleInstance;
 
     private String env;
     private String crontab;
@@ -33,6 +39,14 @@ public class FlowDefinition extends BaseEntity {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Long getCode() {
+        return code;
+    }
+
+    public void setCode(Long code) {
+        this.code = code;
     }
 
     public String getSourceCode() {
@@ -49,6 +63,14 @@ public class FlowDefinition extends BaseEntity {
 
     public void setSourceAlertRelations(List<SourceAlertRelation> sourceAlertRelations) {
         this.sourceAlertRelations = sourceAlertRelations;
+    }
+
+    public List<RuleInstance> getRuleInstances() {
+        return ruleInstances;
+    }
+
+    public void setRuleInstances(List<RuleInstance> ruleInstances) {
+        this.ruleInstances = ruleInstances;
     }
 
     public String getEnv() {
@@ -73,5 +95,13 @@ public class FlowDefinition extends BaseEntity {
 
     public void setSchedulerCode(String schedulerCode) {
         this.schedulerCode = schedulerCode;
+    }
+
+    public SampleInstance getSampleInstance() {
+        return sampleInstance;
+    }
+
+    public void setSampleInstance(SampleInstance sampleInstance) {
+        this.sampleInstance = sampleInstance;
     }
 }

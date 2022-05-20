@@ -1,10 +1,7 @@
 package org.metahut.octopus.api.dto;
 
-import org.metahut.octopus.common.enums.CheckMethodEnum;
-import org.metahut.octopus.common.enums.CheckTypeEnum;
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -13,54 +10,54 @@ import java.util.Date;
 @ApiModel(description = "monitor log response dto")
 public class MonitorLogResponseDTO {
 
-    @ApiModelProperty(value = "id")
     private Integer id;
-
-    @ApiModelProperty(value = "datasoucre name")
+    @ApiModelProperty(value = "datasoucreName")
     private String datasourceName;
 
-    @ApiModelProperty(value = "dataset name")
+    @ApiModelProperty(value = "datasoucreName")
+    private String datasourceCode;
+
+    @ApiModelProperty(value = "datasetName")
     private String datasetName;
 
-    @ApiModelProperty(value = "rule name")
-    private String ruleName;
+    @ApiModelProperty(value = "datasetCode")
+    private String datasetCode;
 
-    @ApiModelProperty(value = "subject category")
+    private String subjectCode;
+
     private SubjectCategoryEnum subjectCategory;
 
     @ApiModelProperty(value = "metrics name")
     private String metricsName;
 
+    private String metricsCode;
+
     @ApiModelProperty(value = "metrics config name")
     private String metricsConfigName;
 
-    @ApiModelProperty(value = "sample")
-    private Boolean sample;
+    private Long metricsConfigCode;
 
-    @ApiModelProperty(value = "sample scale")
-    private Double sampleScale;
+    private String checkType;
 
-    @ApiModelProperty(value = "check type")
-    private CheckTypeEnum checkType;
+    private String checkMethod;
 
-    @ApiModelProperty(value = "check method")
-    private CheckMethodEnum checkMethod;
+    private String comparisonMethod;
 
-    @ApiModelProperty(value = "error")
-    private Boolean error;
+    private String expectedValue;
 
-    @ApiModelProperty(value = "crontab")
-    private String crontab;
+    private SampleInstanceResponseDTO sampleInstance;
 
-    @ApiModelProperty(value = "log description")
-    private String description;
-
-    @ApiModelProperty(value = "result")
     private String result;
 
-    @ApiModelProperty(value = "report time")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date reportTime;
+    private Boolean error;
+
+    private String errorInfo;
+
+    private Date errorTime;
+
+    private Date createTime;
+
+    private Long ruleInstanceCode;
 
     public Integer getId() {
         return id;
@@ -78,6 +75,14 @@ public class MonitorLogResponseDTO {
         this.datasourceName = datasourceName;
     }
 
+    public String getDatasourceCode() {
+        return datasourceCode;
+    }
+
+    public void setDatasourceCode(String datasourceCode) {
+        this.datasourceCode = datasourceCode;
+    }
+
     public String getDatasetName() {
         return datasetName;
     }
@@ -86,12 +91,20 @@ public class MonitorLogResponseDTO {
         this.datasetName = datasetName;
     }
 
-    public String getRuleName() {
-        return ruleName;
+    public String getDatasetCode() {
+        return datasetCode;
     }
 
-    public void setRuleName(String ruleName) {
-        this.ruleName = ruleName;
+    public void setDatasetCode(String datasetCode) {
+        this.datasetCode = datasetCode;
+    }
+
+    public String getSubjectCode() {
+        return subjectCode;
+    }
+
+    public void setSubjectCode(String subjectCode) {
+        this.subjectCode = subjectCode;
     }
 
     public SubjectCategoryEnum getSubjectCategory() {
@@ -110,6 +123,14 @@ public class MonitorLogResponseDTO {
         this.metricsName = metricsName;
     }
 
+    public String getMetricsCode() {
+        return metricsCode;
+    }
+
+    public void setMetricsCode(String metricsCode) {
+        this.metricsCode = metricsCode;
+    }
+
     public String getMetricsConfigName() {
         return metricsConfigName;
     }
@@ -118,60 +139,52 @@ public class MonitorLogResponseDTO {
         this.metricsConfigName = metricsConfigName;
     }
 
-    public Boolean getSample() {
-        return sample;
+    public Long getMetricsConfigCode() {
+        return metricsConfigCode;
     }
 
-    public void setSample(Boolean sample) {
-        sample = sample;
+    public void setMetricsConfigCode(Long metricsConfigCode) {
+        this.metricsConfigCode = metricsConfigCode;
     }
 
-    public Double getSampleScale() {
-        return sampleScale;
-    }
-
-    public void setSampleScale(Double sampleScale) {
-        this.sampleScale = sampleScale;
-    }
-
-    public CheckTypeEnum getCheckType() {
+    public String getCheckType() {
         return checkType;
     }
 
-    public void setCheckType(CheckTypeEnum checkType) {
+    public void setCheckType(String checkType) {
         this.checkType = checkType;
     }
 
-    public CheckMethodEnum getCheckMethod() {
+    public String getCheckMethod() {
         return checkMethod;
     }
 
-    public void setCheckMethod(CheckMethodEnum checkMethod) {
+    public void setCheckMethod(String checkMethod) {
         this.checkMethod = checkMethod;
     }
 
-    public Boolean getError() {
-        return error;
+    public String getComparisonMethod() {
+        return comparisonMethod;
     }
 
-    public void setError(Boolean error) {
-        this.error = error;
+    public void setComparisonMethod(String comparisonMethod) {
+        this.comparisonMethod = comparisonMethod;
     }
 
-    public String getCrontab() {
-        return crontab;
+    public String getExpectedValue() {
+        return expectedValue;
     }
 
-    public void setCrontab(String crontab) {
-        this.crontab = crontab;
+    public void setExpectedValue(String expectedValue) {
+        this.expectedValue = expectedValue;
     }
 
-    public String getDescription() {
-        return description;
+    public SampleInstanceResponseDTO getSampleInstance() {
+        return sampleInstance;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setSampleInstance(SampleInstanceResponseDTO sampleInstance) {
+        this.sampleInstance = sampleInstance;
     }
 
     public String getResult() {
@@ -182,11 +195,43 @@ public class MonitorLogResponseDTO {
         this.result = result;
     }
 
-    public Date getReportTime() {
-        return reportTime;
+    public Boolean getError() {
+        return error;
     }
 
-    public void setReportTime(Date reportTime) {
-        this.reportTime = reportTime;
+    public void setError(Boolean error) {
+        this.error = error;
+    }
+
+    public String getErrorInfo() {
+        return errorInfo;
+    }
+
+    public void setErrorInfo(String errorInfo) {
+        this.errorInfo = errorInfo;
+    }
+
+    public Date getErrorTime() {
+        return errorTime;
+    }
+
+    public void setErrorTime(Date errorTime) {
+        this.errorTime = errorTime;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Long getRuleInstanceCode() {
+        return ruleInstanceCode;
+    }
+
+    public void setRuleInstanceCode(Long ruleInstanceCode) {
+        this.ruleInstanceCode = ruleInstanceCode;
     }
 }

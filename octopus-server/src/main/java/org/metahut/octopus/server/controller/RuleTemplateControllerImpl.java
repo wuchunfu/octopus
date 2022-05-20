@@ -49,5 +49,4 @@ public class RuleTemplateControllerImpl implements RuleTemplateController {
         return ResultEntity.success(ruleTemplateService.findList(ruleTemplateRequest));
     }
 
-
 }
