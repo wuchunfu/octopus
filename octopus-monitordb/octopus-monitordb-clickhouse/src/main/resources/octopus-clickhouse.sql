@@ -15,33 +15,44 @@
  * limitations under the License.
 */
 
-drop table tb_octopus_metrics_result;
-CREATE TABLE tb_octopus_metrics_result
+drop table IF EXISTS monitor_metrics_result;
+CREATE TABLE monitor_metrics_result
 (
     `id`                  Int32,
-    `source_code`         String,
+    `report_channel` String,
+    `subject_code`         String,
+    `subject_category` String,
     `metrics_code`        String,
-    `metrics_config_code` String,
-    `result`              String,
-    `report_time`         DateTime,
+    `metrics_unique_key` String,
+    `metrics_value`              String,
     `create_time`         DateTime default now()
 ) ENGINE = MergeTree()
 ORDER BY id
 SETTINGS index_granularity = 8192;
 
-drop table tb_octopus_monitor_log;
-CREATE TABLE tb_octopus_monitor_log
+drop table IF EXISTS monitor_rule_log;
+CREATE TABLE monitor_rule_log
 (
     `id`                  Int32,
-    `source_code`         String,
+    `rule_instance_code` Int32,
+    `datasource_code`         String,
+    `dataset_code` String,
     `metrics_code`        String,
-    `metrics_config_code` String,
-    `alerter_code`        String,
-    `error`               Int8,
+    `metrics_config_code` Int32,
+
+    `subject_code`  String,
+    `subject_category` String,
+
+    `checkType` String,
+    `checkMethod`   String,
+    `comparisonMethod` String,
+    `expectedValue`     String,
+
     `result`              String,
-    `description`         String,
-    `report_time`         DateTime,
-    `create_time`         DateTime default now()
+    `error`              Boolean,
+    `error_info`         String,
+    `error_time`         DateTime,
+    `create_time`        DateTime default now()
 ) ENGINE = MergeTree()
 ORDER BY id
 SETTINGS index_granularity = 8192;

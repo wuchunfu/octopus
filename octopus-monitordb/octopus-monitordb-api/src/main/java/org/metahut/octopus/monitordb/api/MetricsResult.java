@@ -1,14 +1,21 @@
 package org.metahut.octopus.monitordb.api;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 public class MetricsResult {
+
     private Integer id;
-    private String sourceCode;
+
+    private String reportChannel;
+
+    private String subjectCode;
+
+    private String subjectCategory;
     private String metricsCode;
-    private String metricsConfigCode;
-    private String result;
+
+    private String metricsUniqueKey;
+
+    private String metricsValue;
     private Date createTime;
 
     public Integer getId() {
@@ -19,12 +26,28 @@ public class MetricsResult {
         this.id = id;
     }
 
-    public String getSourceCode() {
-        return sourceCode;
+    public String getReportChannel() {
+        return reportChannel;
     }
 
-    public void setSourceCode(String sourceCode) {
-        this.sourceCode = sourceCode;
+    public void setReportChannel(String reportChannel) {
+        this.reportChannel = reportChannel;
+    }
+
+    public String getSubjectCode() {
+        return subjectCode;
+    }
+
+    public void setSubjectCode(String subjectCode) {
+        this.subjectCode = subjectCode;
+    }
+
+    public String getSubjectCategory() {
+        return subjectCategory;
+    }
+
+    public void setSubjectCategory(String subjectCategory) {
+        this.subjectCategory = subjectCategory;
     }
 
     public String getMetricsCode() {
@@ -35,31 +58,27 @@ public class MetricsResult {
         this.metricsCode = metricsCode;
     }
 
-    public String getMetricsConfigCode() {
-        return metricsConfigCode;
+    public String getMetricsUniqueKey() {
+        return metricsUniqueKey;
     }
 
-    public void setMetricsConfigCode(String metricsConfigCode) {
-        this.metricsConfigCode = metricsConfigCode;
+    public void setMetricsUniqueKey(String metricsUniqueKey) {
+        this.metricsUniqueKey = metricsUniqueKey;
     }
 
-    public String getResult() {
-        return result;
+    public String getMetricsValue() {
+        return metricsValue;
     }
 
-    public void setResult(String result) {
-        this.result = result;
+    public void setMetricsValue(String metricsValue) {
+        this.metricsValue = metricsValue;
     }
-    
+
     public Date getCreateTime() {
         return createTime;
     }
 
     public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
     }
 }

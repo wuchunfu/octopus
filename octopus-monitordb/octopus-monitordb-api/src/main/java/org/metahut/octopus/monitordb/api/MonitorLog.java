@@ -1,18 +1,39 @@
 package org.metahut.octopus.monitordb.api;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 public class MonitorLog {
+
     private Integer id;
-    private String sourceCode;
+
+    private Long ruleInstanceCode;
+
+    private String datasourceCode;
+
+    private String datasetCode;
+
     private String metricsCode;
     private String metricsConfigCode;
-    private String alerterCode;
-    private Boolean error;
+    private String subjectCode;
+
+    private String subjectCategory;
+
+    private String checkType;
+
+    private String checkMethod;
+
+    private String comparisonMethod;
+
+    private String expectedValue;
+
     private String result;
-    private String description;
-    private Date reportTime;
+
+    private Boolean error;
+
+    private String errorInfo;
+
+    private Date errorTime;
+
     private Date createTime;
 
     public Integer getId() {
@@ -23,12 +44,28 @@ public class MonitorLog {
         this.id = id;
     }
 
-    public String getSourceCode() {
-        return sourceCode;
+    public Long getRuleInstanceCode() {
+        return ruleInstanceCode;
     }
 
-    public void setSourceCode(String sourceCode) {
-        this.sourceCode = sourceCode;
+    public void setRuleInstanceCode(Long ruleInstanceCode) {
+        this.ruleInstanceCode = ruleInstanceCode;
+    }
+
+    public String getDatasourceCode() {
+        return datasourceCode;
+    }
+
+    public void setDatasourceCode(String datasourceCode) {
+        this.datasourceCode = datasourceCode;
+    }
+
+    public String getDatasetCode() {
+        return datasetCode;
+    }
+
+    public void setDatasetCode(String datasetCode) {
+        this.datasetCode = datasetCode;
     }
 
     public String getMetricsCode() {
@@ -47,30 +84,52 @@ public class MonitorLog {
         this.metricsConfigCode = metricsConfigCode;
     }
 
-    public String getAlerterCode() {
-        return alerterCode;
+    public String getSubjectCode() {
+        return subjectCode;
     }
 
-    public void setAlerterCode(String alerterCode) {
-        this.alerterCode = alerterCode;
+    public void setSubjectCode(String subjectCode) {
+        this.subjectCode = subjectCode;
     }
 
-    public Boolean getError() {
-        return error;
+    public String getSubjectCategory() {
+        return subjectCategory;
     }
 
-    public Boolean isError() {
-        return error;
+    public void setSubjectCategory(String subjectCategory) {
+        this.subjectCategory = subjectCategory;
     }
 
-    public void setError(Boolean error) {
-        this.error = error;
+    public String getCheckType() {
+        return checkType;
     }
 
-    public void setError(Integer error) {
-        if (error != null) {
-            setError(1 == error);
-        }
+    public void setCheckType(String checkType) {
+        this.checkType = checkType;
+    }
+
+    public String getCheckMethod() {
+        return checkMethod;
+    }
+
+    public void setCheckMethod(String checkMethod) {
+        this.checkMethod = checkMethod;
+    }
+
+    public String getComparisonMethod() {
+        return comparisonMethod;
+    }
+
+    public void setComparisonMethod(String comparisonMethod) {
+        this.comparisonMethod = comparisonMethod;
+    }
+
+    public String getExpectedValue() {
+        return expectedValue;
+    }
+
+    public void setExpectedValue(String expectedValue) {
+        this.expectedValue = expectedValue;
     }
 
     public String getResult() {
@@ -81,24 +140,28 @@ public class MonitorLog {
         this.result = result;
     }
 
-    public String getDescription() {
-        return description;
+    public Boolean getError() {
+        return error;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setError(Boolean error) {
+        this.error = error;
     }
 
-    public Date getReportTime() {
-        return reportTime;
+    public String getErrorInfo() {
+        return errorInfo;
     }
 
-    public void setReportTime(Date reportTime) {
-        this.reportTime = reportTime;
+    public void setErrorInfo(String errorInfo) {
+        this.errorInfo = errorInfo;
     }
 
-    public void setReportTime(Timestamp reportTime) {
-        this.reportTime = reportTime;
+    public Date getErrorTime() {
+        return errorTime;
+    }
+
+    public void setErrorTime(Date errorTime) {
+        this.errorTime = errorTime;
     }
 
     public Date getCreateTime() {
@@ -106,10 +169,6 @@ public class MonitorLog {
     }
 
     public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
     }
 }
