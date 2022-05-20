@@ -5,6 +5,8 @@ import org.metahut.octopus.api.dto.RuleTemplateConditionRequestDTO;
 import org.metahut.octopus.api.dto.RuleTemplateCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.RuleTemplateResponseDTO;
 
+import java.util.List;
+
 public interface RuleTemplateService {
 
     PageResponseDTO<RuleTemplateResponseDTO> queryListPage(RuleTemplateConditionRequestDTO ruleTemplateRequestDTO);
@@ -12,4 +14,6 @@ public interface RuleTemplateService {
     RuleTemplateResponseDTO createOrUpdate(RuleTemplateCreateOrUpdateRequestDTO ruleTemplateRequestDTO);
 
     void deleteById(Integer id);
+
+    List<RuleTemplateResponseDTO> findList(RuleTemplateConditionRequestDTO ruleTemplateRequest);
 }

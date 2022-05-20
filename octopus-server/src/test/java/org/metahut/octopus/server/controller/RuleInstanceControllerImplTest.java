@@ -13,7 +13,6 @@ import org.metahut.octopus.metrics.api.JSONUtils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -25,7 +24,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-@Disabled
 public class RuleInstanceControllerImplTest  extends WebApplicationTest {
 
     private static final String REST_FUNCTION_URL_PREFIX = "/rule/";

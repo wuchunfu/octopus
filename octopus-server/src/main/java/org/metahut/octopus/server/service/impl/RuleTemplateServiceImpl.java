@@ -106,4 +106,13 @@ public class RuleTemplateServiceImpl implements RuleTemplateService {
     public void deleteById(Integer id) {
         ruleTemplateRespository.deleteById(id);
     }
+
+    @Override
+    public List<RuleTemplateResponseDTO> findList(RuleTemplateConditionRequestDTO ruleTemplateRequest) {
+        return (List<RuleTemplateResponseDTO>)conversionService.convert(ruleTemplateRespository.findAll(withConditions(ruleTemplateRequest)),
+                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleTemplate.class)),
+                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleTemplateResponseDTO.class)));
+    }
+
+
 }

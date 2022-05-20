@@ -11,6 +11,8 @@ import org.metahut.octopus.server.utils.SnowflakeIdGenerator;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class RuleTemplateControllerImpl implements RuleTemplateController {
 
@@ -41,4 +43,11 @@ public class RuleTemplateControllerImpl implements RuleTemplateController {
     public ResultEntity<RuleTemplateResponseDTO> update(RuleTemplateCreateOrUpdateRequestDTO ruleTemplateRequest) {
         return ResultEntity.success(ruleTemplateService.createOrUpdate(ruleTemplateRequest));
     }
+
+    @Override
+    public ResultEntity<List<RuleTemplateResponseDTO>> queryList(RuleTemplateConditionRequestDTO ruleTemplateRequest) {
+        return ResultEntity.success(ruleTemplateService.findList(ruleTemplateRequest));
+    }
+
+
 }

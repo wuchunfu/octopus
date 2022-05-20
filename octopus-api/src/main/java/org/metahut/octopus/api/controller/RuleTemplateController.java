@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @Api(tags = "RULE_TEMPLATE_TAG")
 @RequestMapping("ruleTemplate")
 @Validated
@@ -42,4 +44,8 @@ public interface RuleTemplateController {
     @ApiOperation(value = "update", notes = "UPDATE_RULE_TEMPLATE_NOTES")
     @PutMapping
     ResultEntity<RuleTemplateResponseDTO> update(@RequestBody @Validated RuleTemplateCreateOrUpdateRequestDTO ruleTemplateRequest);
+
+    @ApiOperation(value = "queryList", notes = "QUERY_LIST_NOTES")
+    @GetMapping("/queryList")
+    ResultEntity<List<RuleTemplateResponseDTO>> queryList(RuleTemplateConditionRequestDTO ruleTemplateRequest);
 }
