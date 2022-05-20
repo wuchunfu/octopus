@@ -1,9 +1,14 @@
 package org.metahut.octopus.dao.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import java.util.List;
 
 @Entity
 @Table(name = "tb_octopus_flow_definition")
@@ -13,6 +18,11 @@ public class FlowDefinition extends BaseEntity {
     @GeneratedValue
     private Integer id;
     private String sourceCode;
+
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "source_code", referencedColumnName = "sourceCode")
+    private List<SourceAlertRelation> sourceAlertRelations;
+
     private String env;
     private String crontab;
     private String schedulerCode;
@@ -31,6 +41,14 @@ public class FlowDefinition extends BaseEntity {
 
     public void setSourceCode(String sourceCode) {
         this.sourceCode = sourceCode;
+    }
+
+    public List<SourceAlertRelation> getSourceAlertRelations() {
+        return sourceAlertRelations;
+    }
+
+    public void setSourceAlertRelations(List<SourceAlertRelation> sourceAlertRelations) {
+        this.sourceAlertRelations = sourceAlertRelations;
     }
 
     public String getEnv() {

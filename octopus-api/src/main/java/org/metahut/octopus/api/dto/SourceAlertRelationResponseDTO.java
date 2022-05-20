@@ -9,11 +9,11 @@ public class SourceAlertRelationResponseDTO {
     @ApiModelProperty(value = "id")
     private Integer id;
 
-    @ApiModelProperty(value = "source_code")
-    private String source_code;
+    @ApiModelProperty(value = "sourceCode")
+    private String sourceCode;
 
-    @ApiModelProperty(value = "alertInstancecode")
-    private Long alertInstancecode;
+    @ApiModelProperty(value = "alertInstanceCode")
+    private Long alertInstanceCode;
 
     @ApiModelProperty(value = "alerter")
     private String alerter;
@@ -38,20 +38,20 @@ public class SourceAlertRelationResponseDTO {
         this.id = id;
     }
 
-    public String getSource_code() {
-        return source_code;
+    public String getSourceCode() {
+        return sourceCode;
     }
 
-    public void setSource_code(String source_code) {
-        this.source_code = source_code;
+    public void setSourceCode(String sourceCode) {
+        this.sourceCode = sourceCode;
     }
 
-    public Long getAlertInstancecode() {
-        return alertInstancecode;
+    public Long getAlertInstanceCode() {
+        return alertInstanceCode;
     }
 
-    public void setAlertInstancecode(Long alertInstancecode) {
-        this.alertInstancecode = alertInstancecode;
+    public void setAlertInstanceCode(Long alertInstanceCode) {
+        this.alertInstanceCode = alertInstanceCode;
     }
 
     public String getAlerter() {

@@ -51,9 +51,6 @@ public class RuleInstanceResponseDTO {
     @ApiModelProperty(value = "flowDefinition")
     private FlowDefinitionResponseDTO flowDefinition;
 
-    @ApiModelProperty(value = "sourceAlertRelations")
-    List<SourceAlertRelationResponseDTO> sourceAlertRelations;
-
     @ApiModelProperty(value = "creator")
     private Long creator;
 
@@ -176,14 +173,6 @@ public class RuleInstanceResponseDTO {
 
     public void setFlowDefinition(FlowDefinitionResponseDTO flowDefinition) {
         this.flowDefinition = flowDefinition;
-    }
-
-    public List<SourceAlertRelationResponseDTO> getSourceAlertRelations() {
-        return sourceAlertRelations;
-    }
-
-    public void setSourceAlertRelations(List<SourceAlertRelationResponseDTO> sourceAlertRelations) {
-        this.sourceAlertRelations = sourceAlertRelations;
     }
 
     public Long getCreator() {

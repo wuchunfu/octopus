@@ -39,6 +39,7 @@ import javax.persistence.criteria.Predicate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -114,7 +115,7 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
     public List<RuleInstanceResponseDTO> batchCreate(List<RuleInstanceCreateOrUpdateRequestDTO> requestDTOs) {
         List<RuleInstanceResponseDTO> list = requestDTOs.stream().map(item -> {
             SampleInstance sampleInstance = createSampleInstance(item.getSamplevlue(), item.getSourceCode());
-            FlowDefinition flowDefinition = createFlowDefinition(item.getSourceCode(), item.getCrontab());
+            FlowDefinition flowDefinition = createFlowDefinition(item.getSourceCode(), item.getCrontab(), item.getAlertGroup());
             Metrics metrics = metricsService.findOneByCode(item.getMetricsCode());
             RuleInstance convert = conversionService.convert(item, RuleInstance.class);
             convert.setMetrics(metrics);
@@ -129,10 +130,7 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
             //AbstractMetricsParameter abstractMetricsParameter = JSONUtils.parseObject(metricsParams, AbstractMetricsParameter.class);
             convert.setMetricsUniqueKey("test");
             RuleInstance save = ruleInstanceRepository.save(convert);
-            List<SourceAlertRelationResponseDTO> sourceAlertRelations = createSourceAlertRelations(item.getAlertInstanceList(), item.getAlertPeopleList(), save);
-            RuleInstanceResponseDTO ruleInstanceResponseDTO = conversionService.convert(save, RuleInstanceResponseDTO.class);
-            ruleInstanceResponseDTO.setSourceAlertRelations(sourceAlertRelations);
-            return ruleInstanceResponseDTO;
+            return conversionService.convert(save, RuleInstanceResponseDTO.class);
         }).collect(Collectors.toList());
         return list;
     }
@@ -141,7 +139,7 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
     public RuleInstanceResponseDTO update(RuleInstanceCreateOrUpdateRequestDTO requestDTO) {
         RuleInstance instance = findByInstanceId(requestDTO.getId());
         SampleInstance sampleInstance = updateSampleInstance(instance.getSampleInstance().getCode(), requestDTO.getSamplevlue(), requestDTO.getSourceCode());
-        FlowDefinition flowDefinition = updateFlowDefinition(requestDTO.getSourceCode(), requestDTO.getCrontab());
+        FlowDefinition flowDefinition = updateFlowDefinition(requestDTO.getSourceCode(), requestDTO.getCrontab(), requestDTO.getAlertGroup());
         Metrics metrics = metricsService.findOneByCode(requestDTO.getMetricsCode());
         RuleInstance convert = conversionService.convert(requestDTO, RuleInstance.class);
         convert.setFlowDefinition(flowDefinition);
@@ -159,9 +157,6 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
 
     @Override
     public void deleteById(Integer id) {
-        RuleInstance instance = findByInstanceId(id);
-        deleteSampleInstance(instance.getSampleInstance().getId());
-        deleteFlowDefinition(instance.getFlowDefinition().getId());
         ruleInstanceRepository.deleteById(id);
     }
 
@@ -209,37 +204,39 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
     }
 
 
-    private FlowDefinition createFlowDefinition(String sourceCode, String crontab) {
+    private FlowDefinition createFlowDefinition(String sourceCode, String crontab, Map<Long, String> map) {
         FlowDefinition flowDefinition = new FlowDefinition();
         flowDefinition.setSchedulerCode(String.valueOf(SnowflakeIdGenerator.getInstance().nextId()));
         flowDefinition.setSourceCode(sourceCode);
         flowDefinition.setCrontab(crontab);
+        List<SourceAlertRelation> list = new ArrayList<>();
+        map.forEach((k, v) -> {
+            SourceAlertRelation sourceAlertRelation = new SourceAlertRelation();
+            sourceAlertRelation.setAlertInstanceCode(k);
+            sourceAlertRelation.setAlerter(v);
+            list.add(sourceAlertRelation);
+        });
+        flowDefinition.setSourceAlertRelations(list);
         return flowDefinition;
     }
 
-    private FlowDefinition updateFlowDefinition(String sourceCode, String crontab) {
+    private FlowDefinition updateFlowDefinition(String sourceCode, String crontab, Map<Long, String> map) {
         FlowDefinition flow = findBySourceCode(sourceCode);
         flow.setSourceCode(sourceCode);
         flow.setCrontab(crontab);
+        flow.getSourceAlertRelations().forEach(i -> sourceAlertRelationRepository.deleteById(i.getId()));
+        List<SourceAlertRelation> list = new ArrayList<>();
+        map.forEach((k, v) -> {
+            SourceAlertRelation sourceAlertRelation = new SourceAlertRelation();
+            sourceAlertRelation.setAlertInstanceCode(k);
+            sourceAlertRelation.setAlerter(v);
+            list.add(sourceAlertRelation);
+        });
+        flow.setSourceAlertRelations(list);
         return flow;
     }
 
     private void deleteFlowDefinition(Integer id){
         flowDefinitionRepository.deleteById(id);
     }
-
-    private List<SourceAlertRelationResponseDTO> createSourceAlertRelations(List<Long> alertCodes, List<String> peoples, RuleInstance ruleInstance){
-        List<SourceAlertRelationResponseDTO> sourceAlertRelations = new ArrayList<>();
-        SourceAlertRelation sourceAlertRelation = new SourceAlertRelation();
-        alertCodes.forEach(instance -> {
-            peoples.forEach(people -> {
-                sourceAlertRelation.setAlertInstanceCode(instance);
-                sourceAlertRelation.setAlerter(people);
-                SourceAlertRelationResponseDTO sourceAlertRelationResponseDTO = conversionService.convert(sourceAlertRelationRepository.save(sourceAlertRelation), SourceAlertRelationResponseDTO.class);
-                sourceAlertRelations.add(sourceAlertRelationResponseDTO);
-            });
-        });
-        return sourceAlertRelations;
-    }
-
 }

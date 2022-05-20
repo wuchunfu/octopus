@@ -13,8 +13,6 @@ public class SourceAlertRelation extends BaseEntity {
     @GeneratedValue
     private Integer id;
 
-    private String sourceCode;
-
     private Long alertInstanceCode;
 
     private String alerter;
@@ -25,14 +23,6 @@ public class SourceAlertRelation extends BaseEntity {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getSourceCode() {
-        return sourceCode;
-    }
-
-    public void setSourceCode(String sourceCode) {
-        this.sourceCode = sourceCode;
     }
 
     public Long getAlertInstanceCode() {

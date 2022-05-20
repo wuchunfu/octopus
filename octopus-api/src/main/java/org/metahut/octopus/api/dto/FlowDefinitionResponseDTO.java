@@ -3,6 +3,7 @@ package org.metahut.octopus.api.dto;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Date;
+import java.util.List;
 
 public class FlowDefinitionResponseDTO {
 
@@ -11,6 +12,9 @@ public class FlowDefinitionResponseDTO {
 
     @ApiModelProperty(value = "sourceCode")
     private String sourceCode;
+
+    @ApiModelProperty(value = "sourceAlertRelations")
+    private List<SourceAlertRelationResponseDTO> sourceAlertRelations;
 
     @ApiModelProperty(value = "env")
     private String env;
@@ -55,6 +59,14 @@ public class FlowDefinitionResponseDTO {
 
     public void setEnv(String env) {
         this.env = env;
+    }
+
+    public List<SourceAlertRelationResponseDTO> getSourceAlertRelations() {
+        return sourceAlertRelations;
+    }
+
+    public void setSourceAlertRelations(List<SourceAlertRelationResponseDTO> sourceAlertRelations) {
+        this.sourceAlertRelations = sourceAlertRelations;
     }
 
     public String getCrontab() {

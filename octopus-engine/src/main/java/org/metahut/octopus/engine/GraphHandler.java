@@ -78,7 +78,7 @@ public class GraphHandler {
             SampleExecuteInstance sampleExecuteInstance = metricsAggMap.computeIfAbsent(sampleType, entry -> SampleExecuteInstance.of(instance.getSampleInstance().getParams()));
             MetricsExecuteInstance metrics = sampleExecuteInstance.getNextNodes().computeIfAbsent(instance.getMetricsUniqueKey(), entry -> {
                 MetricsExecuteInstance metricsExecuteInstance = new MetricsExecuteInstance();
-                metricsExecuteInstance.setMetricsCode(instance.getMetricsCode());
+                metricsExecuteInstance.setMetricsCode(instance.getMetrics().getCode());
                 metricsExecuteInstance.setSubjectCategory(instance.getSubjectCategory());
                 return metricsExecuteInstance;
             });

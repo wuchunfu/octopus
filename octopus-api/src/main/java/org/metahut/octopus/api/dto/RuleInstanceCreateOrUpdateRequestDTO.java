@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
+import java.util.Map;
 
 @ApiModel(description = "rule create or update request dto")
 public class RuleInstanceCreateOrUpdateRequestDTO {
@@ -52,11 +53,8 @@ public class RuleInstanceCreateOrUpdateRequestDTO {
     @ApiModelProperty(value = "crontab")
     private String crontab;
 
-    @ApiModelProperty(value = "alertInstanceList")
-    private List<Long> alertInstanceList;
-
-    @ApiModelProperty(value = "alertPeopleList")
-    private List<String> alertPeopleList;
+    @ApiModelProperty(value = "alertGroup")
+    private Map<Long, String> alertGroup;
 
     public Integer getId() {
         return id;
@@ -94,20 +92,12 @@ public class RuleInstanceCreateOrUpdateRequestDTO {
         return metricsCode;
     }
 
-    public List<Long> getAlertInstanceList() {
-        return alertInstanceList;
+    public Map<Long, String> getAlertGroup() {
+        return alertGroup;
     }
 
-    public void setAlertInstanceList(List<Long> alertInstanceList) {
-        this.alertInstanceList = alertInstanceList;
-    }
-
-    public List<String> getAlertPeopleList() {
-        return alertPeopleList;
-    }
-
-    public void setAlertPeopleList(List<String> alertPeopleList) {
-        this.alertPeopleList = alertPeopleList;
+    public void setAlertGroup(Map<Long, String> alertGroup) {
+        this.alertGroup = alertGroup;
     }
 
     public void setMetricsCode(String metricsCode) {
