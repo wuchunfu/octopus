@@ -23,7 +23,7 @@ public class MonitorLogConditionsRequestDTO extends PageRequestDTO {
     private String metricsCode;
 
     @ApiModelProperty(value = "metricsConfigCode")
-    private String metricsConfigCode;
+    private Long metricsConfigCode;
 
     @ApiModelProperty(value = "checkType")
     private String checkType;
@@ -72,11 +72,11 @@ public class MonitorLogConditionsRequestDTO extends PageRequestDTO {
         this.metricsCode = metricsCode;
     }
 
-    public String getMetricsConfigCode() {
+    public Long getMetricsConfigCode() {
         return metricsConfigCode;
     }
 
-    public void setMetricsConfigCode(String metricsConfigCode) {
+    public void setMetricsConfigCode(Long metricsConfigCode) {
         this.metricsConfigCode = metricsConfigCode;
     }
 

@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.convert.ConversionService;
 
 @SpringBootTest
-public class AlerterInstanceMapperTest {
+public class AlerterInstanceConvertTest {
 
     @Autowired
     private ConversionService conversionService;

@@ -13,6 +13,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -96,6 +97,48 @@ public class ClickhouseMonitorDBSource implements IMonitorDBSource {
                 + "from monitor_rule_log");
 
         List<Object> parameters = new ArrayList<>();
+
+        builder.append(" WHERE 1=1 ");
+        if (StringUtils.isNotBlank(request.getDatasourceCode())) {
+            builder.append(" AND datasource_code = ?");
+            parameters.add(request.getDatasourceCode());
+        }
+
+        if (StringUtils.isNotBlank(request.getDatasetCode())) {
+            builder.append(" AND dataset_code = ?");
+            parameters.add(request.getDatasetCode());
+        }
+
+        if (StringUtils.isNotBlank(request.getSubjectCategory())) {
+            builder.append(" AND subject_category = ?");
+            parameters.add(request.getSubjectCategory());
+        }
+
+        if (StringUtils.isNotBlank(request.getMetricsCode())) {
+            builder.append(" AND metrics_code = ?");
+            parameters.add(request.getMetricsCode());
+        }
+
+        if (Objects.nonNull(request.getMetricsConfigCode())) {
+            builder.append(" AND metrics_config_code = ?");
+            parameters.add(request.getMetricsConfigCode());
+        }
+
+        if (StringUtils.isNotBlank(request.getCheckType())) {
+            builder.append(" AND check_type = ?");
+            parameters.add(request.getCheckType());
+        }
+
+        if (Objects.nonNull(request.getError())) {
+            builder.append(" AND error = ?");
+            parameters.add(request.getError());
+        }
+
+        if (Objects.nonNull(request.getErrorStartTime()) && Objects.nonNull(request.getErrorEndTime())) {
+            builder.append(" AND error_time").append(" BETWEEN ? AND ?");
+            parameters.add(request.getErrorStartTime());
+            parameters.add(request.getErrorEndTime());
+        }
 
         builder.append(" LIMIT ?,?");
         parameters.add((request.getPageNo() - 1) * request.getPageSize());

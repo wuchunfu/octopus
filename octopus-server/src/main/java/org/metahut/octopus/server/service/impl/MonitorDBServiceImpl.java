@@ -14,6 +14,7 @@ import org.metahut.octopus.monitordb.api.PageResponse;
 import org.metahut.octopus.server.service.MonitorDBService;
 
 import org.springframework.core.convert.ConversionService;
+import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,14 +41,28 @@ public class MonitorDBServiceImpl implements MonitorDBService {
         MonitorLogRequest request = conversionService.convert(requestDTO, MonitorLogRequest.class);
         PageResponse<MonitorLog> monitorLogPageResponse = monitorDBSource.queryMonitorLogListPage(request);
 
-        return null;
+        List<MonitorLog> data = monitorLogPageResponse.getData();
+        List<MonitorLogResponseDTO> converts = (List<MonitorLogResponseDTO>) conversionService.convert(data,
+                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MonitorLog.class)),
+                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MonitorLogResponseDTO.class)));
+
+        // TODO Supplementary data
+
+        return PageResponseDTO.of(monitorLogPageResponse.getPageNo(), monitorLogPageResponse.getPageSize(), monitorLogPageResponse.getTotal(), converts);
     }
 
     @Override
     public PageResponseDTO<MetricsResultResponseDTO> queryMetricsResultListPage(MetricsResultConditionsRequestDTO requestDTO) {
-        MetricsResultRequest request = null;
+        MetricsResultRequest request = conversionService.convert(requestDTO, MetricsResultRequest.class);
         PageResponse<MetricsResult> metricsResultPageResponse = monitorDBSource.queryMetricsResultListPage(request);
 
-        return null;
+        List<MetricsResult> data = metricsResultPageResponse.getData();
+        List<MetricsResultResponseDTO> converts = (List<MetricsResultResponseDTO>) conversionService.convert(data,
+                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MetricsResult.class)),
+                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MetricsResultResponseDTO.class)));
+
+        // TODO Supplementary data
+
+        return PageResponseDTO.of(metricsResultPageResponse.getPageNo(), metricsResultPageResponse.getPageSize(), metricsResultPageResponse.getTotal(), converts);
     }
 }

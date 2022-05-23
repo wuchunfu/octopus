@@ -12,7 +12,7 @@ public class MonitorLogRequest extends PageRequest {
 
     private String metricsCode;
 
-    private String metricsConfigCode;
+    private Long metricsConfigCode;
 
     private String checkType;
 
@@ -56,11 +56,11 @@ public class MonitorLogRequest extends PageRequest {
         this.metricsCode = metricsCode;
     }
 
-    public String getMetricsConfigCode() {
+    public Long getMetricsConfigCode() {
         return metricsConfigCode;
     }
 
-    public void setMetricsConfigCode(String metricsConfigCode) {
+    public void setMetricsConfigCode(Long metricsConfigCode) {
         this.metricsConfigCode = metricsConfigCode;
     }
 
