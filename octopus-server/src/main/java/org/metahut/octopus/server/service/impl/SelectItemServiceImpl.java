@@ -14,6 +14,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -45,13 +46,56 @@ public class SelectItemServiceImpl implements SelectItemService {
 
     private List<SelectItemResponseDTO> generateSelectItem(SelectItemNameEnum nameEnum) {
         switch (nameEnum) {
+            case DATASOURCE_TYPE:
+                return queryDatasourceTypeItem();
             case METRICS_DIMENSION:
                 return queryMetricsDimensionItem();
             case SUBJECT_CATEGORY:
                 return querySubjectCategoryItem();
+            case EXECUTOR_TYPE:
+                return queryExecutorTypeItem();
+            case CHECK_TYPE:
+                return queryCheckTypeItem();
+            case CHECK_METHOD:
+                return queryCheckMethodItem();
             default:
                 return Collections.EMPTY_LIST;
         }
+    }
+
+    private List<SelectItemResponseDTO> queryDatasourceTypeItem() {
+        // TODO query metadata interface
+
+        List<SelectItemResponseDTO> list = new ArrayList<>();
+        list.add(SelectItemResponseDTO.of("Hive", "Hive"));
+        list.add(SelectItemResponseDTO.of("Pulsar", "Pulsar"));
+        return list;
+    }
+
+    private List<SelectItemResponseDTO> queryExecutorTypeItem() {
+        // TODO query metadata interface
+
+        List<SelectItemResponseDTO> list = new ArrayList<>();
+        list.add(SelectItemResponseDTO.of("Flink", "Flink"));
+        return list;
+    }
+
+    private List<SelectItemResponseDTO> queryCheckTypeItem() {
+        // TODO query metadata interface
+
+        List<SelectItemResponseDTO> list = new ArrayList<>();
+        list.add(SelectItemResponseDTO.of("Num", "数值类型"));
+        list.add(SelectItemResponseDTO.of("Rate", "波动率类型"));
+        return list;
+    }
+
+    private List<SelectItemResponseDTO> queryCheckMethodItem() {
+        // TODO query metadata interface
+
+        List<SelectItemResponseDTO> list = new ArrayList<>();
+        list.add(SelectItemResponseDTO.of("FixedValue", "与固定值比较"));
+        list.add(SelectItemResponseDTO.of("7-DayAverage", "7天平均值波动"));
+        return list;
     }
 
     private List<SelectItemResponseDTO> queryMetricsDimensionItem() {
@@ -64,15 +108,16 @@ public class SelectItemServiceImpl implements SelectItemService {
 
     private List<SelectItemResponseDTO> enumsToSelectItems(Enum[] enums) {
         return Arrays.stream(enums)
-                .map(value -> {
-                    String message = value.name();
-                    try {
-                        message = messageSource.getMessage(value.name(), null, LocaleContextHolder.getLocale());
-                    } catch (Throwable throwable) {
-                        logger.error("select item value to i18n exception", throwable);
-                    }
-                    return SelectItemResponseDTO.of(value,  message);
-                }).collect(Collectors.toList());
+                .map(value -> toSelectItem(value, value.name())).collect(Collectors.toList());
+    }
+
+    private SelectItemResponseDTO toSelectItem(Object value, String message) {
+        try {
+            message = messageSource.getMessage(message, null, LocaleContextHolder.getLocale());
+        } catch (Throwable throwable) {
+            logger.error("select item value to i18n exception", throwable);
+        }
+        return SelectItemResponseDTO.of(value,  message);
     }
 
 }
