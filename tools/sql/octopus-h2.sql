@@ -107,7 +107,7 @@ CREATE TABLE tb_octopus_sample_instance
 
     source_code   varchar(64) NOT NULL,
     executor_type varchar(64),
-    params        text,
+    parameter        text,
 
     create_time   datetime DEFAULT NULL,
     update_time   datetime DEFAULT NULL,
@@ -163,7 +163,7 @@ CREATE TABLE tb_octopus_alerter_instance
     alert_type   varchar(64) NOT NULL,
     code         int(11)     NOT NULL,
     name         varchar(200) DEFAULT NULL,
-    alert_params text,
+    parameter text,
 
     description  varchar(64)  DEFAULT NULL,
     create_time  datetime     DEFAULT NULL,

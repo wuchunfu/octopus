@@ -9,6 +9,7 @@ import org.metahut.octopus.monitordb.api.MonitorLog;
 import org.metahut.octopus.monitordb.api.MonitorLogRequest;
 import org.metahut.octopus.monitordb.api.PageResponse;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
@@ -16,8 +17,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class ClickhouseMonitorDBSource implements IMonitorDBSource {
 
@@ -40,11 +44,39 @@ public class ClickhouseMonitorDBSource implements IMonitorDBSource {
 
     @Override
     public PageResponse<MetricsResult> queryMetricsResultListPage(MetricsResultRequest request) {
-        String sql = "";
+        StringBuilder builder = new StringBuilder("select id,source_code,subject_code,subject_category,metrics_code,metrics_unique_key,metrics_value,create_time from monitor_metrics_result");
+
+        List<Object> parameters = new ArrayList<>();
+
+        builder.append(" WHERE 1=1 ");
+        List<String> metricsCodes = request.getMetricsCodes();
+        if (CollectionUtils.isNotEmpty(request.getMetricsCodes())) {
+            int size = metricsCodes.size();
+            builder.append(" AND metrics_code").append(" IN (");
+            for (int i = 0; i < size; i++) {
+                if (i == size - 1) {
+                    builder.append("?");
+                } else {
+                    builder.append("?,");
+                }
+                parameters.add(metricsCodes.get(i));
+            }
+            builder.append(") ");
+        }
+
+        if (Objects.nonNull(request.getCreateStartTime()) && Objects.nonNull(request.getCreateEndTime())) {
+            builder.append(" AND create_time").append(" BETWEEN ? AND ?");
+            parameters.add(request.getCreateStartTime());
+            parameters.add(request.getCreateEndTime());
+        }
+
+        builder.append(" LIMIT ?,?");
+        parameters.add((request.getPageNo() - 1) * request.getPageSize());
+        parameters.add(request.getPageSize());
         try {
-            Object[] parameter = null;
             QueryRunner queryRunner = new QueryRunner(jdbcDataSource.getDatasource());
-            List<MetricsResult> list = queryRunner.query(sql, new BeanListHandler<>(MetricsResult.class), parameter);
+            logger.info("Clickhouse query sql:{}, parameters:{}", builder, parameters.stream().map(String::valueOf).collect(Collectors.joining(",")));
+            List<MetricsResult> list = queryRunner.query(builder.toString(), new BeanListHandler<>(MetricsResult.class), parameters.toArray(new Object[parameters.size()]));
 
             PageResponse<MetricsResult> pageResponse = new PageResponse<>();
             pageResponse.setPageNo(request.getPageNo());
@@ -59,11 +91,19 @@ public class ClickhouseMonitorDBSource implements IMonitorDBSource {
     @Override
     public PageResponse<MonitorLog> queryMonitorLogListPage(MonitorLogRequest request) {
 
-        String sql = "";
+        StringBuilder builder = new StringBuilder("select id,rule_instance_code,datasource_code,dataset_code,metrics_code,metrics_config_code,subject_code,subject_category,"
+                + "checkType,checkMethod,comparisonMethod,expectedValue,result,error,error_info,error_time,create_time "
+                + "from monitor_rule_log");
+
+        List<Object> parameters = new ArrayList<>();
+
+        builder.append(" LIMIT ?,?");
+        parameters.add((request.getPageNo() - 1) * request.getPageSize());
+        parameters.add(request.getPageSize());
         try {
-            Object[] parameter = null;
             QueryRunner queryRunner = new QueryRunner(jdbcDataSource.getDatasource());
-            List<MonitorLog> list = queryRunner.query(sql, new BeanListHandler<>(MonitorLog.class), parameter);
+            logger.info("Clickhouse query sql:{}, parameters:{}", builder, parameters.stream().map(String::valueOf).collect(Collectors.joining(",")));
+            List<MonitorLog> list = queryRunner.query(builder.toString(), new BeanListHandler<>(MonitorLog.class), parameters.toArray(new Object[parameters.size()]));
 
             PageResponse<MonitorLog> pageResponse = new PageResponse<>();
             pageResponse.setPageNo(request.getPageNo());

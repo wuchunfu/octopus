@@ -59,6 +59,11 @@
             <artifactId>octopus-monitordb-clickhouse</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.metahut.octopus</groupId>
+            <artifactId>octopus-alerter-dingtalk</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

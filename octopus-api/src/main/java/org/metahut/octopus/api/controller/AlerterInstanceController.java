@@ -1,7 +1,7 @@
 package org.metahut.octopus.api.controller;
 
 import org.metahut.octopus.api.dto.AlerterInstanceConditionsRequestDTO;
-import org.metahut.octopus.api.dto.AlerterInstanceCreateRequestDTO;
+import org.metahut.octopus.api.dto.AlerterInstanceCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.AlerterInstanceResponseDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
 
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -22,21 +23,25 @@ import java.util.Collection;
 @RequestMapping("alerter")
 public interface AlerterInstanceController {
 
-    @ApiOperation(value = "queryAllPluginTypes", notes = "QUERY_ALERTER_PLUGIN_ALL_TYPE_NOTES")
+    @ApiOperation(value = "queryAllPluginTypes", notes = "ALERTER_PLUGIN_QUERY_ALL_TYPE_NOTES")
     @GetMapping("queryAllPluginTypes")
     ResultEntity<Collection<String>> queryAllPluginTypes();
 
-    @ApiOperation(value = "queryListPage", notes = "QUERY_ALERTER_INSTANCE_LIST_PAGE_NOTES")
+    @ApiOperation(value = "queryListPage", notes = "ALERTER_INSTANCE_QUERY_LIST_PAGE_NOTES")
     @GetMapping("queryListPage")
-    ResultEntity queryListPage(AlerterInstanceConditionsRequestDTO alerterInstanceConditionsRequestDTO);
+    ResultEntity queryListPage(AlerterInstanceConditionsRequestDTO requestDTO);
 
-    @ApiOperation(value = "queryList", notes = "QUERY_ALERTER_INSTANCE_LIST_NOTES")
+    @ApiOperation(value = "queryList", notes = "ALERTER_INSTANCE_QUERY_LIST_NOTES")
     @GetMapping("queryList")
-    ResultEntity queryList(AlerterInstanceConditionsRequestDTO alerterInstanceConditionsRequestDTO);
+    ResultEntity queryList(AlerterInstanceConditionsRequestDTO requestDTO);
 
-    @ApiOperation(value = "create", notes = "CREATE_ALERTER_INSTANCE_NOTES")
+    @ApiOperation(value = "create", notes = "ALERTER_INSTANCE_CREATE_NOTES")
     @PostMapping("create")
-    ResultEntity<AlerterInstanceResponseDTO> create(@RequestBody AlerterInstanceCreateRequestDTO alerterInstanceCreateRequestDTO);
+    ResultEntity<AlerterInstanceResponseDTO> create(@RequestBody AlerterInstanceCreateOrUpdateRequestDTO requestDTO);
+
+    @ApiOperation(value = "update", notes = "ALERTER_INSTANCE_UPDATE_NOTES")
+    @PutMapping("update")
+    ResultEntity<AlerterInstanceResponseDTO> update(@RequestBody AlerterInstanceCreateOrUpdateRequestDTO requestDTO);
 
     @ApiOperation(value = "deleteById", notes = "DELETE_ALERTER_INSTANCE_BY_ID_NOTES")
     @ApiImplicitParams({

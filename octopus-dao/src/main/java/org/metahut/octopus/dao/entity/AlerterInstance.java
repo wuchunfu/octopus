@@ -19,7 +19,7 @@ public class AlerterInstance {
 
     private String alertType;
 
-    private String alertParams;
+    private String parameter;
 
     public Integer getId() {
         return id;
@@ -53,11 +53,11 @@ public class AlerterInstance {
         this.alertType = alertType;
     }
 
-    public String getAlertParams() {
-        return alertParams;
+    public String getParameter() {
+        return parameter;
     }
 
-    public void setAlertParams(String alertParams) {
-        this.alertParams = alertParams;
+    public void setParameter(String parameter) {
+        this.parameter = parameter;
     }
 }

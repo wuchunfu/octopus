@@ -14,7 +14,7 @@ public class EmailAlerterManager implements IAlerterManager {
     }
 
     @Override
-    public EmailParameter getParameter(String parameter) {
+    public EmailParameter deserializeParameter(String parameter) {
         EmailParameter emailParameter =  JSONUtils.parseObject(parameter, EmailParameter.class);
         if (Objects.isNull(emailParameter)) {
             throw new AlerterException("Invalid parameters to convert");
@@ -28,6 +28,6 @@ public class EmailAlerterManager implements IAlerterManager {
 
     @Override
     public EmailAlerter generateInstance(String parameter) {
-        return new EmailAlerter(getParameter(parameter));
+        return new EmailAlerter(deserializeParameter(parameter));
     }
 }

@@ -1,7 +1,7 @@
 package org.metahut.octopus.server.service.impl;
 
 import org.metahut.octopus.api.dto.AlerterInstanceConditionsRequestDTO;
-import org.metahut.octopus.api.dto.AlerterInstanceCreateRequestDTO;
+import org.metahut.octopus.api.dto.AlerterInstanceCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.AlerterInstanceResponseDTO;
 import org.metahut.octopus.dao.entity.AlerterInstance;
 import org.metahut.octopus.dao.entity.AlerterInstance_;
@@ -42,59 +42,39 @@ public class AlerterInstanceServiceImpl implements AlerterInstanceService {
     }
 
     @Override
-    public Page<AlerterInstance> queryListPage(AlerterInstanceConditionsRequestDTO alerterInstanceConditionsRequestDTO) {
-        Pageable pageable = PageRequest.of(alerterInstanceConditionsRequestDTO.getPageNo(), alerterInstanceConditionsRequestDTO.getPageSize());
-        Specification<AlerterInstance> specification = (root, query, builder) -> {
+    public Page<AlerterInstance> queryListPage(AlerterInstanceConditionsRequestDTO requestDTO) {
+        Pageable pageable = PageRequest.of(requestDTO.getPageNo(), requestDTO.getPageSize());
+        return alerterInstanceRepository.findAll(withConditions(requestDTO), pageable);
+    }
+
+    @Override
+    public List<AlerterInstance> queryList(AlerterInstanceConditionsRequestDTO requestDTO) {
+        return alerterInstanceRepository.findAll(withConditions(requestDTO));
+    }
+
+    private Specification<AlerterInstance> withConditions(AlerterInstanceConditionsRequestDTO requestDTO) {
+        return (root, query, builder) -> {
             List<Predicate> conditions = new ArrayList<>();
-            if (StringUtils.isNotBlank(alerterInstanceConditionsRequestDTO.getName())) {
-                conditions.add(builder.like(root.get(AlerterInstance_.name), "%" + alerterInstanceConditionsRequestDTO.getName() + "%"));
+
+            if (StringUtils.isNotBlank(requestDTO.getName())) {
+                conditions.add(builder.like(root.get(AlerterInstance_.name), "%" + requestDTO.getName() + "%"));
             }
 
-            if (StringUtils.isNotBlank(alerterInstanceConditionsRequestDTO.getType())) {
-                conditions.add(builder.equal(root.get(AlerterInstance_.alertType), alerterInstanceConditionsRequestDTO.getType()));
+            if (StringUtils.isNotBlank(requestDTO.getAlertType())) {
+                conditions.add(builder.equal(root.get(AlerterInstance_.alertType), requestDTO.getAlertType()));
             }
 
             return builder.and(conditions.toArray(new Predicate[conditions.size()]));
         };
-
-        return alerterInstanceRepository.findAll(specification, pageable);
     }
 
     @Override
-    public List<AlerterInstance> queryList(AlerterInstanceConditionsRequestDTO alerterInstanceConditionsRequestDTO) {
-
-        Specification<AlerterInstance> specification = (root, query, builder) -> {
-            List<Predicate> conditions = new ArrayList<>();
-            if (StringUtils.isNotBlank(alerterInstanceConditionsRequestDTO.getName())) {
-                conditions.add(builder.like(root.get(AlerterInstance_.name), "%" + alerterInstanceConditionsRequestDTO.getName() + "%"));
-            }
-
-            if (StringUtils.isNotBlank(alerterInstanceConditionsRequestDTO.getType())) {
-                conditions.add(builder.equal(root.get(AlerterInstance_.alertType), alerterInstanceConditionsRequestDTO.getType()));
-            }
-
-            return builder.and(conditions.toArray(new Predicate[conditions.size()]));
-        };
-
-        return alerterInstanceRepository.findAll(specification);
-    }
-
-    @Override
-    public AlerterInstanceResponseDTO create(AlerterInstanceCreateRequestDTO alerterInstanceCreateRequestDTO) {
-
+    public AlerterInstanceResponseDTO createOrUpdate(AlerterInstanceCreateOrUpdateRequestDTO requestDTO) {
         // check alerter plugin instance parameter
-        alerterPluginHelper.getParameter(alerterInstanceCreateRequestDTO.getType(), alerterInstanceCreateRequestDTO.getParams());
-
-        AlerterInstance instance = new AlerterInstance();
-        instance.setAlertType(alerterInstanceCreateRequestDTO.getType());
-        instance.setAlertParams(alerterInstanceCreateRequestDTO.getType());
-        instance.setName(alerterInstanceCreateRequestDTO.getName());
-        AlerterInstance save = alerterInstanceRepository.save(instance);
+        alerterPluginHelper.deserializeParameter(requestDTO.getAlertType(), requestDTO.getParameter());
+        AlerterInstance convert = conversionService.convert(requestDTO, AlerterInstance.class);
+        AlerterInstance save = alerterInstanceRepository.save(convert);
         return conversionService.convert(save, AlerterInstanceResponseDTO.class);
-    }
-
-    public void update() {
-
     }
 
     @Override

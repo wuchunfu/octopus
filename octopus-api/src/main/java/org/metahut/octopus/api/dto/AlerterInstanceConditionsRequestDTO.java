@@ -9,7 +9,7 @@ public class AlerterInstanceConditionsRequestDTO extends PageRequestDTO {
     @ApiModelProperty(value = "name")
     private String name;
     @ApiModelProperty(value = "type")
-    private String type;
+    private String alertType;
 
     public String getName() {
         return name;
@@ -19,11 +19,11 @@ public class AlerterInstanceConditionsRequestDTO extends PageRequestDTO {
         this.name = name;
     }
 
-    public String getType() {
-        return type;
+    public String getAlertType() {
+        return alertType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setAlertType(String alertType) {
+        this.alertType = alertType;
     }
 }

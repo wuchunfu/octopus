@@ -16,8 +16,8 @@ public class SampleInstanceCreateOrUpdateRequestDTO {
     @ApiModelProperty(value = "executorType")
     private String executorType;
 
-    @ApiModelProperty(value = "params")
-    private String params;
+    @ApiModelProperty(value = "parameter")
+    private String parameter;
 
     public Integer getId() {
         return id;
@@ -51,12 +51,12 @@ public class SampleInstanceCreateOrUpdateRequestDTO {
         this.executorType = executorType;
     }
 
-    public String getParams() {
-        return params;
+    public String getParameter() {
+        return parameter;
     }
 
-    public void setParams(String params) {
-        this.params = params;
+    public void setParameter(String parameter) {
+        this.parameter = parameter;
     }
 }
 

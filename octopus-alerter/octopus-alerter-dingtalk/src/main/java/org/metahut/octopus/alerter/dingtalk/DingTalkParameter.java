@@ -16,10 +16,8 @@ public class DingTalkParameter extends AbstractParameter {
 
     private String keyWord;
 
-    //webhook
     private String webhook;
 
-    //sign
     private String secret;
 
     private DingTalkMsgType dingTalkMsgType;

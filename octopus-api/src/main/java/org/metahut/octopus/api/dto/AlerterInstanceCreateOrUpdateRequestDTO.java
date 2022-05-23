@@ -1,6 +1,6 @@
 package org.metahut.octopus.api.dto;
 
-public class AlerterInstanceResponseDTO {
+public class AlerterInstanceCreateOrUpdateRequestDTO {
 
     private Integer id;
 

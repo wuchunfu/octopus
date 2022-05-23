@@ -127,7 +127,7 @@ public class RuleInstanceControllerImplTest  extends WebApplicationTest {
         ResultEntity<RuleInstanceResponseDTO> update = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<RuleInstanceResponseDTO>>() {});
         Assertions.assertTrue(update.isSuccess());
         RuleInstanceResponseDTO data = update.getData();
-        Assertions.assertEquals(sampleValue, data.getSampleInstance().getParams());
+        Assertions.assertEquals(sampleValue, data.getSampleInstance().getParameter());
     }
 
     @Test

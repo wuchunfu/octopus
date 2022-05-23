@@ -20,8 +20,8 @@ public class SampleInstanceResponseDTO {
     @ApiModelProperty(value = "executorType")
     private String executorType;
 
-    @ApiModelProperty(value = "params")
-    private String params;
+    @ApiModelProperty(value = "parameter")
+    private String parameter;
 
     @ApiModelProperty(value = "creator")
     private Long creator;
@@ -67,12 +67,12 @@ public class SampleInstanceResponseDTO {
         this.executorType = executorType;
     }
 
-    public String getParams() {
-        return params;
+    public String getParameter() {
+        return parameter;
     }
 
-    public void setParams(String params) {
-        this.params = params;
+    public void setParameter(String parameter) {
+        this.parameter = parameter;
     }
 
     public Long getCreator() {

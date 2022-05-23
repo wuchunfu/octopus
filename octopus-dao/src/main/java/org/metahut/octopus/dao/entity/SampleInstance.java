@@ -21,7 +21,7 @@ public class SampleInstance extends BaseEntity {
 
     private String executorType;
 
-    private String params;
+    private String parameter;
 
     public Integer getId() {
         return id;
@@ -55,12 +55,11 @@ public class SampleInstance extends BaseEntity {
         this.executorType = executorType;
     }
 
-    public String getParams() {
-        return params;
+    public String getParameter() {
+        return parameter;
     }
 
-    public void setParams(String params) {
-        this.params = params;
+    public void setParameter(String parameter) {
+        this.parameter = parameter;
     }
-
 }

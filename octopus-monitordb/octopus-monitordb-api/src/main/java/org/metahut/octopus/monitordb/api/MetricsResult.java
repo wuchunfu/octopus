@@ -8,6 +8,8 @@ public class MetricsResult {
 
     private String reportChannel;
 
+    private String sourceCode;
+
     private String subjectCode;
 
     private String subjectCategory;
@@ -32,6 +34,14 @@ public class MetricsResult {
 
     public void setReportChannel(String reportChannel) {
         this.reportChannel = reportChannel;
+    }
+
+    public String getSourceCode() {
+        return sourceCode;
+    }
+
+    public void setSourceCode(String sourceCode) {
+        this.sourceCode = sourceCode;
     }
 
     public String getSubjectCode() {

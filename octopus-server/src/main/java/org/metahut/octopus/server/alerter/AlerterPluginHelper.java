@@ -49,8 +49,8 @@ public class AlerterPluginHelper {
         return alerterMap.keySet();
     }
 
-    public AbstractParameter getParameter(String type, String parameter) {
-        return getAlerter(type).getParameter(parameter);
+    public AbstractParameter deserializeParameter(String type, String parameter) {
+        return getAlerter(type).deserializeParameter(parameter);
     }
 
     public IAlerter generateInstance(String type, String parameter) {

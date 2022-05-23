@@ -1,7 +1,7 @@
 package org.metahut.octopus.server.service;
 
 import org.metahut.octopus.api.dto.AlerterInstanceConditionsRequestDTO;
-import org.metahut.octopus.api.dto.AlerterInstanceCreateRequestDTO;
+import org.metahut.octopus.api.dto.AlerterInstanceCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.AlerterInstanceResponseDTO;
 import org.metahut.octopus.dao.entity.AlerterInstance;
 
@@ -14,11 +14,11 @@ public interface AlerterInstanceService {
 
     Collection<String> queryAllPluginTypes();
 
-    Page<AlerterInstance> queryListPage(AlerterInstanceConditionsRequestDTO alerterInstanceConditionsRequestDTO);
+    Page<AlerterInstance> queryListPage(AlerterInstanceConditionsRequestDTO requestDTO);
 
-    List<AlerterInstance> queryList(AlerterInstanceConditionsRequestDTO alerterInstanceConditionsRequestDTO);
+    List<AlerterInstance> queryList(AlerterInstanceConditionsRequestDTO requestDTO);
 
-    AlerterInstanceResponseDTO create(AlerterInstanceCreateRequestDTO alerterInstanceCreateRequestDTO);
+    AlerterInstanceResponseDTO createOrUpdate(AlerterInstanceCreateOrUpdateRequestDTO requestDTO);
 
     void deleteById(Integer id);
 }
