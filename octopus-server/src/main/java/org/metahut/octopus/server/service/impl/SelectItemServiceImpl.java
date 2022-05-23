@@ -58,6 +58,8 @@ public class SelectItemServiceImpl implements SelectItemService {
                 return queryCheckTypeItem();
             case CHECK_METHOD:
                 return queryCheckMethodItem();
+            case TASK_STATUS:
+                return queryTaskStatusItem();
             default:
                 return Collections.EMPTY_LIST;
         }
@@ -95,6 +97,15 @@ public class SelectItemServiceImpl implements SelectItemService {
         List<SelectItemResponseDTO> list = new ArrayList<>();
         list.add(SelectItemResponseDTO.of("FixedValue", "与固定值比较"));
         list.add(SelectItemResponseDTO.of("7-DayAverage", "7天平均值波动"));
+        return list;
+    }
+
+    private List<SelectItemResponseDTO> queryTaskStatusItem() {
+        // TODO query metadata interface
+
+        List<SelectItemResponseDTO> list = new ArrayList<>();
+        list.add(SelectItemResponseDTO.of("Hive", "运行中"));
+        list.add(SelectItemResponseDTO.of("Pulsar", "失败"));
         return list;
     }
 

@@ -51,7 +51,7 @@ public class RuleTemplateServiceImpl implements RuleTemplateService {
         List<RuleTemplateResponseDTO> convert = (List<RuleTemplateResponseDTO>)conversionService.convert(ruleTemplateRespository.findAll(withConditions(ruleTemplateRequestDTO)),
                 TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleTemplate.class)),
                 TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleTemplateResponseDTO.class)));
-        return PageResponseDTO.of(ruleTemplateRequestDTO.getPageNo(), ruleTemplateRequestDTO.getPageSize(), ruleTemplatePage.getTotalElements(), convert);
+        return PageResponseDTO.of(ruleTemplateRequestDTO.getPageNo(), ruleTemplatePage.getSize(), ruleTemplatePage.getTotalElements(), convert);
     }
 
     private Specification<RuleTemplate> withConditions(RuleTemplateConditionRequestDTO requestDTO) {

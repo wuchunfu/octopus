@@ -42,7 +42,7 @@ public class MonitorFlowDefinitionServiceImpl implements MonitorFlowDefinitionSe
         List<FlowDefinitionResponseDTO> convert = (List<FlowDefinitionResponseDTO>) conversionService.convert(flowDefinitionPage.getContent(),
                 TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(FlowDefinition.class)),
                 TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(FlowDefinitionResponseDTO.class)));
-        return PageResponseDTO.of(requestDTO.getPageNo(), requestDTO.getPageSize(), flowDefinitionPage.getTotalElements(), convert);
+        return PageResponseDTO.of(requestDTO.getPageNo(), flowDefinitionPage.getSize(), flowDefinitionPage.getTotalElements(), convert);
     }
 
     private Specification<FlowDefinition> withConditions(MonitorFlowDefinitionConditionsRequestDTO requestDTO) {

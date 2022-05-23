@@ -75,7 +75,7 @@ public class GraphHandler {
         Map<String, SampleExecuteInstance> metricsAggMap = new HashMap<>();
         ruleInstances.forEach(instance -> {
             String sampleType = parserPluginHelper.generateType(sourceCategory, instance.getSampleInstance());
-            SampleExecuteInstance sampleExecuteInstance = metricsAggMap.computeIfAbsent(sampleType, entry -> SampleExecuteInstance.of(instance.getSampleInstance().getParams()));
+            SampleExecuteInstance sampleExecuteInstance = metricsAggMap.computeIfAbsent(sampleType, entry -> SampleExecuteInstance.of(instance.getSampleInstance().getParameter()));
             MetricsExecuteInstance metrics = sampleExecuteInstance.getNextNodes().computeIfAbsent(instance.getMetricsUniqueKey(), entry -> {
                 MetricsExecuteInstance metricsExecuteInstance = new MetricsExecuteInstance();
                 metricsExecuteInstance.setMetricsCode(instance.getMetrics().getCode());

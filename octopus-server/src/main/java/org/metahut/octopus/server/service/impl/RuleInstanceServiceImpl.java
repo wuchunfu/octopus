@@ -56,7 +56,7 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
         List<RuleInstanceResponseDTO> convert = (List<RuleInstanceResponseDTO>) conversionService.convert(ruleInstanceRepository.findAll(withConditions(requestDTO)),
             TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleInstance.class)),
             TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleInstanceResponseDTO.class)));
-        return PageResponseDTO.of(requestDTO.getPageNo(), requestDTO.getPageSize(), ruleInstancePage.getTotalElements(), convert);
+        return PageResponseDTO.of(requestDTO.getPageNo(), ruleInstancePage.getSize(), ruleInstancePage.getTotalElements(), convert);
     }
 
     private Specification<RuleInstance> withConditions(RuleInstanceConditionRequestDTO requestDTO) {

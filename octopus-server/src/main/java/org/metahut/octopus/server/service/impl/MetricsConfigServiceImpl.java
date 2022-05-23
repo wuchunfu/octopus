@@ -64,7 +64,7 @@ public class MetricsConfigServiceImpl implements MetricsConfigService {
         List<MetricsConfigResponseDTO> convert = (List<MetricsConfigResponseDTO>) conversionService.convert(metricsConfigPage.getContent(),
                 TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MetricsConfig.class)),
                 TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MetricsConfigResponseDTO.class)));
-        return PageResponseDTO.of(requestDTO.getPageNo(), requestDTO.getPageSize(), metricsConfigPage.getTotalElements(), convert);
+        return PageResponseDTO.of(requestDTO.getPageNo(), metricsConfigPage.getSize(), metricsConfigPage.getTotalElements(), convert);
     }
 
     private Specification<MetricsConfig> withConditions(MetricsConfigConditionsRequestDTO requestDTO) {
