@@ -45,7 +45,7 @@ public class ClickhouseMonitorDBSource implements IMonitorDBSource {
 
     @Override
     public PageResponse<MetricsResult> queryMetricsResultListPage(MetricsResultRequest request) {
-        StringBuilder builder = new StringBuilder("select id,source_code,subject_code,subject_category,metrics_code,metrics_unique_key,metrics_value,create_time from monitor_metrics_result");
+        StringBuilder builder = new StringBuilder("select id,dataset_code,subject_code,subject_category,metrics_code,metrics_unique_key,metrics_value,create_time from monitor_metrics_result");
 
         List<Object> parameters = new ArrayList<>();
 

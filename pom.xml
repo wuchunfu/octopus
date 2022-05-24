@@ -43,7 +43,6 @@
         <module>octopus-deploy</module>
         <module>octopus-common</module>
         <module>octopus-function</module>
-        <module>octopus-connectors</module>
         <module>octopus-rule</module>
         <module>octopus-metrics</module>
         <module>octopus-tools</module>
@@ -147,6 +146,11 @@
             <dependency>
                 <groupId>org.metahut.octopus</groupId>
                 <artifactId>octopus-meta-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.metahut.octopus</groupId>
+                <artifactId>octopus-scheduler-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

@@ -24,12 +24,6 @@ public class MetricsConfigCreateOrUpdateRequestDTO {
     @ApiModelProperty(value = "createType")
     private CreateTypeEnum createType;
 
-    //@ApiModelProperty(value = "executorType")
-    //private String executorType;
-
-    //@ApiModelProperty(value = "executorScript")
-    //private String executorScript;
-
     @ApiModelProperty(value = "metricsParams")
     private String metricsParams;
 

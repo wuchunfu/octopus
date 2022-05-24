@@ -33,6 +33,8 @@ public class RuleTemplate extends BaseEntity {
 
     private String comparisonMethod;
 
+    private String comparisonUnit;
+
     private String expectedValue;
 
     private String description;
@@ -118,5 +120,13 @@ public class RuleTemplate extends BaseEntity {
 
     public void setSubjectCategory(SubjectCategoryEnum subjectCategory) {
         this.subjectCategory = subjectCategory;
+    }
+
+    public String getComparisonUnit() {
+        return comparisonUnit;
+    }
+
+    public void setComparisonUnit(String comparisonUnit) {
+        this.comparisonUnit = comparisonUnit;
     }
 }

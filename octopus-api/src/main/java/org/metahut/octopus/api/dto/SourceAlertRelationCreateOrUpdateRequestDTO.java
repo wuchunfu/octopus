@@ -4,7 +4,7 @@ public class SourceAlertRelationCreateOrUpdateRequestDTO {
 
     private Integer id;
 
-    private String sourceCode;
+    private String datasetCode;
 
     private Long alertInstanceCode;
 
@@ -18,12 +18,12 @@ public class SourceAlertRelationCreateOrUpdateRequestDTO {
         this.id = id;
     }
 
-    public String getSourceCode() {
-        return sourceCode;
+    public String getDatasetCode() {
+        return datasetCode;
     }
 
-    public void setSourceCode(String sourceCode) {
-        this.sourceCode = sourceCode;
+    public void setDatasetCode(String datasetCode) {
+        this.datasetCode = datasetCode;
     }
 
     public Long getAlertInstanceCode() {

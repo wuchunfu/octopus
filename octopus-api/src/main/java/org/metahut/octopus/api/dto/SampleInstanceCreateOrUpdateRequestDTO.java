@@ -10,8 +10,8 @@ public class SampleInstanceCreateOrUpdateRequestDTO {
 
     private Long code;
 
-    @ApiModelProperty(value = "sourceCode")
-    private String sourceCode;
+    @ApiModelProperty(value = "datasetCode")
+    private String datasetCode;
 
     @ApiModelProperty(value = "executorType")
     private String executorType;
@@ -35,12 +35,12 @@ public class SampleInstanceCreateOrUpdateRequestDTO {
         this.code = code;
     }
 
-    public String getSourceCode() {
-        return sourceCode;
+    public String getDatasetCode() {
+        return datasetCode;
     }
 
-    public void setSourceCode(String sourceCode) {
-        this.sourceCode = sourceCode;
+    public void setDatasetCode(String datasetCode) {
+        this.datasetCode = datasetCode;
     }
 
     public String getExecutorType() {

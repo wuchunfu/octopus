@@ -58,6 +58,8 @@ public class RuleInstance extends BaseEntity {
 
     private String comparisonMethod;
 
+    private String comparisonUnit;
+
     private String expectedValue;
 
     @Enumerated(value = EnumType.STRING)
@@ -207,5 +209,13 @@ public class RuleInstance extends BaseEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getComparisonUnit() {
+        return comparisonUnit;
+    }
+
+    public void setComparisonUnit(String comparisonUnit) {
+        this.comparisonUnit = comparisonUnit;
     }
 }

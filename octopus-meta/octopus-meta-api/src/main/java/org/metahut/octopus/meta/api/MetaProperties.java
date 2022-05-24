@@ -5,20 +5,20 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConfigurationProperties(prefix = "octopus.meta")
-public class MetaDataProperties {
+public class MetaProperties {
 
-    private MetaDataTypeEnum type;
+    private MetaTypeEnum type;
     private Starfish starfish = new Starfish();
 
     public static class Starfish {
 
     }
 
-    public MetaDataTypeEnum getType() {
+    public MetaTypeEnum getType() {
         return type;
     }
 
-    public void setType(MetaDataTypeEnum type) {
+    public void setType(MetaTypeEnum type) {
         this.type = type;
     }
 

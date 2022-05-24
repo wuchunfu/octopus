@@ -8,7 +8,7 @@ public class MetricsResult {
 
     private String reportChannel;
 
-    private String sourceCode;
+    private String datasetCode;
 
     private String subjectCode;
 
@@ -36,12 +36,12 @@ public class MetricsResult {
         this.reportChannel = reportChannel;
     }
 
-    public String getSourceCode() {
-        return sourceCode;
+    public String getDatasetCode() {
+        return datasetCode;
     }
 
-    public void setSourceCode(String sourceCode) {
-        this.sourceCode = sourceCode;
+    public void setDatasetCode(String datasetCode) {
+        this.datasetCode = datasetCode;
     }
 
     public String getSubjectCode() {

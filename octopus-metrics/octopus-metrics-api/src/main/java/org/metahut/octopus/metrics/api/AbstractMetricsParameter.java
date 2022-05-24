@@ -13,9 +13,6 @@ public abstract class AbstractMetricsParameter {
     private String metricsCode;
     private String filter;
 
-    private String executorType;
-    private String executorScript;
-
     public String generateUniqueKey() {
         String key = generateKey(metricsCode, subjectCategory, subjectCode);
         return Objects.isNull(filter) || ("").equals(filter.trim()) ? key : generateKey(key, filter);
@@ -65,19 +62,4 @@ public abstract class AbstractMetricsParameter {
         this.filter = filter;
     }
 
-    public String getExecutorType() {
-        return executorType;
-    }
-
-    public void setExecutorType(String executorType) {
-        this.executorType = executorType;
-    }
-
-    public String getExecutorScript() {
-        return executorScript;
-    }
-
-    public void setExecutorScript(String executorScript) {
-        this.executorScript = executorScript;
-    }
 }

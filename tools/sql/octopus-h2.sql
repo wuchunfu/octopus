@@ -86,7 +86,7 @@ CREATE TABLE tb_octopus_rule_template
     check_method      varchar(64),
     comparison_method varchar(64),
     expected_value    varchar(64),
---     threshold_unit    varchar(16),
+    comparison_unit    varchar(16),
     subject_category  varchar(16) DEFAULT 'TABLE',
     description       varchar(64) DEFAULT NULL,
     create_time       datetime    DEFAULT NULL,
@@ -103,7 +103,7 @@ CREATE TABLE tb_octopus_sample_instance
     id            int(11)     NOT NULL AUTO_INCREMENT,
     code          int(11)     NOT NULL,
 
-    source_code   varchar(64) NOT NULL,
+    dataset_code   varchar(64) NOT NULL,
     executor_type varchar(64),
     parameter     text,
 
@@ -112,7 +112,7 @@ CREATE TABLE tb_octopus_sample_instance
     creator       int(11)  DEFAULT NULL,
     updater       int(11)  DEFAULT NULL,
     PRIMARY KEY (id),
-    UNIQUE KEY sample_instance_code_unique (source_code, executor_type)
+    UNIQUE KEY sample_instance_code_unique (dataset_code, executor_type)
 );
 
 DROP TABLE IF EXISTS tb_octopus_rule_instance CASCADE;
@@ -121,7 +121,7 @@ CREATE TABLE tb_octopus_rule_instance
     id                  int(11)      NOT NULL AUTO_INCREMENT,
     code                int(11)      NOT NULL,
     name                varchar(64) DEFAULT NULL,
-    source_code         varchar(64)  NOT NULL,
+    dataset_code         varchar(64)  NOT NULL,
 
     metrics_code        varchar(64)  NOT NULL,
     -- custom execution script
@@ -139,6 +139,7 @@ CREATE TABLE tb_octopus_rule_instance
     check_type          varchar(64),
     check_method        varchar(64),
     comparison_method   varchar(64),
+    comparison_unit    varchar(16),
     expected_value      varchar(64),
 
     state               varchar(20) DEFAULT 'OFFLINE',
@@ -149,9 +150,9 @@ CREATE TABLE tb_octopus_rule_instance
     creator             int(11)     DEFAULT NULL,
     updater             int(11)     DEFAULT NULL,
     PRIMARY KEY (id),
-    UNIQUE KEY rule_metrics_unique (source_code, metrics_unique_key, comparison_method),
+    UNIQUE KEY rule_metrics_unique (dataset_code, metrics_unique_key, comparison_method),
     -- One metrics of one table has only one sampling proportion
-    UNIQUE KEY rule_metrics_sample_unique (source_code, metrics_code, sample_code)
+    UNIQUE KEY rule_metrics_sample_unique (dataset_code, metrics_code, sample_code)
 );
 
 DROP TABLE IF EXISTS tb_octopus_alerter_instance CASCADE;
@@ -175,7 +176,7 @@ DROP TABLE IF EXISTS tb_octopus_source_alert_relation CASCADE;
 CREATE TABLE tb_octopus_source_alert_relation
 (
     id                  int(11)     NOT NULL AUTO_INCREMENT,
-    source_code         varchar(64) NOT NULL,
+    dataset_code         varchar(64) NOT NULL,
     alert_instance_code int(11)     NOT NULL,
     alerter             varchar(200),
 
@@ -191,7 +192,7 @@ CREATE TABLE tb_octopus_flow_definition
 (
     id             int(11)      NOT NULL AUTO_INCREMENT,
     code           int(11)      NOT NULL,
-    source_code    varchar(200) NOT NULL,
+    dataset_code    varchar(64) NOT NULL,
     env            varchar(200),
     crontab        varchar(200) NOT NULL,
     scheduler_code varchar(254) NOT NULL,
@@ -201,7 +202,7 @@ CREATE TABLE tb_octopus_flow_definition
     creator        int(11)  DEFAULT NULL,
     updater        int(11)  DEFAULT NULL,
     PRIMARY KEY (id),
-    UNIQUE KEY flow_definition_code_unique (source_code)
+    UNIQUE KEY flow_definition_code_unique (dataset_code)
 
 );
 

@@ -41,14 +41,11 @@ public class RuleInstanceResponseDTO {
     @ApiModelProperty(value = "sampleInstance")
     private SampleInstanceResponseDTO sampleInstance;
 
-    @ApiModelProperty(value = "sourceCode")
-    private String sourceCode;
+    @ApiModelProperty(value = "datasetCode")
+    private String datasetCode;
 
     @ApiModelProperty(value = "subjectCode")
     private String subjectCode;
-
-    @ApiModelProperty(value = "flowDefinition")
-    private FlowDefinitionResponseDTO flowDefinition;
 
     @ApiModelProperty(value = "creator")
     private Long creator;
@@ -150,12 +147,12 @@ public class RuleInstanceResponseDTO {
         this.sampleInstance = sampleInstance;
     }
 
-    public String getSourceCode() {
-        return sourceCode;
+    public String getDatasetCode() {
+        return datasetCode;
     }
 
-    public void setSourceCode(String sourceCode) {
-        this.sourceCode = sourceCode;
+    public void setDatasetCode(String datasetCode) {
+        this.datasetCode = datasetCode;
     }
 
     public String getSubjectCode() {
@@ -164,14 +161,6 @@ public class RuleInstanceResponseDTO {
 
     public void setSubjectCode(String subjectCode) {
         this.subjectCode = subjectCode;
-    }
-
-    public FlowDefinitionResponseDTO getFlowDefinition() {
-        return flowDefinition;
-    }
-
-    public void setFlowDefinition(FlowDefinitionResponseDTO flowDefinition) {
-        this.flowDefinition = flowDefinition;
     }
 
     public Long getCreator() {

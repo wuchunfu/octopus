@@ -16,8 +16,8 @@ public class SampleInstance extends BaseEntity {
 
     private Long code;
 
-    @Column(name = "source_code")
-    private String sourceCode;
+    @Column(name = "dataset_code")
+    private String datasetCode;
 
     private String executorType;
 
@@ -39,12 +39,12 @@ public class SampleInstance extends BaseEntity {
         this.code = code;
     }
 
-    public String getSourceCode() {
-        return sourceCode;
+    public String getDatasetCode() {
+        return datasetCode;
     }
 
-    public void setSourceCode(String sourceCode) {
-        this.sourceCode = sourceCode;
+    public void setDatasetCode(String datasetCode) {
+        this.datasetCode = datasetCode;
     }
 
     public String getExecutorType() {

@@ -6,10 +6,8 @@ import java.util.Date;
 
 public class RuleInstanceConditionRequestDTO extends PageRequestDTO {
 
-    @ApiModelProperty(value = "sourceCode")
-    private String sourceCode;
-
-    private String sourceName;
+    @ApiModelProperty(value = "datasetCode")
+    private String datasetCode;
 
     private String metricsName;
 
@@ -27,20 +25,12 @@ public class RuleInstanceConditionRequestDTO extends PageRequestDTO {
     @ApiModelProperty(value = "updateEndTime")
     private Date updateEndTime;
 
-    public String getSourceCode() {
-        return sourceCode;
+    public String getDatasetCode() {
+        return datasetCode;
     }
 
-    public void setSourceCode(String sourceCode) {
-        this.sourceCode = sourceCode;
-    }
-
-    public String getSourceName() {
-        return sourceName;
-    }
-
-    public void setSourceName(String sourceName) {
-        this.sourceName = sourceName;
+    public void setDatasetCode(String datasetCode) {
+        this.datasetCode = datasetCode;
     }
 
     public String getMetricsName() {

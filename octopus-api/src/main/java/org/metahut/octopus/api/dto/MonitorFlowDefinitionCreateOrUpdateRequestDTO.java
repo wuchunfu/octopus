@@ -14,8 +14,8 @@ public class MonitorFlowDefinitionCreateOrUpdateRequestDTO {
     @ApiModelProperty(value = "code")
     private Long code;
 
-    @ApiModelProperty(value = "source code")
-    private String sourceCode;
+    @ApiModelProperty(value = "dataset code")
+    private String datasetCode;
 
     @ApiModelProperty(value = "crontab")
     private String crontab;
@@ -45,12 +45,12 @@ public class MonitorFlowDefinitionCreateOrUpdateRequestDTO {
         this.code = code;
     }
 
-    public String getSourceCode() {
-        return sourceCode;
+    public String getDatasetCode() {
+        return datasetCode;
     }
 
-    public void setSourceCode(String sourceCode) {
-        this.sourceCode = sourceCode;
+    public void setDatasetCode(String datasetCode) {
+        this.datasetCode = datasetCode;
     }
 
     public String getCrontab() {

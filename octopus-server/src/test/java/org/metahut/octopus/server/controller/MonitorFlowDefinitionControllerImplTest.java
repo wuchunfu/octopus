@@ -108,13 +108,13 @@ public class MonitorFlowDefinitionControllerImplTest extends WebApplicationTest 
 
         String sourceCode = "X01";
         MonitorFlowDefinitionCreateOrUpdateRequestDTO requestDTO = new MonitorFlowDefinitionCreateOrUpdateRequestDTO();
-        requestDTO.setSourceCode(sourceCode);
+        requestDTO.setDatasetCode(sourceCode);
         requestDTO.setCrontab("0 0 1 * * ?");
 
         // create source alerter instance relation
         List<SourceAlertRelationCreateOrUpdateRequestDTO> sourceAlertRelations = new ArrayList<>();
         SourceAlertRelationCreateOrUpdateRequestDTO sourceAlertRelationCreateOrUpdateRequestDTO = new SourceAlertRelationCreateOrUpdateRequestDTO();
-        sourceAlertRelationCreateOrUpdateRequestDTO.setSourceCode(sourceCode);
+        sourceAlertRelationCreateOrUpdateRequestDTO.setDatasetCode(sourceCode);
         sourceAlertRelationCreateOrUpdateRequestDTO.setAlertInstanceCode(alertInstance.getCode());
         sourceAlertRelations.add(sourceAlertRelationCreateOrUpdateRequestDTO);
         requestDTO.setSourceAlertRelations(sourceAlertRelations);
@@ -127,7 +127,7 @@ public class MonitorFlowDefinitionControllerImplTest extends WebApplicationTest 
 
         SampleInstanceCreateOrUpdateRequestDTO sampleInstanceCreateOrUpdateRequestDTO = new SampleInstanceCreateOrUpdateRequestDTO();
         sampleInstanceCreateOrUpdateRequestDTO.setParameter("100");
-        sampleInstanceCreateOrUpdateRequestDTO.setSourceCode(sourceCode);
+        sampleInstanceCreateOrUpdateRequestDTO.setDatasetCode(sourceCode);
         requestDTO.setSampleInstance(sampleInstanceCreateOrUpdateRequestDTO);
 
         MonitorFlowDefinitionResponseDTO monitorFlowDefinitionResponseDTO = create(requestDTO);
@@ -143,12 +143,12 @@ public class MonitorFlowDefinitionControllerImplTest extends WebApplicationTest 
 
         String sourceCode = "X02";
         MonitorFlowDefinitionCreateOrUpdateRequestDTO requestDTO = new MonitorFlowDefinitionCreateOrUpdateRequestDTO();
-        requestDTO.setSourceCode(sourceCode);
+        requestDTO.setDatasetCode(sourceCode);
         requestDTO.setCrontab("0 0 1 * * ?");
 
         List<SourceAlertRelationCreateOrUpdateRequestDTO> sourceAlertRelations = new ArrayList<>();
         SourceAlertRelationCreateOrUpdateRequestDTO sourceAlertRelationCreateOrUpdateRequestDTO = new SourceAlertRelationCreateOrUpdateRequestDTO();
-        sourceAlertRelationCreateOrUpdateRequestDTO.setSourceCode(sourceCode);
+        sourceAlertRelationCreateOrUpdateRequestDTO.setDatasetCode(sourceCode);
         sourceAlertRelationCreateOrUpdateRequestDTO.setAlertInstanceCode(alertInstance.getCode());
         sourceAlertRelations.add(sourceAlertRelationCreateOrUpdateRequestDTO);
         requestDTO.setSourceAlertRelations(sourceAlertRelations);
@@ -161,12 +161,12 @@ public class MonitorFlowDefinitionControllerImplTest extends WebApplicationTest 
 
         SampleInstanceCreateOrUpdateRequestDTO sampleInstanceCreateOrUpdateRequestDTO = new SampleInstanceCreateOrUpdateRequestDTO();
         sampleInstanceCreateOrUpdateRequestDTO.setParameter("100");
-        sampleInstanceCreateOrUpdateRequestDTO.setSourceCode(sourceCode);
+        sampleInstanceCreateOrUpdateRequestDTO.setDatasetCode(sourceCode);
         requestDTO.setSampleInstance(sampleInstanceCreateOrUpdateRequestDTO);
         MonitorFlowDefinitionResponseDTO monitorFlowDefinitionResponseDTO = create(requestDTO);
 
         MonitorFlowDefinitionCreateOrUpdateRequestDTO updateDTO = JSONUtils.parseObject(JSONUtils.toJSONString(monitorFlowDefinitionResponseDTO), MonitorFlowDefinitionCreateOrUpdateRequestDTO.class);
-        updateDTO.setSourceCode(sourceCode);
+        updateDTO.setDatasetCode(sourceCode);
         String sampleValue = "90";
         updateDTO.getSampleInstance().setParameter(sampleValue);
         String url = REST_FUNCTION_URL_PREFIX + "update";
@@ -190,12 +190,12 @@ public class MonitorFlowDefinitionControllerImplTest extends WebApplicationTest 
 
         String sourceCode = "X03";
         MonitorFlowDefinitionCreateOrUpdateRequestDTO requestDTO = new MonitorFlowDefinitionCreateOrUpdateRequestDTO();
-        requestDTO.setSourceCode(sourceCode);
+        requestDTO.setDatasetCode(sourceCode);
         requestDTO.setCrontab("0 0 1 * * ?");
 
         List<SourceAlertRelationCreateOrUpdateRequestDTO> sourceAlertRelations = new ArrayList<>();
         SourceAlertRelationCreateOrUpdateRequestDTO sourceAlertRelationCreateOrUpdateRequestDTO = new SourceAlertRelationCreateOrUpdateRequestDTO();
-        sourceAlertRelationCreateOrUpdateRequestDTO.setSourceCode(sourceCode);
+        sourceAlertRelationCreateOrUpdateRequestDTO.setDatasetCode(sourceCode);
         sourceAlertRelationCreateOrUpdateRequestDTO.setAlertInstanceCode(alertInstance.getCode());
         sourceAlertRelations.add(sourceAlertRelationCreateOrUpdateRequestDTO);
         requestDTO.setSourceAlertRelations(sourceAlertRelations);
@@ -208,7 +208,7 @@ public class MonitorFlowDefinitionControllerImplTest extends WebApplicationTest 
 
         SampleInstanceCreateOrUpdateRequestDTO sampleInstanceCreateOrUpdateRequestDTO = new SampleInstanceCreateOrUpdateRequestDTO();
         sampleInstanceCreateOrUpdateRequestDTO.setParameter("100");
-        sampleInstanceCreateOrUpdateRequestDTO.setSourceCode(sourceCode);
+        sampleInstanceCreateOrUpdateRequestDTO.setDatasetCode(sourceCode);
         requestDTO.setSampleInstance(sampleInstanceCreateOrUpdateRequestDTO);
         MonitorFlowDefinitionResponseDTO monitorFlowDefinitionResponseDTO = create(requestDTO);
 
@@ -236,12 +236,12 @@ public class MonitorFlowDefinitionControllerImplTest extends WebApplicationTest 
 
         String sourceCode = "X04";
         MonitorFlowDefinitionCreateOrUpdateRequestDTO requestDTO = new MonitorFlowDefinitionCreateOrUpdateRequestDTO();
-        requestDTO.setSourceCode(sourceCode);
+        requestDTO.setDatasetCode(sourceCode);
         requestDTO.setCrontab("0 0 1 * * ?");
 
         List<SourceAlertRelationCreateOrUpdateRequestDTO> sourceAlertRelations = new ArrayList<>();
         SourceAlertRelationCreateOrUpdateRequestDTO sourceAlertRelationCreateOrUpdateRequestDTO = new SourceAlertRelationCreateOrUpdateRequestDTO();
-        sourceAlertRelationCreateOrUpdateRequestDTO.setSourceCode(sourceCode);
+        sourceAlertRelationCreateOrUpdateRequestDTO.setDatasetCode(sourceCode);
         sourceAlertRelationCreateOrUpdateRequestDTO.setAlertInstanceCode(alertInstance.getCode());
         sourceAlertRelations.add(sourceAlertRelationCreateOrUpdateRequestDTO);
         requestDTO.setSourceAlertRelations(sourceAlertRelations);
@@ -254,7 +254,7 @@ public class MonitorFlowDefinitionControllerImplTest extends WebApplicationTest 
 
         SampleInstanceCreateOrUpdateRequestDTO sampleInstanceCreateOrUpdateRequestDTO = new SampleInstanceCreateOrUpdateRequestDTO();
         sampleInstanceCreateOrUpdateRequestDTO.setParameter("100");
-        sampleInstanceCreateOrUpdateRequestDTO.setSourceCode(sourceCode);
+        sampleInstanceCreateOrUpdateRequestDTO.setDatasetCode(sourceCode);
         requestDTO.setSampleInstance(sampleInstanceCreateOrUpdateRequestDTO);
         MonitorFlowDefinitionResponseDTO monitorFlowDefinitionResponseDTO = create(requestDTO);
 

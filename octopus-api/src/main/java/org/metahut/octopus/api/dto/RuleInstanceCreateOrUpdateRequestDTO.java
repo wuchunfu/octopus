@@ -17,7 +17,7 @@ public class RuleInstanceCreateOrUpdateRequestDTO {
     @ApiModelProperty(value = "name")
     private String name;
 
-    private String sourceCode;
+    private String datasetCode;
 
     private String metricsCode;
     private Long metricsConfigCode;
@@ -60,12 +60,12 @@ public class RuleInstanceCreateOrUpdateRequestDTO {
         this.name = name;
     }
 
-    public String getSourceCode() {
-        return sourceCode;
+    public String getDatasetCode() {
+        return datasetCode;
     }
 
-    public void setSourceCode(String sourceCode) {
-        this.sourceCode = sourceCode;
+    public void setDatasetCode(String datasetCode) {
+        this.datasetCode = datasetCode;
     }
 
     public String getMetricsCode() {

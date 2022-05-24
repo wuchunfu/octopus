@@ -1,7 +1,7 @@
 package org.metahut.octopus.meta.starfish;
 
-import org.metahut.octopus.meta.api.IMetaDataManager;
-import org.metahut.octopus.meta.api.MetaDataProperties;
+import org.metahut.octopus.meta.api.IMetaManager;
+import org.metahut.octopus.meta.api.MetaProperties;
 
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
@@ -12,11 +12,11 @@ import java.util.concurrent.TimeUnit;
 
 @Component
 @ConditionalOnProperty(prefix = "octopus.meta", name = "type", havingValue = "starfish")
-public class StarfishMetaDataManager implements IMetaDataManager {
+public class StarfishMetaManager implements IMetaManager {
 
-    private final StarfishMetaData starfishMetaData;
+    private final StarfishMeta starfishMetaData;
 
-    public StarfishMetaDataManager(MetaDataProperties properties) {
+    public StarfishMetaManager(MetaProperties properties) {
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.connectTimeout(6L, TimeUnit.SECONDS);
@@ -25,11 +25,11 @@ public class StarfishMetaDataManager implements IMetaDataManager {
         ConnectionPool connectionPool = new ConnectionPool(50, 60, TimeUnit.SECONDS);
         builder.connectionPool(connectionPool);
         OkHttpClient client = builder.build();
-        this.starfishMetaData = new StarfishMetaData(client, properties.getStarfish());
+        this.starfishMetaData = new StarfishMeta(client, properties.getStarfish());
     }
 
     @Override
-    public StarfishMetaData getMetaData() {
+    public StarfishMeta getMetaData() {
         return starfishMetaData;
     }
 }

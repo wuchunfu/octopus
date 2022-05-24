@@ -22,19 +22,19 @@ public class FlowDefinition extends BaseEntity {
 
     private Long code;
 
-    @Column(name = "source_code", insertable = false, updatable = false)
-    private String sourceCode;
+    @Column(name = "dataset_code", insertable = false, updatable = false)
+    private String datasetCode;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "source_code", referencedColumnName = "source_code")
+    @JoinColumn(name = "dataset_code", referencedColumnName = "dataset_code")
     private List<SourceAlertRelation> sourceAlertRelations;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "source_code", referencedColumnName = "source_code")
+    @JoinColumn(name = "dataset_code", referencedColumnName = "dataset_code")
     private List<RuleInstance> ruleInstances;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "source_code", referencedColumnName = "source_code")
+    @JoinColumn(name = "dataset_code", referencedColumnName = "dataset_code")
     private SampleInstance sampleInstance;
 
     private String env;
@@ -57,12 +57,12 @@ public class FlowDefinition extends BaseEntity {
         this.code = code;
     }
 
-    public String getSourceCode() {
-        return sourceCode;
+    public String getDatasetCode() {
+        return datasetCode;
     }
 
-    public void setSourceCode(String sourceCode) {
-        this.sourceCode = sourceCode;
+    public void setDatasetCode(String datasetCode) {
+        this.datasetCode = datasetCode;
     }
 
     public List<SourceAlertRelation> getSourceAlertRelations() {

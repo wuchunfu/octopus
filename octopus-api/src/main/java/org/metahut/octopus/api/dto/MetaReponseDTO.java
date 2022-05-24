@@ -2,31 +2,15 @@ package org.metahut.octopus.api.dto;
 
 public class MetaReponseDTO {
 
-    private String sourceCode;
-
-    private String sourceName;
-
-    private String datasetName;
-
     private String datasourceName;
 
-    private String datasourceType;
+    private String datasourceCode;
 
-    public String getSourceCode() {
-        return sourceCode;
-    }
+    private String sourceCategory;
 
-    public void setSourceCode(String sourceCode) {
-        this.sourceCode = sourceCode;
-    }
+    private String datasetCode;
 
-    public String getDatasetName() {
-        return datasetName;
-    }
-
-    public void setDatasetName(String datasetName) {
-        this.datasetName = datasetName;
-    }
+    private String datasetName;
 
     public String getDatasourceName() {
         return datasourceName;
@@ -36,19 +20,35 @@ public class MetaReponseDTO {
         this.datasourceName = datasourceName;
     }
 
-    public String getDatasourceType() {
-        return datasourceType;
+    public String getDatasourceCode() {
+        return datasourceCode;
     }
 
-    public void setDatasourceType(String datasourceType) {
-        this.datasourceType = datasourceType;
+    public void setDatasourceCode(String datasourceCode) {
+        this.datasourceCode = datasourceCode;
     }
 
-    public String getSourceName() {
-        return sourceName;
+    public String getSourceCategory() {
+        return sourceCategory;
     }
 
-    public void setSourceName(String sourceName) {
-        this.sourceName = sourceName;
+    public void setSourceCategory(String sourceCategory) {
+        this.sourceCategory = sourceCategory;
+    }
+
+    public String getDatasetCode() {
+        return datasetCode;
+    }
+
+    public void setDatasetCode(String datasetCode) {
+        this.datasetCode = datasetCode;
+    }
+
+    public String getDatasetName() {
+        return datasetName;
+    }
+
+    public void setDatasetName(String datasetName) {
+        this.datasetName = datasetName;
     }
 }

@@ -20,7 +20,7 @@ CREATE TABLE monitor_metrics_result
 (
     `id`                  Int32,
     `report_channel` String,
-    `source_code` String,
+    `dataset_code` String,
     `subject_code`         String,
     `subject_category` String,
     `metrics_code`        String,

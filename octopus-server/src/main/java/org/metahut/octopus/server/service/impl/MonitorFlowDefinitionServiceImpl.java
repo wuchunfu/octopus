@@ -1,6 +1,5 @@
 package org.metahut.octopus.server.service.impl;
 
-import org.metahut.octopus.api.dto.FlowDefinitionResponseDTO;
 import org.metahut.octopus.api.dto.MonitorFlowDefinitionConditionsRequestDTO;
 import org.metahut.octopus.api.dto.MonitorFlowDefinitionCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.MonitorFlowDefinitionResponseDTO;
@@ -40,7 +39,7 @@ public class MonitorFlowDefinitionServiceImpl implements MonitorFlowDefinitionSe
     public PageResponseDTO<MonitorFlowDefinitionResponseDTO> queryListPage(MonitorFlowDefinitionConditionsRequestDTO requestDTO) {
         Pageable pageable = PageRequest.of(requestDTO.getPageNo() - 1, requestDTO.getPageSize());
         Page<FlowDefinition> flowDefinitionPage = flowDefinitionRepository.findAll(withConditions(requestDTO), pageable);
-        List<FlowDefinitionResponseDTO> convert = (List<FlowDefinitionResponseDTO>) conversionService.convert(flowDefinitionPage.getContent(),
+        List<MonitorFlowDefinitionResponseDTO> convert = (List<MonitorFlowDefinitionResponseDTO>) conversionService.convert(flowDefinitionPage.getContent(),
                 TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(FlowDefinition.class)),
                 TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MonitorFlowDefinitionResponseDTO.class)));
         return PageResponseDTO.of(requestDTO.getPageNo(), flowDefinitionPage.getSize(), flowDefinitionPage.getTotalElements(), convert);
@@ -51,7 +50,7 @@ public class MonitorFlowDefinitionServiceImpl implements MonitorFlowDefinitionSe
             List<Predicate> conditions = new ArrayList<>();
 
             if(StringUtils.isNotBlank(requestDTO.getDatasetCode())) {
-                conditions.add(builder.like(root.get(FlowDefinition_.sourceCode), requestDTO.getDatasetCode()));
+                conditions.add(builder.like(root.get(FlowDefinition_.datasetCode), requestDTO.getDatasetCode()));
             }
 
             if (Objects.nonNull(requestDTO.getCreateStartTime()) && Objects.nonNull(requestDTO.getCreateEndTime())) {
