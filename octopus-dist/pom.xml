@@ -11,5 +11,55 @@
 
     <artifactId>octopus-dist</artifactId>
 
+    <properties>
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.metahut.octopus</groupId>
+            <artifactId>octopus-server</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.metahut.octopus</groupId>
+            <artifactId>octopus-tools</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+    </dependencies>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>octopus-bin</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+
+                                <configuration>
+                                    <descriptors>
+                                        <descriptor>src/main/assembly/octopus-bin.xml</descriptor>
+                                    </descriptors>
+                                    <appendAssemblyId>true</appendAssemblyId>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <build>
+        <finalName>octopus-${project.version}</finalName>
+    </build>
 </project>
