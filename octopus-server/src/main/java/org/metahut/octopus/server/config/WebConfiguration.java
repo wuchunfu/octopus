@@ -20,7 +20,7 @@ public class WebConfiguration implements WebMvcConfigurer {
     public LocaleResolver localeResolver() {
         CookieLocaleResolver localeResolver = new CookieLocaleResolver();
         localeResolver.setCookieName(LOCALE_COOKIE);
-        localeResolver.setDefaultLocale(Locale.ENGLISH);
+        localeResolver.setDefaultLocale(Locale.CHINESE);
         localeResolver.setCookieMaxAge(3600);
         return localeResolver;
     }

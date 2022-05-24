@@ -58,6 +58,10 @@ public class SelectItemServiceImpl implements SelectItemService {
                 return queryCheckTypeItem();
             case CHECK_METHOD:
                 return queryCheckMethodItem();
+            case COMPARISON_METHOD:
+                return queryComparisonMethodItem();
+            case COMPARISON_UNIT:
+                return queryComparisonUnitItem();
             case TASK_STATUS:
                 return queryTaskStatusItem();
             default:
@@ -97,6 +101,24 @@ public class SelectItemServiceImpl implements SelectItemService {
         List<SelectItemResponseDTO> list = new ArrayList<>();
         list.add(SelectItemResponseDTO.of("FixedValue", "与固定值比较"));
         list.add(SelectItemResponseDTO.of("7-DayAverage", "7天平均值波动"));
+        return list;
+    }
+
+    private List<SelectItemResponseDTO> queryComparisonMethodItem() {
+        // TODO query metadata interface
+
+        List<SelectItemResponseDTO> list = new ArrayList<>();
+        list.add(SelectItemResponseDTO.of("FixedValue", "与固定值比较"));
+        list.add(SelectItemResponseDTO.of("7-DayAverage", "7天平均值波动"));
+        return list;
+    }
+
+    private List<SelectItemResponseDTO> queryComparisonUnitItem() {
+        // TODO query metadata interface
+
+        List<SelectItemResponseDTO> list = new ArrayList<>();
+        list.add(SelectItemResponseDTO.of("GT", "大于"));
+        list.add(SelectItemResponseDTO.of("LT", "小于"));
         return list;
     }
 
