@@ -205,4 +205,3 @@ CREATE TABLE tb_octopus_flow_definition
     UNIQUE KEY flow_definition_code_unique (dataset_code)
 
 );
-
