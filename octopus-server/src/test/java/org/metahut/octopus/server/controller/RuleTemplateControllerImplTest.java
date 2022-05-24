@@ -7,6 +7,7 @@ import org.metahut.octopus.api.dto.ResultEntity;
 import org.metahut.octopus.api.dto.RuleTemplateCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.RuleTemplateResponseDTO;
 import org.metahut.octopus.metrics.api.JSONUtils;
+import org.metahut.octopus.server.WebApplicationTest;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Assertions;
@@ -23,6 +24,7 @@ public class RuleTemplateControllerImplTest extends WebApplicationTest {
 
     /**
      * create metrics
+     *
      * @param requestDTO
      * @return
      */
@@ -33,7 +35,8 @@ public class RuleTemplateControllerImplTest extends WebApplicationTest {
         HttpEntity httpEntity = new HttpEntity(requestDTO);
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, httpEntity, String.class);
         Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
-        ResultEntity<MetricsResponseDTO> create = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<MetricsResponseDTO>>() {});
+        ResultEntity<MetricsResponseDTO> create = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<MetricsResponseDTO>>() {
+        });
         Assertions.assertTrue(create.isSuccess());
         MetricsResponseDTO createData = create.getData();
         Assertions.assertNotNull(createData.getId());
@@ -46,7 +49,8 @@ public class RuleTemplateControllerImplTest extends WebApplicationTest {
         HttpEntity httpEntity = new HttpEntity(requestDTO);
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, httpEntity, String.class);
         Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
-        ResultEntity<RuleTemplateResponseDTO> create = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<RuleTemplateResponseDTO>>() {});
+        ResultEntity<RuleTemplateResponseDTO> create = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<RuleTemplateResponseDTO>>() {
+        });
         Assertions.assertTrue(create.isSuccess());
         RuleTemplateResponseDTO createData = create.getData();
         Assertions.assertNotNull(createData.getId());
@@ -106,12 +110,13 @@ public class RuleTemplateControllerImplTest extends WebApplicationTest {
 
         String url = this.base + REST_FUNCTION_URL_PREFIX + "queryListPage";
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
-                .queryParam("metricsCode", metrics.getCode())
-                .queryParam("pageNo", 1)
-                .queryParam("pageSize", 10);
+            .queryParam("metricsCode", metrics.getCode())
+            .queryParam("pageNo", 1)
+            .queryParam("pageSize", 10);
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(builder.build().encode().toUri(), String.class);
         Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
-        ResultEntity<PageResponseDTO<RuleTemplateResponseDTO>> result = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<PageResponseDTO<RuleTemplateResponseDTO>>>() {});
+        ResultEntity<PageResponseDTO<RuleTemplateResponseDTO>> result = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<PageResponseDTO<RuleTemplateResponseDTO>>>() {
+        });
         Assertions.assertTrue(result.isSuccess());
         PageResponseDTO<RuleTemplateResponseDTO> data = result.getData();
         Assertions.assertEquals(2, data.getTotal());

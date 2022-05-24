@@ -1,28 +1,45 @@
 package org.metahut.octopus.api.dto;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.Date;
 import java.util.List;
 
+@ApiModel(description = "monitor flow definition response dto")
 public class MonitorFlowDefinitionResponseDTO {
 
+    @ApiModelProperty(value = "id")
     private Integer id;
 
+    @ApiModelProperty(value = "code")
     private Long code;
 
+    @ApiModelProperty(value = "meta")
     private MetaReponseDTO meta;
 
+    @ApiModelProperty(value = "source alert relations")
     private List<SourceAlertRelationResponseDTO> sourceAlertRelations;
 
+    @ApiModelProperty(value = "rule instances")
     private List<RuleInstanceResponseDTO> ruleInstances;
 
+    @ApiModelProperty(value = "sample unstance")
     private SampleInstanceResponseDTO sampleInstance;
 
+    @ApiModelProperty(value = "env")
     private String env;
+
+    @ApiModelProperty(value = "crontab")
     private String crontab;
+
+    @ApiModelProperty(value = "scheduler code")
     private String schedulerCode;
 
+    @ApiModelProperty(value = "create time")
     private Date createTime;
 
+    @ApiModelProperty(value = "update time")
     private Date updateTime;
 
     public Integer getId() {

@@ -10,53 +10,70 @@ import java.util.Date;
 @ApiModel(description = "monitor log response dto")
 public class MonitorLogResponseDTO {
 
+    @ApiModelProperty(value = "id")
     private Integer id;
-    @ApiModelProperty(value = "datasoucreName")
+
+    @ApiModelProperty(value = "datasoucre name")
     private String datasourceName;
 
-    @ApiModelProperty(value = "datasoucreName")
+    @ApiModelProperty(value = "datasoucre code")
     private String datasourceCode;
 
-    @ApiModelProperty(value = "datasetName")
+    @ApiModelProperty(value = "dataset name")
     private String datasetName;
 
-    @ApiModelProperty(value = "datasetCode")
+    @ApiModelProperty(value = "dataset code")
     private String datasetCode;
 
+    @ApiModelProperty(value = "subject code")
     private String subjectCode;
 
+    @ApiModelProperty(value = "subject category")
     private SubjectCategoryEnum subjectCategory;
 
     @ApiModelProperty(value = "metrics name")
     private String metricsName;
 
+    @ApiModelProperty(value = "metrics code")
     private String metricsCode;
 
     @ApiModelProperty(value = "metrics config name")
     private String metricsConfigName;
 
+    @ApiModelProperty(value = "metrics config code")
     private Long metricsConfigCode;
 
+    @ApiModelProperty(value = "check type")
     private String checkType;
 
+    @ApiModelProperty(value = "check method")
     private String checkMethod;
 
+    @ApiModelProperty(value = "comparison method")
     private String comparisonMethod;
 
+    @ApiModelProperty(value = "expected value")
     private String expectedValue;
 
+    @ApiModelProperty(value = "sample instance")
     private SampleInstanceResponseDTO sampleInstance;
 
+    @ApiModelProperty(value = "result")
     private String result;
 
+    @ApiModelProperty(value = "error")
     private Boolean error;
 
+    @ApiModelProperty(value = "error info")
     private String errorInfo;
 
+    @ApiModelProperty(value = "error time")
     private Date errorTime;
 
+    @ApiModelProperty(value = "create time")
     private Date createTime;
 
+    @ApiModelProperty(value = "rule instance code")
     private Long ruleInstanceCode;
 
     public Integer getId() {

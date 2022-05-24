@@ -3,6 +3,7 @@ package org.metahut.octopus.server.controller;
 import org.metahut.octopus.api.dto.ResultEntity;
 import org.metahut.octopus.api.dto.SelectItemResponseDTO;
 import org.metahut.octopus.metrics.api.JSONUtils;
+import org.metahut.octopus.server.WebApplicationTest;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Assertions;
@@ -21,10 +22,11 @@ public class SelectItemControllerImplTest extends WebApplicationTest {
     public void testQueryList() {
         String url = this.base + REST_FUNCTION_URL_PREFIX + "queryList";
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
-                .queryParam("componentNames", "METRICS_DIMENSION,SUBJECT_CATEGORY");
+            .queryParam("componentNames", "METRICS_DIMENSION,SUBJECT_CATEGORY");
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(builder.build().encode().toUri(), String.class);
         Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
-        ResultEntity<Map<String, List<SelectItemResponseDTO>>> result = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<Map<String, List<SelectItemResponseDTO>>>>() {});
+        ResultEntity<Map<String, List<SelectItemResponseDTO>>> result = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<Map<String, List<SelectItemResponseDTO>>>>() {
+        });
         Assertions.assertTrue(result.isSuccess());
     }
 

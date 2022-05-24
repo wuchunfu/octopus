@@ -10,6 +10,7 @@ import org.metahut.octopus.api.dto.RuleInstanceConditionRequestDTO;
 import org.metahut.octopus.api.dto.RuleInstanceCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.RuleInstanceResponseDTO;
 import org.metahut.octopus.metrics.api.JSONUtils;
+import org.metahut.octopus.server.WebApplicationTest;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Assertions;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class RuleInstanceControllerImplTest  extends WebApplicationTest {
+public class RuleInstanceControllerImplTest extends WebApplicationTest {
 
     private static final String REST_FUNCTION_URL_PREFIX = "/rule/";
 
@@ -33,7 +34,8 @@ public class RuleInstanceControllerImplTest  extends WebApplicationTest {
         HttpEntity httpEntity = new HttpEntity(requestDTO);
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, httpEntity, String.class);
         Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
-        ResultEntity<List<RuleInstanceResponseDTO>> create = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<List<RuleInstanceResponseDTO>>>() {});
+        ResultEntity<List<RuleInstanceResponseDTO>> create = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<List<RuleInstanceResponseDTO>>>() {
+        });
         Assertions.assertTrue(create.isSuccess());
         List<RuleInstanceResponseDTO> createData = create.getData();
         Assertions.assertNotNull(createData);
@@ -47,7 +49,8 @@ public class RuleInstanceControllerImplTest  extends WebApplicationTest {
         HttpEntity httpEntity = new HttpEntity(requestDTO);
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, httpEntity, String.class);
         Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
-        ResultEntity<MetricsResponseDTO> create = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<MetricsResponseDTO>>() {});
+        ResultEntity<MetricsResponseDTO> create = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<MetricsResponseDTO>>() {
+        });
         Assertions.assertTrue(create.isSuccess());
         MetricsResponseDTO createData = create.getData();
         Assertions.assertNotNull(createData.getId());
@@ -60,7 +63,8 @@ public class RuleInstanceControllerImplTest  extends WebApplicationTest {
         HttpEntity httpEntity = new HttpEntity(requestDTO);
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, httpEntity, String.class);
         Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
-        ResultEntity<MetricsConfigResponseDTO> create = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<MetricsConfigResponseDTO>>() {});
+        ResultEntity<MetricsConfigResponseDTO> create = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<MetricsConfigResponseDTO>>() {
+        });
         Assertions.assertTrue(create.isSuccess());
         MetricsConfigResponseDTO createData = create.getData();
         Assertions.assertNotNull(createData.getId());
@@ -124,7 +128,8 @@ public class RuleInstanceControllerImplTest  extends WebApplicationTest {
         HttpEntity httpEntity = new HttpEntity(updateRequestDTO, headers);
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, httpEntity, String.class);
         Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
-        ResultEntity<RuleInstanceResponseDTO> update = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<RuleInstanceResponseDTO>>() {});
+        ResultEntity<RuleInstanceResponseDTO> update = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<RuleInstanceResponseDTO>>() {
+        });
         Assertions.assertTrue(update.isSuccess());
         RuleInstanceResponseDTO data = update.getData();
         Assertions.assertEquals(sampleValue, data.getSampleInstance().getParameter());
@@ -186,9 +191,9 @@ public class RuleInstanceControllerImplTest  extends WebApplicationTest {
         ruleInstanceConditionRequestDTO.setSourceCode("sourceCode_query");
         String url = this.base + REST_FUNCTION_URL_PREFIX + "queryListPage";
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
-                .queryParam("metricsCode", metrics.getCode())
-                .queryParam("pageNo", 1)
-                .queryParam("pageSize", 10);
+            .queryParam("metricsCode", metrics.getCode())
+            .queryParam("pageNo", 1)
+            .queryParam("pageSize", 10);
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(builder.build().encode().toUri(), String.class);
         Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
         ResultEntity<PageResponseDTO<RuleInstanceResponseDTO>> result = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<PageResponseDTO<RuleInstanceResponseDTO>>>() {

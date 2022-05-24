@@ -2,15 +2,14 @@ package org.metahut.octopus.server.converter;
 
 import org.metahut.octopus.api.dto.MonitorLogConditionsRequestDTO;
 import org.metahut.octopus.monitordb.api.MonitorLogRequest;
+import org.metahut.octopus.server.WebApplicationTest;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.convert.ConversionService;
 
-@SpringBootTest
-public class MonitorLogConvertTest {
+public class MonitorLogConvertTest extends WebApplicationTest {
 
     @Autowired
     private ConversionService conversionService;

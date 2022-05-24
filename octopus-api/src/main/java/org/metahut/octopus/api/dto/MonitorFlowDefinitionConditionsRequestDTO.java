@@ -8,10 +8,13 @@ import java.util.Date;
 @ApiModel(description = "monitor flow definition conditions request dto")
 public class MonitorFlowDefinitionConditionsRequestDTO extends PageRequestDTO {
 
-    private String datasetName;
+    @ApiModelProperty(value = "dataset code")
+    private String datasetCode;
 
-    private String datasourceName;
+    @ApiModelProperty(value = "datasource code")
+    private String datasourceCode;
 
+    @ApiModelProperty(value = "datasource type")
     private String datasourceType;
 
     @ApiModelProperty(value = "create start time")
@@ -26,20 +29,20 @@ public class MonitorFlowDefinitionConditionsRequestDTO extends PageRequestDTO {
     @ApiModelProperty(value = "update end time")
     private Date updateEndTime;
 
-    public String getDatasetName() {
-        return datasetName;
+    public String getDatasetCode() {
+        return datasetCode;
     }
 
-    public void setDatasetName(String datasetName) {
-        this.datasetName = datasetName;
+    public void setDatasetCode(String datasetCode) {
+        this.datasetCode = datasetCode;
     }
 
-    public String getDatasourceName() {
-        return datasourceName;
+    public String getDatasourceCode() {
+        return datasourceCode;
     }
 
-    public void setDatasourceName(String datasourceName) {
-        this.datasourceName = datasourceName;
+    public void setDatasourceCode(String datasourceCode) {
+        this.datasourceCode = datasourceCode;
     }
 
     public String getDatasourceType() {

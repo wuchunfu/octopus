@@ -8,11 +8,11 @@ import java.util.Date;
 @ApiModel(description = "metrics result conditions request dto")
 public class MetricsResultConditionsRequestDTO extends PageRequestDTO {
 
-    @ApiModelProperty(value = "datasoucreName")
-    private String datasourceName;
+    @ApiModelProperty(value = "datasoucreCode")
+    private String datasoucreCode;
 
-    @ApiModelProperty(value = "datasetName")
-    private String datasetName;
+    @ApiModelProperty(value = "datasetCode")
+    private String datasetCode;
 
     @ApiModelProperty(value = "metricsName")
     private String metricsName;
@@ -29,20 +29,20 @@ public class MetricsResultConditionsRequestDTO extends PageRequestDTO {
     @ApiModelProperty(value = "createEndTime")
     private Date createEndTime;
 
-    public String getDatasourceName() {
-        return datasourceName;
+    public String getDatasoucreCode() {
+        return datasoucreCode;
     }
 
-    public void setDatasourceName(String datasourceName) {
-        this.datasourceName = datasourceName;
+    public void setDatasoucreCode(String datasoucreCode) {
+        this.datasoucreCode = datasoucreCode;
     }
 
-    public String getDatasetName() {
-        return datasetName;
+    public String getDatasetCode() {
+        return datasetCode;
     }
 
-    public void setDatasetName(String datasetName) {
-        this.datasetName = datasetName;
+    public void setDatasetCode(String datasetCode) {
+        this.datasetCode = datasetCode;
     }
 
     public String getMetricsName() {

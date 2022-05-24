@@ -8,15 +8,16 @@ import java.util.Date;
 @ApiModel(description = "monitor flow instance conditions request dto")
 public class MonitorFlowInstanceConditionsRequestDTO extends PageRequestDTO {
 
-    @ApiModelProperty(value = "data source instance name")
-    private String datasourceName;
+    @ApiModelProperty(value = "datasource code")
+    private String datasourceCode;
 
-    @ApiModelProperty(value = "data set name")
-    private String datasetName;
+    @ApiModelProperty(value = "dataset code")
+    private String datasetCode;
 
     @ApiModelProperty(value = "flow name")
     private String flowName;
 
+    @ApiModelProperty(value = "execution status")
     private String executionStatus;
 
     @ApiModelProperty(value = "startTask start time")
@@ -31,20 +32,20 @@ public class MonitorFlowInstanceConditionsRequestDTO extends PageRequestDTO {
     @ApiModelProperty(value = "endTask end time")
     private Date taskEndEndTime;
 
-    public String getDatasourceName() {
-        return datasourceName;
+    public String getDatasourceCode() {
+        return datasourceCode;
     }
 
-    public void setDatasourceName(String datasourceName) {
-        this.datasourceName = datasourceName;
+    public void setDatasourceCode(String datasourceCode) {
+        this.datasourceCode = datasourceCode;
     }
 
-    public String getDatasetName() {
-        return datasetName;
+    public String getDatasetCode() {
+        return datasetCode;
     }
 
-    public void setDatasetName(String datasetName) {
-        this.datasetName = datasetName;
+    public void setDatasetCode(String datasetCode) {
+        this.datasetCode = datasetCode;
     }
 
     public String getFlowName() {

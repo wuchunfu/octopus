@@ -7,6 +7,7 @@ import org.metahut.octopus.api.dto.MetricsResponseDTO;
 import org.metahut.octopus.api.dto.PageResponseDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
 import org.metahut.octopus.metrics.api.JSONUtils;
+import org.metahut.octopus.server.WebApplicationTest;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Assertions;
@@ -184,5 +185,29 @@ public class MetricsConfigControllerImplTest extends WebApplicationTest {
         ResponseEntity<ResultEntity> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, httpEntity, ResultEntity.class);
         Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
         Assertions.assertTrue(responseEntity.getBody().isSuccess());
+    }
+
+    @Test
+    public void findByCode() {
+        MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO = new MetricsCreateOrUpdateRequestDTO();
+        metricsCreateOrUpdateRequestDTO.setCode("c_count5");
+        metricsCreateOrUpdateRequestDTO.setName("c_count5");
+
+        MetricsResponseDTO metrics = createMetrics(metricsCreateOrUpdateRequestDTO);
+        MetricsConfigCreateOrUpdateRequestDTO requestDTO1 = new MetricsConfigCreateOrUpdateRequestDTO();
+        requestDTO1.setMetricsCode(metrics.getCode());
+        requestDTO1.setSourceCategory("Hive5");
+        MetricsConfigResponseDTO createData = create(requestDTO1);
+
+        String url = this.base + REST_FUNCTION_URL_PREFIX + createData.getCode();
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url);
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(builder.build().encode().toUri(), String.class);
+        Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
+
+        ResultEntity<MetricsConfigResponseDTO> result =
+            JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<MetricsConfigResponseDTO>>() {
+            });
+        Assertions.assertTrue(result.isSuccess());
+        Assertions.assertEquals(result.getData().getCode(), createData.getCode());
     }
 }

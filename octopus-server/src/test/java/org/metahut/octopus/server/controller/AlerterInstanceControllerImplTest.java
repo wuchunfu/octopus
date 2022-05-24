@@ -4,6 +4,7 @@ import org.metahut.octopus.api.dto.AlerterInstanceCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.AlerterInstanceResponseDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
 import org.metahut.octopus.metrics.api.JSONUtils;
+import org.metahut.octopus.server.WebApplicationTest;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Assertions;
@@ -21,7 +22,8 @@ public class AlerterInstanceControllerImplTest extends WebApplicationTest {
         HttpEntity httpEntity = new HttpEntity(requestDTO);
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, httpEntity, String.class);
         Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
-        ResultEntity<AlerterInstanceResponseDTO> data = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<AlerterInstanceResponseDTO>>() {});
+        ResultEntity<AlerterInstanceResponseDTO> data = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<AlerterInstanceResponseDTO>>() {
+        });
         Assertions.assertTrue(data.isSuccess());
         AlerterInstanceResponseDTO responseDTO = data.getData();
         Assertions.assertNotNull(responseDTO.getId());

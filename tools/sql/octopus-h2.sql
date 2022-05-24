@@ -64,8 +64,6 @@ CREATE TABLE tb_octopus_metrics_config
     metrics_params   varchar(64) NOT NULL,
     subject_category varchar(16) DEFAULT 'TABLE',
     source_category  varchar(64) NOT NULL,
-    compute_mode     varchar(64) NOT NULL,
-    compute_script   text        NOT NULL,
 
     description      varchar(64) DEFAULT NULL,
     create_time      datetime    DEFAULT NULL,
@@ -107,7 +105,7 @@ CREATE TABLE tb_octopus_sample_instance
 
     source_code   varchar(64) NOT NULL,
     executor_type varchar(64),
-    parameter        text,
+    parameter     text,
 
     create_time   datetime DEFAULT NULL,
     update_time   datetime DEFAULT NULL,
@@ -159,17 +157,17 @@ CREATE TABLE tb_octopus_rule_instance
 DROP TABLE IF EXISTS tb_octopus_alerter_instance CASCADE;
 CREATE TABLE tb_octopus_alerter_instance
 (
-    id           int         NOT NULL AUTO_INCREMENT,
-    alert_type   varchar(64) NOT NULL,
-    code         int(11)     NOT NULL,
-    name         varchar(200) DEFAULT NULL,
-    parameter text,
+    id          int         NOT NULL AUTO_INCREMENT,
+    alert_type  varchar(64) NOT NULL,
+    code        int(11)     NOT NULL,
+    name        varchar(200) DEFAULT NULL,
+    parameter   text,
 
-    description  varchar(64)  DEFAULT NULL,
-    create_time  datetime     DEFAULT NULL,
-    update_time  datetime     DEFAULT NULL,
-    creator      int(11)      DEFAULT NULL,
-    updater      int(11)      DEFAULT NULL,
+    description varchar(64)  DEFAULT NULL,
+    create_time datetime     DEFAULT NULL,
+    update_time datetime     DEFAULT NULL,
+    creator     int(11)      DEFAULT NULL,
+    updater     int(11)      DEFAULT NULL,
     PRIMARY KEY (id)
 );
 
@@ -192,7 +190,7 @@ DROP TABLE IF EXISTS tb_octopus_flow_definition CASCADE;
 CREATE TABLE tb_octopus_flow_definition
 (
     id             int(11)      NOT NULL AUTO_INCREMENT,
-    code         int(11)     NOT NULL,
+    code           int(11)      NOT NULL,
     source_code    varchar(200) NOT NULL,
     env            varchar(200),
     crontab        varchar(200) NOT NULL,

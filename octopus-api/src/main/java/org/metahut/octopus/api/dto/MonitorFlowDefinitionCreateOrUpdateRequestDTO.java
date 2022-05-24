@@ -1,21 +1,32 @@
 package org.metahut.octopus.api.dto;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.List;
 
+@ApiModel(description = "monitor flow definition create or update request dto")
 public class MonitorFlowDefinitionCreateOrUpdateRequestDTO {
 
+    @ApiModelProperty(value = "id")
     private Integer id;
 
+    @ApiModelProperty(value = "code")
     private Long code;
 
+    @ApiModelProperty(value = "source code")
     private String sourceCode;
 
+    @ApiModelProperty(value = "crontab")
     private String crontab;
 
+    @ApiModelProperty(value = "rule tnstances")
     private List<RuleInstanceCreateOrUpdateRequestDTO> ruleInstances;
 
+    @ApiModelProperty(value = "source alert relations")
     private List<SourceAlertRelationCreateOrUpdateRequestDTO> sourceAlertRelations;
 
+    @ApiModelProperty(value = "sample instance")
     private SampleInstanceCreateOrUpdateRequestDTO sampleInstance;
 
     public Integer getId() {

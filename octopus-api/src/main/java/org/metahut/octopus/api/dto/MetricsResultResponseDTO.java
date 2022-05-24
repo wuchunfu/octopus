@@ -2,36 +2,45 @@ package org.metahut.octopus.api.dto;
 
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Date;
 
+@ApiModel(description = "metrics result response dto")
 public class MetricsResultResponseDTO {
 
-    @ApiModelProperty(value = "datasoucreName")
+    @ApiModelProperty(value = "datasoucre name")
     private String datasourceName;
 
-    @ApiModelProperty(value = "datasoucreName")
+    @ApiModelProperty(value = "datasoucre name")
     private String datasourceCode;
 
-    @ApiModelProperty(value = "datasetName")
+    @ApiModelProperty(value = "dataset name")
     private String datasetName;
 
-    @ApiModelProperty(value = "datasetCode")
+    @ApiModelProperty(value = "dataset code")
     private String datasetCode;
 
+    @ApiModelProperty(value = "subject code")
     private String subjectCode;
 
+    @ApiModelProperty(value = "subject category")
     private SubjectCategoryEnum subjectCategory;
 
+    @ApiModelProperty(value = "metrics name")
     private String metricsName;
 
+    @ApiModelProperty(value = "metrics code")
     private String metricsCode;
 
+    @ApiModelProperty(value = "metrics value")
     private String metricsValue;
 
+    @ApiModelProperty(value = "metrics unique key")
     private String metricsUniqueKey;
 
+    @ApiModelProperty(value = "create time")
     private Date createTime;
 
     public String getDatasourceName() {

@@ -12,6 +12,7 @@ import org.metahut.octopus.api.dto.ResultEntity;
 import org.metahut.octopus.api.dto.RuleInstanceCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.SourceAlertRelationCreateOrUpdateRequestDTO;
 import org.metahut.octopus.metrics.api.JSONUtils;
+import org.metahut.octopus.server.WebApplicationTest;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Assertions;
