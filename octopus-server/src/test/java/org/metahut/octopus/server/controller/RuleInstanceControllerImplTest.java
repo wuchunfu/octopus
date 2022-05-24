@@ -6,9 +6,9 @@ import org.metahut.octopus.api.dto.MetricsCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.MetricsResponseDTO;
 import org.metahut.octopus.api.dto.PageResponseDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
-import org.metahut.octopus.api.dto.RuleInstanceConditionRequestDTO;
 import org.metahut.octopus.api.dto.RuleInstanceCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.RuleInstanceResponseDTO;
+import org.metahut.octopus.api.dto.SampleInstanceCreateOrUpdateRequestDTO;
 import org.metahut.octopus.metrics.api.JSONUtils;
 import org.metahut.octopus.server.WebApplicationTest;
 
@@ -21,23 +21,19 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+public class RuleInstanceControllerImplTest  extends WebApplicationTest {
 
-public class RuleInstanceControllerImplTest extends WebApplicationTest {
+    private static final String REST_FUNCTION_URL_PREFIX = "/ruleInstance/";
 
-    private static final String REST_FUNCTION_URL_PREFIX = "/rule/";
-
-    private List<RuleInstanceResponseDTO> create(List<RuleInstanceCreateOrUpdateRequestDTO> requestDTO) {
-        String url = REST_FUNCTION_URL_PREFIX + "batchCreate";
-        HttpEntity httpEntity = new HttpEntity(requestDTO);
-        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, httpEntity, String.class);
+    private RuleInstanceResponseDTO create(RuleInstanceCreateOrUpdateRequestDTO requestDTO) {
+        String url = REST_FUNCTION_URL_PREFIX + "create";
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity httpEntity = new HttpEntity(requestDTO, headers);
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, httpEntity, String.class);
         Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
-        ResultEntity<List<RuleInstanceResponseDTO>> create = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<List<RuleInstanceResponseDTO>>>() {
-        });
+        ResultEntity<RuleInstanceResponseDTO> create = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<RuleInstanceResponseDTO>>() {});
         Assertions.assertTrue(create.isSuccess());
-        List<RuleInstanceResponseDTO> createData = create.getData();
+        RuleInstanceResponseDTO createData = create.getData();
         Assertions.assertNotNull(createData);
         return createData;
     }
@@ -49,8 +45,7 @@ public class RuleInstanceControllerImplTest extends WebApplicationTest {
         HttpEntity httpEntity = new HttpEntity(requestDTO);
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, httpEntity, String.class);
         Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
-        ResultEntity<MetricsResponseDTO> create = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<MetricsResponseDTO>>() {
-        });
+        ResultEntity<MetricsResponseDTO> create = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<MetricsResponseDTO>>() {});
         Assertions.assertTrue(create.isSuccess());
         MetricsResponseDTO createData = create.getData();
         Assertions.assertNotNull(createData.getId());
@@ -63,8 +58,7 @@ public class RuleInstanceControllerImplTest extends WebApplicationTest {
         HttpEntity httpEntity = new HttpEntity(requestDTO);
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, httpEntity, String.class);
         Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
-        ResultEntity<MetricsConfigResponseDTO> create = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<MetricsConfigResponseDTO>>() {
-        });
+        ResultEntity<MetricsConfigResponseDTO> create = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<MetricsConfigResponseDTO>>() {});
         Assertions.assertTrue(create.isSuccess());
         MetricsConfigResponseDTO createData = create.getData();
         Assertions.assertNotNull(createData.getId());
@@ -85,14 +79,18 @@ public class RuleInstanceControllerImplTest extends WebApplicationTest {
         MetricsConfigResponseDTO metricsConfig = createMetricsConfig(requestDTO);
 
         RuleInstanceCreateOrUpdateRequestDTO ruleInstanceCreateOrUpdateRequestDTO = new RuleInstanceCreateOrUpdateRequestDTO();
+        ruleInstanceCreateOrUpdateRequestDTO.setCheckMethod("checkMethod");
+        ruleInstanceCreateOrUpdateRequestDTO.setCheckType("checkType");
+        ruleInstanceCreateOrUpdateRequestDTO.setComparisonMethod("comparisonMethod");
+        ruleInstanceCreateOrUpdateRequestDTO.setExpectedValue("expectedValue");
         ruleInstanceCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
         ruleInstanceCreateOrUpdateRequestDTO.setMetricsConfigCode(metricsConfig.getCode());
+        SampleInstanceCreateOrUpdateRequestDTO sampleInstance = new SampleInstanceCreateOrUpdateRequestDTO();
+        sampleInstance.setSourceCode("sourceCode_create");
+        sampleInstance.setParameter("90");
+        ruleInstanceCreateOrUpdateRequestDTO.setSampleInstance(sampleInstance);
         ruleInstanceCreateOrUpdateRequestDTO.setSourceCode("sourceCode_create");
-        HashMap<Long, String> hashMap = new HashMap();
-        hashMap.put(1L, "xiaolaing.wang");
-        ArrayList<RuleInstanceCreateOrUpdateRequestDTO> list = new ArrayList<RuleInstanceCreateOrUpdateRequestDTO>();
-        list.add(ruleInstanceCreateOrUpdateRequestDTO);
-        List<RuleInstanceResponseDTO> ruleInstanceResponseDTOS = create(list);
+        RuleInstanceResponseDTO ruleInstanceResponseDTOS = create(ruleInstanceCreateOrUpdateRequestDTO);
     }
 
     @Test
@@ -108,28 +106,30 @@ public class RuleInstanceControllerImplTest extends WebApplicationTest {
         MetricsConfigResponseDTO metricsConfig = createMetricsConfig(requestDTO);
 
         RuleInstanceCreateOrUpdateRequestDTO ruleInstanceCreateOrUpdateRequestDTO = new RuleInstanceCreateOrUpdateRequestDTO();
+        ruleInstanceCreateOrUpdateRequestDTO.setCheckMethod("checkMethod");
+        ruleInstanceCreateOrUpdateRequestDTO.setCheckType("checkType");
+        ruleInstanceCreateOrUpdateRequestDTO.setComparisonMethod("comparisonMethod");
+        ruleInstanceCreateOrUpdateRequestDTO.setExpectedValue("expectedValue");
         ruleInstanceCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
         ruleInstanceCreateOrUpdateRequestDTO.setMetricsConfigCode(metricsConfig.getCode());
+        SampleInstanceCreateOrUpdateRequestDTO sampleInstance = new SampleInstanceCreateOrUpdateRequestDTO();
+        sampleInstance.setSourceCode("sourceCode_update");
+        sampleInstance.setParameter("90");
+        ruleInstanceCreateOrUpdateRequestDTO.setSampleInstance(sampleInstance);
         ruleInstanceCreateOrUpdateRequestDTO.setSourceCode("sourceCode_update");
-        HashMap<Long, String> hashMap = new HashMap();
-        hashMap.put(1L, "xiaolaing.wang");
-        ArrayList<RuleInstanceCreateOrUpdateRequestDTO> list = new ArrayList<RuleInstanceCreateOrUpdateRequestDTO>();
-        list.add(ruleInstanceCreateOrUpdateRequestDTO);
-        List<RuleInstanceResponseDTO> createData = create(list);
+        RuleInstanceResponseDTO ruleInstanceResponseDTOS = create(ruleInstanceCreateOrUpdateRequestDTO);
 
-        RuleInstanceCreateOrUpdateRequestDTO updateRequestDTO = JSONUtils.parseObject(JSONUtils.toJSONString(createData.get(0)), RuleInstanceCreateOrUpdateRequestDTO.class);
+        RuleInstanceCreateOrUpdateRequestDTO updateRequestDTO = JSONUtils.parseObject(JSONUtils.toJSONString(ruleInstanceResponseDTOS), RuleInstanceCreateOrUpdateRequestDTO.class);
         String sampleValue = "100";
-        updateRequestDTO.setSourceCode(createData.get(0).getFlowDefinition().getSourceCode());
         updateRequestDTO.setMetricsCode(metrics.getCode());
-        HashMap<Long, String> map = new HashMap();
-        hashMap.put(1L, "xiaolaing.wang");
+        updateRequestDTO.setMetricsConfigCode(metricsConfig.getCode());
+        updateRequestDTO.getSampleInstance().setParameter(sampleValue);
         String url = REST_FUNCTION_URL_PREFIX + "update";
         HttpHeaders headers = new HttpHeaders();
         HttpEntity httpEntity = new HttpEntity(updateRequestDTO, headers);
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, httpEntity, String.class);
         Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
-        ResultEntity<RuleInstanceResponseDTO> update = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<RuleInstanceResponseDTO>>() {
-        });
+        ResultEntity<RuleInstanceResponseDTO> update = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<RuleInstanceResponseDTO>>() {});
         Assertions.assertTrue(update.isSuccess());
         RuleInstanceResponseDTO data = update.getData();
         Assertions.assertEquals(sampleValue, data.getSampleInstance().getParameter());
@@ -148,16 +148,20 @@ public class RuleInstanceControllerImplTest extends WebApplicationTest {
         MetricsConfigResponseDTO metricsConfig = createMetricsConfig(requestDTO);
 
         RuleInstanceCreateOrUpdateRequestDTO ruleInstanceCreateOrUpdateRequestDTO = new RuleInstanceCreateOrUpdateRequestDTO();
+        ruleInstanceCreateOrUpdateRequestDTO.setCheckMethod("checkMethod");
+        ruleInstanceCreateOrUpdateRequestDTO.setCheckType("checkType");
+        ruleInstanceCreateOrUpdateRequestDTO.setComparisonMethod("comparisonMethod");
+        ruleInstanceCreateOrUpdateRequestDTO.setExpectedValue("expectedValue");
         ruleInstanceCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
         ruleInstanceCreateOrUpdateRequestDTO.setMetricsConfigCode(metricsConfig.getCode());
+        SampleInstanceCreateOrUpdateRequestDTO sampleInstance = new SampleInstanceCreateOrUpdateRequestDTO();
+        sampleInstance.setSourceCode("sourceCode_delete");
+        sampleInstance.setParameter("90");
+        ruleInstanceCreateOrUpdateRequestDTO.setSampleInstance(sampleInstance);
         ruleInstanceCreateOrUpdateRequestDTO.setSourceCode("sourceCode_delete");
-        HashMap<Long, String> hashMap = new HashMap();
-        hashMap.put(1L, "xiaolaing.wang");
-        ArrayList<RuleInstanceCreateOrUpdateRequestDTO> list = new ArrayList<RuleInstanceCreateOrUpdateRequestDTO>();
-        list.add(ruleInstanceCreateOrUpdateRequestDTO);
-        List<RuleInstanceResponseDTO> createData = create(list);
+        RuleInstanceResponseDTO ruleInstanceResponseDTOS = create(ruleInstanceCreateOrUpdateRequestDTO);
 
-        String url = REST_FUNCTION_URL_PREFIX + createData.get(0).getId();
+        String url = REST_FUNCTION_URL_PREFIX + ruleInstanceResponseDTOS.getId();
         HttpHeaders headers = new HttpHeaders();
         HttpEntity httpEntity = new HttpEntity(headers);
         ResponseEntity<ResultEntity> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, httpEntity, ResultEntity.class);
@@ -178,22 +182,24 @@ public class RuleInstanceControllerImplTest extends WebApplicationTest {
         MetricsConfigResponseDTO metricsConfig = createMetricsConfig(requestDTO);
 
         RuleInstanceCreateOrUpdateRequestDTO ruleInstanceCreateOrUpdateRequestDTO = new RuleInstanceCreateOrUpdateRequestDTO();
+        ruleInstanceCreateOrUpdateRequestDTO.setCheckMethod("checkMethod");
+        ruleInstanceCreateOrUpdateRequestDTO.setCheckType("checkType");
+        ruleInstanceCreateOrUpdateRequestDTO.setComparisonMethod("comparisonMethod");
+        ruleInstanceCreateOrUpdateRequestDTO.setExpectedValue("expectedValue");
         ruleInstanceCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
         ruleInstanceCreateOrUpdateRequestDTO.setMetricsConfigCode(metricsConfig.getCode());
+        SampleInstanceCreateOrUpdateRequestDTO sampleInstance = new SampleInstanceCreateOrUpdateRequestDTO();
+        sampleInstance.setSourceCode("sourceCode_query");
+        sampleInstance.setParameter("90");
+        ruleInstanceCreateOrUpdateRequestDTO.setSampleInstance(sampleInstance);
         ruleInstanceCreateOrUpdateRequestDTO.setSourceCode("sourceCode_query");
-        HashMap<Long, String> hashMap = new HashMap();
-        hashMap.put(1L, "xiaolaing.wang");
-        ArrayList<RuleInstanceCreateOrUpdateRequestDTO> list = new ArrayList<RuleInstanceCreateOrUpdateRequestDTO>();
-        list.add(ruleInstanceCreateOrUpdateRequestDTO);
-        List<RuleInstanceResponseDTO> createData = create(list);
+        RuleInstanceResponseDTO ruleInstanceResponseDTOS = create(ruleInstanceCreateOrUpdateRequestDTO);
 
-        RuleInstanceConditionRequestDTO ruleInstanceConditionRequestDTO = new RuleInstanceConditionRequestDTO();
-        ruleInstanceConditionRequestDTO.setSourceCode("sourceCode_query");
         String url = this.base + REST_FUNCTION_URL_PREFIX + "queryListPage";
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
-            .queryParam("metricsCode", metrics.getCode())
-            .queryParam("pageNo", 1)
-            .queryParam("pageSize", 10);
+                .queryParam("metricsCode", metrics.getCode())
+                .queryParam("pageNo", 1)
+                .queryParam("pageSize", 10);
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(builder.build().encode().toUri(), String.class);
         Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
         ResultEntity<PageResponseDTO<RuleInstanceResponseDTO>> result = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<PageResponseDTO<RuleInstanceResponseDTO>>>() {

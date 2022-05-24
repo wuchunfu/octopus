@@ -11,6 +11,8 @@ import org.metahut.octopus.server.utils.SnowflakeIdGenerator;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Objects;
+
 @RestController
 public class RuleInstanceControllerImpl implements RuleInstanceController {
 
@@ -29,6 +31,9 @@ public class RuleInstanceControllerImpl implements RuleInstanceController {
     @Override
     public ResultEntity<RuleInstanceResponseDTO> create(RuleInstanceCreateOrUpdateRequestDTO requestDTO) {
         requestDTO.setCode(SnowflakeIdGenerator.getInstance().nextId());
+        if (Objects.nonNull(requestDTO.getSampleInstance())) {
+            requestDTO.getSampleInstance().setCode(SnowflakeIdGenerator.getInstance().nextId());
+        }
         return ResultEntity.success(ruleInstanceService.createOrUpdate(requestDTO));
     }
 

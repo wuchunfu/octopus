@@ -11,6 +11,8 @@ import org.metahut.octopus.server.utils.SnowflakeIdGenerator;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Objects;
+
 @RestController
 public class MonitorFlowDefinitionControllerImpl implements MonitorFlowDefinitionController {
 
@@ -35,6 +37,9 @@ public class MonitorFlowDefinitionControllerImpl implements MonitorFlowDefinitio
     @Override
     public ResultEntity<MonitorFlowDefinitionResponseDTO> create(MonitorFlowDefinitionCreateOrUpdateRequestDTO requestDTO) {
         requestDTO.setCode(SnowflakeIdGenerator.getInstance().nextId());
+        if(Objects.nonNull(requestDTO.getSampleInstance())) {
+            requestDTO.getSampleInstance().setCode(SnowflakeIdGenerator.getInstance().nextId());
+        }
         return ResultEntity.success(monitorFlowDefinitionService.createOrUpdate(requestDTO));
     }
 

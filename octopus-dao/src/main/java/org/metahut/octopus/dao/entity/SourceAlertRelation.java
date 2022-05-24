@@ -16,7 +16,7 @@ public class SourceAlertRelation extends BaseEntity {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "source_code", referencedColumnName = "code")
+    @JoinColumn(name = "alert_code", referencedColumnName = "code")
     private AlerterInstance alertInstance;
 
     private String alerter;

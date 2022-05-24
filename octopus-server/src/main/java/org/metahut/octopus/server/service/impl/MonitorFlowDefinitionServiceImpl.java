@@ -10,6 +10,7 @@ import org.metahut.octopus.dao.entity.FlowDefinition_;
 import org.metahut.octopus.dao.repository.FlowDefinitionRepository;
 import org.metahut.octopus.server.service.MonitorFlowDefinitionService;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.data.domain.Page;
@@ -41,13 +42,17 @@ public class MonitorFlowDefinitionServiceImpl implements MonitorFlowDefinitionSe
         Page<FlowDefinition> flowDefinitionPage = flowDefinitionRepository.findAll(withConditions(requestDTO), pageable);
         List<FlowDefinitionResponseDTO> convert = (List<FlowDefinitionResponseDTO>) conversionService.convert(flowDefinitionPage.getContent(),
                 TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(FlowDefinition.class)),
-                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(FlowDefinitionResponseDTO.class)));
+                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MonitorFlowDefinitionResponseDTO.class)));
         return PageResponseDTO.of(requestDTO.getPageNo(), flowDefinitionPage.getSize(), flowDefinitionPage.getTotalElements(), convert);
     }
 
     private Specification<FlowDefinition> withConditions(MonitorFlowDefinitionConditionsRequestDTO requestDTO) {
         return (root, query, builder) -> {
             List<Predicate> conditions = new ArrayList<>();
+
+            if(StringUtils.isNotBlank(requestDTO.getDatasetCode())) {
+                conditions.add(builder.like(root.get(FlowDefinition_.sourceCode), requestDTO.getDatasetCode()));
+            }
 
             if (Objects.nonNull(requestDTO.getCreateStartTime()) && Objects.nonNull(requestDTO.getCreateEndTime())) {
                 conditions.add(builder.between(root.get(FlowDefinition_.createTime), requestDTO.getCreateStartTime(), requestDTO.getCreateEndTime()));
