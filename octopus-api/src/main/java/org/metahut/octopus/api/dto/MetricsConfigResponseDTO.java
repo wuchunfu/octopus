@@ -5,6 +5,7 @@ import org.metahut.octopus.common.enums.CreateTypeEnum;
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import org.apache.commons.lang3.StringUtils;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -125,10 +126,12 @@ public class MetricsConfigResponseDTO {
 
     public void setMetricsParams(String metricsParams) {
         this.metricsParams = metricsParams;
-        Map<String, String> map = JSONUtils.parseObject(metricsParams, new TypeReference<Map<String, String>>() {
-        });
-        setExecutorType(map.get(EXECUTOR_TYPE_STR));
-        setExecutorScript(map.get(EXECUTOR_SCRIPT_STR));
+        if (StringUtils.isNotBlank(metricsParams)) {
+            Map<String, String> map = JSONUtils.parseObject(metricsParams, new TypeReference<Map<String, String>>() {
+            });
+            setExecutorType(map.get(EXECUTOR_TYPE_STR));
+            setExecutorScript(map.get(EXECUTOR_SCRIPT_STR));
+        }
     }
 
     public String getDescription() {
