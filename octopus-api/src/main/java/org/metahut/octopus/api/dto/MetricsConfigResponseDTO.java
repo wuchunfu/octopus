@@ -1,12 +1,18 @@
 package org.metahut.octopus.api.dto;
 
+import org.metahut.octopus.api.dto.MetricsConfigCreateOrUpdateRequestDTO.JSONUtils;
 import org.metahut.octopus.common.enums.CreateTypeEnum;
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Date;
+import java.util.Map;
+
+import static org.metahut.octopus.api.dto.MetricsConfigCreateOrUpdateRequestDTO.EXECUTOR_SCRIPT_STR;
+import static org.metahut.octopus.api.dto.MetricsConfigCreateOrUpdateRequestDTO.EXECUTOR_TYPE_STR;
 
 @ApiModel(description = "metrics config response dto")
 public class MetricsConfigResponseDTO {
@@ -48,6 +54,14 @@ public class MetricsConfigResponseDTO {
 
     @ApiModelProperty(value = "updater")
     private Long updater;
+
+    @Deprecated
+    @ApiModelProperty(value = "executorType")
+    private String executorType;
+
+    @Deprecated
+    @ApiModelProperty(value = "executorScript")
+    private String executorScript;
 
     public Integer getId() {
         return id;
@@ -111,6 +125,10 @@ public class MetricsConfigResponseDTO {
 
     public void setMetricsParams(String metricsParams) {
         this.metricsParams = metricsParams;
+        Map<String, String> map = JSONUtils.parseObject(metricsParams, new TypeReference<Map<String, String>>() {
+        });
+        setExecutorType(map.get(EXECUTOR_TYPE_STR));
+        setExecutorScript(map.get(EXECUTOR_SCRIPT_STR));
     }
 
     public String getDescription() {
@@ -151,5 +169,25 @@ public class MetricsConfigResponseDTO {
 
     public void setUpdater(Long updater) {
         this.updater = updater;
+    }
+
+    @Deprecated
+    public String getExecutorType() {
+        return executorType;
+    }
+
+    @Deprecated
+    public void setExecutorType(String executorType) {
+        this.executorType = executorType;
+    }
+
+    @Deprecated
+    public String getExecutorScript() {
+        return executorScript;
+    }
+
+    @Deprecated
+    public void setExecutorScript(String executorScript) {
+        this.executorScript = executorScript;
     }
 }

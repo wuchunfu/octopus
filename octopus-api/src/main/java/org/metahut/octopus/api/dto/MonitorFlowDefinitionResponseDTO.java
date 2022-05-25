@@ -16,7 +16,7 @@ public class MonitorFlowDefinitionResponseDTO {
     private Long code;
 
     @ApiModelProperty(value = "meta")
-    private MetaReponseDTO meta;
+    private MetaDatasetResponseDTO meta;
 
     @ApiModelProperty(value = "alerter instances")
     private List<AlerterInstanceResponseDTO> alerterInstances;
@@ -58,11 +58,11 @@ public class MonitorFlowDefinitionResponseDTO {
         this.code = code;
     }
 
-    public MetaReponseDTO getMeta() {
+    public MetaDatasetResponseDTO getMeta() {
         return meta;
     }
 
-    public void setMeta(MetaReponseDTO meta) {
+    public void setMeta(MetaDatasetResponseDTO meta) {
         this.meta = meta;
     }
 
