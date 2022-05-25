@@ -56,7 +56,7 @@ DROP TABLE IF EXISTS tb_octopus_metrics_config;
 CREATE TABLE tb_octopus_metrics_config
 (
     id               serial      NOT NULL,
-    code             int         NOT NULL,
+    code             bigint      NOT NULL,
     name             varchar(64) DEFAULT NULL,
 
     metrics_code     varchar(64) NOT NULL,
@@ -78,7 +78,7 @@ DROP TABLE IF EXISTS tb_octopus_rule_template;
 CREATE TABLE tb_octopus_rule_template
 (
     id                serial      NOT NULL,
-    code              int         NOT NULL,
+    code              bigint         NOT NULL,
     name              varchar(64) DEFAULT NULL,
     metrics_code      varchar(64) NOT NULL,
 
@@ -101,7 +101,7 @@ DROP TABLE IF EXISTS tb_octopus_sample_instance;
 CREATE TABLE tb_octopus_sample_instance
 (
     id            serial      NOT NULL,
-    code          int         NOT NULL,
+    code          bigint         NOT NULL,
 
     dataset_code  varchar(64) NOT NULL,
     executor_type varchar(64),
@@ -119,13 +119,13 @@ DROP TABLE IF EXISTS tb_octopus_rule_instance;
 CREATE TABLE tb_octopus_rule_instance
 (
     id                  serial       NOT NULL,
-    code                int          NOT NULL,
+    code                bigint          NOT NULL,
     name                varchar(64) DEFAULT NULL,
     dataset_code        varchar(64)  NOT NULL,
 
     metrics_code        varchar(64)  NOT NULL,
     -- custom execution script
-    metrics_config_code int,
+    metrics_config_code bigint,
 
     metrics_params      varchar(64)  NOT NULL,
     subject_category    varchar(16) DEFAULT 'TABLE',
@@ -133,7 +133,7 @@ CREATE TABLE tb_octopus_rule_instance
     metrics_unique_key  varchar(254) NOT NULL,
     filter              text,
 
-    sample_code         int,
+    sample_code         bigint,
     task_type           varchar(64) DEFAULT 'BATCH',
 
     check_type          varchar(64),
@@ -160,7 +160,7 @@ CREATE TABLE tb_octopus_alerter_source
 (
     id          serial      NOT NULL,
     alert_type  varchar(64) NOT NULL,
-    code        int         NOT NULL,
+    code        bigint         NOT NULL,
     name        varchar(200) DEFAULT NULL,
     parameter   text        NOT NULL,
 
@@ -177,7 +177,7 @@ CREATE TABLE tb_octopus_alerter_instance
 (
     id                  serial      NOT NULL,
     dataset_code        varchar(64) NOT NULL,
-    alerter_source_code int         NOT NULL,
+    alerter_source_code bigint         NOT NULL,
     parameter           text        NOT NULL,
 
     create_time         timestamp DEFAULT NULL,
@@ -191,7 +191,7 @@ DROP TABLE IF EXISTS tb_octopus_flow_definition;
 CREATE TABLE tb_octopus_flow_definition
 (
     id             serial       NOT NULL,
-    code           int          NOT NULL,
+    code           bigint          NOT NULL,
     dataset_code   varchar(64)  NOT NULL,
     env            varchar(200),
     crontab        varchar(200) NOT NULL,

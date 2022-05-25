@@ -50,6 +50,10 @@ spring:
     url: jdbc:h2:mem:octopus;MODE=MySQL;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=true;INIT=runscript from '${user.dir}/tools/sql/octopus-h2.sql'
     username: sa
     password: ""
+#  driver-class-name: org.postgresql.Driver
+#  url: jdbc:postgresql://localhost:5432/postgres?serverTimezone=CST
+#  username: test
+#  password: test
 
 knife4j:
   enable: true
