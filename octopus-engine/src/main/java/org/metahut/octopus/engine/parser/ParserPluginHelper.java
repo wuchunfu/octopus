@@ -31,10 +31,10 @@ public class ParserPluginHelper {
         String executorTypeDefaultValue = "flink";
         String type = Objects.isNull(sample) ? generateKey(category, "none") : generateKey(category, sourceCategory, executorTypeDefaultValue);
         return ParserNode.builder()
-                .type(type)
-                .category(category)
-                .params(sample.getParams())
-                .build();
+            .type(type)
+            .category(category)
+            .params(sample.getParameter())
+            .build();
     }
 
     private static final Map<String, IParserManager> parserMap = new HashMap<>();
