@@ -4,19 +4,19 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Date;
 
-public class SourceAlertRelationResponseDTO {
+public class AlerterSourceResponseDTO {
 
-    @ApiModelProperty(value = "id")
     private Integer id;
 
-    @ApiModelProperty(value = "datasetCode")
-    private String datasetCode;
+    private Long code;
 
-    @ApiModelProperty(value = "alertInstanceCode")
-    private Long alertInstanceCode;
+    private String name;
 
-    @ApiModelProperty(value = "alerter")
-    private String alerter;
+    private String alertType;
+
+    private String parameter;
+
+    private String description;
 
     @ApiModelProperty(value = "creator")
     private Long creator;
@@ -38,28 +38,44 @@ public class SourceAlertRelationResponseDTO {
         this.id = id;
     }
 
-    public String getDatasetCode() {
-        return datasetCode;
+    public Long getCode() {
+        return code;
     }
 
-    public void setDatasetCode(String datasetCode) {
-        this.datasetCode = datasetCode;
+    public void setCode(Long code) {
+        this.code = code;
     }
 
-    public Long getAlertInstanceCode() {
-        return alertInstanceCode;
+    public String getName() {
+        return name;
     }
 
-    public void setAlertInstanceCode(Long alertInstanceCode) {
-        this.alertInstanceCode = alertInstanceCode;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getAlerter() {
-        return alerter;
+    public String getAlertType() {
+        return alertType;
     }
 
-    public void setAlerter(String alerter) {
-        this.alerter = alerter;
+    public void setAlertType(String alertType) {
+        this.alertType = alertType;
+    }
+
+    public String getParameter() {
+        return parameter;
+    }
+
+    public void setParameter(String parameter) {
+        this.parameter = parameter;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Long getCreator() {

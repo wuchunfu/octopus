@@ -4,7 +4,10 @@ public interface IAlerterManager {
 
     String getType();
 
-    AbstractParameter deserializeParameter(String parameter);
+    AbstractAlerterParameter deserializeParameter(String parameter);
 
-    IAlerter generateInstance(String parameter);
+    AbstractAlerterSourceParameter deserializeSourceParameter(String parameter);
+
+    IAlerter generateInstance(String sourceParameter, String parameter);
+
 }

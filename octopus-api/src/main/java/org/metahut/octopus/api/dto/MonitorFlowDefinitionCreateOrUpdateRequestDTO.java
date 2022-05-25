@@ -23,8 +23,8 @@ public class MonitorFlowDefinitionCreateOrUpdateRequestDTO {
     @ApiModelProperty(value = "rule tnstances")
     private List<RuleInstanceCreateOrUpdateRequestDTO> ruleInstances;
 
-    @ApiModelProperty(value = "source alert relations")
-    private List<SourceAlertRelationCreateOrUpdateRequestDTO> sourceAlertRelations;
+    @ApiModelProperty(value = "alert instances")
+    private List<AlerterInstanceCreateOrUpdateRequestDTO> alerterInstances;
 
     @ApiModelProperty(value = "sample instance")
     private SampleInstanceCreateOrUpdateRequestDTO sampleInstance;
@@ -69,12 +69,12 @@ public class MonitorFlowDefinitionCreateOrUpdateRequestDTO {
         this.ruleInstances = ruleInstances;
     }
 
-    public List<SourceAlertRelationCreateOrUpdateRequestDTO> getSourceAlertRelations() {
-        return sourceAlertRelations;
+    public List<AlerterInstanceCreateOrUpdateRequestDTO> getAlerterInstances() {
+        return alerterInstances;
     }
 
-    public void setSourceAlertRelations(List<SourceAlertRelationCreateOrUpdateRequestDTO> sourceAlertRelations) {
-        this.sourceAlertRelations = sourceAlertRelations;
+    public void setAlerterInstances(List<AlerterInstanceCreateOrUpdateRequestDTO> alerterInstances) {
+        this.alerterInstances = alerterInstances;
     }
 
     public SampleInstanceCreateOrUpdateRequestDTO getSampleInstance() {

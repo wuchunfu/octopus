@@ -25,4 +25,8 @@ public class AlerterResult {
         this.status = status;
         this.message = message;
     }
+
+    public AlerterResult(boolean status) {
+        this.status = status;
+    }
 }

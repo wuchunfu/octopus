@@ -4,11 +4,9 @@ public class AlerterInstanceCreateOrUpdateRequestDTO {
 
     private Integer id;
 
-    private Long code;
+    private String datasetCode;
 
-    private String name;
-
-    private String alertType;
+    private Long alertSourceCode;
 
     private String parameter;
 
@@ -20,28 +18,20 @@ public class AlerterInstanceCreateOrUpdateRequestDTO {
         this.id = id;
     }
 
-    public Long getCode() {
-        return code;
+    public String getDatasetCode() {
+        return datasetCode;
     }
 
-    public void setCode(Long code) {
-        this.code = code;
+    public void setDatasetCode(String datasetCode) {
+        this.datasetCode = datasetCode;
     }
 
-    public String getName() {
-        return name;
+    public Long getAlertSourceCode() {
+        return alertSourceCode;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAlertType() {
-        return alertType;
-    }
-
-    public void setAlertType(String alertType) {
-        this.alertType = alertType;
+    public void setAlertSourceCode(Long alertSourceCode) {
+        this.alertSourceCode = alertSourceCode;
     }
 
     public String getParameter() {

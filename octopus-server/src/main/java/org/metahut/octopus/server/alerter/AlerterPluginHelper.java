@@ -1,7 +1,7 @@
 package org.metahut.octopus.server.alerter;
 
-import org.metahut.octopus.alerter.api.AbstractParameter;
-import org.metahut.octopus.alerter.api.IAlerter;
+import org.metahut.octopus.alerter.api.AbstractAlerterParameter;
+import org.metahut.octopus.alerter.api.AbstractAlerterSourceParameter;
 import org.metahut.octopus.alerter.api.IAlerterManager;
 
 import org.springframework.stereotype.Component;
@@ -49,11 +49,12 @@ public class AlerterPluginHelper {
         return alerterMap.keySet();
     }
 
-    public AbstractParameter deserializeParameter(String type, String parameter) {
+    public AbstractAlerterParameter deserializeParameter(String type, String parameter) {
         return getAlerter(type).deserializeParameter(parameter);
     }
 
-    public IAlerter generateInstance(String type, String parameter) {
-        return getAlerter(type).generateInstance(parameter);
+    public AbstractAlerterSourceParameter deserializeSourceParameter(String type, String parameter) {
+        return getAlerter(type).deserializeSourceParameter(parameter);
     }
+
 }

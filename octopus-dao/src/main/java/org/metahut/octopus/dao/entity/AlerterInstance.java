@@ -3,21 +3,21 @@ package org.metahut.octopus.dao.entity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "tb_octopus_alerter_instance")
-public class AlerterInstance {
+public class AlerterInstance extends BaseEntity {
 
     @Id
     @GeneratedValue
     private Integer id;
 
-    private Long code;
-
-    private String name;
-
-    private String alertType;
+    @ManyToOne
+    @JoinColumn(name = "alerter_source_code", referencedColumnName = "code")
+    private AlerterSource source;
 
     private String parameter;
 
@@ -29,28 +29,12 @@ public class AlerterInstance {
         this.id = id;
     }
 
-    public Long getCode() {
-        return code;
+    public AlerterSource getSource() {
+        return source;
     }
 
-    public void setCode(Long code) {
-        this.code = code;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAlertType() {
-        return alertType;
-    }
-
-    public void setAlertType(String alertType) {
-        this.alertType = alertType;
+    public void setSource(AlerterSource source) {
+        this.source = source;
     }
 
     public String getParameter() {

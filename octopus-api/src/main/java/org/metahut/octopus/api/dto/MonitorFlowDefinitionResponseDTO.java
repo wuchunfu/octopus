@@ -18,8 +18,8 @@ public class MonitorFlowDefinitionResponseDTO {
     @ApiModelProperty(value = "meta")
     private MetaReponseDTO meta;
 
-    @ApiModelProperty(value = "source alert relations")
-    private List<SourceAlertRelationResponseDTO> sourceAlertRelations;
+    @ApiModelProperty(value = "alerter instances")
+    private List<AlerterInstanceResponseDTO> alerterInstances;
 
     @ApiModelProperty(value = "rule instances")
     private List<RuleInstanceResponseDTO> ruleInstances;
@@ -66,12 +66,12 @@ public class MonitorFlowDefinitionResponseDTO {
         this.meta = meta;
     }
 
-    public List<SourceAlertRelationResponseDTO> getSourceAlertRelations() {
-        return sourceAlertRelations;
+    public List<AlerterInstanceResponseDTO> getAlerterInstances() {
+        return alerterInstances;
     }
 
-    public void setSourceAlertRelations(List<SourceAlertRelationResponseDTO> sourceAlertRelations) {
-        this.sourceAlertRelations = sourceAlertRelations;
+    public void setAlerterInstances(List<AlerterInstanceResponseDTO> alerterInstances) {
+        this.alerterInstances = alerterInstances;
     }
 
     public List<RuleInstanceResponseDTO> getRuleInstances() {

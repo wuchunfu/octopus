@@ -1,7 +1,8 @@
 package org.metahut.octopus.server.controller;
 
 import org.metahut.octopus.api.dto.AlerterInstanceCreateOrUpdateRequestDTO;
-import org.metahut.octopus.api.dto.AlerterInstanceResponseDTO;
+import org.metahut.octopus.api.dto.AlerterSourceCreateOrUpdateRequestDTO;
+import org.metahut.octopus.api.dto.AlerterSourceResponseDTO;
 import org.metahut.octopus.api.dto.MetricsConfigCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.MetricsConfigResponseDTO;
 import org.metahut.octopus.api.dto.MetricsCreateOrUpdateRequestDTO;
@@ -12,7 +13,6 @@ import org.metahut.octopus.api.dto.PageResponseDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
 import org.metahut.octopus.api.dto.RuleInstanceCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.SampleInstanceCreateOrUpdateRequestDTO;
-import org.metahut.octopus.api.dto.SourceAlertRelationCreateOrUpdateRequestDTO;
 import org.metahut.octopus.metrics.api.JSONUtils;
 import org.metahut.octopus.server.WebApplicationTest;
 
@@ -67,16 +67,16 @@ public class MonitorFlowDefinitionControllerImplTest extends WebApplicationTest 
         return createData;
     }
 
-    private AlerterInstanceResponseDTO createAlertInstance(AlerterInstanceCreateOrUpdateRequestDTO requestDTO) {
+    private AlerterSourceResponseDTO createAlertInstance(AlerterSourceCreateOrUpdateRequestDTO requestDTO) {
         String url = "/alerter/create";
 
         HttpEntity httpEntity = new HttpEntity(requestDTO);
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, httpEntity, String.class);
         Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
-        ResultEntity<AlerterInstanceResponseDTO> create = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<AlerterInstanceResponseDTO>>() {
+        ResultEntity<AlerterSourceResponseDTO> create = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<AlerterSourceResponseDTO>>() {
         });
         Assertions.assertTrue(create.isSuccess());
-        AlerterInstanceResponseDTO createData = create.getData();
+        AlerterSourceResponseDTO createData = create.getData();
         Assertions.assertNotNull(createData.getId());
         return createData;
     }
@@ -100,11 +100,11 @@ public class MonitorFlowDefinitionControllerImplTest extends WebApplicationTest 
     public void create() {
 
         // create alerter instance
-        AlerterInstanceCreateOrUpdateRequestDTO alerterInstanceCreateOrUpdateRequestDTO = new AlerterInstanceCreateOrUpdateRequestDTO();
-        alerterInstanceCreateOrUpdateRequestDTO.setAlertType("DingTalk");
-        alerterInstanceCreateOrUpdateRequestDTO.setName("dingTalk test");
-        alerterInstanceCreateOrUpdateRequestDTO.setParameter("{\"webhook\":\"1\", \"secret\":\"secret\"}");
-        AlerterInstanceResponseDTO alertInstance = createAlertInstance(alerterInstanceCreateOrUpdateRequestDTO);
+        AlerterSourceCreateOrUpdateRequestDTO alerterSourceCreateOrUpdateRequestDTO = new AlerterSourceCreateOrUpdateRequestDTO();
+        alerterSourceCreateOrUpdateRequestDTO.setAlertType("DingTalk");
+        alerterSourceCreateOrUpdateRequestDTO.setName("dingTalk test");
+        alerterSourceCreateOrUpdateRequestDTO.setParameter("{\"webhook\":\"1\", \"secret\":\"secret\"}");
+        AlerterSourceResponseDTO alertInstance = createAlertInstance(alerterSourceCreateOrUpdateRequestDTO);
 
         String sourceCode = "X01";
         MonitorFlowDefinitionCreateOrUpdateRequestDTO requestDTO = new MonitorFlowDefinitionCreateOrUpdateRequestDTO();
@@ -112,12 +112,12 @@ public class MonitorFlowDefinitionControllerImplTest extends WebApplicationTest 
         requestDTO.setCrontab("0 0 1 * * ?");
 
         // create source alerter instance relation
-        List<SourceAlertRelationCreateOrUpdateRequestDTO> sourceAlertRelations = new ArrayList<>();
-        SourceAlertRelationCreateOrUpdateRequestDTO sourceAlertRelationCreateOrUpdateRequestDTO = new SourceAlertRelationCreateOrUpdateRequestDTO();
-        sourceAlertRelationCreateOrUpdateRequestDTO.setDatasetCode(sourceCode);
-        sourceAlertRelationCreateOrUpdateRequestDTO.setAlertInstanceCode(alertInstance.getCode());
-        sourceAlertRelations.add(sourceAlertRelationCreateOrUpdateRequestDTO);
-        requestDTO.setSourceAlertRelations(sourceAlertRelations);
+        List<AlerterInstanceCreateOrUpdateRequestDTO> alerterInstances = new ArrayList<>();
+        AlerterInstanceCreateOrUpdateRequestDTO alerterInstanceCreateOrUpdateRequestDTO = new AlerterInstanceCreateOrUpdateRequestDTO();
+        alerterInstanceCreateOrUpdateRequestDTO.setDatasetCode(sourceCode);
+        alerterInstanceCreateOrUpdateRequestDTO.setAlertSourceCode(alertInstance.getCode());
+        alerterInstances.add(alerterInstanceCreateOrUpdateRequestDTO);
+        requestDTO.setAlerterInstances(alerterInstances);
 
         List<RuleInstanceCreateOrUpdateRequestDTO> ruleInstanceCreateOrUpdateRequestDTOS = new ArrayList<>();
         RuleInstanceCreateOrUpdateRequestDTO ruleInstanceCreateOrUpdateRequestDTO1 = new RuleInstanceCreateOrUpdateRequestDTO();
@@ -135,23 +135,23 @@ public class MonitorFlowDefinitionControllerImplTest extends WebApplicationTest 
 
     @Test
     public void testUpdate() {
-        AlerterInstanceCreateOrUpdateRequestDTO alerterInstanceCreateOrUpdateRequestDTO = new AlerterInstanceCreateOrUpdateRequestDTO();
-        alerterInstanceCreateOrUpdateRequestDTO.setAlertType("DingTalk");
-        alerterInstanceCreateOrUpdateRequestDTO.setName("dingTalk test");
-        alerterInstanceCreateOrUpdateRequestDTO.setParameter("{\"webhook\":\"1\", \"secret\":\"secret\"}");
-        AlerterInstanceResponseDTO alertInstance = createAlertInstance(alerterInstanceCreateOrUpdateRequestDTO);
+        AlerterSourceCreateOrUpdateRequestDTO alerterSourceCreateOrUpdateRequestDTO = new AlerterSourceCreateOrUpdateRequestDTO();
+        alerterSourceCreateOrUpdateRequestDTO.setAlertType("DingTalk");
+        alerterSourceCreateOrUpdateRequestDTO.setName("dingTalk test");
+        alerterSourceCreateOrUpdateRequestDTO.setParameter("{\"webhook\":\"1\", \"secret\":\"secret\"}");
+        AlerterSourceResponseDTO alertInstance = createAlertInstance(alerterSourceCreateOrUpdateRequestDTO);
 
         String sourceCode = "X02";
         MonitorFlowDefinitionCreateOrUpdateRequestDTO requestDTO = new MonitorFlowDefinitionCreateOrUpdateRequestDTO();
         requestDTO.setDatasetCode(sourceCode);
         requestDTO.setCrontab("0 0 1 * * ?");
 
-        List<SourceAlertRelationCreateOrUpdateRequestDTO> sourceAlertRelations = new ArrayList<>();
-        SourceAlertRelationCreateOrUpdateRequestDTO sourceAlertRelationCreateOrUpdateRequestDTO = new SourceAlertRelationCreateOrUpdateRequestDTO();
-        sourceAlertRelationCreateOrUpdateRequestDTO.setDatasetCode(sourceCode);
-        sourceAlertRelationCreateOrUpdateRequestDTO.setAlertInstanceCode(alertInstance.getCode());
-        sourceAlertRelations.add(sourceAlertRelationCreateOrUpdateRequestDTO);
-        requestDTO.setSourceAlertRelations(sourceAlertRelations);
+        List<AlerterInstanceCreateOrUpdateRequestDTO> alerterInstances = new ArrayList<>();
+        AlerterInstanceCreateOrUpdateRequestDTO alerterInstanceCreateOrUpdateRequestDTO = new AlerterInstanceCreateOrUpdateRequestDTO();
+        alerterInstanceCreateOrUpdateRequestDTO.setDatasetCode(sourceCode);
+        alerterInstanceCreateOrUpdateRequestDTO.setAlertSourceCode(alertInstance.getCode());
+        alerterInstances.add(alerterInstanceCreateOrUpdateRequestDTO);
+        requestDTO.setAlerterInstances(alerterInstances);
 
         List<RuleInstanceCreateOrUpdateRequestDTO> ruleInstanceCreateOrUpdateRequestDTOS = new ArrayList<>();
         RuleInstanceCreateOrUpdateRequestDTO ruleInstanceCreateOrUpdateRequestDTO1 = new RuleInstanceCreateOrUpdateRequestDTO();
@@ -182,23 +182,23 @@ public class MonitorFlowDefinitionControllerImplTest extends WebApplicationTest 
 
     @Test
     public void testQuery() {
-        AlerterInstanceCreateOrUpdateRequestDTO alerterInstanceCreateOrUpdateRequestDTO = new AlerterInstanceCreateOrUpdateRequestDTO();
-        alerterInstanceCreateOrUpdateRequestDTO.setAlertType("DingTalk");
-        alerterInstanceCreateOrUpdateRequestDTO.setName("dingTalk test");
-        alerterInstanceCreateOrUpdateRequestDTO.setParameter("{\"webhook\":\"1\", \"secret\":\"secret\"}");
-        AlerterInstanceResponseDTO alertInstance = createAlertInstance(alerterInstanceCreateOrUpdateRequestDTO);
+        AlerterSourceCreateOrUpdateRequestDTO alerterSourceCreateOrUpdateRequestDTO = new AlerterSourceCreateOrUpdateRequestDTO();
+        alerterSourceCreateOrUpdateRequestDTO.setAlertType("DingTalk");
+        alerterSourceCreateOrUpdateRequestDTO.setName("dingTalk test");
+        alerterSourceCreateOrUpdateRequestDTO.setParameter("{\"webhook\":\"1\", \"secret\":\"secret\"}");
+        AlerterSourceResponseDTO alertInstance = createAlertInstance(alerterSourceCreateOrUpdateRequestDTO);
 
         String sourceCode = "X03";
         MonitorFlowDefinitionCreateOrUpdateRequestDTO requestDTO = new MonitorFlowDefinitionCreateOrUpdateRequestDTO();
         requestDTO.setDatasetCode(sourceCode);
         requestDTO.setCrontab("0 0 1 * * ?");
 
-        List<SourceAlertRelationCreateOrUpdateRequestDTO> sourceAlertRelations = new ArrayList<>();
-        SourceAlertRelationCreateOrUpdateRequestDTO sourceAlertRelationCreateOrUpdateRequestDTO = new SourceAlertRelationCreateOrUpdateRequestDTO();
-        sourceAlertRelationCreateOrUpdateRequestDTO.setDatasetCode(sourceCode);
-        sourceAlertRelationCreateOrUpdateRequestDTO.setAlertInstanceCode(alertInstance.getCode());
-        sourceAlertRelations.add(sourceAlertRelationCreateOrUpdateRequestDTO);
-        requestDTO.setSourceAlertRelations(sourceAlertRelations);
+        List<AlerterInstanceCreateOrUpdateRequestDTO> alerterInstances = new ArrayList<>();
+        AlerterInstanceCreateOrUpdateRequestDTO alerterInstanceCreateOrUpdateRequestDTO = new AlerterInstanceCreateOrUpdateRequestDTO();
+        alerterInstanceCreateOrUpdateRequestDTO.setDatasetCode(sourceCode);
+        alerterInstanceCreateOrUpdateRequestDTO.setAlertSourceCode(alertInstance.getCode());
+        alerterInstances.add(alerterInstanceCreateOrUpdateRequestDTO);
+        requestDTO.setAlerterInstances(alerterInstances);
 
         List<RuleInstanceCreateOrUpdateRequestDTO> ruleInstanceCreateOrUpdateRequestDTOS = new ArrayList<>();
         RuleInstanceCreateOrUpdateRequestDTO ruleInstanceCreateOrUpdateRequestDTO1 = new RuleInstanceCreateOrUpdateRequestDTO();
@@ -228,23 +228,23 @@ public class MonitorFlowDefinitionControllerImplTest extends WebApplicationTest 
 
     @Test
     public void deleteById() {
-        AlerterInstanceCreateOrUpdateRequestDTO alerterInstanceCreateOrUpdateRequestDTO = new AlerterInstanceCreateOrUpdateRequestDTO();
-        alerterInstanceCreateOrUpdateRequestDTO.setAlertType("DingTalk");
-        alerterInstanceCreateOrUpdateRequestDTO.setName("dingTalk test");
-        alerterInstanceCreateOrUpdateRequestDTO.setParameter("{\"webhook\":\"1\", \"secret\":\"secret\"}");
-        AlerterInstanceResponseDTO alertInstance = createAlertInstance(alerterInstanceCreateOrUpdateRequestDTO);
+        AlerterSourceCreateOrUpdateRequestDTO alerterSourceCreateOrUpdateRequestDTO = new AlerterSourceCreateOrUpdateRequestDTO();
+        alerterSourceCreateOrUpdateRequestDTO.setAlertType("DingTalk");
+        alerterSourceCreateOrUpdateRequestDTO.setName("dingTalk test");
+        alerterSourceCreateOrUpdateRequestDTO.setParameter("{\"webhook\":\"1\", \"secret\":\"secret\"}");
+        AlerterSourceResponseDTO alertInstance = createAlertInstance(alerterSourceCreateOrUpdateRequestDTO);
 
         String sourceCode = "X04";
         MonitorFlowDefinitionCreateOrUpdateRequestDTO requestDTO = new MonitorFlowDefinitionCreateOrUpdateRequestDTO();
         requestDTO.setDatasetCode(sourceCode);
         requestDTO.setCrontab("0 0 1 * * ?");
 
-        List<SourceAlertRelationCreateOrUpdateRequestDTO> sourceAlertRelations = new ArrayList<>();
-        SourceAlertRelationCreateOrUpdateRequestDTO sourceAlertRelationCreateOrUpdateRequestDTO = new SourceAlertRelationCreateOrUpdateRequestDTO();
-        sourceAlertRelationCreateOrUpdateRequestDTO.setDatasetCode(sourceCode);
-        sourceAlertRelationCreateOrUpdateRequestDTO.setAlertInstanceCode(alertInstance.getCode());
-        sourceAlertRelations.add(sourceAlertRelationCreateOrUpdateRequestDTO);
-        requestDTO.setSourceAlertRelations(sourceAlertRelations);
+        List<AlerterInstanceCreateOrUpdateRequestDTO> alerterInstances = new ArrayList<>();
+        AlerterInstanceCreateOrUpdateRequestDTO alerterInstanceCreateOrUpdateRequestDTO = new AlerterInstanceCreateOrUpdateRequestDTO();
+        alerterInstanceCreateOrUpdateRequestDTO.setDatasetCode(sourceCode);
+        alerterInstanceCreateOrUpdateRequestDTO.setAlertSourceCode(alertInstance.getCode());
+        alerterInstances.add(alerterInstanceCreateOrUpdateRequestDTO);
+        requestDTO.setAlerterInstances(alerterInstances);
 
         List<RuleInstanceCreateOrUpdateRequestDTO> ruleInstanceCreateOrUpdateRequestDTOS = new ArrayList<>();
         RuleInstanceCreateOrUpdateRequestDTO ruleInstanceCreateOrUpdateRequestDTO1 = new RuleInstanceCreateOrUpdateRequestDTO();

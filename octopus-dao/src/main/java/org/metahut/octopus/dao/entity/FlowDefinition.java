@@ -27,7 +27,7 @@ public class FlowDefinition extends BaseEntity {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "dataset_code", referencedColumnName = "dataset_code")
-    private List<SourceAlertRelation> sourceAlertRelations;
+    private List<AlerterInstance> alerterInstances;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "dataset_code", referencedColumnName = "dataset_code")
@@ -36,7 +36,6 @@ public class FlowDefinition extends BaseEntity {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "dataset_code", referencedColumnName = "dataset_code")
     private SampleInstance sampleInstance;
-
     private String env;
     private String crontab;
     private String schedulerCode;
@@ -65,12 +64,12 @@ public class FlowDefinition extends BaseEntity {
         this.datasetCode = datasetCode;
     }
 
-    public List<SourceAlertRelation> getSourceAlertRelations() {
-        return sourceAlertRelations;
+    public List<AlerterInstance> getAlerterInstances() {
+        return alerterInstances;
     }
 
-    public void setSourceAlertRelations(List<SourceAlertRelation> sourceAlertRelations) {
-        this.sourceAlertRelations = sourceAlertRelations;
+    public void setAlerterInstances(List<AlerterInstance> alerterInstances) {
+        this.alerterInstances = alerterInstances;
     }
 
     public List<RuleInstance> getRuleInstances() {
@@ -79,6 +78,14 @@ public class FlowDefinition extends BaseEntity {
 
     public void setRuleInstances(List<RuleInstance> ruleInstances) {
         this.ruleInstances = ruleInstances;
+    }
+
+    public SampleInstance getSampleInstance() {
+        return sampleInstance;
+    }
+
+    public void setSampleInstance(SampleInstance sampleInstance) {
+        this.sampleInstance = sampleInstance;
     }
 
     public String getEnv() {
@@ -103,13 +110,5 @@ public class FlowDefinition extends BaseEntity {
 
     public void setSchedulerCode(String schedulerCode) {
         this.schedulerCode = schedulerCode;
-    }
-
-    public SampleInstance getSampleInstance() {
-        return sampleInstance;
-    }
-
-    public void setSampleInstance(SampleInstance sampleInstance) {
-        this.sampleInstance = sampleInstance;
     }
 }

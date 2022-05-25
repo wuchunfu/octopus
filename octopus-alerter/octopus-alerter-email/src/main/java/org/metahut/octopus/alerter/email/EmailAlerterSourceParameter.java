@@ -1,46 +1,21 @@
 package org.metahut.octopus.alerter.email;
 
-import org.metahut.octopus.alerter.api.AbstractParameter;
+import org.metahut.octopus.alerter.api.AbstractAlerterSourceParameter;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Properties;
 
-public class EmailParameter extends AbstractParameter {
+public class EmailAlerterSourceParameter extends AbstractAlerterSourceParameter {
 
     private String mailServerHost;
     private String mailServerPort = "25";
     private String fromAddress;
     private String nickName;
-    private List<String> toAddress;
     private String userName;
     private String password;
     private Boolean validate;
-    private EmailMsgType emailMsgType;
-    private List<String> copyto;
-
-    @Override
-    public boolean checkParameter() {
-        if (StringUtils.isBlank(mailServerHost)) {
-            return false;
-        }
-        if (StringUtils.isBlank(fromAddress)) {
-            return false;
-        }
-        if (CollectionUtils.isEmpty(toAddress)) {
-            return false;
-        }
-        if (StringUtils.isBlank(userName) && StringUtils.isBlank(password)) {
-            return false;
-        }
-        if (Objects.isNull(emailMsgType)) {
-            return false;
-        }
-        return true;
-    }
 
     public Properties getProp() {
         Properties properties = new Properties();
@@ -50,12 +25,19 @@ public class EmailParameter extends AbstractParameter {
         return properties;
     }
 
-    public List<String> getCopyto() {
-        return copyto;
-    }
+    @Override
+    public boolean checkParameter() {
+        if (StringUtils.isBlank(mailServerHost)) {
+            return false;
+        }
+        if (StringUtils.isBlank(fromAddress)) {
+            return false;
+        }
 
-    public void setCopyto(List<String> copyto) {
-        this.copyto = copyto;
+        if (Objects.nonNull(validate) && validate && StringUtils.isBlank(userName) && StringUtils.isBlank(password)) {
+            return false;
+        }
+        return true;
     }
 
     public String getMailServerHost() {
@@ -82,6 +64,14 @@ public class EmailParameter extends AbstractParameter {
         this.fromAddress = fromAddress;
     }
 
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
     public String getUserName() {
         return userName;
     }
@@ -98,35 +88,11 @@ public class EmailParameter extends AbstractParameter {
         this.password = password;
     }
 
-    public boolean isValidate() {
+    public Boolean getValidate() {
         return validate;
     }
 
-    public void setValidate(boolean validate) {
+    public void setValidate(Boolean validate) {
         this.validate = validate;
-    }
-
-    public List<String> getToAddress() {
-        return toAddress;
-    }
-
-    public void setToAddress(List<String> toAddress) {
-        this.toAddress = toAddress;
-    }
-
-    public EmailMsgType getEmailMsgType() {
-        return emailMsgType;
-    }
-
-    public void setEmailMsgType(EmailMsgType emailMsgType) {
-        this.emailMsgType = emailMsgType;
-    }
-
-    public String getNickName() {
-        return nickName;
-    }
-
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
     }
 }

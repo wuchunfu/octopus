@@ -14,8 +14,8 @@ public class EmailAlerterManager implements IAlerterManager {
     }
 
     @Override
-    public EmailParameter deserializeParameter(String parameter) {
-        EmailParameter emailParameter =  JSONUtils.parseObject(parameter, EmailParameter.class);
+    public EmailAlerterParameter deserializeParameter(String parameter) {
+        EmailAlerterParameter emailParameter =  JSONUtils.parseObject(parameter, EmailAlerterParameter.class);
         if (Objects.isNull(emailParameter)) {
             throw new AlerterException("Invalid parameters to convert");
         }
@@ -27,7 +27,24 @@ public class EmailAlerterManager implements IAlerterManager {
     }
 
     @Override
-    public EmailAlerter generateInstance(String parameter) {
-        return new EmailAlerter(deserializeParameter(parameter));
+    public EmailAlerterSourceParameter deserializeSourceParameter(String parameter) {
+        EmailAlerterSourceParameter sourceParameter =  JSONUtils.parseObject(parameter, EmailAlerterSourceParameter.class);
+        if (Objects.isNull(sourceParameter)) {
+            throw new AlerterException("Invalid parameters to convert");
+        }
+        boolean checkParameter = sourceParameter.checkParameter();
+        if (!checkParameter) {
+            throw new AlerterException("The incoming parameter can not be empty");
+        }
+        return sourceParameter;
     }
+
+    @Override
+    public EmailAlerter generateInstance(String sourceParameter, String parameter) {
+        EmailAlerterSourceParameter emailAlerterSourceParameter = deserializeSourceParameter(sourceParameter);
+        EmailAlerterParameter emailAlerterParameter = deserializeParameter(parameter);
+        return new EmailAlerter(emailAlerterSourceParameter, emailAlerterParameter);
+    }
+
+
 }

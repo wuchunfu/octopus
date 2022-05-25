@@ -1,12 +1,12 @@
 package org.metahut.octopus.alerter.dingtalk;
 
-import org.metahut.octopus.alerter.api.AbstractParameter;
+import org.metahut.octopus.alerter.api.AbstractAlerterParameter;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.List;
 
-public class DingTalkParameter extends AbstractParameter {
+public class DingTalkAlerterParameter extends AbstractAlerterParameter {
 
     private Boolean atAll;
 
@@ -14,20 +14,11 @@ public class DingTalkParameter extends AbstractParameter {
 
     private List<String> userList;
 
-    private String keyWord;
-
-    private String webhook;
-
-    private String secret;
-
     private DingTalkMsgType dingTalkMsgType;
 
     @Override
     public boolean checkParameter() {
-        if (StringUtils.isBlank(webhook)) {
-            return false;
-        }
-        if (StringUtils.isBlank(secret)) {
+        if (CollectionUtils.isEmpty(mobileList) && CollectionUtils.isEmpty(userList)) {
             return false;
         }
         return true;
@@ -55,30 +46,6 @@ public class DingTalkParameter extends AbstractParameter {
 
     public void setUserList(List<String> userList) {
         this.userList = userList;
-    }
-
-    public String getKeyWord() {
-        return keyWord;
-    }
-
-    public void setKeyWord(String keyWord) {
-        this.keyWord = keyWord;
-    }
-
-    public String getWebhook() {
-        return webhook;
-    }
-
-    public void setWebhook(String webhook) {
-        this.webhook = webhook;
-    }
-
-    public String getSecret() {
-        return secret;
-    }
-
-    public void setSecret(String secret) {
-        this.secret = secret;
     }
 
     public DingTalkMsgType getDingTalkMsgType() {

@@ -155,14 +155,14 @@ CREATE TABLE tb_octopus_rule_instance
     UNIQUE KEY rule_metrics_sample_unique (dataset_code, metrics_code, sample_code)
 );
 
-DROP TABLE IF EXISTS tb_octopus_alerter_instance CASCADE;
-CREATE TABLE tb_octopus_alerter_instance
+DROP TABLE IF EXISTS tb_octopus_alerter_source CASCADE;
+CREATE TABLE tb_octopus_alerter_source
 (
     id          int         NOT NULL AUTO_INCREMENT,
     alert_type  varchar(64) NOT NULL,
     code        int(11)     NOT NULL,
     name        varchar(200) DEFAULT NULL,
-    parameter   text,
+    parameter   text NOT NULL,
 
     description varchar(64)  DEFAULT NULL,
     create_time datetime     DEFAULT NULL,
@@ -172,18 +172,19 @@ CREATE TABLE tb_octopus_alerter_instance
     PRIMARY KEY (id)
 );
 
-DROP TABLE IF EXISTS tb_octopus_source_alert_relation CASCADE;
-CREATE TABLE tb_octopus_source_alert_relation
+DROP TABLE IF EXISTS tb_octopus_alerter_instance CASCADE;
+CREATE TABLE tb_octopus_alerter_instance
 (
-    id                  int(11)     NOT NULL AUTO_INCREMENT,
+    id          int         NOT NULL AUTO_INCREMENT,
     dataset_code         varchar(64) NOT NULL,
-    alert_instance_code int(11)     NOT NULL,
-    alerter             varchar(200),
+    alerter_source_code        int(11)     NOT NULL,
+    parameter   text NOT NULL,
 
-    create_time         datetime DEFAULT NULL,
-    update_time         datetime DEFAULT NULL,
-    creator             int(11)  DEFAULT NULL,
-    updater             int(11)  DEFAULT NULL,
+    description varchar(64)  DEFAULT NULL,
+    create_time datetime     DEFAULT NULL,
+    update_time datetime     DEFAULT NULL,
+    creator     int(11)      DEFAULT NULL,
+    updater     int(11)      DEFAULT NULL,
     PRIMARY KEY (id)
 );
 
