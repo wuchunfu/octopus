@@ -68,7 +68,7 @@ public class MonitorFlowDefinitionControllerImplTest extends WebApplicationTest 
     }
 
     private AlerterSourceResponseDTO createAlertInstance(AlerterSourceCreateOrUpdateRequestDTO requestDTO) {
-        String url = "/alerter/create";
+        String url = "/alerterSource/create";
 
         HttpEntity httpEntity = new HttpEntity(requestDTO);
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, httpEntity, String.class);
