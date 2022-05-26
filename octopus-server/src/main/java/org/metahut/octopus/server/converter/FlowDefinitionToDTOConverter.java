@@ -10,10 +10,10 @@ import org.springframework.core.convert.converter.Converter;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = { MetaService.class })
+@Mapper(componentModel = "spring", uses = { MetaService.class, AlerterInstanceToDTOConverter.class})
 public interface FlowDefinitionToDTOConverter extends Converter<FlowDefinition, MonitorFlowDefinitionResponseDTO> {
 
-    @Mapping(source = "source.datasetCode", target = "meta")
+    @Mapping(source = "datasetCode", target = "meta")
     @Override
     MonitorFlowDefinitionResponseDTO convert(FlowDefinition source);
 

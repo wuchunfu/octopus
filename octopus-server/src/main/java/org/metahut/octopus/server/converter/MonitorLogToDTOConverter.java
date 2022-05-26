@@ -19,13 +19,13 @@ import java.util.Optional;
 
 @Mapper(componentModel = "spring")
 public abstract class MonitorLogToDTOConverter implements Converter<MonitorLog, MonitorLogResponseDTO> {
-
-    @Autowired
-    private MetaService metaService;
-
+    
     @Override
     @Mapping(source = "source", target = "meta", qualifiedByName = "querySchemaMeta")
     public abstract MonitorLogResponseDTO convert(MonitorLog source);
+
+    @Autowired
+    private MetaService metaService;
 
     @Named("querySchemaMeta")
     public MetaSchemaResponseDTO queryMeta(MonitorLog source) {

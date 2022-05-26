@@ -8,4 +8,6 @@ import java.util.List;
 public interface UserService {
 
     List<UserResponseDTO> findList(UserConditionsRequestDTO requestDTO);
+
+    List<UserResponseDTO> findListByContactInfo(List<String> contactInfos);
 }

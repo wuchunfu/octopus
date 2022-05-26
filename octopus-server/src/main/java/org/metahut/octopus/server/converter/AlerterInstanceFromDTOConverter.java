@@ -24,26 +24,37 @@ public interface AlerterInstanceFromDTOConverter extends Converter<AlerterInstan
     @Mapping(source = "source", target = "parameter", qualifiedByName = "generateParameter")
     AlerterInstance convert(AlerterInstanceCreateOrUpdateRequestDTO source);
 
+    @Deprecated
+    String ALERTER_TYPE_EMAIL = "Email";
+    @Deprecated
+    String ALERTER_TYPE_DINGTALK = "DingTalk";
+    @Deprecated
+    String ALERTER_EMAIL_PARAMETER_DEFAULT_PROPERTY = "to";
+    @Deprecated
+    String ALERTER_DINGTALK_PARAMETER_DEFAULT_PROPERTY = "mobileList";
+
+    @Deprecated
     @Named("generateParameter")
     default String generateParameter(AlerterInstanceCreateOrUpdateRequestDTO source) {
         Map<String, Object> map = new HashMap<>();
-        if ("Email".equals(source.getAlerterType())) {
+        if (ALERTER_TYPE_EMAIL.equals(source.getAlerterType())) {
             Set<String> collect = source.getUsers()
                     .stream()
                     .map(UserResponseDTO::getEmail)
                     .filter(StringUtils::isNotBlank)
                     .collect(Collectors.toSet());
-            map.put("to", collect);
-        } else if ("DingTalk".equals(source.getAlerterType())) {
+            map.put(ALERTER_EMAIL_PARAMETER_DEFAULT_PROPERTY, collect);
+        } else if (ALERTER_TYPE_DINGTALK.equals(source.getAlerterType())) {
             Set<String> collect = source.getUsers()
                     .stream()
                     .map(UserResponseDTO::getPhoneNumber)
                     .filter(StringUtils::isNotBlank)
                     .collect(Collectors.toSet());
-            map.put("mobileList", collect);
+            map.put(ALERTER_DINGTALK_PARAMETER_DEFAULT_PROPERTY, collect);
         }
         return JSONUtils.toJSONString(map);
     }
 
     List<AlerterInstance> convert(List<AlerterInstanceCreateOrUpdateRequestDTO> sources);
+
 }

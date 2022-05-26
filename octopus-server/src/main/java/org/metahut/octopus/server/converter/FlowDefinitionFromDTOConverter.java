@@ -6,7 +6,7 @@ import org.metahut.octopus.dao.entity.FlowDefinition;
 import org.mapstruct.Mapper;
 import org.springframework.core.convert.converter.Converter;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = { AlerterInstanceFromDTOConverter.class })
 public interface FlowDefinitionFromDTOConverter extends Converter<MonitorFlowDefinitionCreateOrUpdateRequestDTO, FlowDefinition> {
 
     @Override

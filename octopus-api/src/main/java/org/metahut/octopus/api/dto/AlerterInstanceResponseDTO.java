@@ -33,7 +33,6 @@ public class AlerterInstanceResponseDTO {
     @ApiModelProperty(value = "updateTime")
     private Date updateTime;
 
-
     @Deprecated
     @ApiModelProperty(value = "users")
     private Collection<UserResponseDTO> users;
