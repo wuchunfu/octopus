@@ -36,6 +36,9 @@ public class RuleTemplateResponseDTO {
     @ApiModelProperty(value = "expectedValue")
     private String expectedValue;
 
+    @ApiModelProperty(value = "comparisonUnit")
+    private String comparisonUnit;
+
     @ApiModelProperty(value = "creator")
     private Long creator;
 
@@ -150,5 +153,13 @@ public class RuleTemplateResponseDTO {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getComparisonUnit() {
+        return comparisonUnit;
+    }
+
+    public void setComparisonUnit(String comparisonUnit) {
+        this.comparisonUnit = comparisonUnit;
     }
 }

@@ -33,6 +33,9 @@ public class RuleTemplateCreateOrUpdateRequestDTO {
     @ApiModelProperty(value = "expectedValue")
     private String expectedValue;
 
+    @ApiModelProperty(value = "comparisonUnit")
+    private String comparisonUnit;
+
     public Integer getId() {
         return id;
     }
@@ -103,5 +106,13 @@ public class RuleTemplateCreateOrUpdateRequestDTO {
 
     public void setExpectedValue(String expectedValue) {
         this.expectedValue = expectedValue;
+    }
+
+    public String getComparisonUnit() {
+        return comparisonUnit;
+    }
+
+    public void setComparisonUnit(String comparisonUnit) {
+        this.comparisonUnit = comparisonUnit;
     }
 }

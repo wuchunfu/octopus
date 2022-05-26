@@ -98,6 +98,7 @@ public class RuleTemplateServiceImpl implements RuleTemplateService {
         Metrics metrics = metricsService.findOneByCode(ruleTemplateRequestDTO.getMetricsCode());
         RuleTemplate ruleTemplate = conversionService.convert(ruleTemplateRequestDTO, RuleTemplate.class);
         ruleTemplate.setMetrics(metrics);
+        ruleTemplate.setName(StringUtils.joinWith("_", ruleTemplateRequestDTO.getSubjectCategory(), metrics.getCode(), ruleTemplateRequestDTO.getComparisonMethod()));
         RuleTemplate save = ruleTemplateRespository.save(ruleTemplate);
         return conversionService.convert(save, RuleTemplateResponseDTO.class);
     }
