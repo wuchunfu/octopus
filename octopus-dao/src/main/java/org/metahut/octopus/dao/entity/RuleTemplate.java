@@ -2,6 +2,7 @@ package org.metahut.octopus.dao.entity;
 
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -23,7 +24,7 @@ public class RuleTemplate extends BaseEntity {
 
     private String name;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "metrics_code", referencedColumnName = "code")
     private Metrics metrics;
 

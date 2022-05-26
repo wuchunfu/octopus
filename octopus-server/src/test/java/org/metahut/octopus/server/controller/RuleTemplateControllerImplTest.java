@@ -67,7 +67,8 @@ public class RuleTemplateControllerImplTest extends WebApplicationTest {
 
         RuleTemplateCreateOrUpdateRequestDTO request = new RuleTemplateCreateOrUpdateRequestDTO();
         request.setMetricsCode(metrics.getCode());
-        create(request);
+        request.setComparisonUnit("setComparisonUnit");
+        RuleTemplateResponseDTO ruleTemplateResponseDTO = create(request);
     }
 
     @Test

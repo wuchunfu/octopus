@@ -1,14 +1,18 @@
 package org.metahut.octopus.api.dto;
 
 import org.metahut.octopus.common.enums.RuleStateEnum;
+import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import javax.validation.constraints.NotNull;
 
 @ApiModel(description = "rule instance create or update request dto")
 public class RuleInstanceCreateOrUpdateRequestDTO {
 
     @ApiModelProperty(value = "id")
+    @NotNull(message = "{parameter.not.null}", groups = MetricsCreateOrUpdateRequestDTO.Update.class)
     private Integer id;
 
     @ApiModelProperty(value = "code")
@@ -17,24 +21,45 @@ public class RuleInstanceCreateOrUpdateRequestDTO {
     @ApiModelProperty(value = "name")
     private String name;
 
+    @ApiModelProperty(value = "datasetCode")
     private String datasetCode;
 
+    @ApiModelProperty(value = "metricsCode")
     private String metricsCode;
+
+    @ApiModelProperty(value = "metricsConfigCode")
     private Long metricsConfigCode;
 
+    @ApiModelProperty(value = "subjectCategory")
+    private SubjectCategoryEnum subjectCategory;
+
+    @ApiModelProperty(value = "subjectCode")
+    private String subjectCode;
+
+    @ApiModelProperty(value = "checkType")
     private String checkType;
 
+    @ApiModelProperty(value = "checkMethod")
     private String checkMethod;
 
+    @ApiModelProperty(value = "comparisonMethod")
     private String comparisonMethod;
 
+    @ApiModelProperty(value = "expectedValue")
     private String expectedValue;
 
+    @ApiModelProperty(value = "state")
     private RuleStateEnum state;
 
+    @ApiModelProperty(value = "description")
     private String description;
 
+    @ApiModelProperty(value = "sampleInstance")
     private SampleInstanceCreateOrUpdateRequestDTO sampleInstance;
+
+    public interface Update {
+
+    }
 
     public Integer getId() {
         return id;
@@ -138,5 +163,21 @@ public class RuleInstanceCreateOrUpdateRequestDTO {
 
     public void setSampleInstance(SampleInstanceCreateOrUpdateRequestDTO sampleInstance) {
         this.sampleInstance = sampleInstance;
+    }
+
+    public SubjectCategoryEnum getSubjectCategory() {
+        return subjectCategory;
+    }
+
+    public void setSubjectCategory(SubjectCategoryEnum subjectCategory) {
+        this.subjectCategory = subjectCategory;
+    }
+
+    public String getSubjectCode() {
+        return subjectCode;
+    }
+
+    public void setSubjectCode(String subjectCode) {
+        this.subjectCode = subjectCode;
     }
 }

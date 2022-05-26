@@ -9,6 +9,7 @@ import org.metahut.octopus.api.dto.ResultEntity;
 import org.metahut.octopus.api.dto.RuleInstanceCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.RuleInstanceResponseDTO;
 import org.metahut.octopus.api.dto.SampleInstanceCreateOrUpdateRequestDTO;
+import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 import org.metahut.octopus.metrics.api.JSONUtils;
 import org.metahut.octopus.server.WebApplicationTest;
 
@@ -82,9 +83,12 @@ public class RuleInstanceControllerImplTest  extends WebApplicationTest {
         ruleInstanceCreateOrUpdateRequestDTO.setCheckMethod("checkMethod");
         ruleInstanceCreateOrUpdateRequestDTO.setCheckType("checkType");
         ruleInstanceCreateOrUpdateRequestDTO.setComparisonMethod("comparisonMethod");
+        ruleInstanceCreateOrUpdateRequestDTO.setDatasetCode("datasetCode");
         ruleInstanceCreateOrUpdateRequestDTO.setExpectedValue("expectedValue");
-        ruleInstanceCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
+        ruleInstanceCreateOrUpdateRequestDTO.setSubjectCode("subjectCode");
+        //ruleInstanceCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
         ruleInstanceCreateOrUpdateRequestDTO.setMetricsConfigCode(metricsConfig.getCode());
+        ruleInstanceCreateOrUpdateRequestDTO.setSubjectCategory(SubjectCategoryEnum.TABLE);
         SampleInstanceCreateOrUpdateRequestDTO sampleInstance = new SampleInstanceCreateOrUpdateRequestDTO();
         sampleInstance.setDatasetCode("sourceCode_create");
         sampleInstance.setParameter("90");
