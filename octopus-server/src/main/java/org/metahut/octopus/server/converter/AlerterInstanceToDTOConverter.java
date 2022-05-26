@@ -28,9 +28,11 @@ public abstract class AlerterInstanceToDTOConverter implements Converter<Alerter
     @Mapping(source = "instance", target = "users", qualifiedByName = "deserializeParameter")
     public abstract AlerterInstanceResponseDTO convert(AlerterInstance instance);
 
+    @Deprecated
     @Autowired
     private UserService userService;
 
+    @Deprecated
     @Named("deserializeParameter")
     public Collection<UserResponseDTO> deserializeParameter(AlerterInstance instance) {
 

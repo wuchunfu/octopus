@@ -40,7 +40,7 @@ public class MonitorFlowDefinitionControllerImpl implements MonitorFlowDefinitio
         if (Objects.nonNull(requestDTO.getSampleInstance())) {
             requestDTO.getSampleInstance().setCode(SnowflakeIdGenerator.getInstance().nextId());
         }
-        if(Objects.nonNull(requestDTO.getRuleInstances())) {
+        if (Objects.nonNull(requestDTO.getRuleInstances())) {
             requestDTO.getRuleInstances().forEach(i -> i.setCode(SnowflakeIdGenerator.getInstance().nextId()));
         }
         return ResultEntity.success(monitorFlowDefinitionService.createOrUpdate(requestDTO));

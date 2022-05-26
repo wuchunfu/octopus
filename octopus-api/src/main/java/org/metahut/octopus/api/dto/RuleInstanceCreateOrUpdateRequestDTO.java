@@ -3,6 +3,7 @@ package org.metahut.octopus.api.dto;
 import org.metahut.octopus.common.enums.RuleStateEnum;
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -54,7 +55,10 @@ public class RuleInstanceCreateOrUpdateRequestDTO {
     @ApiModelProperty(value = "description")
     private String description;
 
-    @ApiModelProperty(value = "sampleInstance")
+    @ApiModelProperty(value = "is sample")
+    private Boolean sample;
+
+    @JsonIgnore
     private SampleInstanceCreateOrUpdateRequestDTO sampleInstance;
 
     public interface Update {
@@ -157,12 +161,12 @@ public class RuleInstanceCreateOrUpdateRequestDTO {
         this.description = description;
     }
 
-    public SampleInstanceCreateOrUpdateRequestDTO getSampleInstance() {
-        return sampleInstance;
+    public Boolean getSample() {
+        return sample;
     }
 
-    public void setSampleInstance(SampleInstanceCreateOrUpdateRequestDTO sampleInstance) {
-        this.sampleInstance = sampleInstance;
+    public void setSample(Boolean sample) {
+        this.sample = sample;
     }
 
     public SubjectCategoryEnum getSubjectCategory() {
@@ -179,5 +183,13 @@ public class RuleInstanceCreateOrUpdateRequestDTO {
 
     public void setSubjectCode(String subjectCode) {
         this.subjectCode = subjectCode;
+    }
+
+    public SampleInstanceCreateOrUpdateRequestDTO getSampleInstance() {
+        return sampleInstance;
+    }
+
+    public void setSampleInstance(SampleInstanceCreateOrUpdateRequestDTO sampleInstance) {
+        this.sampleInstance = sampleInstance;
     }
 }
