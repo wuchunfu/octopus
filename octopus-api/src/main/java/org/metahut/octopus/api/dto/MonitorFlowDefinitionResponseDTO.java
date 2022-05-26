@@ -24,7 +24,7 @@ public class MonitorFlowDefinitionResponseDTO {
     @ApiModelProperty(value = "rule instances")
     private List<RuleInstanceResponseDTO> ruleInstances;
 
-    @ApiModelProperty(value = "sample unstance")
+    @ApiModelProperty(value = "sample instance")
     private SampleInstanceResponseDTO sampleInstance;
 
     @ApiModelProperty(value = "env")

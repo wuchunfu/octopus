@@ -3,7 +3,7 @@ package org.metahut.octopus.api.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.List;
+import java.util.Collection;
 
 @ApiModel(description = "meta dataset response dto")
 public class MetaDatasetResponseDTO {
@@ -21,7 +21,7 @@ public class MetaDatasetResponseDTO {
     private MetaDatasourceResponseDTO datasource;
 
     @ApiModelProperty(value = "schemas")
-    private List<MetaSchemaResponseDTO> schemas;
+    private Collection<MetaSchemaSingleResponseDTO> schemas;
 
     public String getCode() {
         return code;
@@ -55,11 +55,11 @@ public class MetaDatasetResponseDTO {
         this.datasource = datasource;
     }
 
-    public List<MetaSchemaResponseDTO> getSchemas() {
+    public Collection<MetaSchemaSingleResponseDTO> getSchemas() {
         return schemas;
     }
 
-    public void setSchemas(List<MetaSchemaResponseDTO> schemas) {
+    public void setSchemas(Collection<MetaSchemaSingleResponseDTO> schemas) {
         this.schemas = schemas;
     }
 }

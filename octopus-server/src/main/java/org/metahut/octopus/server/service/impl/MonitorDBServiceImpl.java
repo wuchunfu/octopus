@@ -60,9 +60,6 @@ public class MonitorDBServiceImpl implements MonitorDBService {
         List<MetricsResultResponseDTO> converts = (List<MetricsResultResponseDTO>) conversionService.convert(data,
                 TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MetricsResult.class)),
                 TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MetricsResultResponseDTO.class)));
-
-        // TODO Supplementary data
-
         return PageResponseDTO.of(metricsResultPageResponse.getPageNo(), metricsResultPageResponse.getPageSize(), metricsResultPageResponse.getTotal(), converts);
     }
 }

@@ -7,13 +7,13 @@ import org.metahut.octopus.monitordb.api.MonitorDBTypeEnum;
 import org.metahut.octopus.server.utils.YamlFactory;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
 
 import java.util.ServiceLoader;
 
-@Component
+@Configuration
 public class MonitorDBPluginHelpher {
 
     private IMonitorDBSourceManager monitorDBSourceManager;

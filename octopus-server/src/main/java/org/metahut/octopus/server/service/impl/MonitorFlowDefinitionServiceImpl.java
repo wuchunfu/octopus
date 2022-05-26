@@ -21,8 +21,10 @@ import org.springframework.stereotype.Service;
 import javax.persistence.criteria.Predicate;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class MonitorFlowDefinitionServiceImpl implements MonitorFlowDefinitionService {
@@ -75,5 +77,10 @@ public class MonitorFlowDefinitionServiceImpl implements MonitorFlowDefinitionSe
     @Override
     public void deleteById(Integer id) {
         flowDefinitionRepository.deleteById(id);
+    }
+
+    @Override
+    public Collection<String> queryRegisteredDatasetCodes() {
+        return flowDefinitionRepository.findAll().stream().map(FlowDefinition::getDatasetCode).collect(Collectors.toSet());
     }
 }

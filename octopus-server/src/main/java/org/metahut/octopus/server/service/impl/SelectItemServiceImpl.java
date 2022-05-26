@@ -5,6 +5,7 @@ import org.metahut.octopus.api.dto.SelectItemResponseDTO;
 import org.metahut.octopus.common.enums.MetricsDimensionEnum;
 import org.metahut.octopus.common.enums.SelectItemNameEnum;
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
+import org.metahut.octopus.server.service.MetaService;
 import org.metahut.octopus.server.service.SelectItemService;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -14,13 +15,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,9 +24,11 @@ public class SelectItemServiceImpl implements SelectItemService {
     private static final Logger logger = LoggerFactory.getLogger(SelectItemServiceImpl.class);
 
     private final MessageSource messageSource;
+    private final MetaService metaService;
 
-    public SelectItemServiceImpl(MessageSource messageSource) {
+    public SelectItemServiceImpl(MessageSource messageSource, MetaService metaService) {
         this.messageSource = messageSource;
+        this.metaService = metaService;
     }
 
     @Override
@@ -70,12 +67,7 @@ public class SelectItemServiceImpl implements SelectItemService {
     }
 
     private List<SelectItemResponseDTO> queryDatasourceTypeItem() {
-        // TODO query metadata interface
-
-        List<SelectItemResponseDTO> list = new ArrayList<>();
-        list.add(SelectItemResponseDTO.of("Hive", "Hive"));
-        list.add(SelectItemResponseDTO.of("Pulsar", "Pulsar"));
-        return list;
+        return metaService.queryAllSourceCategories().stream().map(category -> SelectItemResponseDTO.of(category, category)).collect(Collectors.toList());
     }
 
     private List<SelectItemResponseDTO> queryExecutorTypeItem() {

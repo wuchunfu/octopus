@@ -46,6 +46,7 @@
         <module>octopus-rule</module>
         <module>octopus-metrics</module>
         <module>octopus-tools</module>
+        <module>octopus-rule/octopus-rule-api</module>
     </modules>
 
     <properties>

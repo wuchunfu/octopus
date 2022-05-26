@@ -13,17 +13,8 @@ public class MonitorLogResponseDTO {
     @ApiModelProperty(value = "id")
     private Integer id;
 
-    @ApiModelProperty(value = "datasoucre name")
-    private String datasourceName;
-
-    @ApiModelProperty(value = "datasoucre code")
-    private String datasourceCode;
-
-    @ApiModelProperty(value = "dataset name")
-    private String datasetName;
-
-    @ApiModelProperty(value = "dataset code")
-    private String datasetCode;
+    @ApiModelProperty(value = "meta data")
+    private MetaSchemaResponseDTO meta;
 
     @ApiModelProperty(value = "subject code")
     private String subjectCode;
@@ -84,36 +75,12 @@ public class MonitorLogResponseDTO {
         this.id = id;
     }
 
-    public String getDatasourceName() {
-        return datasourceName;
+    public MetaSchemaResponseDTO getMeta() {
+        return meta;
     }
 
-    public void setDatasourceName(String datasourceName) {
-        this.datasourceName = datasourceName;
-    }
-
-    public String getDatasourceCode() {
-        return datasourceCode;
-    }
-
-    public void setDatasourceCode(String datasourceCode) {
-        this.datasourceCode = datasourceCode;
-    }
-
-    public String getDatasetName() {
-        return datasetName;
-    }
-
-    public void setDatasetName(String datasetName) {
-        this.datasetName = datasetName;
-    }
-
-    public String getDatasetCode() {
-        return datasetCode;
-    }
-
-    public void setDatasetCode(String datasetCode) {
-        this.datasetCode = datasetCode;
+    public void setMeta(MetaSchemaResponseDTO meta) {
+        this.meta = meta;
     }
 
     public String getSubjectCode() {

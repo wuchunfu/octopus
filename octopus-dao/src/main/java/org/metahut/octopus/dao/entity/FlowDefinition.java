@@ -1,14 +1,6 @@
 package org.metahut.octopus.dao.entity;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import java.util.List;
 
@@ -25,15 +17,15 @@ public class FlowDefinition extends BaseEntity {
     @Column(name = "dataset_code", insertable = false, updatable = false)
     private String datasetCode;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "dataset_code", referencedColumnName = "dataset_code")
     private List<AlerterInstance> alerterInstances;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "dataset_code", referencedColumnName = "dataset_code")
     private List<RuleInstance> ruleInstances;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "dataset_code", referencedColumnName = "dataset_code")
     private SampleInstance sampleInstance;
     private String env;

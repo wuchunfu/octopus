@@ -66,12 +66,22 @@
 
         <dependency>
             <groupId>org.metahut.octopus</groupId>
+            <artifactId>octopus-meta-starfish</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.metahut.octopus</groupId>
             <artifactId>octopus-monitordb-clickhouse</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.metahut.octopus</groupId>
             <artifactId>octopus-alerter-dingtalk</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.metahut.octopus</groupId>
+            <artifactId>octopus-scheduler-dolphinscheduler</artifactId>
             <version>${project.version}</version>
         </dependency>
 

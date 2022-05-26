@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 @ConditionalOnProperty(prefix = "octopus.meta", name = "type", havingValue = "starfish")
 public class StarfishMetaManager implements IMetaManager {
 
-    private final StarfishMeta starfishMetaData;
+    private final StarfishMeta starfishMeta;
 
     public StarfishMetaManager(MetaProperties properties) {
 
@@ -25,11 +25,11 @@ public class StarfishMetaManager implements IMetaManager {
         ConnectionPool connectionPool = new ConnectionPool(50, 60, TimeUnit.SECONDS);
         builder.connectionPool(connectionPool);
         OkHttpClient client = builder.build();
-        this.starfishMetaData = new StarfishMeta(client, properties.getStarfish());
+        this.starfishMeta = new StarfishMeta(client, properties.getStarfish());
     }
 
     @Override
-    public StarfishMeta getMetaData() {
-        return starfishMetaData;
+    public StarfishMeta getMeta() {
+        return starfishMeta;
     }
 }

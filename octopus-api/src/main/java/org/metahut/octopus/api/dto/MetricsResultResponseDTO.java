@@ -10,17 +10,8 @@ import java.util.Date;
 @ApiModel(description = "metrics result response dto")
 public class MetricsResultResponseDTO {
 
-    @ApiModelProperty(value = "datasoucre name")
-    private String datasourceName;
-
-    @ApiModelProperty(value = "datasoucre name")
-    private String datasourceCode;
-
-    @ApiModelProperty(value = "dataset name")
-    private String datasetName;
-
-    @ApiModelProperty(value = "dataset code")
-    private String datasetCode;
+    @ApiModelProperty(value = "meta data")
+    private MetaDatasetResponseDTO meta;
 
     @ApiModelProperty(value = "subject code")
     private String subjectCode;
@@ -43,36 +34,12 @@ public class MetricsResultResponseDTO {
     @ApiModelProperty(value = "create time")
     private Date createTime;
 
-    public String getDatasourceName() {
-        return datasourceName;
+    public MetaDatasetResponseDTO getMeta() {
+        return meta;
     }
 
-    public void setDatasourceName(String datasourceName) {
-        this.datasourceName = datasourceName;
-    }
-
-    public String getDatasourceCode() {
-        return datasourceCode;
-    }
-
-    public void setDatasourceCode(String datasourceCode) {
-        this.datasourceCode = datasourceCode;
-    }
-
-    public String getDatasetName() {
-        return datasetName;
-    }
-
-    public void setDatasetName(String datasetName) {
-        this.datasetName = datasetName;
-    }
-
-    public String getDatasetCode() {
-        return datasetCode;
-    }
-
-    public void setDatasetCode(String datasetCode) {
-        this.datasetCode = datasetCode;
+    public void setMeta(MetaDatasetResponseDTO meta) {
+        this.meta = meta;
     }
 
     public String getSubjectCode() {

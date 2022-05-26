@@ -12,6 +12,24 @@ public class MetaProperties {
 
     public static class Starfish {
 
+        private String serviceUrl;
+        private String token;
+
+        public String getServiceUrl() {
+            return serviceUrl;
+        }
+
+        public void setServiceUrl(String serviceUrl) {
+            this.serviceUrl = serviceUrl;
+        }
+
+        public String getToken() {
+            return token;
+        }
+
+        public void setToken(String token) {
+            this.token = token;
+        }
     }
 
     public MetaTypeEnum getType() {
