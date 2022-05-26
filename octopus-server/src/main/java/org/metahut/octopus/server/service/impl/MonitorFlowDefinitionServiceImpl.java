@@ -7,6 +7,7 @@ import org.metahut.octopus.api.dto.PageResponseDTO;
 import org.metahut.octopus.dao.entity.FlowDefinition;
 import org.metahut.octopus.dao.entity.FlowDefinition_;
 import org.metahut.octopus.dao.repository.FlowDefinitionRepository;
+import org.metahut.octopus.server.converter.FlowDefinitionToDTOConverter;
 import org.metahut.octopus.server.service.MonitorFlowDefinitionService;
 
 import org.apache.commons.lang3.StringUtils;
@@ -32,9 +33,12 @@ public class MonitorFlowDefinitionServiceImpl implements MonitorFlowDefinitionSe
     private final FlowDefinitionRepository flowDefinitionRepository;
     private final ConversionService conversionService;
 
-    public MonitorFlowDefinitionServiceImpl(FlowDefinitionRepository flowDefinitionRepository, ConversionService conversionService) {
+    private final FlowDefinitionToDTOConverter flowDefinitionToDTOConverter;
+
+    public MonitorFlowDefinitionServiceImpl(FlowDefinitionRepository flowDefinitionRepository, ConversionService conversionService, FlowDefinitionToDTOConverter flowDefinitionToDTOConverter) {
         this.flowDefinitionRepository = flowDefinitionRepository;
         this.conversionService = conversionService;
+        this.flowDefinitionToDTOConverter = flowDefinitionToDTOConverter;
     }
 
     @Override
@@ -71,7 +75,7 @@ public class MonitorFlowDefinitionServiceImpl implements MonitorFlowDefinitionSe
     public MonitorFlowDefinitionResponseDTO createOrUpdate(MonitorFlowDefinitionCreateOrUpdateRequestDTO requestDTO) {
         FlowDefinition convert = conversionService.convert(requestDTO, FlowDefinition.class);
         FlowDefinition save = flowDefinitionRepository.save(convert);
-        return conversionService.convert(save, MonitorFlowDefinitionResponseDTO.class);
+        return flowDefinitionToDTOConverter.convert(save);
     }
 
     @Override
