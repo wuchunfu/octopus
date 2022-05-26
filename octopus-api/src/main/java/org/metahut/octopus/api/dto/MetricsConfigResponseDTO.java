@@ -5,7 +5,6 @@ import org.metahut.octopus.common.enums.CreateTypeEnum;
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import org.apache.commons.lang3.StringUtils;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.StringUtils;

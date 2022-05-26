@@ -29,7 +29,6 @@ public class MonitorFlowDefinitionConditionsRequestDTO extends PageRequestDTO {
     @ApiModelProperty(value = "update end time")
     private Date updateEndTime;
 
-
     public String getDatasetCode() {
         return datasetCode;
     }

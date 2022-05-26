@@ -23,26 +23,26 @@
         </dependency>
 
         <dependency>
-            <groupId>ru.yandex.clickhouse</groupId>
+            <groupId>com.clickhouse</groupId>
             <artifactId>clickhouse-jdbc</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>jaxb-api</artifactId>
-                    <groupId>javax.xml.bind</groupId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.fasterxml.jackson.core</groupId>
-                    <artifactId>jackson-annotations</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.fasterxml.jackson.core</groupId>
-                    <artifactId>jackson-databind</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.fasterxml.jackson.core</groupId>
-                    <artifactId>jackson-core</artifactId>
-                </exclusion>
-            </exclusions>
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <artifactId>jaxb-api</artifactId>-->
+<!--                    <groupId>javax.xml.bind</groupId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <groupId>com.fasterxml.jackson.core</groupId>-->
+<!--                    <artifactId>jackson-annotations</artifactId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <groupId>com.fasterxml.jackson.core</groupId>-->
+<!--                    <artifactId>jackson-databind</artifactId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <groupId>com.fasterxml.jackson.core</groupId>-->
+<!--                    <artifactId>jackson-core</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>

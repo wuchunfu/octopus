@@ -80,7 +80,7 @@
         <reflections.version>0.10.2</reflections.version>
         <org.mapstruct.extensions.spring.version>0.1.1</org.mapstruct.extensions.spring.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
-        <clickhouse.version>0.1.52</clickhouse.version>
+        <clickhouse.version>0.3.2-patch9</clickhouse.version>
         <commons-dbutils.version>1.7</commons-dbutils.version>
     </properties>
 
@@ -249,7 +249,7 @@
             </dependency>
 
             <dependency>
-                <groupId>ru.yandex.clickhouse</groupId>
+                <groupId>com.clickhouse</groupId>
                 <artifactId>clickhouse-jdbc</artifactId>
                 <version>${clickhouse.version}</version>
             </dependency>
