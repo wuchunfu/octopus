@@ -18,42 +18,42 @@
 drop table IF EXISTS monitor_metrics_result;
 CREATE TABLE monitor_metrics_result
 (
-    `id`                  Int32,
-    `report_channel` String,
-    `dataset_code` String,
-    `subject_code`         String,
-    `subject_category` String,
-    `metrics_code`        String,
+    `id`                 Int32,
+    `report_channel`     String,
+    `dataset_code`       String,
+    `subject_code`       String,
+    `subject_category`   String,
+    `metrics_code`       String,
     `metrics_unique_key` String,
-    `metrics_value`              String,
-    `create_time`         DateTime default now()
+    `metrics_value`      String,
+    `create_time`        DateTime default now()
 ) ENGINE = MergeTree()
-ORDER BY id
-SETTINGS index_granularity = 8192;
+      ORDER BY id
+      SETTINGS index_granularity = 8192;
 
 drop table IF EXISTS monitor_rule_log;
 CREATE TABLE monitor_rule_log
 (
     `id`                  Int32,
-    `rule_instance_code` Int32,
-    `datasource_code`         String,
-    `dataset_code` String,
+    `rule_instance_code`  Int32,
+    `datasource_code`     String,
+    `dataset_code`        String,
     `metrics_code`        String,
     `metrics_config_code` Int32,
 
-    `subject_code`  String,
-    `subject_category` String,
+    `subject_code`        String,
+    `subject_category`    String,
 
-    `checkType` String,
-    `checkMethod`   String,
-    `comparisonMethod` String,
-    `expectedValue`     String,
+    `check_type`          String,
+    `check_method`        String,
+    `comparison_method`   String,
+    `expected_value`      String,
 
     `result`              String,
-    `error`              Boolean,
-    `error_info`         String,
-    `error_time`         DateTime,
-    `create_time`        DateTime default now()
+    `error`               Boolean,
+    `error_info`          String,
+    `error_time`          DateTime,
+    `create_time`         DateTime default now()
 ) ENGINE = MergeTree()
-ORDER BY id
-SETTINGS index_granularity = 8192;
+      ORDER BY id
+      SETTINGS index_granularity = 8192;

@@ -27,6 +27,9 @@ public class MetricsConfigControllerImplTest extends WebApplicationTest {
     private MetricsConfigResponseDTO create(MetricsConfigCreateOrUpdateRequestDTO requestDTO) {
         String url = REST_FUNCTION_URL_PREFIX + "create";
 
+        requestDTO.setCode(100L);
+        requestDTO.setMetricsParams("test");
+
         HttpEntity httpEntity = new HttpEntity(requestDTO);
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, httpEntity, String.class);
         Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());

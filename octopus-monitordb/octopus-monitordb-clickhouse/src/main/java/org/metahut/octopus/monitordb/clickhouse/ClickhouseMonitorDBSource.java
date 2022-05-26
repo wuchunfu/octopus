@@ -10,7 +10,11 @@ import org.metahut.octopus.monitordb.api.MonitorLogRequest;
 import org.metahut.octopus.monitordb.api.PageResponse;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.dbutils.BasicRowProcessor;
+import org.apache.commons.dbutils.BeanProcessor;
+import org.apache.commons.dbutils.GenerousBeanProcessor;
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.RowProcessor;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.apache.commons.lang3.StringUtils;
@@ -45,7 +49,7 @@ public class ClickhouseMonitorDBSource implements IMonitorDBSource {
 
     @Override
     public PageResponse<MetricsResult> queryMetricsResultListPage(MetricsResultRequest request) {
-        StringBuilder builder = new StringBuilder("select id,dataset_code,subject_code,subject_category,metrics_code,metrics_unique_key,metrics_value,create_time from monitor_metrics_result");
+        StringBuilder builder = new StringBuilder("select id,dataset_code,subject_code,subject_category,metrics_code,metrics_unique_key,metrics_value,create_time from monitor_metrics_result_all");
 
         List<Object> parameters = new ArrayList<>();
 
@@ -93,8 +97,8 @@ public class ClickhouseMonitorDBSource implements IMonitorDBSource {
     public PageResponse<MonitorLog> queryMonitorLogListPage(MonitorLogRequest request) {
 
         StringBuilder builder = new StringBuilder("select id,rule_instance_code,datasource_code,dataset_code,metrics_code,metrics_config_code,subject_code,subject_category,"
-                + "checkType,checkMethod,comparisonMethod,expectedValue,result,error,error_info,error_time,create_time "
-                + "from monitor_rule_log");
+            + "check_type,check_method,comparison_method,expected_value,result,error,error_info,error_time,create_time "
+            + "from monitor_rule_log_all");
 
         List<Object> parameters = new ArrayList<>();
 
@@ -145,8 +149,10 @@ public class ClickhouseMonitorDBSource implements IMonitorDBSource {
         parameters.add(request.getPageSize());
         try {
             QueryRunner queryRunner = new QueryRunner(jdbcDataSource.getDatasource());
+            BeanProcessor processor = new GenerousBeanProcessor();
+            RowProcessor rowProcessor = new BasicRowProcessor(processor);
             logger.info("Clickhouse query sql:{}, parameters:{}", builder, parameters.stream().map(String::valueOf).collect(Collectors.joining(",")));
-            List<MonitorLog> list = queryRunner.query(builder.toString(), new BeanListHandler<>(MonitorLog.class), parameters.toArray(new Object[parameters.size()]));
+            List<MonitorLog> list = queryRunner.query(builder.toString(), new BeanListHandler<>(MonitorLog.class, rowProcessor), parameters.toArray(new Object[parameters.size()]));
 
             PageResponse<MonitorLog> pageResponse = new PageResponse<>();
             pageResponse.setPageNo(request.getPageNo());

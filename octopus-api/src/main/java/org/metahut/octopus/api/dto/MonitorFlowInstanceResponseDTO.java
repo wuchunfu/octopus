@@ -18,8 +18,8 @@ public class MonitorFlowInstanceResponseDTO {
     @ApiModelProperty(value = "executionStatus")
     private String executionStatus;
 
-    @ApiModelProperty(value = "taskBeginTime")
-    private Date taskBeginTime;
+    @ApiModelProperty(value = "taskStartTime")
+    private Date taskStartTime;
 
     @ApiModelProperty(value = "taskEndTime")
     private Date taskEndTime;
@@ -56,12 +56,12 @@ public class MonitorFlowInstanceResponseDTO {
         this.executionStatus = executionStatus;
     }
 
-    public Date getTaskBeginTime() {
-        return taskBeginTime;
+    public Date getTaskStartTime() {
+        return taskStartTime;
     }
 
-    public void setTaskBeginTime(Date taskBeginTime) {
-        this.taskBeginTime = taskBeginTime;
+    public void setTaskStartTime(Date taskStartTime) {
+        this.taskStartTime = taskStartTime;
     }
 
     public Date getTaskEndTime() {

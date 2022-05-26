@@ -43,7 +43,7 @@ public class MonitorFlowInstanceControllerImpl implements MonitorFlowInstanceCon
         flowDefinition.setMeta(meta);
 
         MonitorFlowInstanceResponseDTO flowInstance = new MonitorFlowInstanceResponseDTO();
-        flowInstance.setTaskBeginTime(new Date());
+        flowInstance.setTaskStartTime(new Date());
         flowInstance.setTaskEndTime(new Date());
         //序号
         flowInstance.setSchedulerInstanceCode("1");

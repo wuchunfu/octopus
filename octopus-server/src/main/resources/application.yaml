@@ -46,14 +46,14 @@ spring:
     format:
       date: yyyy-MM-dd HH:mm:ss
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:octopus;MODE=MySQL;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=true;INIT=runscript from '${user.dir}/tools/sql/octopus-h2.sql'
-    username: sa
-    password: ""
-#  driver-class-name: org.postgresql.Driver
-#  url: jdbc:postgresql://localhost:5432/postgres?serverTimezone=CST
-#  username: test
-#  password: test
+    #    driver-class-name: org.h2.Driver
+    #    url: jdbc:h2:mem:octopus;MODE=MySQL;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=true;INIT=runscript from '${user.dir}/tools/sql/octopus-h2.sql'
+    #    username: sa
+    #    password: ""
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/octopus?serverTimezone=CST
+    username: postgres
+    password: root
 
 knife4j:
   enable: true
@@ -71,7 +71,8 @@ octopus:
     type: clickhouse
     clickhouse:
       driverClassName: com.clickhouse.jdbc.ClickHouseDriver
-      jdbcUrl: jdbc:clickhouse://172.17.60.11:8123/octopus_qa
+      jdbcUrl: jdbc:clickhouse://172.30.240.229:8123/quality
+      #      jdbcUrl: jdbc:clickhouse://172.17.60.11:8123/octopus_qa
       user: default
       password:
   scheduler:

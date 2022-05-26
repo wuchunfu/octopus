@@ -1,6 +1,6 @@
 package org.metahut.octopus.monitordb.api;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class MetricsResult {
 
@@ -18,7 +18,7 @@ public class MetricsResult {
     private String metricsUniqueKey;
 
     private String metricsValue;
-    private Date createTime;
+    private LocalDateTime createTime;
 
     public Integer getId() {
         return id;
@@ -84,11 +84,11 @@ public class MetricsResult {
         this.metricsValue = metricsValue;
     }
 
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 }
