@@ -11,6 +11,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -22,22 +25,33 @@ import static com.fasterxml.jackson.databind.DeserializationFeature.READ_UNKNOWN
 @ApiModel(description = "metrics config create or update request dto")
 public class MetricsConfigCreateOrUpdateRequestDTO {
 
+    public interface Create {
+    }
+
+    public interface Update {
+    }
+
     @ApiModelProperty(value = "id")
+    @NotNull(message = "{parameter.not.null}", groups = MetricsCreateOrUpdateRequestDTO.Update.class)
     private Integer id;
 
     @ApiModelProperty(value = "sourceCategory")
+    @NotEmpty(message = "{parameter.not.null}")
     private String sourceCategory;
 
     @ApiModelProperty(value = "code")
+    @NotEmpty(message = "{parameter.not.null}")
     private Long code;
 
     @ApiModelProperty(value = "metricsCode")
+    @NotEmpty(message = "{parameter.not.null}")
     private String metricsCode;
 
     @ApiModelProperty(value = "createType")
     private CreateTypeEnum createType;
 
     @ApiModelProperty(value = "metricsParams")
+    @NotEmpty(message = "{parameter.not.null}")
     private String metricsParams;
 
     @ApiModelProperty(value = "subjectCategory")
@@ -159,9 +173,9 @@ public class MetricsConfigCreateOrUpdateRequestDTO {
         }
 
         private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
-                .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
-                .configure(ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT, true)
-                .configure(READ_UNKNOWN_ENUM_VALUES_AS_NULL, true);
+            .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
+            .configure(ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT, true)
+            .configure(READ_UNKNOWN_ENUM_VALUES_AS_NULL, true);
 
         public static <T> T parseObject(String json, Class<T> clazz) {
             if (StringUtils.isEmpty(json) || Objects.isNull(clazz)) {

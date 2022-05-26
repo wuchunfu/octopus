@@ -10,6 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,11 +35,12 @@ public interface MetricsConfigController {
 
     @ApiOperation(value = "create", notes = "CREATE_METRICS_CONFIG_NOTES")
     @PostMapping("create")
-    ResultEntity<MetricsConfigResponseDTO> create(@RequestBody MetricsConfigCreateOrUpdateRequestDTO metricsConfigCreateOrUpdateRequestDTO);
+    ResultEntity<MetricsConfigResponseDTO> create(@RequestBody @Validated MetricsConfigCreateOrUpdateRequestDTO metricsConfigCreateOrUpdateRequestDTO);
 
     @ApiOperation(value = "update", notes = "UPDATE_METRICS_CONFIG_NOTES")
     @PutMapping("update")
-    ResultEntity<MetricsConfigResponseDTO> update(@RequestBody MetricsConfigCreateOrUpdateRequestDTO metricsConfigCreateOrUpdateRequestDTO);
+    ResultEntity<MetricsConfigResponseDTO> update(
+        @RequestBody @Validated({MetricsConfigCreateOrUpdateRequestDTO.Update.class}) MetricsConfigCreateOrUpdateRequestDTO metricsConfigCreateOrUpdateRequestDTO);
 
     @ApiOperation(value = "deleteById", notes = "DELETE_METRICS_CONFIG_BY_ID_NOTES")
     @ApiImplicitParams({
