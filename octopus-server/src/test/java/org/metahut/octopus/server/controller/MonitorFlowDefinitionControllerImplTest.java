@@ -115,7 +115,7 @@ public class MonitorFlowDefinitionControllerImplTest extends WebApplicationTest 
         List<AlerterInstanceCreateOrUpdateRequestDTO> alerterInstances = new ArrayList<>();
         AlerterInstanceCreateOrUpdateRequestDTO alerterInstanceCreateOrUpdateRequestDTO = new AlerterInstanceCreateOrUpdateRequestDTO();
         alerterInstanceCreateOrUpdateRequestDTO.setDatasetCode(sourceCode);
-        alerterInstanceCreateOrUpdateRequestDTO.setAlertSourceCode(alertInstance.getCode());
+        alerterInstanceCreateOrUpdateRequestDTO.setAlerterSourceCode(alertInstance.getCode());
         alerterInstances.add(alerterInstanceCreateOrUpdateRequestDTO);
         requestDTO.setAlerterInstances(alerterInstances);
 
@@ -149,7 +149,7 @@ public class MonitorFlowDefinitionControllerImplTest extends WebApplicationTest 
         List<AlerterInstanceCreateOrUpdateRequestDTO> alerterInstances = new ArrayList<>();
         AlerterInstanceCreateOrUpdateRequestDTO alerterInstanceCreateOrUpdateRequestDTO = new AlerterInstanceCreateOrUpdateRequestDTO();
         alerterInstanceCreateOrUpdateRequestDTO.setDatasetCode(sourceCode);
-        alerterInstanceCreateOrUpdateRequestDTO.setAlertSourceCode(alertInstance.getCode());
+        alerterInstanceCreateOrUpdateRequestDTO.setAlerterSourceCode(alertInstance.getCode());
         alerterInstances.add(alerterInstanceCreateOrUpdateRequestDTO);
         requestDTO.setAlerterInstances(alerterInstances);
 
@@ -196,7 +196,7 @@ public class MonitorFlowDefinitionControllerImplTest extends WebApplicationTest 
         List<AlerterInstanceCreateOrUpdateRequestDTO> alerterInstances = new ArrayList<>();
         AlerterInstanceCreateOrUpdateRequestDTO alerterInstanceCreateOrUpdateRequestDTO = new AlerterInstanceCreateOrUpdateRequestDTO();
         alerterInstanceCreateOrUpdateRequestDTO.setDatasetCode(sourceCode);
-        alerterInstanceCreateOrUpdateRequestDTO.setAlertSourceCode(alertInstance.getCode());
+        alerterInstanceCreateOrUpdateRequestDTO.setAlerterSourceCode(alertInstance.getCode());
         alerterInstances.add(alerterInstanceCreateOrUpdateRequestDTO);
         requestDTO.setAlerterInstances(alerterInstances);
 
@@ -242,7 +242,7 @@ public class MonitorFlowDefinitionControllerImplTest extends WebApplicationTest 
         List<AlerterInstanceCreateOrUpdateRequestDTO> alerterInstances = new ArrayList<>();
         AlerterInstanceCreateOrUpdateRequestDTO alerterInstanceCreateOrUpdateRequestDTO = new AlerterInstanceCreateOrUpdateRequestDTO();
         alerterInstanceCreateOrUpdateRequestDTO.setDatasetCode(sourceCode);
-        alerterInstanceCreateOrUpdateRequestDTO.setAlertSourceCode(alertInstance.getCode());
+        alerterInstanceCreateOrUpdateRequestDTO.setAlerterSourceCode(alertInstance.getCode());
         alerterInstances.add(alerterInstanceCreateOrUpdateRequestDTO);
         requestDTO.setAlerterInstances(alerterInstances);
 

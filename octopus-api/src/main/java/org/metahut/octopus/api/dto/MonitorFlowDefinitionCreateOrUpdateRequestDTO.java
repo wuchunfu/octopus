@@ -20,7 +20,7 @@ public class MonitorFlowDefinitionCreateOrUpdateRequestDTO {
     @ApiModelProperty(value = "crontab")
     private String crontab;
 
-    @ApiModelProperty(value = "rule tnstances")
+    @ApiModelProperty(value = "rule instances")
     private List<RuleInstanceCreateOrUpdateRequestDTO> ruleInstances;
 
     @ApiModelProperty(value = "alert instances")

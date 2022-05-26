@@ -1,9 +1,12 @@
 package org.metahut.octopus.api.dto;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.util.Collection;
 import java.util.Date;
 
+@ApiModel(description = "alerter instance response dto")
 public class AlerterInstanceResponseDTO {
 
     @ApiModelProperty(value = "id")
@@ -29,6 +32,11 @@ public class AlerterInstanceResponseDTO {
 
     @ApiModelProperty(value = "updateTime")
     private Date updateTime;
+
+
+    @Deprecated
+    @ApiModelProperty(value = "users")
+    private Collection<UserResponseDTO> users;
 
     public Integer getId() {
         return id;
@@ -92,5 +100,15 @@ public class AlerterInstanceResponseDTO {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    @Deprecated
+    public Collection<UserResponseDTO> getUsers() {
+        return users;
+    }
+
+    @Deprecated
+    public void setUsers(Collection<UserResponseDTO> users) {
+        this.users = users;
     }
 }

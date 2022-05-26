@@ -5,6 +5,7 @@ import org.metahut.octopus.alerter.api.AbstractAlerterParameter;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.List;
+import java.util.Objects;
 
 public class DingTalkAlerterParameter extends AbstractAlerterParameter {
 
@@ -25,6 +26,9 @@ public class DingTalkAlerterParameter extends AbstractAlerterParameter {
     }
 
     public Boolean getAtAll() {
+        if (Objects.isNull(getAtAll())) {
+            atAll = false;
+        }
         return atAll;
     }
 
@@ -49,6 +53,9 @@ public class DingTalkAlerterParameter extends AbstractAlerterParameter {
     }
 
     public DingTalkMsgType getDingTalkMsgType() {
+        if (Objects.isNull(dingTalkMsgType)) {
+            dingTalkMsgType = DingTalkMsgType.TEXT;
+        }
         return dingTalkMsgType;
     }
 

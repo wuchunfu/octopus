@@ -59,14 +59,11 @@ public class EmailAlerter implements IAlerter {
             }
 
             switch (parameter.getEmailMsgType()) {
-                case TEXT:
-                    createTextMsg(mailMessage, title, content);
-                    break;
                 case HTML:
                     createHtmlMsg(mailMessage, title, content);
                     break;
                 default:
-                    return new AlerterResult(false, "Unexpected value: " + parameter.getEmailMsgType());
+                    createTextMsg(mailMessage, title, content);
             }
             Transport.send(mailMessage);
         } catch (Exception e) {
