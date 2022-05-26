@@ -29,6 +29,10 @@ spring:
       - org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 
 octopus:
+  meta:
+    type: starfish
+    starfish:
+      service-url: http://localhost:8808
   monitordb:
     type: clickhouse
     clickhouse:
@@ -36,3 +40,6 @@ octopus:
       jdbcUrl: jdbc:clickhouse://172.17.60.11:8123/octopus_qa
       user: default
       password:
+  scheduler:
+    type: dolphinscheduler
+
