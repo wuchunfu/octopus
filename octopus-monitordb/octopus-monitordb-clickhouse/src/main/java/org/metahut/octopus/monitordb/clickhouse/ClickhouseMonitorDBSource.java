@@ -31,17 +31,27 @@ import java.util.stream.Collectors;
 public class ClickhouseMonitorDBSource implements IMonitorDBSource {
 
     private static final Logger logger = LoggerFactory.getLogger(ClickhouseMonitorDBSource.class);
-    private final JDBCDataSourceProvider jdbcDataSource;
+    private final JDBCDatasourceProvider jdbcDatasource;
 
     public ClickhouseMonitorDBSource(MonitorDBProperties.Clickhouse properties) {
-        jdbcDataSource = JDBCDataSourceProvider.getInstance(properties);
+        jdbcDatasource = JDBCDatasourceProvider.getInstance(properties);
     }
 
     @Override
     public List<Map<String, Object>> customSQLQuery(String sql) {
         try {
-            QueryRunner queryRunner = new QueryRunner(jdbcDataSource.getDatasource());
+            QueryRunner queryRunner = new QueryRunner(jdbcDatasource.getDatasource());
             return queryRunner.query(sql, new MapListHandler());
+        } catch (SQLException e) {
+            throw new MonitorDBException("MonitorDB custom sql query exception", e);
+        }
+    }
+
+    @Override
+    public <T> List<T> customSQLQuery(String sql, Class<T> classT) {
+        try {
+            QueryRunner queryRunner = new QueryRunner(jdbcDatasource.getDatasource());
+            return queryRunner.query(sql, new BeanListHandler<>(classT));
         } catch (SQLException e) {
             throw new MonitorDBException("MonitorDB custom sql query exception", e);
         }
@@ -79,7 +89,7 @@ public class ClickhouseMonitorDBSource implements IMonitorDBSource {
         parameters.add((request.getPageNo() - 1) * request.getPageSize());
         parameters.add(request.getPageSize());
         try {
-            QueryRunner queryRunner = new QueryRunner(jdbcDataSource.getDatasource());
+            QueryRunner queryRunner = new QueryRunner(jdbcDatasource.getDatasource());
             logger.info("Clickhouse query sql:{}, parameters:{}", builder, parameters.stream().map(String::valueOf).collect(Collectors.joining(",")));
             List<MetricsResult> list = queryRunner.query(builder.toString(), new BeanListHandler<>(MetricsResult.class), parameters.toArray(new Object[parameters.size()]));
 
@@ -148,9 +158,10 @@ public class ClickhouseMonitorDBSource implements IMonitorDBSource {
         parameters.add((request.getPageNo() - 1) * request.getPageSize());
         parameters.add(request.getPageSize());
         try {
-            QueryRunner queryRunner = new QueryRunner(jdbcDataSource.getDatasource());
+            QueryRunner queryRunner = new QueryRunner(jdbcDatasource.getDatasource());
             BeanProcessor processor = new GenerousBeanProcessor();
             RowProcessor rowProcessor = new BasicRowProcessor(processor);
+
             logger.info("Clickhouse query sql:{}, parameters:{}", builder, parameters.stream().map(String::valueOf).collect(Collectors.joining(",")));
             List<MonitorLog> list = queryRunner.query(builder.toString(), new BeanListHandler<>(MonitorLog.class, rowProcessor), parameters.toArray(new Object[parameters.size()]));
 

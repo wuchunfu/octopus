@@ -10,22 +10,22 @@ import javax.sql.DataSource;
 
 import java.util.Objects;
 
-public class JDBCDataSourceProvider {
+public class JDBCDatasourceProvider {
 
-    private static final Logger logger = LoggerFactory.getLogger(JDBCDataSourceProvider.class);
+    private static final Logger logger = LoggerFactory.getLogger(JDBCDatasourceProvider.class);
 
-    private static volatile JDBCDataSourceProvider singleton = null;
+    private static volatile JDBCDatasourceProvider singleton = null;
 
     private static DataSource datasource;
-    private JDBCDataSourceProvider(MonitorDBProperties.Clickhouse properties) {
+    private JDBCDatasourceProvider(MonitorDBProperties.Clickhouse properties) {
         datasource = initDataSource(properties);
     }
 
-    public static JDBCDataSourceProvider getInstance(MonitorDBProperties.Clickhouse properties) {
+    public static JDBCDatasourceProvider getInstance(MonitorDBProperties.Clickhouse properties) {
         if (singleton == null) {
-            synchronized (JDBCDataSourceProvider.class) {
+            synchronized (JDBCDatasourceProvider.class) {
                 if (singleton == null) {
-                    singleton = new JDBCDataSourceProvider(properties);
+                    singleton = new JDBCDatasourceProvider(properties);
                 }
             }
         }
