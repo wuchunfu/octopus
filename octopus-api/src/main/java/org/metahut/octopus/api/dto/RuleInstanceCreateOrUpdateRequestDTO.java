@@ -58,7 +58,6 @@ public class RuleInstanceCreateOrUpdateRequestDTO {
     @ApiModelProperty(value = "is sample")
     private Boolean sample;
 
-    @JsonIgnore
     private SampleInstanceCreateOrUpdateRequestDTO sampleInstance;
 
     public interface Update {
