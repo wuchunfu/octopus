@@ -4,8 +4,8 @@ import org.metahut.octopus.api.controller.RuleInstanceController;
 import org.metahut.octopus.api.dto.PageResponseDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
 import org.metahut.octopus.api.dto.RuleInstanceConditionRequestDTO;
-import org.metahut.octopus.api.dto.RuleInstanceCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.RuleInstanceResponseDTO;
+import org.metahut.octopus.api.dto.RuleInstanceSingleCreateOrUpdateRequestDTO;
 import org.metahut.octopus.server.service.RuleInstanceService;
 import org.metahut.octopus.server.utils.SnowflakeIdGenerator;
 
@@ -29,7 +29,7 @@ public class RuleInstanceControllerImpl implements RuleInstanceController {
     }
 
     @Override
-    public ResultEntity<RuleInstanceResponseDTO> create(RuleInstanceCreateOrUpdateRequestDTO requestDTO) {
+    public ResultEntity<RuleInstanceResponseDTO> create(RuleInstanceSingleCreateOrUpdateRequestDTO requestDTO) {
         requestDTO.setCode(SnowflakeIdGenerator.getInstance().nextId());
         if (Objects.nonNull(requestDTO.getSampleInstance())) {
             requestDTO.getSampleInstance().setCode(SnowflakeIdGenerator.getInstance().nextId());
@@ -38,7 +38,7 @@ public class RuleInstanceControllerImpl implements RuleInstanceController {
     }
 
     @Override
-    public ResultEntity<RuleInstanceResponseDTO> update(RuleInstanceCreateOrUpdateRequestDTO requestDTO) {
+    public ResultEntity<RuleInstanceResponseDTO> update(RuleInstanceSingleCreateOrUpdateRequestDTO requestDTO) {
         return ResultEntity.success(ruleInstanceService.createOrUpdate(requestDTO));
     }
 

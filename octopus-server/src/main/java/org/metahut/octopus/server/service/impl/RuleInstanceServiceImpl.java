@@ -2,8 +2,8 @@ package org.metahut.octopus.server.service.impl;
 
 import org.metahut.octopus.api.dto.PageResponseDTO;
 import org.metahut.octopus.api.dto.RuleInstanceConditionRequestDTO;
-import org.metahut.octopus.api.dto.RuleInstanceCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.RuleInstanceResponseDTO;
+import org.metahut.octopus.api.dto.RuleInstanceSingleCreateOrUpdateRequestDTO;
 import org.metahut.octopus.dao.entity.Metrics;
 import org.metahut.octopus.dao.entity.MetricsConfig;
 import org.metahut.octopus.dao.entity.Metrics_;
@@ -84,7 +84,7 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
     }
 
     @Override
-    public RuleInstanceResponseDTO createOrUpdate(RuleInstanceCreateOrUpdateRequestDTO requestDTO) {
+    public RuleInstanceResponseDTO createOrUpdate(RuleInstanceSingleCreateOrUpdateRequestDTO requestDTO) {
         RuleInstance convert = conversionService.convert(requestDTO, RuleInstance.class);
         if (Objects.nonNull(requestDTO.getMetricsConfigCode())) {
             MetricsConfig metricsConfig = metricsConfigService.findOneByCode(requestDTO.getMetricsConfigCode());

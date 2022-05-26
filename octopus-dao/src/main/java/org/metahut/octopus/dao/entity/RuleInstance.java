@@ -4,15 +4,7 @@ import org.metahut.octopus.common.enums.RuleStateEnum;
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 import org.metahut.octopus.common.enums.TaskTypeEnum;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "tb_octopus_rule_instance")
@@ -45,6 +37,8 @@ public class RuleInstance extends BaseEntity {
 
     private String filter;
 
+    @Transient
+    private Boolean sample;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "sample_code", referencedColumnName = "code")
     private SampleInstance sampleInstance;
@@ -145,6 +139,14 @@ public class RuleInstance extends BaseEntity {
 
     public void setFilter(String filter) {
         this.filter = filter;
+    }
+
+    public Boolean getSample() {
+        return sample;
+    }
+
+    public void setSample(Boolean sample) {
+        this.sample = sample;
     }
 
     public SampleInstance getSampleInstance() {

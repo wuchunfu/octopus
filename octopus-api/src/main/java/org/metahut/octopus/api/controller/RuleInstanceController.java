@@ -3,8 +3,8 @@ package org.metahut.octopus.api.controller;
 import org.metahut.octopus.api.dto.PageResponseDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
 import org.metahut.octopus.api.dto.RuleInstanceConditionRequestDTO;
-import org.metahut.octopus.api.dto.RuleInstanceCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.RuleInstanceResponseDTO;
+import org.metahut.octopus.api.dto.RuleInstanceSingleCreateOrUpdateRequestDTO;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -33,10 +33,10 @@ public interface RuleInstanceController {
 
     @ApiOperation(value = "create", notes = "RULE_INSTANCE_CREATE_NOTES")
     @PutMapping("create")
-    ResultEntity<RuleInstanceResponseDTO> create(@RequestBody RuleInstanceCreateOrUpdateRequestDTO requestDTO);
+    ResultEntity<RuleInstanceResponseDTO> create(@RequestBody RuleInstanceSingleCreateOrUpdateRequestDTO requestDTO);
 
     @ApiOperation(value = "update", notes = "RULE_INSTANCE_UPDATE_NOTES")
     @PutMapping("update")
-    ResultEntity<RuleInstanceResponseDTO> update(@RequestBody RuleInstanceCreateOrUpdateRequestDTO requestDTO);
+    ResultEntity<RuleInstanceResponseDTO> update(@RequestBody RuleInstanceSingleCreateOrUpdateRequestDTO requestDTO);
 
 }
