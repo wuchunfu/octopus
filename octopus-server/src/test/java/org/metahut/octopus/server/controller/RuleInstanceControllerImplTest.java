@@ -59,6 +59,7 @@ public class RuleInstanceControllerImplTest extends WebApplicationTest {
         String url = "/metricsConfig/create";
         requestDTO.setCode(100L);
         requestDTO.setMetricsParams("{\"executorScript\":\"test\",\"executorType\":\"Flink\"}");
+        requestDTO.setSubjectCategory(SubjectCategoryEnum.TABLE);
         HttpEntity httpEntity = new HttpEntity(requestDTO);
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, httpEntity, String.class);
         Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());

@@ -55,6 +55,7 @@ public class MetricsConfigCreateOrUpdateRequestDTO {
     private String metricsParams;
 
     @ApiModelProperty(value = "subjectCategory")
+    @NotNull(message = "{parameter.not.null}")
     private SubjectCategoryEnum subjectCategory;
 
     @ApiModelProperty(value = "description")
