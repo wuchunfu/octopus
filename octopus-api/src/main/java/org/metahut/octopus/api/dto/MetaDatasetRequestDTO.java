@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(description = "meta dataset request dto")
-public class MetaDatasetRequestDTO {
+public class MetaDatasetRequestDTO extends PageRequestDTO {
 
     @ApiModelProperty(value = "code")
     private String code;

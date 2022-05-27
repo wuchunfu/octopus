@@ -4,6 +4,7 @@ import org.metahut.octopus.api.dto.MetaDatabaseResponseDTO;
 import org.metahut.octopus.api.dto.MetaDatasetRequestDTO;
 import org.metahut.octopus.api.dto.MetaDatasetResponseDTO;
 import org.metahut.octopus.api.dto.MetaDatasourceResponseDTO;
+import org.metahut.octopus.api.dto.PageResponseDTO;
 import org.metahut.octopus.meta.api.IMeta;
 import org.metahut.octopus.meta.api.MetaDatabaseEntity;
 import org.metahut.octopus.meta.api.MetaDatasetEntity;
@@ -12,13 +13,12 @@ import org.metahut.octopus.meta.api.MetaDatasourceEntity;
 import org.metahut.octopus.server.service.MetaService;
 import org.metahut.octopus.server.service.MonitorFlowDefinitionService;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -66,6 +66,20 @@ public class MetaServiceImpl implements MetaService {
         Collection<MetaDatasetResponseDTO> metaDatasetResponseDTOS = queryDatasetList(requestDTO);
         Map<String, Integer> collect = monitorFlowDefinitionService.queryRegisteredDatasetCodes().stream().collect(Collectors.toMap(Function.identity(), code -> 1));
         return metaDatasetResponseDTOS.stream().filter(dataset -> Objects.isNull(collect.get(dataset.getCode()))).collect(Collectors.toList());
+    }
+
+    @Override
+    public PageResponseDTO<MetaDatasetResponseDTO> queryUnregisteredDatasetListPage(MetaDatasetRequestDTO requestDTO) {
+        Collection<MetaDatasetResponseDTO> metaDatasetResponseDTOS = queryUnregisteredDatasetList(requestDTO);
+        if (CollectionUtils.isEmpty(metaDatasetResponseDTOS)) {
+            return PageResponseDTO.of(requestDTO.getPageNo(), 0, 0L, Collections.emptyList());
+        }
+        List<MetaDatasetResponseDTO> collect = metaDatasetResponseDTOS.stream()
+                .skip((requestDTO.getPageNo() - 1) * requestDTO.getPageSize())
+                .limit(requestDTO.getPageSize())
+                .collect(Collectors.toList());
+        Integer size = CollectionUtils.isEmpty(collect) ? 0 : collect.size();
+        return PageResponseDTO.of(requestDTO.getPageNo(), size, Long.valueOf(metaDatasetResponseDTOS.size()), collect);
     }
 
     @Override

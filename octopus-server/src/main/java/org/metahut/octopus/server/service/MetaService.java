@@ -1,9 +1,6 @@
 package org.metahut.octopus.server.service;
 
-import org.metahut.octopus.api.dto.MetaDatabaseResponseDTO;
-import org.metahut.octopus.api.dto.MetaDatasetRequestDTO;
-import org.metahut.octopus.api.dto.MetaDatasetResponseDTO;
-import org.metahut.octopus.api.dto.MetaDatasourceResponseDTO;
+import org.metahut.octopus.api.dto.*;
 
 import java.util.Collection;
 
@@ -15,6 +12,8 @@ public interface MetaService {
     Collection<MetaDatasetResponseDTO> queryDatasetList(MetaDatasetRequestDTO requestDTO);
 
     Collection<MetaDatasetResponseDTO> queryUnregisteredDatasetList(MetaDatasetRequestDTO requestDTO);
+
+    PageResponseDTO<MetaDatasetResponseDTO> queryUnregisteredDatasetListPage(MetaDatasetRequestDTO requestDTO);
 
     MetaDatasetResponseDTO queryDatasetByCode(String datasetCode);
 

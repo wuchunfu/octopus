@@ -1,10 +1,6 @@
 package org.metahut.octopus.api.controller;
 
-import org.metahut.octopus.api.dto.MetaDatabaseResponseDTO;
-import org.metahut.octopus.api.dto.MetaDatasetRequestDTO;
-import org.metahut.octopus.api.dto.MetaDatasetResponseDTO;
-import org.metahut.octopus.api.dto.MetaDatasourceResponseDTO;
-import org.metahut.octopus.api.dto.ResultEntity;
+import org.metahut.octopus.api.dto.*;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,4 +29,7 @@ public interface MetaController {
     @GetMapping("queryUnregisteredDatasetList")
     ResultEntity<Collection<MetaDatasetResponseDTO>> queryUnregisteredDatasetList(MetaDatasetRequestDTO requestDTO);
 
+    @ApiOperation(value = "queryUnregisteredDatasetListPage", notes = "META_UNREGISTERED_DATASET_QUERY_LIST_PAGE_NOTES")
+    @GetMapping("queryUnregisteredDatasetListPage")
+    ResultEntity<PageResponseDTO<MetaDatasetResponseDTO>> queryUnregisteredDatasetListPage(MetaDatasetRequestDTO requestDTO);
 }
