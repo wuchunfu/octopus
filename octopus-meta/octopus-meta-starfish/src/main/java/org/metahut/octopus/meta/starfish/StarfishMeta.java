@@ -1,6 +1,11 @@
 package org.metahut.octopus.meta.starfish;
 
-import org.metahut.octopus.meta.api.*;
+import org.metahut.octopus.meta.api.IMeta;
+import org.metahut.octopus.meta.api.MetaDatabaseEntity;
+import org.metahut.octopus.meta.api.MetaDatasetEntity;
+import org.metahut.octopus.meta.api.MetaDatasetEntityRequest;
+import org.metahut.octopus.meta.api.MetaDatasourceEntity;
+import org.metahut.octopus.meta.api.MetaProperties;
 import org.metahut.octopus.meta.api.MetaSchemaEntity;
 
 import okhttp3.OkHttpClient;
@@ -133,8 +138,8 @@ public class StarfishMeta implements IMeta {
     public String get(String url) throws IOException {
         url = properties.getServiceUrl() + url;
         Request request = new Request.Builder()
-                .url(url)
-                .build();
+            .url(url)
+            .build();
 
         try (Response response = client.newCall(request).execute()) {
             return response.body().string();

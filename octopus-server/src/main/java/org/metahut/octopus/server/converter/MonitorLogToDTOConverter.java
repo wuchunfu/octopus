@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @Mapper(componentModel = "spring")
 public abstract class MonitorLogToDTOConverter implements Converter<MonitorLog, MonitorLogResponseDTO> {
-    
+
     @Override
     @Mapping(source = "source", target = "meta", qualifiedByName = "querySchemaMeta")
     public abstract MonitorLogResponseDTO convert(MonitorLog source);
@@ -53,6 +53,4 @@ public abstract class MonitorLogToDTOConverter implements Converter<MonitorLog, 
     }
 
     public abstract List<MonitorLogResponseDTO> convert(List<MonitorLog> sources);
-
-
 }

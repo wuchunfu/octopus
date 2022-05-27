@@ -174,7 +174,8 @@ public class MonitorFlowDefinitionControllerImplTest extends WebApplicationTest 
         HttpEntity httpEntity = new HttpEntity(updateDTO, headers);
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, httpEntity, String.class);
         Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
-        ResultEntity<MonitorFlowDefinitionResponseDTO> update = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<MonitorFlowDefinitionResponseDTO>>() {});
+        ResultEntity<MonitorFlowDefinitionResponseDTO> update = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<MonitorFlowDefinitionResponseDTO>>() {
+        });
         Assertions.assertTrue(update.isSuccess());
         MonitorFlowDefinitionResponseDTO data = update.getData();
         Assertions.assertEquals(sampleValue, data.getSampleInstance().getParameter());
@@ -214,13 +215,14 @@ public class MonitorFlowDefinitionControllerImplTest extends WebApplicationTest 
 
         String url = this.base + REST_FUNCTION_URL_PREFIX + "queryListPage";
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
-                .queryParam("datasetCode", sourceCode)
-                .queryParam("pageNo", 1)
-                .queryParam("pageSize", 10);
+            .queryParam("datasetCode", sourceCode)
+            .queryParam("pageNo", 1)
+            .queryParam("pageSize", 10);
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(builder.build().encode().toUri(), String.class);
         Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
-        ResultEntity<PageResponseDTO<MonitorFlowDefinitionResponseDTO>> result = JSONUtils.parseObject(responseEntity.getBody(), new TypeReference<ResultEntity<PageResponseDTO<MonitorFlowDefinitionResponseDTO>>>() {
-        });
+        ResultEntity<PageResponseDTO<MonitorFlowDefinitionResponseDTO>> result = JSONUtils.parseObject(responseEntity.getBody(),
+            new TypeReference<ResultEntity<PageResponseDTO<MonitorFlowDefinitionResponseDTO>>>() {
+            });
         Assertions.assertTrue(result.isSuccess());
         PageResponseDTO<MonitorFlowDefinitionResponseDTO> data = result.getData();
         Assertions.assertEquals(1, data.getTotal());

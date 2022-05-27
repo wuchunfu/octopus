@@ -42,8 +42,8 @@ public class MonitorFlowDefinitionServiceImpl implements MonitorFlowDefinitionSe
         Pageable pageable = PageRequest.of(requestDTO.getPageNo() - 1, requestDTO.getPageSize());
         Page<FlowDefinition> flowDefinitionPage = flowDefinitionRepository.findAll(withConditions(requestDTO), pageable);
         List<MonitorFlowDefinitionResponseDTO> convert = (List<MonitorFlowDefinitionResponseDTO>) conversionService.convert(flowDefinitionPage.getContent(),
-                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(FlowDefinition.class)),
-                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MonitorFlowDefinitionResponseDTO.class)));
+            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(FlowDefinition.class)),
+            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MonitorFlowDefinitionResponseDTO.class)));
         return PageResponseDTO.of(requestDTO.getPageNo(), flowDefinitionPage.getSize(), flowDefinitionPage.getTotalElements(), convert);
     }
 
@@ -51,7 +51,7 @@ public class MonitorFlowDefinitionServiceImpl implements MonitorFlowDefinitionSe
         return (root, query, builder) -> {
             List<Predicate> conditions = new ArrayList<>();
 
-            if(StringUtils.isNotBlank(requestDTO.getDatasetCode())) {
+            if (StringUtils.isNotBlank(requestDTO.getDatasetCode())) {
                 conditions.add(builder.like(root.get(FlowDefinition_.datasetCode), requestDTO.getDatasetCode()));
             }
 

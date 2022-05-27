@@ -18,7 +18,11 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -40,16 +44,16 @@ public class MetaServiceImpl implements MetaService {
     public Collection<MetaDatasourceResponseDTO> queryDatasourceList(String name) {
         Collection<MetaDatasourceEntity> metaDatasourceEntities = meta.queryDatasourceList(name);
         return (Collection<MetaDatasourceResponseDTO>) conversionService.convert(metaDatasourceEntities,
-                TypeDescriptor.collection(Collection.class, TypeDescriptor.valueOf(MetaDatasourceEntity.class)),
-                TypeDescriptor.collection(Collection.class, TypeDescriptor.valueOf(MetaDatasourceResponseDTO.class)));
+            TypeDescriptor.collection(Collection.class, TypeDescriptor.valueOf(MetaDatasourceEntity.class)),
+            TypeDescriptor.collection(Collection.class, TypeDescriptor.valueOf(MetaDatasourceResponseDTO.class)));
     }
 
     @Override
     public Collection<MetaDatabaseResponseDTO> queryDatabaseList(String datasourceCode) {
         Collection<MetaDatabaseEntity> metaDatabaseEntities = meta.queryDatabaseList(datasourceCode);
         return (Collection<MetaDatabaseResponseDTO>) conversionService.convert(metaDatabaseEntities,
-                TypeDescriptor.collection(Collection.class, TypeDescriptor.valueOf(MetaDatabaseEntity.class)),
-                TypeDescriptor.collection(Collection.class, TypeDescriptor.valueOf(MetaDatabaseResponseDTO.class)));
+            TypeDescriptor.collection(Collection.class, TypeDescriptor.valueOf(MetaDatabaseEntity.class)),
+            TypeDescriptor.collection(Collection.class, TypeDescriptor.valueOf(MetaDatabaseResponseDTO.class)));
     }
 
     @Override
@@ -57,8 +61,8 @@ public class MetaServiceImpl implements MetaService {
         MetaDatasetEntityRequest convert = conversionService.convert(requestDTO, MetaDatasetEntityRequest.class);
         Collection<MetaDatasetEntity> metaDatasetEntities = meta.queryDatasetList(convert);
         return (Collection<MetaDatasetResponseDTO>) conversionService.convert(metaDatasetEntities,
-                TypeDescriptor.collection(Collection.class, TypeDescriptor.valueOf(MetaDatasetEntity.class)),
-                TypeDescriptor.collection(Collection.class, TypeDescriptor.valueOf(MetaDatasetResponseDTO.class)));
+            TypeDescriptor.collection(Collection.class, TypeDescriptor.valueOf(MetaDatasetEntity.class)),
+            TypeDescriptor.collection(Collection.class, TypeDescriptor.valueOf(MetaDatasetResponseDTO.class)));
     }
 
     @Override
@@ -75,9 +79,9 @@ public class MetaServiceImpl implements MetaService {
             return PageResponseDTO.of(requestDTO.getPageNo(), 0, 0L, Collections.emptyList());
         }
         List<MetaDatasetResponseDTO> collect = metaDatasetResponseDTOS.stream()
-                .skip((requestDTO.getPageNo() - 1) * requestDTO.getPageSize())
-                .limit(requestDTO.getPageSize())
-                .collect(Collectors.toList());
+            .skip((requestDTO.getPageNo() - 1) * requestDTO.getPageSize())
+            .limit(requestDTO.getPageSize())
+            .collect(Collectors.toList());
         Integer size = CollectionUtils.isEmpty(collect) ? 0 : collect.size();
         return PageResponseDTO.of(requestDTO.getPageNo(), size, Long.valueOf(metaDatasetResponseDTOS.size()), collect);
     }

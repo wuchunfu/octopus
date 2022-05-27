@@ -28,8 +28,7 @@ public class MetricsConfigControllerImplTest extends WebApplicationTest {
         String url = REST_FUNCTION_URL_PREFIX + "create";
 
         requestDTO.setCode(100L);
-        requestDTO.setMetricsParams("test");
-
+        requestDTO.setMetricsParams("{\"executorScript\":\"test\",\"executorType\":\"Flink\"}");
         HttpEntity httpEntity = new HttpEntity(requestDTO);
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, httpEntity, String.class);
         Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());

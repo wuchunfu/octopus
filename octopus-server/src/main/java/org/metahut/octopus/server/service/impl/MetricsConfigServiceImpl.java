@@ -53,8 +53,8 @@ public class MetricsConfigServiceImpl implements MetricsConfigService {
     @Override
     public List<MetricsConfigResponseDTO> findList(MetricsConfigConditionsRequestDTO requestDTO) {
         return (List<MetricsConfigResponseDTO>) conversionService.convert(metricsConfigRepository.findAll(withConditions(requestDTO)),
-                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MetricsConfig.class)),
-                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MetricsConfigResponseDTO.class)));
+            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MetricsConfig.class)),
+            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MetricsConfigResponseDTO.class)));
     }
 
     @Override
@@ -62,8 +62,8 @@ public class MetricsConfigServiceImpl implements MetricsConfigService {
         Pageable pageable = PageRequest.of(requestDTO.getPageNo() - 1, requestDTO.getPageSize());
         Page<MetricsConfig> metricsConfigPage = metricsConfigRepository.findAll(withConditions(requestDTO), pageable);
         List<MetricsConfigResponseDTO> convert = (List<MetricsConfigResponseDTO>) conversionService.convert(metricsConfigPage.getContent(),
-                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MetricsConfig.class)),
-                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MetricsConfigResponseDTO.class)));
+            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MetricsConfig.class)),
+            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MetricsConfigResponseDTO.class)));
         return PageResponseDTO.of(requestDTO.getPageNo(), metricsConfigPage.getSize(), metricsConfigPage.getTotalElements(), convert);
     }
 
@@ -106,7 +106,7 @@ public class MetricsConfigServiceImpl implements MetricsConfigService {
             if (CollectionUtils.isNotEmpty(requestDTO.getMetricsDimensions())) {
                 conditions.add(metricsJoin.get(Metrics_.metricsDimension).as(MetricsDimensionEnum.class).in(requestDTO.getMetricsDimensions()));
             }
-
+            query.orderBy(builder.desc(root.get(MetricsConfig_.updateTime)));
             return builder.and(conditions.toArray(new Predicate[conditions.size()]));
         };
     }
@@ -116,6 +116,11 @@ public class MetricsConfigServiceImpl implements MetricsConfigService {
         Metrics metrics = metricsService.findOneByCode(metricsConfigCreateOrUpdateRequestDTO.getMetricsCode());
         MetricsConfig convert = conversionService.convert(metricsConfigCreateOrUpdateRequestDTO, MetricsConfig.class);
         convert.setMetrics(metrics);
+        String metricsConfigName = metricsConfigCreateOrUpdateRequestDTO.getSubjectCategory() + "_"
+            + metrics.getCode() + "_"
+            + metricsConfigCreateOrUpdateRequestDTO.getSourceCategory() + "_"
+            + metricsConfigCreateOrUpdateRequestDTO.getExecutorType();
+        convert.setName(metricsConfigName);
         MetricsConfig save = metricsConfigRepository.save(convert);
         return conversionService.convert(save, MetricsConfigResponseDTO.class);
     }

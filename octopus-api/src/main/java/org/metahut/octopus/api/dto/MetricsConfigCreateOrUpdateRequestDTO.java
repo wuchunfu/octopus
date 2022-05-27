@@ -32,7 +32,7 @@ public class MetricsConfigCreateOrUpdateRequestDTO {
     }
 
     @ApiModelProperty(value = "id")
-    @NotNull(message = "{parameter.not.null}", groups = MetricsCreateOrUpdateRequestDTO.Update.class)
+    @NotNull(message = "{parameter.not.null}", groups = MetricsConfigCreateOrUpdateRequestDTO.Update.class)
     private Integer id;
 
     @ApiModelProperty(value = "sourceCategory")
@@ -40,7 +40,7 @@ public class MetricsConfigCreateOrUpdateRequestDTO {
     private String sourceCategory;
 
     @ApiModelProperty(value = "code")
-    @NotEmpty(message = "{parameter.not.null}")
+    @NotNull(message = "{parameter.not.null}")
     private Long code;
 
     @ApiModelProperty(value = "metricsCode")

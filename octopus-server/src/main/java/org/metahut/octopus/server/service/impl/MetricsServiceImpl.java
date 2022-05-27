@@ -59,8 +59,8 @@ public class MetricsServiceImpl implements MetricsService {
     @Override
     public List<MetricsResponseDTO> findList(MetricsConditionsRequestDTO requestDTO) {
         return (List<MetricsResponseDTO>) conversionService.convert(metricsRepository.findAll(withConditions(requestDTO)),
-                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(Metrics.class)),
-                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MetricsResponseDTO.class)));
+            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(Metrics.class)),
+            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MetricsResponseDTO.class)));
     }
 
     @Override
@@ -68,8 +68,8 @@ public class MetricsServiceImpl implements MetricsService {
         Pageable pageable = PageRequest.of(requestDTO.getPageNo() - 1, requestDTO.getPageSize());
         Page<Metrics> metricsPage = metricsRepository.findAll(withConditions(requestDTO), pageable);
         List<MetricsResponseDTO> convert = (List<MetricsResponseDTO>) conversionService.convert(metricsPage.getContent(),
-                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(Metrics.class)),
-                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MetricsResponseDTO.class)));
+            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(Metrics.class)),
+            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MetricsResponseDTO.class)));
         return PageResponseDTO.of(requestDTO.getPageNo(), metricsPage.getSize(), metricsPage.getTotalElements(), convert);
     }
 
@@ -99,7 +99,7 @@ public class MetricsServiceImpl implements MetricsService {
             if (Objects.nonNull(requestDTO.getUpdateStartTime()) && Objects.nonNull(requestDTO.getUpdateEndTime())) {
                 conditions.add(builder.between(root.get(Metrics_.updateTime), requestDTO.getUpdateStartTime(), requestDTO.getUpdateEndTime()));
             }
-
+            query.orderBy(builder.desc(root.get(Metrics_.updateTime)));
             return builder.and(conditions.toArray(new Predicate[conditions.size()]));
         };
     }

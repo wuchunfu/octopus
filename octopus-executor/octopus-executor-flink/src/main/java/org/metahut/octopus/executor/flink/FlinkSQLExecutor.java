@@ -6,12 +6,7 @@ public class FlinkSQLExecutor extends AbstractExecutor {
 
     @Override
     public void execute() {
-
-
-
-
-
-
+        
     }
 
 }

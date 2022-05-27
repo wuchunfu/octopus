@@ -19,7 +19,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static org.metahut.octopus.server.converter.AlerterInstanceFromDTOConverter.*;
+import static org.metahut.octopus.server.converter.AlerterInstanceFromDTOConverter.ALERTER_DINGTALK_PARAMETER_DEFAULT_PROPERTY;
+import static org.metahut.octopus.server.converter.AlerterInstanceFromDTOConverter.ALERTER_EMAIL_PARAMETER_DEFAULT_PROPERTY;
+import static org.metahut.octopus.server.converter.AlerterInstanceFromDTOConverter.ALERTER_TYPE_DINGTALK;
+import static org.metahut.octopus.server.converter.AlerterInstanceFromDTOConverter.ALERTER_TYPE_EMAIL;
 
 @Mapper(componentModel = "spring")
 public abstract class AlerterInstanceToDTOConverter implements Converter<AlerterInstance, AlerterInstanceResponseDTO> {
