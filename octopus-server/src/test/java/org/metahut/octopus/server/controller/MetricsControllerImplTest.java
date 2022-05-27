@@ -4,6 +4,7 @@ import org.metahut.octopus.api.dto.MetricsCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.MetricsResponseDTO;
 import org.metahut.octopus.api.dto.PageResponseDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
+import org.metahut.octopus.common.enums.MetricsDimensionEnum;
 import org.metahut.octopus.metrics.api.JSONUtils;
 import org.metahut.octopus.server.WebApplicationTest;
 
@@ -24,6 +25,7 @@ public class MetricsControllerImplTest extends WebApplicationTest {
 
     protected MetricsResponseDTO create(MetricsCreateOrUpdateRequestDTO requestDTO) {
         String url = REST_FUNCTION_URL_PREFIX + "create";
+        requestDTO.setMetricsDimension(MetricsDimensionEnum.INTEGRALITY);
 
         HttpEntity httpEntity = new HttpEntity(requestDTO);
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, httpEntity, String.class);

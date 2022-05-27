@@ -9,6 +9,7 @@ import org.metahut.octopus.api.dto.ResultEntity;
 import org.metahut.octopus.api.dto.RuleInstanceCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.RuleInstanceResponseDTO;
 import org.metahut.octopus.api.dto.SampleInstanceCreateOrUpdateRequestDTO;
+import org.metahut.octopus.common.enums.MetricsDimensionEnum;
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 import org.metahut.octopus.metrics.api.JSONUtils;
 import org.metahut.octopus.server.WebApplicationTest;
@@ -43,7 +44,7 @@ public class RuleInstanceControllerImplTest extends WebApplicationTest {
     private MetricsResponseDTO createMetrics(MetricsCreateOrUpdateRequestDTO requestDTO) {
 
         String url = "/metrics/create";
-
+        requestDTO.setMetricsDimension(MetricsDimensionEnum.INTEGRALITY);
         HttpEntity httpEntity = new HttpEntity(requestDTO);
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, httpEntity, String.class);
         Assertions.assertTrue(responseEntity.getStatusCode().is2xxSuccessful());

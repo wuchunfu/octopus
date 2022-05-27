@@ -30,6 +30,7 @@ public class MetricsCreateOrUpdateRequestDTO {
     private String description;
 
     @ApiModelProperty(value = "metrics dimension")
+    @NotNull(message = "{parameter.not.null}")
     private MetricsDimensionEnum metricsDimension;
 
     public interface Create {
