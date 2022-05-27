@@ -67,6 +67,7 @@ public class StarfishMeta implements IMeta {
         MetaDatasetEntity metaDatasetEntity1 = new MetaDatasetEntity();
         metaDatasetEntity1.setCode("01");
         metaDatasetEntity1.setName("dwd_im_1");
+        metaDatasetEntity1.setComment("dwd_im_1 table");
 
         Collection<MetaSchemaEntity> metaSchemaEntities1 = new ArrayList<>();
         MetaSchemaEntity metaSchemaEntity1 = new MetaSchemaEntity();

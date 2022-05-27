@@ -14,6 +14,8 @@ public class MetaDatasetResponseDTO {
     @ApiModelProperty(value = "name")
     private String name;
 
+    @ApiModelProperty(value = "comment")
+    private String comment;
     @ApiModelProperty(value = "database")
     private MetaDatabaseResponseDTO database;
 
@@ -61,5 +63,13 @@ public class MetaDatasetResponseDTO {
 
     public void setSchemas(Collection<MetaSchemaSingleResponseDTO> schemas) {
         this.schemas = schemas;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

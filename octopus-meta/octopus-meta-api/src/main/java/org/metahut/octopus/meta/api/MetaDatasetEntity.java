@@ -8,6 +8,8 @@ public class MetaDatasetEntity {
 
     private String name;
 
+    private String comment;
+
     private MetaDatabaseEntity database;
 
     private MetaDatasourceEntity datasource;
@@ -52,5 +54,13 @@ public class MetaDatasetEntity {
 
     public void setSchemas(Collection<MetaSchemaEntity> schemas) {
         this.schemas = schemas;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }
