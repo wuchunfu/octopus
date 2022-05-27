@@ -16,6 +16,7 @@ public class MetaDatasetResponseDTO {
 
     @ApiModelProperty(value = "comment")
     private String comment;
+
     @ApiModelProperty(value = "database")
     private MetaDatabaseResponseDTO database;
 

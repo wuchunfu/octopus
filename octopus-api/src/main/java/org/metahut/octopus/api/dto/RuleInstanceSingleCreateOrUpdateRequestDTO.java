@@ -1,9 +1,9 @@
 package org.metahut.octopus.api.dto;
 
-import io.swagger.annotations.ApiModel;
 import org.metahut.octopus.common.enums.RuleStateEnum;
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotNull;

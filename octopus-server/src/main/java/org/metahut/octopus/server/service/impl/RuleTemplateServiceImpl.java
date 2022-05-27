@@ -62,15 +62,15 @@ public class RuleTemplateServiceImpl implements RuleTemplateService {
             }
 
             if (CollectionUtils.isNotEmpty(requestDTO.getSubjectCategories())) {
-                conditions.add(builder.in(root.get(RuleTemplate_.subjectCategory).as(SubjectCategoryEnum.class).in(requestDTO.getSubjectCategories())));
+                conditions.add(root.get(RuleTemplate_.subjectCategory).as(SubjectCategoryEnum.class).in(requestDTO.getSubjectCategories()));
             }
 
             if (CollectionUtils.isNotEmpty(requestDTO.getCheckTypes())) {
-                conditions.add(builder.in(root.get(RuleTemplate_.checkType).as(String.class).in(requestDTO.getCheckTypes())));
+                conditions.add(root.get(RuleTemplate_.checkType).as(String.class).in(requestDTO.getCheckTypes()));
             }
 
             if (CollectionUtils.isNotEmpty(requestDTO.getCheckMethods())) {
-                conditions.add(builder.in(root.get(RuleTemplate_.checkMethod).as(String.class).in(requestDTO.getCheckMethods())));
+                conditions.add(root.get(RuleTemplate_.checkMethod).as(String.class).in(requestDTO.getCheckMethods()));
             }
 
             if (Objects.nonNull(requestDTO.getCreateStartTime()) && Objects.nonNull(requestDTO.getCreateEndTime())) {

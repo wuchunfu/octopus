@@ -76,11 +76,11 @@ public class MetricsConfigServiceImpl implements MetricsConfigService {
             }
 
             if (CollectionUtils.isNotEmpty(requestDTO.getSourceCategories())) {
-                conditions.add(builder.in(root.get(MetricsConfig_.sourceCategory).as(String.class).in(requestDTO.getSourceCategories())));
+                conditions.add(root.get(MetricsConfig_.sourceCategory).as(String.class).in(requestDTO.getSourceCategories()));
             }
 
             if (CollectionUtils.isNotEmpty(requestDTO.getSubjectCategories())) {
-                conditions.add(builder.in(root.get(MetricsConfig_.subjectCategory).as(SubjectCategoryEnum.class).in(requestDTO.getSubjectCategories())));
+                conditions.add(root.get(MetricsConfig_.subjectCategory).as(SubjectCategoryEnum.class).in(requestDTO.getSubjectCategories()));
             }
 
             if (Objects.nonNull(requestDTO.getCreateStartTime()) && Objects.nonNull(requestDTO.getCreateEndTime())) {
@@ -104,7 +104,7 @@ public class MetricsConfigServiceImpl implements MetricsConfigService {
             }
 
             if (CollectionUtils.isNotEmpty(requestDTO.getMetricsDimensions())) {
-                conditions.add(builder.in(metricsJoin.get(Metrics_.metricsDimension).as(MetricsDimensionEnum.class).in(requestDTO.getMetricsDimensions())));
+                conditions.add(metricsJoin.get(Metrics_.metricsDimension).as(MetricsDimensionEnum.class).in(requestDTO.getMetricsDimensions()));
             }
 
             return builder.and(conditions.toArray(new Predicate[conditions.size()]));

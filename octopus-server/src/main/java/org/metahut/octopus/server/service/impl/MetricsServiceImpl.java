@@ -89,7 +89,7 @@ public class MetricsServiceImpl implements MetricsService {
             }
 
             if (CollectionUtils.isNotEmpty(requestDTO.getMetricsDimensions())) {
-                conditions.add(builder.in(root.get(Metrics_.metricsDimension).as(MetricsDimensionEnum.class).in(requestDTO.getMetricsDimensions())));
+                conditions.add(root.get(Metrics_.metricsDimension).as(MetricsDimensionEnum.class).in(requestDTO.getMetricsDimensions()));
             }
 
             if (Objects.nonNull(requestDTO.getCreateStartTime()) && Objects.nonNull(requestDTO.getCreateEndTime())) {
