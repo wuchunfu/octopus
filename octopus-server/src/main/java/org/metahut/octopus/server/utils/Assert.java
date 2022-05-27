@@ -15,25 +15,25 @@ public class Assert {
 
     }
 
-    public static void notPresent(@Nullable Optional optional, StatusEnum status, @Nullable Object[] args) {
+    public static void notPresent(@Nullable Optional optional, StatusEnum status, @Nullable Object... args) {
         if (!optional.isPresent()) {
             throw new BusinessException(status, args);
         }
     }
 
-    public static void notNull(@Nullable Object object, StatusEnum status, @Nullable Object[] args) {
+    public static void notNull(@Nullable Object object, StatusEnum status, @Nullable Object... args) {
         if (object == null) {
             throw new BusinessException(status, args);
         }
     }
 
-    public static void notEmpty(@Nullable Collection<?> collection, StatusEnum status, @Nullable Object[] args) {
+    public static void notEmpty(@Nullable Collection<?> collection, StatusEnum status, @Nullable Object... args) {
         if (CollectionUtils.isEmpty(collection)) {
             throw new BusinessException(status, args);
         }
     }
 
-    public static void throwException(StatusEnum status, @Nullable Object[] args, Throwable cause) {
+    public static void throwException(Throwable cause, StatusEnum status, @Nullable Object... args) {
         throw new BusinessException(status, args, cause);
     }
 }

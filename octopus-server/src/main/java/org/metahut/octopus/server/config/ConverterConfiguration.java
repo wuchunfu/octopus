@@ -3,6 +3,7 @@ package org.metahut.octopus.server.config;
 import org.metahut.octopus.server.converter.AlerterInstanceToDTOConverter;
 import org.metahut.octopus.server.converter.FlowDefinitionFromDTOConverter;
 import org.metahut.octopus.server.converter.FlowDefinitionToDTOConverter;
+import org.metahut.octopus.server.converter.MetricsConfigFromDTOConverter;
 import org.metahut.octopus.server.converter.MetricsResultToDTOConverter;
 import org.metahut.octopus.server.converter.MonitorLogToDTOConverter;
 
@@ -28,11 +29,15 @@ public class ConverterConfiguration {
     private AlerterInstanceToDTOConverter alerterInstanceToDTOConverter;
 
     @Autowired
+    private MetricsConfigFromDTOConverter metricsConfigFromDTOConverter;
+
+    @Autowired
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(flowDefinitionFromDTOConverter);
         registry.addConverter(flowDefinitionToDTOConverter);
         registry.addConverter(metricsResultToDTOConverter);
         registry.addConverter(monitorLogToDTOConverter);
         registry.addConverter(alerterInstanceToDTOConverter);
+        registry.addConverter(metricsConfigFromDTOConverter);
     }
 }

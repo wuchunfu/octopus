@@ -47,7 +47,7 @@ public class MetricsServiceImpl implements MetricsService {
         Metrics metrics = new Metrics();
         metrics.setCode(metricsCode);
         Optional<Metrics> optional = metricsRepository.findOne(Example.of(metrics));
-        Assert.notPresent(optional, METRICS_NOT_EXIST, new String[] {metricsCode});
+        Assert.notPresent(optional, METRICS_NOT_EXIST, metricsCode);
         return optional.get();
     }
 

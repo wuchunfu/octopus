@@ -12,7 +12,6 @@ import org.metahut.octopus.dao.entity.MetricsConfig_;
 import org.metahut.octopus.dao.entity.Metrics_;
 import org.metahut.octopus.dao.repository.MetricsConfigRepository;
 import org.metahut.octopus.server.service.MetricsConfigService;
-import org.metahut.octopus.server.service.MetricsService;
 import org.metahut.octopus.server.utils.Assert;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -42,12 +41,10 @@ public class MetricsConfigServiceImpl implements MetricsConfigService {
 
     private final MetricsConfigRepository metricsConfigRepository;
     private final ConversionService conversionService;
-    private final MetricsService metricsService;
 
-    public MetricsConfigServiceImpl(MetricsConfigRepository metricsConfigRepository, ConversionService conversionService, MetricsService metricsService) {
+    public MetricsConfigServiceImpl(MetricsConfigRepository metricsConfigRepository, ConversionService conversionService) {
         this.metricsConfigRepository = metricsConfigRepository;
         this.conversionService = conversionService;
-        this.metricsService = metricsService;
     }
 
     @Override
@@ -113,14 +110,7 @@ public class MetricsConfigServiceImpl implements MetricsConfigService {
 
     @Override
     public MetricsConfigResponseDTO createOrUpdate(MetricsConfigCreateOrUpdateRequestDTO metricsConfigCreateOrUpdateRequestDTO) {
-        Metrics metrics = metricsService.findOneByCode(metricsConfigCreateOrUpdateRequestDTO.getMetricsCode());
         MetricsConfig convert = conversionService.convert(metricsConfigCreateOrUpdateRequestDTO, MetricsConfig.class);
-        convert.setMetrics(metrics);
-        String metricsConfigName = metricsConfigCreateOrUpdateRequestDTO.getSubjectCategory() + "_"
-            + metrics.getCode() + "_"
-            + metricsConfigCreateOrUpdateRequestDTO.getSourceCategory() + "_"
-            + metricsConfigCreateOrUpdateRequestDTO.getExecutorType();
-        convert.setName(metricsConfigName);
         MetricsConfig save = metricsConfigRepository.save(convert);
         return conversionService.convert(save, MetricsConfigResponseDTO.class);
     }
@@ -140,7 +130,7 @@ public class MetricsConfigServiceImpl implements MetricsConfigService {
         MetricsConfig metricsConfig = new MetricsConfig();
         metricsConfig.setCode(code);
         Optional<MetricsConfig> optional = metricsConfigRepository.findOne(Example.of(metricsConfig));
-        Assert.notPresent(optional, METRICS_CONFIG_NOT_EXIST, new Long[] {code});
+        Assert.notPresent(optional, METRICS_CONFIG_NOT_EXIST, code);
         return optional.get();
     }
 }
