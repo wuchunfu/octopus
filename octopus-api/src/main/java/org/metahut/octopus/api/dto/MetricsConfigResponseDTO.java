@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.Objects;
 
 import static org.metahut.octopus.api.dto.MetricsConfigCreateOrUpdateRequestDTO.EXECUTOR_SCRIPT_STR;
 import static org.metahut.octopus.api.dto.MetricsConfigCreateOrUpdateRequestDTO.EXECUTOR_TYPE_STR;
@@ -129,6 +130,10 @@ public class MetricsConfigResponseDTO {
         if (StringUtils.isNotBlank(metricsParams)) {
             Map<String, String> map = JSONUtils.parseObject(metricsParams, new TypeReference<Map<String, String>>() {
             });
+
+            if (Objects.isNull(map)) {
+                return;
+            }
             setExecutorType(map.get(EXECUTOR_TYPE_STR));
             setExecutorScript(map.get(EXECUTOR_SCRIPT_STR));
         }

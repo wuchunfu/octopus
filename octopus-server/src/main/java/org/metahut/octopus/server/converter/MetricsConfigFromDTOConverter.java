@@ -10,6 +10,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.springframework.core.convert.converter.Converter;
 
+import java.util.StringJoiner;
+
 @Mapper(componentModel = "spring", uses = { MetricsService.class })
 public interface MetricsConfigFromDTOConverter extends Converter<MetricsConfigCreateOrUpdateRequestDTO, MetricsConfig> {
 
@@ -19,11 +21,12 @@ public interface MetricsConfigFromDTOConverter extends Converter<MetricsConfigCr
 
     @AfterMapping
     default void nameHandler(MetricsConfigCreateOrUpdateRequestDTO source, @MappingTarget MetricsConfig metricsConfig) {
-        String join = String.join("_",
-                metricsConfig.getSubjectCategory().name(),
-                metricsConfig.getMetrics().getName(),
-                metricsConfig.getSourceCategory(),
-                source.getExecutorType());
+        String join = new StringJoiner("_")
+                .add(metricsConfig.getSubjectCategory().name())
+                .add(metricsConfig.getMetrics().getName())
+                .add(metricsConfig.getSourceCategory())
+                .add(source.getExecutorType())
+                .toString();
         metricsConfig.setName(join);
     }
 }

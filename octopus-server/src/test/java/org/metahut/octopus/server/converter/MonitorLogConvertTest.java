@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 
+import java.util.StringJoiner;
+
 public class MonitorLogConvertTest extends WebApplicationTest {
 
     @Autowired
@@ -23,5 +25,15 @@ public class MonitorLogConvertTest extends WebApplicationTest {
         MonitorLogRequest convert = conversionService.convert(requestDTO, MonitorLogRequest.class);
         Assertions.assertNotNull(convert);
         Assertions.assertEquals(metricsCode, convert.getMetricsCode());
+    }
+
+    @Test
+    public void testStringJoin() {
+        String str = null;
+        StringJoiner joiner = new StringJoiner("_");
+        joiner.add("1");
+        joiner.add(str);
+        joiner.add("2");
+        Assertions.assertEquals("1_null_2", joiner.toString());
     }
 }

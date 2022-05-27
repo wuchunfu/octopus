@@ -56,7 +56,7 @@ DROP TABLE IF EXISTS tb_octopus_metrics_config CASCADE;
 CREATE TABLE tb_octopus_metrics_config
 (
     id               int(11)     NOT NULL AUTO_INCREMENT,
-    code             int(11)     NOT NULL,
+    code             bigint(20)     NOT NULL,
     name             varchar(64) DEFAULT NULL,
 
     metrics_code     varchar(64) NOT NULL,
@@ -78,7 +78,7 @@ DROP TABLE IF EXISTS tb_octopus_rule_template CASCADE;
 CREATE TABLE tb_octopus_rule_template
 (
     id                int(11)     NOT NULL AUTO_INCREMENT,
-    code              int(11)     NOT NULL,
+    code              bigint(20)     NOT NULL,
     name              varchar(64) DEFAULT NULL,
     metrics_code      varchar(64) NOT NULL,
 
@@ -101,7 +101,7 @@ DROP TABLE IF EXISTS tb_octopus_sample_instance CASCADE;
 CREATE TABLE tb_octopus_sample_instance
 (
     id            int(11)     NOT NULL AUTO_INCREMENT,
-    code          int(11)     NOT NULL,
+    code          bigint(20)     NOT NULL,
 
     dataset_code   varchar(64) NOT NULL,
     executor_type varchar(64),
@@ -119,13 +119,13 @@ DROP TABLE IF EXISTS tb_octopus_rule_instance CASCADE;
 CREATE TABLE tb_octopus_rule_instance
 (
     id                  int(11)      NOT NULL AUTO_INCREMENT,
-    code                int(11)      NOT NULL,
+    code                bigint(20)      NOT NULL,
     name                varchar(64) DEFAULT NULL,
     dataset_code         varchar(64)  NOT NULL,
 
     metrics_code        varchar(64)  NOT NULL,
     -- custom execution script
-    metrics_config_code int(11),
+    metrics_config_code bigint(20),
 
     metrics_params      varchar(64)  NOT NULL,
     subject_category    varchar(16) DEFAULT 'TABLE',
@@ -133,7 +133,7 @@ CREATE TABLE tb_octopus_rule_instance
     metrics_unique_key  varchar(254) NOT NULL,
     filter              text,
 
-    sample_code         int(11),
+    sample_code         bigint(20),
     task_type           varchar(64) DEFAULT 'BATCH',
 
     check_type          varchar(64),
@@ -160,7 +160,7 @@ CREATE TABLE tb_octopus_alerter_source
 (
     id          int         NOT NULL AUTO_INCREMENT,
     alert_type  varchar(64) NOT NULL,
-    code        int(11)     NOT NULL,
+    code        bigint(20)     NOT NULL,
     name        varchar(200) DEFAULT NULL,
     parameter   text NOT NULL,
 
@@ -177,7 +177,7 @@ CREATE TABLE tb_octopus_alerter_instance
 (
     id          int         NOT NULL AUTO_INCREMENT,
     dataset_code         varchar(64) NOT NULL,
-    alerter_source_code        int(11)     NOT NULL,
+    alerter_source_code        bigint(20)     NOT NULL,
     parameter   text NOT NULL,
 
     description varchar(64)  DEFAULT NULL,
@@ -192,7 +192,7 @@ DROP TABLE IF EXISTS tb_octopus_flow_definition CASCADE;
 CREATE TABLE tb_octopus_flow_definition
 (
     id             int(11)      NOT NULL AUTO_INCREMENT,
-    code           int(11)      NOT NULL,
+    code           bigint(20)      NOT NULL,
     dataset_code    varchar(64) NOT NULL,
     env            varchar(200),
     crontab        varchar(200) NOT NULL,
