@@ -7,6 +7,20 @@ public class MetricsHeaderParameter {
     private String metricsCode;
     private String filter;
 
+    public MetricsHeaderParameter() {
+    }
+
+    public MetricsHeaderParameter(String subjectCategory, String subjectCode, String metricsCode, String filter) {
+        this.subjectCategory = subjectCategory;
+        this.subjectCode = subjectCode;
+        this.metricsCode = metricsCode;
+        this.filter = filter;
+    }
+
+    public static MetricsHeaderParameter of(String subjectCategory, String subjectCode, String metricsCode, String filter) {
+        return new MetricsHeaderParameter(subjectCategory, subjectCode, metricsCode, filter);
+    }
+
     public String getSubjectCategory() {
         return subjectCategory;
     }

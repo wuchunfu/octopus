@@ -44,10 +44,6 @@ public class JSONUtils {
             .configure(ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT, true)
             .configure(READ_UNKNOWN_ENUM_VALUES_AS_NULL, true);
 
-    static {
-        registerJsonSubtypes("org.metahut.octopus.metrics");
-    }
-
     public static <T> T parseObject(String json, Class<T> clazz) {
         if (StringUtils.isEmpty(json) || Objects.isNull(clazz)) {
             return null;
@@ -80,12 +76,6 @@ public class JSONUtils {
         } catch (Exception e) {
             throw new RuntimeException("Object json deserialization exception.", e);
         }
-    }
-
-    private static void registerJsonSubtypes(Object... reflectionArgs) {
-        Reflections reflections = new Reflections(reflectionArgs);
-        Set<Class<?>> classSet = reflections.getTypesAnnotatedWith(JsonTypeName.class);
-        OBJECT_MAPPER.registerSubtypes(classSet);
     }
 
 }

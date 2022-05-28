@@ -18,7 +18,7 @@ import java.util.ServiceLoader;
 @Component
 public class AlerterPluginHelper {
 
-    private static final Map<String, IAlerterManager> alerterMap = new HashMap<>();
+    private static final Map<String, IAlerterManager> ALERTER_MANAGER_HASH_MAP = new HashMap<>();
 
     @PostConstruct
     public void init() {
@@ -26,19 +26,19 @@ public class AlerterPluginHelper {
 
             String type = manager.getType();
 
-            IAlerterManager alerterManager = alerterMap.get(type);
+            IAlerterManager alerterManager = ALERTER_MANAGER_HASH_MAP.get(type);
 
             if (Objects.nonNull(alerterManager)) {
                 throw new IllegalArgumentException(MessageFormat.format("Duplicate alerter type exists: {0}", type));
             }
 
-            alerterMap.put(type, manager);
+            ALERTER_MANAGER_HASH_MAP.put(type, manager);
 
         });
     }
 
     private IAlerterManager getAlerter(String type) {
-        IAlerterManager manager = alerterMap.get(type);
+        IAlerterManager manager = ALERTER_MANAGER_HASH_MAP.get(type);
         if (Objects.isNull(manager)) {
             throw new IllegalArgumentException(MessageFormat.format("alerter type does not exists: {0}", type));
         }
@@ -46,7 +46,7 @@ public class AlerterPluginHelper {
     }
 
     public Collection<String> queryAllTypes() {
-        return alerterMap.keySet();
+        return ALERTER_MANAGER_HASH_MAP.keySet();
     }
 
     public AbstractAlerterParameter deserializeParameter(String type, String parameter) {
