@@ -6,13 +6,14 @@ import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @ApiModel(description = "rule instance create or update request dto")
 public class RuleInstanceCreateOrUpdateRequestDTO {
 
     @ApiModelProperty(value = "id")
-    @NotNull(message = "{parameter.not.null}", groups = MetricsCreateOrUpdateRequestDTO.Update.class)
+    @NotNull(message = "{parameter.not.null}", groups = Update.class)
     private Integer id;
 
     @ApiModelProperty(value = "code")
@@ -25,6 +26,7 @@ public class RuleInstanceCreateOrUpdateRequestDTO {
     private String datasetCode;
 
     @ApiModelProperty(value = "metricsCode")
+    @NotEmpty(message = "{parameter.not.null}")
     private String metricsCode;
 
     @ApiModelProperty(value = "metricsConfigCode")

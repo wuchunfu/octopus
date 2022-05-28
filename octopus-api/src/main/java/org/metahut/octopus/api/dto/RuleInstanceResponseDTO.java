@@ -41,9 +41,6 @@ public class RuleInstanceResponseDTO {
     @ApiModelProperty(value = "sampleInstance")
     private SampleInstanceResponseDTO sampleInstance;
 
-    @ApiModelProperty(value = "datasetCode")
-    private String datasetCode;
-
     @ApiModelProperty(value = "subjectCode")
     private String subjectCode;
 
@@ -145,14 +142,6 @@ public class RuleInstanceResponseDTO {
 
     public void setSampleInstance(SampleInstanceResponseDTO sampleInstance) {
         this.sampleInstance = sampleInstance;
-    }
-
-    public String getDatasetCode() {
-        return datasetCode;
-    }
-
-    public void setDatasetCode(String datasetCode) {
-        this.datasetCode = datasetCode;
     }
 
     public String getSubjectCode() {

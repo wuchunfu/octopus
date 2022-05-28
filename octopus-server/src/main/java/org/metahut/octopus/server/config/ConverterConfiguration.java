@@ -6,6 +6,7 @@ import org.metahut.octopus.server.converter.FlowDefinitionToDTOConverter;
 import org.metahut.octopus.server.converter.MetricsConfigFromDTOConverter;
 import org.metahut.octopus.server.converter.MetricsResultToDTOConverter;
 import org.metahut.octopus.server.converter.MonitorLogToDTOConverter;
+import org.metahut.octopus.server.converter.RuleInstanceFromDTOConverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +33,9 @@ public class ConverterConfiguration {
     private MetricsConfigFromDTOConverter metricsConfigFromDTOConverter;
 
     @Autowired
+    private RuleInstanceFromDTOConverter ruleInstanceFromDTOConverter;
+
+    @Autowired
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(flowDefinitionFromDTOConverter);
         registry.addConverter(flowDefinitionToDTOConverter);
@@ -39,5 +43,6 @@ public class ConverterConfiguration {
         registry.addConverter(monitorLogToDTOConverter);
         registry.addConverter(alerterInstanceToDTOConverter);
         registry.addConverter(metricsConfigFromDTOConverter);
+        registry.addConverter(ruleInstanceFromDTOConverter);
     }
 }

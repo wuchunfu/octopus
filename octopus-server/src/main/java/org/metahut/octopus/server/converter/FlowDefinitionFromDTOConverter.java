@@ -9,7 +9,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.springframework.core.convert.converter.Converter;
 
-@Mapper(componentModel = "spring", uses = { AlerterInstanceFromDTOConverter.class })
+@Mapper(componentModel = "spring", uses = { AlerterInstanceFromDTOConverter.class, RuleInstanceFromDTOConverter.class })
 public interface FlowDefinitionFromDTOConverter extends Converter<MonitorFlowDefinitionCreateOrUpdateRequestDTO, FlowDefinition> {
 
     @Override

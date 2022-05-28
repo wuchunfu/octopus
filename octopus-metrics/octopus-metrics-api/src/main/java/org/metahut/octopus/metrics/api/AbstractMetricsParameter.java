@@ -4,17 +4,17 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import java.util.Objects;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", visible = true)
 public abstract class AbstractMetricsParameter {
 
-    private String type;
-    private String subjectCategory;
-    private String subjectCode;
-    private String metricsCode;
-    private String filter;
+    private MetricsHeaderParameter headerParameter;
+
+    public void initHeader(MetricsHeaderParameter headerParameter) {
+        this.headerParameter = headerParameter;
+    }
 
     public String generateUniqueKey() {
-        String key = generateKey(metricsCode, subjectCategory, subjectCode);
+        String key = generateKey(headerParameter.getMetricsCode(), headerParameter.getSubjectCategory(), headerParameter.getSubjectCode());
+        String filter = headerParameter.getFilter();
         return Objects.isNull(filter) || ("").equals(filter.trim()) ? key : generateKey(key, filter);
     }
 
@@ -22,44 +22,9 @@ public abstract class AbstractMetricsParameter {
         return String.join("-", args);
     }
 
-    public String getType() {
-        return type;
+    public MetricsHeaderParameter getHeaderParameter() {
+        return headerParameter;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getSubjectCategory() {
-        return subjectCategory;
-    }
-
-    public void setSubjectCategory(String subjectCategory) {
-        this.subjectCategory = subjectCategory;
-    }
-
-    public String getSubjectCode() {
-        return subjectCode;
-    }
-
-    public void setSubjectCode(String subjectCode) {
-        this.subjectCode = subjectCode;
-    }
-
-    public String getMetricsCode() {
-        return metricsCode;
-    }
-
-    public void setMetricsCode(String metricsCode) {
-        this.metricsCode = metricsCode;
-    }
-
-    public String getFilter() {
-        return filter;
-    }
-
-    public void setFilter(String filter) {
-        this.filter = filter;
-    }
 
 }

@@ -70,6 +70,10 @@ public class MonitorFlowDefinitionServiceImpl implements MonitorFlowDefinitionSe
     @Override
     public MonitorFlowDefinitionResponseDTO createOrUpdate(MonitorFlowDefinitionCreateOrUpdateRequestDTO requestDTO) {
         FlowDefinition convert = conversionService.convert(requestDTO, FlowDefinition.class);
+
+        // TODO metrics_unique_key
+        convert.getRuleInstances().stream().forEach(ruleInstance -> ruleInstance.setMetricsUniqueKey("ssss_sss"));
+
         FlowDefinition save = flowDefinitionRepository.save(convert);
 
         // TODO create scheduler
