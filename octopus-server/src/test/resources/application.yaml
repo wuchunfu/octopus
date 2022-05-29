@@ -42,4 +42,8 @@ octopus:
       password:
   scheduler:
     type: dolphinscheduler
-
+    dolphinscheduler:
+      serviceUrl: http://dolphinscheduler.dev.xxxxx.com
+      projectCode:
+      tenantCode:
+      token:

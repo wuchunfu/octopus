@@ -1,7 +1,5 @@
 package org.metahut.octopus.metrics.api;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
 import java.util.Objects;
 
 public abstract class AbstractMetricsParameter {
@@ -25,6 +23,5 @@ public abstract class AbstractMetricsParameter {
     public MetricsHeaderParameter getHeaderParameter() {
         return headerParameter;
     }
-
-
+    
 }

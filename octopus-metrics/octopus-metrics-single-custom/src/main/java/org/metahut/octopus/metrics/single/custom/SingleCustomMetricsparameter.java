@@ -2,8 +2,6 @@ package org.metahut.octopus.metrics.single.custom;
 
 import org.metahut.octopus.metrics.api.AbstractMetricsParameter;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
-
 public class SingleCustomMetricsparameter extends AbstractMetricsParameter {
 
     private String executorType;

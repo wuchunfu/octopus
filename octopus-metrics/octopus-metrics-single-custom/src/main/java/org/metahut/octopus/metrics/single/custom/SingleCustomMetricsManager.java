@@ -15,6 +15,7 @@ public class SingleCustomMetricsManager implements IMetricsManager {
     public SingleCustomMetricsparameter deserializeParameter(String parameter) {
         return JSONUtils.parseObject(parameter, SingleCustomMetricsparameter.class);
     }
+
     @Override
     public IMetrics generateInstance(AbstractMetricsParameter parameter) {
         return null;

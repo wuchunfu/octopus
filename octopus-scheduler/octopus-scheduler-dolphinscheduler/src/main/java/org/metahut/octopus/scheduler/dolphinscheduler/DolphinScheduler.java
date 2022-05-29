@@ -42,7 +42,7 @@ public class DolphinScheduler implements IScheduler {
     private static final MediaType MEDIA_TYPE_JSON = MediaType.get("application/json; charset=utf-8");
     private static final String HEADER_TOKEN_NAME = "token";
     private static final int HTTP_SUCCESS = 0;
-
+    
     private final OkHttpClient client;
     private final SchedulerProperties.DolphinScheduler properties;
 
@@ -378,7 +378,7 @@ public class DolphinScheduler implements IScheduler {
 
     // TODO @Deprecated start
     public Object queryTaskDefinitionPageList() {
-        String url = "http://dolphinscheduler.dev.zhaopin.com/dolphinscheduler/projects/4996418468000/process-definition?pageNo=1&pageSize=10&&searchVal=";
+        String url = properties.getServiceUrl() + "/dolphinscheduler/projects/4996418468000/process-definition?pageNo=1&pageSize=10&&searchVal=";
         DolphinResult result = null;
         try {
             String json = get(url);
@@ -393,7 +393,7 @@ public class DolphinScheduler implements IScheduler {
     }
 
     public Object queryTaskDefinitionByCode() {
-        String url = "http://dolphinscheduler.dev.zhaopin.com/dolphinscheduler/projects/4996418468000/process-definition/5028876785952";
+        String url = properties.getServiceUrl() + "/dolphinscheduler/projects/4996418468000/process-definition/5028876785952";
         DolphinResult result = null;
         String cronJson = null;
         DolphinResult cronResult = null;
@@ -407,7 +407,7 @@ public class DolphinScheduler implements IScheduler {
             schedulerMap
                 .put("processDefinitionCode", "5017950541088");
             cronJson = get(
-                "http://dolphinscheduler.dev.zhaopin.com/dolphinscheduler/projects/4996418468000/schedules?processDefinitionCode=5028876785952&searchVal=&pageNo=1&pageSize=10");
+                properties.getServiceUrl() + "/dolphinscheduler/projects/4996418468000/schedules?processDefinitionCode=5028876785952&searchVal=&pageNo=1&pageSize=10");
             cronResult = JSONUtils.parseObject(cronJson, DolphinResult.class);
             result.setData(result.getData().toString() + cronResult.getData().toString());
         } catch (IOException e) {
@@ -430,7 +430,7 @@ public class DolphinScheduler implements IScheduler {
     }
 
     public Object queryTaskInstanceLogs() {
-        String url = "http://dolphinscheduler.dev.zhaopin.com/dolphinscheduler/projects/4996418468000/task-instances?"
+        String url = properties.getServiceUrl() + "/dolphinscheduler/projects/4996418468000/task-instances?"
             + "pageSize=10&pageNo=1&searchVal=&processInstanceId=&host=&stateType=&startDate=&endDate=&executorName=&processInstanceName=";
         DolphinResult result = null;
         try {
@@ -446,7 +446,7 @@ public class DolphinScheduler implements IScheduler {
     }
 
     public Object updateTaskDefinition() {
-        String url = "http://dolphinscheduler.dev.zhaopin.com/dolphinscheduler/projects/4996418468000/process-definition/5028876785952";
+        String url = properties.getServiceUrl() + "/dolphinscheduler/projects/4996418468000/process-definition/5028876785952";
         DolphinResult result = null;
         String cronJson = null;
         DolphinResult cronResult = null;
@@ -459,7 +459,7 @@ public class DolphinScheduler implements IScheduler {
         schedulerMap
             .put("processDefinitionCode", "5017950541088");
         //cronJson = put(
-        //        "http://dolphinscheduler.dev.zhaopin.com/dolphinscheduler/projects/4996418468000/schedules/28",
+        //        properties.getServiceUrl() + "/dolphinscheduler/projects/4996418468000/schedules/28",
         //        putScheduleMap);
         cronResult = JSONUtils.parseObject(cronJson, DolphinResult.class);
         //} catch (IOException e) {
