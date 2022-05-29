@@ -3,14 +3,22 @@ package org.metahut.octopus.api.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 @ApiModel(value = "sample instance create or update request dto")
 public class SampleInstanceCreateOrUpdateRequestDTO {
 
+    @ApiModelProperty(value = "id")
+    @NotNull(message = "{parameter.not.null}", groups = Update.class)
     private Integer id;
 
+    @NotNull(message = "{parameter.not.null}", groups = Update.class)
+    @ApiModelProperty(value = "code")
     private Long code;
 
     @ApiModelProperty(value = "datasetCode")
+    @NotEmpty(message = "{parameter.not.null}")
     private String datasetCode;
 
     @ApiModelProperty(value = "executorType")
@@ -18,6 +26,10 @@ public class SampleInstanceCreateOrUpdateRequestDTO {
 
     @ApiModelProperty(value = "parameter")
     private String parameter;
+
+    public interface Update {
+
+    }
 
     public Integer getId() {
         return id;

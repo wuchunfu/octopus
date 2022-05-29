@@ -20,6 +20,7 @@ import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +47,9 @@ public class RuleTemplateServiceImpl implements RuleTemplateService {
 
     @Override
     public PageResponseDTO<RuleTemplateResponseDTO> queryListPage(RuleTemplateConditionRequestDTO ruleTemplateRequestDTO) {
-        Pageable pageable = PageRequest.of(ruleTemplateRequestDTO.getPageNo() - 1, ruleTemplateRequestDTO.getPageSize());
+        Sort.TypedSort<RuleTemplate> typedSort = Sort.sort(RuleTemplate.class);
+        Sort sort = typedSort.by(RuleTemplate::getUpdateTime).descending();
+        Pageable pageable = PageRequest.of(ruleTemplateRequestDTO.getPageNo() - 1, ruleTemplateRequestDTO.getPageSize(), sort);
         Page<RuleTemplate> ruleTemplatePage = ruleTemplateRespository.findAll(withConditions(ruleTemplateRequestDTO), pageable);
         List<RuleTemplateResponseDTO> convert = (List<RuleTemplateResponseDTO>)conversionService.convert(ruleTemplateRespository.findAll(withConditions(ruleTemplateRequestDTO)),
                 TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleTemplate.class)),
@@ -88,7 +91,6 @@ public class RuleTemplateServiceImpl implements RuleTemplateService {
             if (StringUtils.isNotBlank(requestDTO.getMetricsName())) {
                 conditions.add(builder.like(metricsJoin.get(Metrics_.name), "%" + requestDTO.getMetricsName() + "%"));
             }
-
             return builder.and(conditions.toArray(new Predicate[conditions.size()]));
         };
     }

@@ -17,12 +17,14 @@ public class RuleInstanceCreateOrUpdateRequestDTO {
     private Integer id;
 
     @ApiModelProperty(value = "code")
+    @NotNull(message = "{parameter.not.null}", groups = Update.class)
     private Long code;
 
     @ApiModelProperty(value = "name")
     private String name;
 
     @ApiModelProperty(value = "datasetCode")
+    @NotEmpty(message = "{parameter.not.null}")
     private String datasetCode;
 
     @ApiModelProperty(value = "metricsCode")
@@ -30,6 +32,7 @@ public class RuleInstanceCreateOrUpdateRequestDTO {
     private String metricsCode;
 
     @ApiModelProperty(value = "metricsConfigCode")
+    @NotNull(message = "{parameter.not.null}")
     private Long metricsConfigCode;
 
     @ApiModelProperty(value = "subjectCategory")

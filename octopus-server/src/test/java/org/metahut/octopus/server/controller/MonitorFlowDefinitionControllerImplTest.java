@@ -14,6 +14,8 @@ import org.metahut.octopus.api.dto.ResultEntity;
 import org.metahut.octopus.api.dto.RuleInstanceCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.SampleInstanceCreateOrUpdateRequestDTO;
 import org.metahut.octopus.common.enums.MetricsDimensionEnum;
+import org.metahut.octopus.common.enums.RuleStateEnum;
+import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 import org.metahut.octopus.metrics.api.JSONUtils;
 import org.metahut.octopus.server.WebApplicationTest;
 
@@ -26,8 +28,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 public class MonitorFlowDefinitionControllerImplTest extends WebApplicationTest {
 
@@ -99,76 +100,97 @@ public class MonitorFlowDefinitionControllerImplTest extends WebApplicationTest 
 
     @Test
     public void create() {
+        MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO = new MetricsCreateOrUpdateRequestDTO();
+        metricsCreateOrUpdateRequestDTO.setCategory("category");
+        metricsCreateOrUpdateRequestDTO.setCode("sum");
+        metricsCreateOrUpdateRequestDTO.setMetricsDimension(MetricsDimensionEnum.INTEGRALITY);
+        metricsCreateOrUpdateRequestDTO.setName("test");
+        MetricsResponseDTO metrics = createMetrics(metricsCreateOrUpdateRequestDTO);
 
-        // create alerter instance
-        AlerterSourceCreateOrUpdateRequestDTO alerterSourceCreateOrUpdateRequestDTO = new AlerterSourceCreateOrUpdateRequestDTO();
-        alerterSourceCreateOrUpdateRequestDTO.setAlertType("DingTalk");
-        alerterSourceCreateOrUpdateRequestDTO.setName("dingTalk test");
-        alerterSourceCreateOrUpdateRequestDTO.setParameter("{\"webhook\":\"1\", \"secret\":\"secret\"}");
-        AlerterSourceResponseDTO alertInstance = createAlertInstance(alerterSourceCreateOrUpdateRequestDTO);
+        MetricsConfigCreateOrUpdateRequestDTO metricsConfigCreateOrUpdateRequestDTO = new MetricsConfigCreateOrUpdateRequestDTO();
+        metricsConfigCreateOrUpdateRequestDTO.setDescription("test");
+        metricsConfigCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
+        metricsConfigCreateOrUpdateRequestDTO.setMetricsParams("{\"subjectCategory\": \"\",\"subjectCode\":  \"\", \"metricsCode\": \"sum\", \"filter\":\"\"}");
+        metricsConfigCreateOrUpdateRequestDTO.setSubjectCategory(SubjectCategoryEnum.TABLE);
+        metricsConfigCreateOrUpdateRequestDTO.setSourceCategory("sourceCategory");
+        MetricsConfigResponseDTO metricsConfig = createMetricsConfig(metricsConfigCreateOrUpdateRequestDTO);
 
-        String sourceCode = "X01";
         MonitorFlowDefinitionCreateOrUpdateRequestDTO requestDTO = new MonitorFlowDefinitionCreateOrUpdateRequestDTO();
-        requestDTO.setDatasetCode(sourceCode);
-        requestDTO.setCrontab("0 0 1 * * ?");
 
-        // create source alerter instance relation
-        List<AlerterInstanceCreateOrUpdateRequestDTO> alerterInstances = new ArrayList<>();
         AlerterInstanceCreateOrUpdateRequestDTO alerterInstanceCreateOrUpdateRequestDTO = new AlerterInstanceCreateOrUpdateRequestDTO();
-        alerterInstanceCreateOrUpdateRequestDTO.setDatasetCode(sourceCode);
-        alerterInstanceCreateOrUpdateRequestDTO.setAlerterSourceCode(alertInstance.getCode());
-        alerterInstances.add(alerterInstanceCreateOrUpdateRequestDTO);
-        requestDTO.setAlerterInstances(alerterInstances);
+        alerterInstanceCreateOrUpdateRequestDTO.setAlerterSourceCode(1L);
+        alerterInstanceCreateOrUpdateRequestDTO.setParameter("phone");
+        requestDTO.setAlerterInstances(Arrays.asList(alerterInstanceCreateOrUpdateRequestDTO));
+        requestDTO.setCrontab("crontab");
+        requestDTO.setDatasetCode("dataset");
 
-        List<RuleInstanceCreateOrUpdateRequestDTO> ruleInstanceCreateOrUpdateRequestDTOS = new ArrayList<>();
-        RuleInstanceCreateOrUpdateRequestDTO ruleInstanceCreateOrUpdateRequestDTO1 = new RuleInstanceCreateOrUpdateRequestDTO();
-        ruleInstanceCreateOrUpdateRequestDTO1.setCheckType("数值型");
-        ruleInstanceCreateOrUpdateRequestDTOS.add(ruleInstanceCreateOrUpdateRequestDTO1);
-        requestDTO.setRuleInstances(ruleInstanceCreateOrUpdateRequestDTOS);
+        RuleInstanceCreateOrUpdateRequestDTO ruleInstanceCreateOrUpdateRequestDTO = new RuleInstanceCreateOrUpdateRequestDTO();
+        ruleInstanceCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
+        ruleInstanceCreateOrUpdateRequestDTO.setMetricsConfigCode(metricsConfig.getCode());
+        ruleInstanceCreateOrUpdateRequestDTO.setSample(true);
+        ruleInstanceCreateOrUpdateRequestDTO.setState(RuleStateEnum.OFFLINE);
+        ruleInstanceCreateOrUpdateRequestDTO.setSubjectCategory(SubjectCategoryEnum.TABLE);
+        requestDTO.setRuleInstances(Arrays.asList(ruleInstanceCreateOrUpdateRequestDTO));
 
         SampleInstanceCreateOrUpdateRequestDTO sampleInstanceCreateOrUpdateRequestDTO = new SampleInstanceCreateOrUpdateRequestDTO();
-        sampleInstanceCreateOrUpdateRequestDTO.setParameter("100");
-        sampleInstanceCreateOrUpdateRequestDTO.setDatasetCode(sourceCode);
+        sampleInstanceCreateOrUpdateRequestDTO.setDatasetCode("dataset");
+        sampleInstanceCreateOrUpdateRequestDTO.setExecutorType("executorType");
+        sampleInstanceCreateOrUpdateRequestDTO.setParameter("90");
         requestDTO.setSampleInstance(sampleInstanceCreateOrUpdateRequestDTO);
-
         MonitorFlowDefinitionResponseDTO monitorFlowDefinitionResponseDTO = create(requestDTO);
     }
 
     @Test
     public void testUpdate() {
-        AlerterSourceCreateOrUpdateRequestDTO alerterSourceCreateOrUpdateRequestDTO = new AlerterSourceCreateOrUpdateRequestDTO();
-        alerterSourceCreateOrUpdateRequestDTO.setAlertType("DingTalk");
-        alerterSourceCreateOrUpdateRequestDTO.setName("dingTalk test");
-        alerterSourceCreateOrUpdateRequestDTO.setParameter("{\"webhook\":\"1\", \"secret\":\"secret\"}");
-        AlerterSourceResponseDTO alertInstance = createAlertInstance(alerterSourceCreateOrUpdateRequestDTO);
+        MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO = new MetricsCreateOrUpdateRequestDTO();
+        metricsCreateOrUpdateRequestDTO.setCategory("category");
+        metricsCreateOrUpdateRequestDTO.setCode("sum4");
+        metricsCreateOrUpdateRequestDTO.setMetricsDimension(MetricsDimensionEnum.INTEGRALITY);
+        metricsCreateOrUpdateRequestDTO.setName("test");
+        MetricsResponseDTO metrics = createMetrics(metricsCreateOrUpdateRequestDTO);
 
-        String sourceCode = "X02";
+        MetricsConfigCreateOrUpdateRequestDTO metricsConfigCreateOrUpdateRequestDTO = new MetricsConfigCreateOrUpdateRequestDTO();
+        metricsConfigCreateOrUpdateRequestDTO.setDescription("test");
+        metricsConfigCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
+        metricsConfigCreateOrUpdateRequestDTO.setMetricsParams("{\"subjectCategory\": \"\",\"subjectCode\":  \"\", \"metricsCode\": \"sum\", \"filter\":\"\"}");
+        metricsConfigCreateOrUpdateRequestDTO.setSubjectCategory(SubjectCategoryEnum.TABLE);
+        metricsConfigCreateOrUpdateRequestDTO.setSourceCategory("sourceCategory");
+        MetricsConfigResponseDTO metricsConfig = createMetricsConfig(metricsConfigCreateOrUpdateRequestDTO);
+
         MonitorFlowDefinitionCreateOrUpdateRequestDTO requestDTO = new MonitorFlowDefinitionCreateOrUpdateRequestDTO();
-        requestDTO.setDatasetCode(sourceCode);
-        requestDTO.setCrontab("0 0 1 * * ?");
 
-        List<AlerterInstanceCreateOrUpdateRequestDTO> alerterInstances = new ArrayList<>();
         AlerterInstanceCreateOrUpdateRequestDTO alerterInstanceCreateOrUpdateRequestDTO = new AlerterInstanceCreateOrUpdateRequestDTO();
-        alerterInstanceCreateOrUpdateRequestDTO.setDatasetCode(sourceCode);
-        alerterInstanceCreateOrUpdateRequestDTO.setAlerterSourceCode(alertInstance.getCode());
-        alerterInstances.add(alerterInstanceCreateOrUpdateRequestDTO);
-        requestDTO.setAlerterInstances(alerterInstances);
+        alerterInstanceCreateOrUpdateRequestDTO.setAlerterSourceCode(1L);
+        alerterInstanceCreateOrUpdateRequestDTO.setParameter("phone");
+        requestDTO.setAlerterInstances(Arrays.asList(alerterInstanceCreateOrUpdateRequestDTO));
+        requestDTO.setCrontab("crontab");
+        requestDTO.setDatasetCode("dataset4");
 
-        List<RuleInstanceCreateOrUpdateRequestDTO> ruleInstanceCreateOrUpdateRequestDTOS = new ArrayList<>();
-        RuleInstanceCreateOrUpdateRequestDTO ruleInstanceCreateOrUpdateRequestDTO1 = new RuleInstanceCreateOrUpdateRequestDTO();
-        ruleInstanceCreateOrUpdateRequestDTO1.setCheckType("数值型");
-        ruleInstanceCreateOrUpdateRequestDTOS.add(ruleInstanceCreateOrUpdateRequestDTO1);
-        requestDTO.setRuleInstances(ruleInstanceCreateOrUpdateRequestDTOS);
+        RuleInstanceCreateOrUpdateRequestDTO ruleInstanceCreateOrUpdateRequestDTO = new RuleInstanceCreateOrUpdateRequestDTO();
+        ruleInstanceCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
+        ruleInstanceCreateOrUpdateRequestDTO.setMetricsConfigCode(metricsConfig.getCode());
+        ruleInstanceCreateOrUpdateRequestDTO.setSample(true);
+        ruleInstanceCreateOrUpdateRequestDTO.setState(RuleStateEnum.OFFLINE);
+        ruleInstanceCreateOrUpdateRequestDTO.setSubjectCategory(SubjectCategoryEnum.TABLE);
+        requestDTO.setRuleInstances(Arrays.asList(ruleInstanceCreateOrUpdateRequestDTO));
 
         SampleInstanceCreateOrUpdateRequestDTO sampleInstanceCreateOrUpdateRequestDTO = new SampleInstanceCreateOrUpdateRequestDTO();
-        sampleInstanceCreateOrUpdateRequestDTO.setParameter("100");
-        sampleInstanceCreateOrUpdateRequestDTO.setDatasetCode(sourceCode);
+        sampleInstanceCreateOrUpdateRequestDTO.setDatasetCode("dataset4");
+        sampleInstanceCreateOrUpdateRequestDTO.setExecutorType("executorType");
+        sampleInstanceCreateOrUpdateRequestDTO.setParameter("90");
         requestDTO.setSampleInstance(sampleInstanceCreateOrUpdateRequestDTO);
         MonitorFlowDefinitionResponseDTO monitorFlowDefinitionResponseDTO = create(requestDTO);
 
         MonitorFlowDefinitionCreateOrUpdateRequestDTO updateDTO = JSONUtils.parseObject(JSONUtils.toJSONString(monitorFlowDefinitionResponseDTO), MonitorFlowDefinitionCreateOrUpdateRequestDTO.class);
-        updateDTO.setDatasetCode(sourceCode);
-        String sampleValue = "90";
+        updateDTO.setDatasetCode("dataset4");
+        updateDTO.getRuleInstances().forEach(i -> {
+            i.setMetricsCode(metrics.getCode());
+            i.setMetricsConfigCode(metricsConfig.getCode());
+            i.setSample(true);
+            i.setState(RuleStateEnum.OFFLINE);
+            i.setSubjectCategory(SubjectCategoryEnum.TABLE);
+        });
+        String sampleValue = "100";
         updateDTO.getSampleInstance().setParameter(sampleValue);
         String url = REST_FUNCTION_URL_PREFIX + "update";
         HttpHeaders headers = new HttpHeaders();
@@ -184,39 +206,48 @@ public class MonitorFlowDefinitionControllerImplTest extends WebApplicationTest 
 
     @Test
     public void testQuery() {
-        AlerterSourceCreateOrUpdateRequestDTO alerterSourceCreateOrUpdateRequestDTO = new AlerterSourceCreateOrUpdateRequestDTO();
-        alerterSourceCreateOrUpdateRequestDTO.setAlertType("DingTalk");
-        alerterSourceCreateOrUpdateRequestDTO.setName("dingTalk test");
-        alerterSourceCreateOrUpdateRequestDTO.setParameter("{\"webhook\":\"1\", \"secret\":\"secret\"}");
-        AlerterSourceResponseDTO alertInstance = createAlertInstance(alerterSourceCreateOrUpdateRequestDTO);
+        MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO = new MetricsCreateOrUpdateRequestDTO();
+        metricsCreateOrUpdateRequestDTO.setCategory("category");
+        metricsCreateOrUpdateRequestDTO.setCode("sum5");
+        metricsCreateOrUpdateRequestDTO.setMetricsDimension(MetricsDimensionEnum.INTEGRALITY);
+        metricsCreateOrUpdateRequestDTO.setName("test");
+        MetricsResponseDTO metrics = createMetrics(metricsCreateOrUpdateRequestDTO);
 
-        String sourceCode = "X03";
+        MetricsConfigCreateOrUpdateRequestDTO metricsConfigCreateOrUpdateRequestDTO = new MetricsConfigCreateOrUpdateRequestDTO();
+        metricsConfigCreateOrUpdateRequestDTO.setDescription("test");
+        metricsConfigCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
+        metricsConfigCreateOrUpdateRequestDTO.setMetricsParams("{\"subjectCategory\": \"\",\"subjectCode\":  \"\", \"metricsCode\": \"sum\", \"filter\":\"\"}");
+        metricsConfigCreateOrUpdateRequestDTO.setSubjectCategory(SubjectCategoryEnum.TABLE);
+        metricsConfigCreateOrUpdateRequestDTO.setSourceCategory("sourceCategory");
+        MetricsConfigResponseDTO metricsConfig = createMetricsConfig(metricsConfigCreateOrUpdateRequestDTO);
+
         MonitorFlowDefinitionCreateOrUpdateRequestDTO requestDTO = new MonitorFlowDefinitionCreateOrUpdateRequestDTO();
-        requestDTO.setDatasetCode(sourceCode);
-        requestDTO.setCrontab("0 0 1 * * ?");
 
-        List<AlerterInstanceCreateOrUpdateRequestDTO> alerterInstances = new ArrayList<>();
         AlerterInstanceCreateOrUpdateRequestDTO alerterInstanceCreateOrUpdateRequestDTO = new AlerterInstanceCreateOrUpdateRequestDTO();
-        alerterInstanceCreateOrUpdateRequestDTO.setDatasetCode(sourceCode);
-        alerterInstanceCreateOrUpdateRequestDTO.setAlerterSourceCode(alertInstance.getCode());
-        alerterInstances.add(alerterInstanceCreateOrUpdateRequestDTO);
-        requestDTO.setAlerterInstances(alerterInstances);
+        alerterInstanceCreateOrUpdateRequestDTO.setAlerterSourceCode(1L);
+        alerterInstanceCreateOrUpdateRequestDTO.setParameter("phone");
+        requestDTO.setAlerterInstances(Arrays.asList(alerterInstanceCreateOrUpdateRequestDTO));
+        requestDTO.setCrontab("crontab");
+        requestDTO.setDatasetCode("dataset5");
 
-        List<RuleInstanceCreateOrUpdateRequestDTO> ruleInstanceCreateOrUpdateRequestDTOS = new ArrayList<>();
-        RuleInstanceCreateOrUpdateRequestDTO ruleInstanceCreateOrUpdateRequestDTO1 = new RuleInstanceCreateOrUpdateRequestDTO();
-        ruleInstanceCreateOrUpdateRequestDTO1.setCheckType("数值型");
-        ruleInstanceCreateOrUpdateRequestDTOS.add(ruleInstanceCreateOrUpdateRequestDTO1);
-        requestDTO.setRuleInstances(ruleInstanceCreateOrUpdateRequestDTOS);
+        RuleInstanceCreateOrUpdateRequestDTO ruleInstanceCreateOrUpdateRequestDTO = new RuleInstanceCreateOrUpdateRequestDTO();
+        ruleInstanceCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
+        ruleInstanceCreateOrUpdateRequestDTO.setMetricsConfigCode(metricsConfig.getCode());
+        ruleInstanceCreateOrUpdateRequestDTO.setSample(true);
+        ruleInstanceCreateOrUpdateRequestDTO.setState(RuleStateEnum.OFFLINE);
+        ruleInstanceCreateOrUpdateRequestDTO.setSubjectCategory(SubjectCategoryEnum.TABLE);
+        requestDTO.setRuleInstances(Arrays.asList(ruleInstanceCreateOrUpdateRequestDTO));
 
         SampleInstanceCreateOrUpdateRequestDTO sampleInstanceCreateOrUpdateRequestDTO = new SampleInstanceCreateOrUpdateRequestDTO();
-        sampleInstanceCreateOrUpdateRequestDTO.setParameter("100");
-        sampleInstanceCreateOrUpdateRequestDTO.setDatasetCode(sourceCode);
+        sampleInstanceCreateOrUpdateRequestDTO.setDatasetCode("dataset5");
+        sampleInstanceCreateOrUpdateRequestDTO.setExecutorType("executorType");
+        sampleInstanceCreateOrUpdateRequestDTO.setParameter("90");
         requestDTO.setSampleInstance(sampleInstanceCreateOrUpdateRequestDTO);
         MonitorFlowDefinitionResponseDTO monitorFlowDefinitionResponseDTO = create(requestDTO);
 
         String url = this.base + REST_FUNCTION_URL_PREFIX + "queryListPage";
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
-            .queryParam("datasetCode", sourceCode)
+            .queryParam("datasetCode", "dataset5")
             .queryParam("pageNo", 1)
             .queryParam("pageSize", 10);
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(builder.build().encode().toUri(), String.class);
@@ -231,33 +262,42 @@ public class MonitorFlowDefinitionControllerImplTest extends WebApplicationTest 
 
     @Test
     public void deleteById() {
-        AlerterSourceCreateOrUpdateRequestDTO alerterSourceCreateOrUpdateRequestDTO = new AlerterSourceCreateOrUpdateRequestDTO();
-        alerterSourceCreateOrUpdateRequestDTO.setAlertType("DingTalk");
-        alerterSourceCreateOrUpdateRequestDTO.setName("dingTalk test");
-        alerterSourceCreateOrUpdateRequestDTO.setParameter("{\"webhook\":\"1\", \"secret\":\"secret\"}");
-        AlerterSourceResponseDTO alertInstance = createAlertInstance(alerterSourceCreateOrUpdateRequestDTO);
+        MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO = new MetricsCreateOrUpdateRequestDTO();
+        metricsCreateOrUpdateRequestDTO.setCategory("category");
+        metricsCreateOrUpdateRequestDTO.setCode("sum6");
+        metricsCreateOrUpdateRequestDTO.setMetricsDimension(MetricsDimensionEnum.INTEGRALITY);
+        metricsCreateOrUpdateRequestDTO.setName("test");
+        MetricsResponseDTO metrics = createMetrics(metricsCreateOrUpdateRequestDTO);
 
-        String sourceCode = "X04";
+        MetricsConfigCreateOrUpdateRequestDTO metricsConfigCreateOrUpdateRequestDTO = new MetricsConfigCreateOrUpdateRequestDTO();
+        metricsConfigCreateOrUpdateRequestDTO.setDescription("test");
+        metricsConfigCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
+        metricsConfigCreateOrUpdateRequestDTO.setMetricsParams("{\"subjectCategory\": \"\",\"subjectCode\":  \"\", \"metricsCode\": \"sum\", \"filter\":\"\"}");
+        metricsConfigCreateOrUpdateRequestDTO.setSubjectCategory(SubjectCategoryEnum.TABLE);
+        metricsConfigCreateOrUpdateRequestDTO.setSourceCategory("sourceCategory");
+        MetricsConfigResponseDTO metricsConfig = createMetricsConfig(metricsConfigCreateOrUpdateRequestDTO);
+
         MonitorFlowDefinitionCreateOrUpdateRequestDTO requestDTO = new MonitorFlowDefinitionCreateOrUpdateRequestDTO();
-        requestDTO.setDatasetCode(sourceCode);
-        requestDTO.setCrontab("0 0 1 * * ?");
 
-        List<AlerterInstanceCreateOrUpdateRequestDTO> alerterInstances = new ArrayList<>();
         AlerterInstanceCreateOrUpdateRequestDTO alerterInstanceCreateOrUpdateRequestDTO = new AlerterInstanceCreateOrUpdateRequestDTO();
-        alerterInstanceCreateOrUpdateRequestDTO.setDatasetCode(sourceCode);
-        alerterInstanceCreateOrUpdateRequestDTO.setAlerterSourceCode(alertInstance.getCode());
-        alerterInstances.add(alerterInstanceCreateOrUpdateRequestDTO);
-        requestDTO.setAlerterInstances(alerterInstances);
+        alerterInstanceCreateOrUpdateRequestDTO.setAlerterSourceCode(1L);
+        alerterInstanceCreateOrUpdateRequestDTO.setParameter("phone");
+        requestDTO.setAlerterInstances(Arrays.asList(alerterInstanceCreateOrUpdateRequestDTO));
+        requestDTO.setCrontab("crontab");
+        requestDTO.setDatasetCode("dataset6");
 
-        List<RuleInstanceCreateOrUpdateRequestDTO> ruleInstanceCreateOrUpdateRequestDTOS = new ArrayList<>();
-        RuleInstanceCreateOrUpdateRequestDTO ruleInstanceCreateOrUpdateRequestDTO1 = new RuleInstanceCreateOrUpdateRequestDTO();
-        ruleInstanceCreateOrUpdateRequestDTO1.setCheckType("数值型");
-        ruleInstanceCreateOrUpdateRequestDTOS.add(ruleInstanceCreateOrUpdateRequestDTO1);
-        requestDTO.setRuleInstances(ruleInstanceCreateOrUpdateRequestDTOS);
+        RuleInstanceCreateOrUpdateRequestDTO ruleInstanceCreateOrUpdateRequestDTO = new RuleInstanceCreateOrUpdateRequestDTO();
+        ruleInstanceCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
+        ruleInstanceCreateOrUpdateRequestDTO.setMetricsConfigCode(metricsConfig.getCode());
+        ruleInstanceCreateOrUpdateRequestDTO.setSample(true);
+        ruleInstanceCreateOrUpdateRequestDTO.setState(RuleStateEnum.OFFLINE);
+        ruleInstanceCreateOrUpdateRequestDTO.setSubjectCategory(SubjectCategoryEnum.TABLE);
+        requestDTO.setRuleInstances(Arrays.asList(ruleInstanceCreateOrUpdateRequestDTO));
 
         SampleInstanceCreateOrUpdateRequestDTO sampleInstanceCreateOrUpdateRequestDTO = new SampleInstanceCreateOrUpdateRequestDTO();
-        sampleInstanceCreateOrUpdateRequestDTO.setParameter("100");
-        sampleInstanceCreateOrUpdateRequestDTO.setDatasetCode(sourceCode);
+        sampleInstanceCreateOrUpdateRequestDTO.setDatasetCode("dataset6");
+        sampleInstanceCreateOrUpdateRequestDTO.setExecutorType("executorType");
+        sampleInstanceCreateOrUpdateRequestDTO.setParameter("90");
         requestDTO.setSampleInstance(sampleInstanceCreateOrUpdateRequestDTO);
         MonitorFlowDefinitionResponseDTO monitorFlowDefinitionResponseDTO = create(requestDTO);
 

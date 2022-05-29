@@ -3,18 +3,24 @@ package org.metahut.octopus.api.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import java.util.Collection;
 
 @ApiModel(description = "alerter instance create or update request dto")
 public class AlerterInstanceCreateOrUpdateRequestDTO {
 
     @ApiModelProperty(value = "id")
+    @NotNull(message = "{parameter.not.null}", groups = Update.class)
     private Integer id;
 
     @ApiModelProperty(value = "datasetCode")
+    @NotEmpty(message = "{parameter.not.null}")
     private String datasetCode;
 
     @ApiModelProperty(value = "alerterSourceCode")
+    @NotNull(message = "{parameter.not.null}")
     private Long alerterSourceCode;
 
     @ApiModelProperty(value = "parameter")
@@ -27,6 +33,9 @@ public class AlerterInstanceCreateOrUpdateRequestDTO {
     @Deprecated
     @ApiModelProperty(value = "users")
     private Collection<UserResponseDTO> users;
+
+    public interface Update {
+    }
 
     public Integer getId() {
         return id;

@@ -3,21 +3,28 @@ package org.metahut.octopus.api.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import java.util.List;
 
 @ApiModel(description = "monitor flow definition create or update request dto")
 public class MonitorFlowDefinitionCreateOrUpdateRequestDTO {
 
     @ApiModelProperty(value = "id")
+    @NotNull(message = "{parameter.not.null}", groups = Update.class)
     private Integer id;
 
     @ApiModelProperty(value = "code")
+    @NotNull(message = "{parameter.not.null}", groups = Update.class)
     private Long code;
 
     @ApiModelProperty(value = "dataset code")
+    @NotEmpty(message = "{parameter.not.null}")
     private String datasetCode;
 
     @ApiModelProperty(value = "crontab")
+    @NotEmpty(message = "{parameter.not.null}")
     private String crontab;
 
     @ApiModelProperty(value = "rule instances")
@@ -28,6 +35,9 @@ public class MonitorFlowDefinitionCreateOrUpdateRequestDTO {
 
     @ApiModelProperty(value = "sample instance")
     private SampleInstanceCreateOrUpdateRequestDTO sampleInstance;
+
+    public interface Update {
+    }
 
     public Integer getId() {
         return id;
