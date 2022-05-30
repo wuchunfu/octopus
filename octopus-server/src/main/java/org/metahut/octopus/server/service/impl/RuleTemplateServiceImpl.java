@@ -49,9 +49,9 @@ public class RuleTemplateServiceImpl implements RuleTemplateService {
     public PageResponseDTO<RuleTemplateResponseDTO> queryListPage(RuleTemplateConditionRequestDTO ruleTemplateRequestDTO) {
         Sort.TypedSort<RuleTemplate> typedSort = Sort.sort(RuleTemplate.class);
         Sort sort = typedSort.by(RuleTemplate::getUpdateTime).descending();
-        Pageable pageable = PageRequest.of(ruleTemplateRequestDTO.getPageNo() - 1, ruleTemplateRequestDTO.getPageSize(), sort);
+        Pageable pageable = PageRequest.of(ruleTemplateRequestDTO.getPageNo() - 1, ruleTemplateRequestDTO.getPageSize());
         Page<RuleTemplate> ruleTemplatePage = ruleTemplateRespository.findAll(withConditions(ruleTemplateRequestDTO), pageable);
-        List<RuleTemplateResponseDTO> convert = (List<RuleTemplateResponseDTO>)conversionService.convert(ruleTemplateRespository.findAll(withConditions(ruleTemplateRequestDTO)),
+        List<RuleTemplateResponseDTO> convert = (List<RuleTemplateResponseDTO>)conversionService.convert(ruleTemplateRespository.findAll(withConditions(ruleTemplateRequestDTO), sort),
                 TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleTemplate.class)),
                 TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleTemplateResponseDTO.class)));
         return PageResponseDTO.of(ruleTemplateRequestDTO.getPageNo(), ruleTemplatePage.getSize(), ruleTemplatePage.getTotalElements(), convert);

@@ -108,8 +108,12 @@ public class SelectItemServiceImpl implements SelectItemService {
         // TODO query metadata interface
 
         List<SelectItemResponseDTO> list = new ArrayList<>();
-        list.add(SelectItemResponseDTO.of("FixedValue", "与固定值比较"));
-        list.add(SelectItemResponseDTO.of("7-DayAverage", "7天平均值波动"));
+        list.add(SelectItemResponseDTO.of("GT", ">"));
+        list.add(SelectItemResponseDTO.of("LT", "<"));
+        list.add(SelectItemResponseDTO.of("GTE", ">="));
+        list.add(SelectItemResponseDTO.of("LTE", "<="));
+        list.add(SelectItemResponseDTO.of("NE", "<>"));
+        list.add(SelectItemResponseDTO.of("EQ", "="));
         return list;
     }
 
@@ -117,8 +121,11 @@ public class SelectItemServiceImpl implements SelectItemService {
         // TODO query metadata interface
 
         List<SelectItemResponseDTO> list = new ArrayList<>();
-        list.add(SelectItemResponseDTO.of("GT", "大于"));
-        list.add(SelectItemResponseDTO.of("LT", "小于"));
+        list.add(SelectItemResponseDTO.of("%", "%"));
+        list.add(SelectItemResponseDTO.of("D", "D"));
+        list.add(SelectItemResponseDTO.of("H", "H"));
+        list.add(SelectItemResponseDTO.of("Min", "Min"));
+        list.add(SelectItemResponseDTO.of("Num", "Num"));
         return list;
     }
 
