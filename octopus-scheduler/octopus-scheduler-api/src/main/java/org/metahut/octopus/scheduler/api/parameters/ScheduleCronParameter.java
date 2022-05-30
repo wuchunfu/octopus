@@ -23,7 +23,7 @@ public class ScheduleCronParameter {
 
     private Date startTime;
     private Date endTime;
-    private String cron;
+    private String crontab;
     private String timezoneId;
 
     public Date getStartTime() {
@@ -42,12 +42,12 @@ public class ScheduleCronParameter {
         this.endTime = endTime;
     }
 
-    public String getCron() {
-        return cron;
+    public String getCrontab() {
+        return crontab;
     }
 
-    public void setCron(String cron) {
-        this.cron = cron;
+    public void setCrontab(String crontab) {
+        this.crontab = crontab;
     }
 
     public String getTimezoneId() {

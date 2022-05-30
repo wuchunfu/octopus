@@ -21,7 +21,7 @@ public class SchedulerServiceImpl implements SchedulerService {
     @Override
     public Collection<String> previewSchedule(SchedulerCronRequestDTO schedulerCronRequestDTO) {
         ScheduleCronParameter parameter = new ScheduleCronParameter();
-        parameter.setCron(schedulerCronRequestDTO.getCron());
+        parameter.setCrontab(schedulerCronRequestDTO.getCron());
         parameter.setStartTime(schedulerCronRequestDTO.getStartTime());
         parameter.setEndTime(schedulerCronRequestDTO.getEndTime());
         parameter.setTimezoneId(schedulerCronRequestDTO.getTimezoneId());

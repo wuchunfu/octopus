@@ -46,14 +46,14 @@ spring:
     format:
       date: yyyy-MM-dd HH:mm:ss
   datasource:
-#    driver-class-name: org.h2.Driver
-#    url: jdbc:h2:mem:octopus;MODE=MySQL;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=true;INIT=runscript from '${user.dir}/tools/sql/octopus-h2.sql'
-#    username: sa
-#    password: ""
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/postgres?serverTimezone=CST
-    username: test
-    password: test
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:octopus;MODE=MySQL;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=true;INIT=runscript from '${user.dir}/tools/sql/octopus-h2.sql'
+    username: sa
+    password: ""
+#    driver-class-name: org.postgresql.Driver
+#    url: jdbc:postgresql://localhost:5432/postgres?serverTimezone=CST
+#    username: test
+#    password: test
 
   jpa:
     hibernate:
@@ -82,3 +82,8 @@ octopus:
       password:
   scheduler:
     type: dolphinscheduler
+    dolphinscheduler:
+      service-url: http://dolphinscheduler.dev.xxx.com/dolphinscheduler
+      project-code: xxx
+      tenant-code: xxx
+      token: xxx
