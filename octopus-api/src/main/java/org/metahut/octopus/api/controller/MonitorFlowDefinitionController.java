@@ -32,11 +32,11 @@ public interface MonitorFlowDefinitionController {
 
     @ApiOperation(value = "create", notes = "MONITOR_FLOW_DEFINITION_CREATE_NOTES")
     @PostMapping("create")
-    ResultEntity<MonitorFlowDefinitionResponseDTO> create(@RequestBody MonitorFlowDefinitionCreateOrUpdateRequestDTO requestDTO);
+    ResultEntity<MonitorFlowDefinitionResponseDTO> create(@RequestBody @Validated MonitorFlowDefinitionCreateOrUpdateRequestDTO requestDTO);
 
     @ApiOperation(value = "update", notes = "MONITOR_FLOW_DEFINITION_UPDATE_NOTES")
     @PutMapping("update")
-    ResultEntity<MonitorFlowDefinitionResponseDTO> update(@RequestBody MonitorFlowDefinitionCreateOrUpdateRequestDTO requestDTO);
+    ResultEntity<MonitorFlowDefinitionResponseDTO> update(@RequestBody @Validated(MonitorFlowDefinitionCreateOrUpdateRequestDTO.Update.class) MonitorFlowDefinitionCreateOrUpdateRequestDTO requestDTO);
 
     @ApiOperation(value = "testRun", notes = "MONITOR_FLOW_DEFINITION_TEST_RUN_NOTES")
     @GetMapping("testRun/{code}")

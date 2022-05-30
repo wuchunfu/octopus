@@ -1,6 +1,6 @@
 package org.metahut.octopus.api.dto;
 
-public class UserConditionsRequestDTO extends PageRequestDTO {
+public class UserConditionsRequestDTO {
 
     private String enName;
 
