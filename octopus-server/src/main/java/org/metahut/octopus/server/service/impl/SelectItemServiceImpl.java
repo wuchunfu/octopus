@@ -15,6 +15,8 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -123,6 +125,15 @@ public class SelectItemServiceImpl implements SelectItemService {
     private List<SelectItemResponseDTO> queryTaskStatusItem() {
         // TODO query metadata interface
 
+        List<SelectItemResponseDTO> list = new ArrayList<>();
+        list.add(SelectItemResponseDTO.of("Hive", "运行中"));
+        list.add(SelectItemResponseDTO.of("Pulsar", "失败"));
+        return list;
+    }
+
+    private List<SelectItemResponseDTO> queryDateFormatItem() {
+        // TODO query metadata interface
+        DateTimeFormatter.ofPattern("");
         List<SelectItemResponseDTO> list = new ArrayList<>();
         list.add(SelectItemResponseDTO.of("Hive", "运行中"));
         list.add(SelectItemResponseDTO.of("Pulsar", "失败"));

@@ -1,5 +1,7 @@
 package org.metahut.octopus.api.dto;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.validation.constraints.NotEmpty;
 
 import java.util.Date;
@@ -9,6 +11,7 @@ public class SchedulerCronRequestDTO {
     private Date startTime;
     private Date endTime;
 
+    @ApiModelProperty(value = "schedule cron")
     @NotEmpty(message = "{parameter.not.null}")
     private String cron;
     private String timezoneId;

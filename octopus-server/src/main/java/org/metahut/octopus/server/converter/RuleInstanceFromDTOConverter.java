@@ -27,7 +27,9 @@ public abstract class RuleInstanceFromDTOConverter implements Converter<RuleInst
     @Override
     @Mappings({
         @Mapping(source = "metricsCode", target = "metrics"),
-        @Mapping(source = "metricsConfigCode", target = "metricsConfig", nullValueCheckStrategy = ALWAYS)
+        //@Mapping(source = "metricsConfigCode", target = "metricsConfig", nullValueCheckStrategy = ALWAYS)
+        // TODO The metricConfig parameter is required. When custom scripts are supported later, the metricConfig parameter is not required.
+        @Mapping(source = "metricsConfigCode", target = "metricsConfig")
     })
     public abstract RuleInstance convert(RuleInstanceCreateOrUpdateRequestDTO source);
 
