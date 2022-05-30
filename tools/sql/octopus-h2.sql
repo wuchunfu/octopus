@@ -18,20 +18,22 @@
 DROP TABLE IF EXISTS tb_octopus_user CASCADE;
 CREATE TABLE tb_octopus_user
 (
-    id            int(11) NOT NULL AUTO_INCREMENT,
-    user_name     varchar(64) DEFAULT NULL,
-    user_password varchar(64) DEFAULT NULL,
-    user_type     tinyint(4)  DEFAULT NULL,
-    email         varchar(64) DEFAULT NULL,
-    phone         varchar(11) DEFAULT NULL,
-    tenant_id     int(11)     DEFAULT NULL,
-    create_time   datetime    DEFAULT NULL,
-    update_time   datetime    DEFAULT NULL,
-    queue         varchar(64) DEFAULT NULL,
-    state         int(1)      DEFAULT 1,
-    time_zone     varchar(32) DEFAULT NULL,
+    id              int(11) NOT NULL AUTO_INCREMENT,
+    code            bigint NOT NULL,
+    name            varchar(64),
+    cn_name         varchar(64) DEFAULT NULL,
+    password        varchar(64),
+    email           varchar(64),
+    phoneNumber     varchar(11),
+    departmentName  varchar(255),
+    groupName       varchar(255),
+    state           varchar(255),
+    create_time   timestamp   DEFAULT NULL,
+    update_time   timestamp   DEFAULT NULL,
+    creator        int       DEFAULT NULL,
+    updater        int       DEFAULT NULL,
     PRIMARY KEY (id),
-    UNIQUE KEY user_name_unique (user_name)
+    CONSTRAINT user_name_unique UNIQUE (name)
 );
 
 DROP TABLE IF EXISTS tb_octopus_flow_definition CASCADE;

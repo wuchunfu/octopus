@@ -18,20 +18,22 @@
 DROP TABLE IF EXISTS tb_octopus_user;
 CREATE TABLE tb_octopus_user
 (
-    id            serial NOT NULL,
-    user_name     varchar(64) DEFAULT NULL,
-    user_password varchar(64) DEFAULT NULL,
-    user_type     int         DEFAULT NULL,
-    email         varchar(64) DEFAULT NULL,
-    phone         varchar(11) DEFAULT NULL,
-    tenant_id     int         DEFAULT NULL,
+    id              serial NOT NULL,
+    code            bigint NOT NULL,
+    name            varchar(64),
+    cn_name         varchar(64) DEFAULT NULL,
+    password        varchar(64),
+    email           varchar(64),
+    phoneNumber     varchar(11),
+    departmentName  varchar(255),
+    groupName       varchar(255),
+    state           varchar(255),
     create_time   timestamp   DEFAULT NULL,
     update_time   timestamp   DEFAULT NULL,
-    queue         varchar(64) DEFAULT NULL,
-    state         int         DEFAULT 1,
-    time_zone     varchar(32) DEFAULT NULL,
+    creator        int       DEFAULT NULL,
+    updater        int       DEFAULT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT user_name_unique UNIQUE (user_name)
+    CONSTRAINT user_name_unique UNIQUE (name)
 );
 
 DROP TABLE IF EXISTS tb_octopus_flow_definition;

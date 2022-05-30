@@ -1,5 +1,7 @@
 package org.metahut.octopus.dao.entity;
 
+import org.metahut.octopus.common.enums.UserStateEnum;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -47,6 +49,11 @@ public class User extends BaseEntity {
      * group name
      */
     private String groupName;
+
+    /**
+     * state
+     */
+    private UserStateEnum state;
 
     public Integer getId() {
         return id;
@@ -118,5 +125,13 @@ public class User extends BaseEntity {
 
     public void setGroupName(String groupName) {
         this.groupName = groupName;
+    }
+
+    public UserStateEnum getState() {
+        return state;
+    }
+
+    public void setState(UserStateEnum state) {
+        this.state = state;
     }
 }
