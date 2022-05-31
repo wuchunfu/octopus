@@ -4,37 +4,53 @@ import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 public class RuleTemplateCreateOrUpdateRequestDTO {
 
     @ApiModelProperty(value = "id")
+    @NotNull(message = "{parameter.not.null}", groups = Update.class)
     private Integer id;
 
     @ApiModelProperty(value = "code")
+    @NotNull(message = "{parameter.not.null}", groups = Update.class)
     private Long code;
 
     @ApiModelProperty(value = "name")
     private String name;
 
     @ApiModelProperty(value = "metricsCode")
+    @NotBlank(message = "{parameter.not.null}")
     private String metricsCode;
 
     @ApiModelProperty(value = "subjectCategory")
+    @NotNull(message = "{parameter.not.null}")
     private SubjectCategoryEnum subjectCategory;
 
     @ApiModelProperty(value = "checkType")
+    @NotBlank(message = "{parameter.not.null}")
     private String checkType;
 
     @ApiModelProperty(value = "checkMethod")
+    @NotBlank(message = "{parameter.not.null}")
     private String checkMethod;
 
     @ApiModelProperty(value = "comparisonMethod")
+    @NotBlank(message = "{parameter.not.null}")
     private String comparisonMethod;
 
     @ApiModelProperty(value = "expectedValue")
+    @NotBlank(message = "{parameter.not.null}")
     private String expectedValue;
 
     @ApiModelProperty(value = "comparisonUnit")
+    @NotBlank(message = "{parameter.not.null}")
     private String comparisonUnit;
+
+    public interface Update {
+    }
 
     public Integer getId() {
         return id;

@@ -10,6 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,10 +34,11 @@ public interface RuleInstanceController {
 
     @ApiOperation(value = "create", notes = "RULE_INSTANCE_CREATE_NOTES")
     @PutMapping("create")
-    ResultEntity<RuleInstanceResponseDTO> create(@RequestBody RuleInstanceSingleCreateOrUpdateRequestDTO requestDTO);
+    ResultEntity<RuleInstanceResponseDTO> create(@RequestBody @Validated RuleInstanceSingleCreateOrUpdateRequestDTO requestDTO);
 
     @ApiOperation(value = "update", notes = "RULE_INSTANCE_UPDATE_NOTES")
     @PutMapping("update")
-    ResultEntity<RuleInstanceResponseDTO> update(@RequestBody RuleInstanceSingleCreateOrUpdateRequestDTO requestDTO);
+    ResultEntity<RuleInstanceResponseDTO> update(@RequestBody @Validated(RuleInstanceSingleCreateOrUpdateRequestDTO.Update
+            .class) RuleInstanceSingleCreateOrUpdateRequestDTO requestDTO);
 
 }
