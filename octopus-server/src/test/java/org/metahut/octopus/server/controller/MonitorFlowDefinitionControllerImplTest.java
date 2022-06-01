@@ -195,6 +195,10 @@ public class MonitorFlowDefinitionControllerImplTest extends WebApplicationTest 
 
         MonitorFlowDefinitionCreateOrUpdateRequestDTO updateDTO = JSONUtils.parseObject(JSONUtils.toJSONString(monitorFlowDefinitionResponseDTO), MonitorFlowDefinitionCreateOrUpdateRequestDTO.class);
         updateDTO.setDatasetCode("dataset4");
+        updateDTO.getAlerterInstances().forEach(i -> {
+            i.setAlerterSourceCode(alertInstance.getCode());
+            i.setParameter("phone");
+        });
         updateDTO.getRuleInstances().forEach(i -> {
             i.setMetricsCode(metrics.getCode());
             i.setMetricsConfigCode(metricsConfig.getCode());
