@@ -1,6 +1,8 @@
 package org.metahut.octopus.meta.starfish;
 
 import org.metahut.octopus.meta.api.IMeta;
+import org.metahut.octopus.meta.api.MetaDatabaseEntity;
+import org.metahut.octopus.meta.api.MetaDatabaseRequest;
 import org.metahut.octopus.meta.api.MetaDatasetEntity;
 import org.metahut.octopus.meta.api.MetaDatasetRequest;
 import org.metahut.octopus.meta.api.MetaDatasourceEntity;
@@ -12,7 +14,9 @@ import org.metahut.octopus.meta.api.MetaSchemaEntity;
 import org.metahut.octopus.meta.api.PageResponseDTO;
 import org.metahut.octopus.meta.api.ResultEntity;
 import org.metahut.octopus.meta.starfish.bean.HiveClusterResponseDTO;
+import org.metahut.octopus.meta.starfish.bean.HiveDBResponseDTO;
 import org.metahut.octopus.meta.starfish.bean.PulsarClusterResponseDTO;
+import org.metahut.octopus.meta.starfish.bean.PulsarNamespaceResponseDTO;
 import org.metahut.octopus.meta.starfish.bean.SourceResponseDTO;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -97,6 +101,53 @@ public class StarfishMeta implements IMeta {
                         new TypeReference<ResultEntity<PageResponseDTO<PulsarClusterResponseDTO>>>() {});
                 if (resultEntity.isSuccess()) {
                     PageResponseDTO<PulsarClusterResponseDTO> data = resultEntity.getData();
+                    return PageResponseDTO.of(data.getPageNo(),data.getPageSize(),data.getTotal(),
+                            data.getData() == null ? null : data.getData().stream().map(sourceResponseDTO -> {
+                                MetaDatasourceTypeEntity entity = new MetaDatasourceTypeEntity();
+                                entity.setId(sourceResponseDTO.getId());
+                                entity.setName(sourceResponseDTO.getName());
+                                return entity;
+                            }).collect(Collectors.toList()));
+                }
+            }
+        } catch (Exception exception) {
+            logger.error(exception.getMessage(),exception);
+        }
+        return null;
+    }
+
+    @Override
+    public PageResponseDTO<MetaDatabaseEntity> queryDatabaseListPage(MetaDatabaseRequest request) {
+        try {
+            if ("Hive".equals(request.getDataSourceType())) {
+                String resultJson = get(MessageFormat.format("/meta/entity/hiveDbs?id={0}&name={1}&pageNo={2}&pageSize={3}",
+                        request.getCode(),
+                        request.getName(),
+                        request.getPageNo(),
+                        request.getPageSize()));
+                ResultEntity<PageResponseDTO<HiveDBResponseDTO>> resultEntity = new ObjectMapper().readValue(resultJson,
+                        new TypeReference<ResultEntity<PageResponseDTO<HiveDBResponseDTO>>>() {});
+                if (resultEntity.isSuccess()) {
+                    PageResponseDTO<HiveDBResponseDTO> data = resultEntity.getData();
+                    return PageResponseDTO.of(data.getPageNo(),data.getPageSize(),data.getTotal(),
+                            data.getData() == null ? null : data.getData().stream().map(sourceResponseDTO -> {
+                                MetaDatasourceEntity entity = new MetaDatasourceEntity();
+                                entity.setCode(sourceResponseDTO.getId());
+                                entity.setName(sourceResponseDTO.getName());
+                                return entity;
+                            }).collect(Collectors.toList()));
+                }
+            } else if ("Pulsar".equals(request.getDataSourceType())) {
+                String url = get(MessageFormat.format("/meta/entity/pulsarNamespaces?id={0}&name={1}&pageNo={2}&pageSize={3}",
+                        request.getCode(),
+                        request.getName(),
+                        request.getPageNo(),
+                        request.getPageSize()));
+                String resultJson = get(url);
+                ResultEntity<PageResponseDTO<PulsarNamespaceResponseDTO>> resultEntity = new ObjectMapper().readValue(resultJson,
+                        new TypeReference<ResultEntity<PageResponseDTO<PulsarNamespaceResponseDTO>>>() {});
+                if (resultEntity.isSuccess()) {
+                    PageResponseDTO<PulsarNamespaceResponseDTO> data = resultEntity.getData();
                     return PageResponseDTO.of(data.getPageNo(),data.getPageSize(),data.getTotal(),
                             data.getData() == null ? null : data.getData().stream().map(sourceResponseDTO -> {
                                 MetaDatasourceTypeEntity entity = new MetaDatasourceTypeEntity();
