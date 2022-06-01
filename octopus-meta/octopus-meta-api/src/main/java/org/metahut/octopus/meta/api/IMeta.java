@@ -6,6 +6,8 @@ public interface IMeta {
 
     PageResponseDTO<MetaDatasourceEntity> queryDatasourceListPage(MetaDatasourceRequest metaDatasourceRequest);
 
+    PageResponseDTO<MetaDatabaseEntity> queryDatabaseListPage(MetaDatabaseRequest metaDatasourceRequest);
+
     PageResponseDTO<MetaDatasetEntity> queryDatasetListPage(MetaDatasetRequest request);
 
     MetaDatasetEntity queryDatasetByCode(String code);
