@@ -55,8 +55,8 @@ public class RuleInstance extends BaseEntity {
 
     @Transient
     private Boolean sample;
-    @JoinColumn(name = "sample_code", referencedColumnName = "code", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinColumn(name = "sample_code", referencedColumnName = "code", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private SampleInstance sampleInstance;
 
     @Enumerated(value = EnumType.STRING)
