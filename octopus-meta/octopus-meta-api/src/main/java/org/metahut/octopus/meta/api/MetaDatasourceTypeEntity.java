@@ -1,20 +1,20 @@
 package org.metahut.octopus.meta.api;
 
 /**
- * 数据库
+ * 数据源类型
  */
-public class MetaDatabaseEntity {
+public class MetaDatasourceTypeEntity {
 
-    private String code;
+    private Long id;
 
     private String name;
 
-    public String getCode() {
-        return code;
+    public Long getId() {
+        return id;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
