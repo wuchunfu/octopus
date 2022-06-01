@@ -9,7 +9,9 @@ import org.metahut.octopus.dao.entity.MetricsConfig;
 import org.metahut.octopus.dao.entity.Metrics_;
 import org.metahut.octopus.dao.entity.RuleInstance;
 import org.metahut.octopus.dao.entity.RuleInstance_;
+import org.metahut.octopus.dao.entity.SampleInstance;
 import org.metahut.octopus.dao.repository.RuleInstanceRepository;
+import org.metahut.octopus.dao.repository.SampleInstanceRepository;
 import org.metahut.octopus.server.service.MetricsConfigService;
 import org.metahut.octopus.server.service.MetricsService;
 import org.metahut.octopus.server.service.RuleInstanceService;
@@ -17,6 +19,7 @@ import org.metahut.octopus.server.service.RuleInstanceService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.TypeDescriptor;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +33,7 @@ import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class RuleInstanceServiceImpl implements RuleInstanceService {
@@ -38,15 +42,17 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
     private final ConversionService conversionService;
     private final MetricsService metricsService;
     private final MetricsConfigService metricsConfigService;
+    private final SampleInstanceRepository sampleInstanceRepository;
 
     public RuleInstanceServiceImpl(RuleInstanceRepository ruleInstanceRepository,
                                    ConversionService conversionService,
                                    MetricsService metricsService,
-                                   MetricsConfigService metricsConfigService) {
+                                   MetricsConfigService metricsConfigService, SampleInstanceRepository sampleInstanceRepository) {
         this.ruleInstanceRepository = ruleInstanceRepository;
         this.conversionService = conversionService;
         this.metricsService = metricsService;
         this.metricsConfigService = metricsConfigService;
+        this.sampleInstanceRepository = sampleInstanceRepository;
     }
 
     @Override
@@ -97,11 +103,15 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
 
         // When the sampling request data changes, the sampling instance table data also changes.
         // TODO need to test
-        if (Objects.nonNull(requestDTO.getSampleInstance())) {
+        //if (Objects.nonNull(requestDTO.getSampleInstance())) {
             // TODO
-        }
-
+        //}
+        SampleInstance sampleInstance = new SampleInstance();
+        sampleInstance.setCode(requestDTO.getSampleCode());
+        Optional<SampleInstance> one = sampleInstanceRepository.findOne(Example.of(sampleInstance));
+        convert.setSampleInstance(one.get());
         RuleInstance save = ruleInstanceRepository.save(convert);
+        save.setSampleInstance(one.get());
         return conversionService.convert(save, RuleInstanceResponseDTO.class);
     }
 

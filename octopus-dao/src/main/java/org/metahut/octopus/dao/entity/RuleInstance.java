@@ -5,6 +5,7 @@ import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 import org.metahut.octopus.common.enums.TaskTypeEnum;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -31,6 +32,9 @@ public class RuleInstance extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "metrics_code", referencedColumnName = "code")
     private Metrics metrics;
+
+    @Column(name = "dataset_code", updatable = false)
+    private String datasetCode;
 
     @ManyToOne
     @JoinColumn(name = "metrics_config_code", referencedColumnName = "code")
@@ -229,5 +233,13 @@ public class RuleInstance extends BaseEntity {
 
     public void setComparisonUnit(String comparisonUnit) {
         this.comparisonUnit = comparisonUnit;
+    }
+
+    public String getDatasetCode() {
+        return datasetCode;
+    }
+
+    public void setDatasetCode(String datasetCode) {
+        this.datasetCode = datasetCode;
     }
 }
