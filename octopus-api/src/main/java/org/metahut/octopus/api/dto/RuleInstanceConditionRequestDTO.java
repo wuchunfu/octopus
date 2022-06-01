@@ -9,8 +9,10 @@ public class RuleInstanceConditionRequestDTO extends PageRequestDTO {
     @ApiModelProperty(value = "datasetCode")
     private String datasetCode;
 
+    @ApiModelProperty(value = "metricsName")
     private String metricsName;
 
+    @ApiModelProperty(value = "metricsCode")
     private String metricsCode;
 
     @ApiModelProperty(value = "createStartTime")

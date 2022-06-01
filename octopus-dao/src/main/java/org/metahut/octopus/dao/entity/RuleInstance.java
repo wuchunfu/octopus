@@ -53,7 +53,7 @@ public class RuleInstance extends BaseEntity {
 
     @Transient
     private Boolean sample;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "sample_code", referencedColumnName = "code")
     private SampleInstance sampleInstance;
 

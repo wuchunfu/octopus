@@ -11,15 +11,14 @@ import org.metahut.octopus.dao.entity.RuleInstance;
 import org.metahut.octopus.dao.entity.RuleInstance_;
 import org.metahut.octopus.dao.entity.SampleInstance;
 import org.metahut.octopus.dao.repository.RuleInstanceRepository;
-import org.metahut.octopus.dao.repository.SampleInstanceRepository;
 import org.metahut.octopus.server.service.MetricsConfigService;
 import org.metahut.octopus.server.service.MetricsService;
 import org.metahut.octopus.server.service.RuleInstanceService;
+import org.metahut.octopus.server.service.SampleInstanceService;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.TypeDescriptor;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -33,7 +32,6 @@ import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class RuleInstanceServiceImpl implements RuleInstanceService {
@@ -42,17 +40,17 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
     private final ConversionService conversionService;
     private final MetricsService metricsService;
     private final MetricsConfigService metricsConfigService;
-    private final SampleInstanceRepository sampleInstanceRepository;
+    private final SampleInstanceService sampleInstanceService;
 
     public RuleInstanceServiceImpl(RuleInstanceRepository ruleInstanceRepository,
                                    ConversionService conversionService,
                                    MetricsService metricsService,
-                                   MetricsConfigService metricsConfigService, SampleInstanceRepository sampleInstanceRepository) {
+                                   MetricsConfigService metricsConfigService, SampleInstanceService sampleInstanceService) {
         this.ruleInstanceRepository = ruleInstanceRepository;
         this.conversionService = conversionService;
         this.metricsService = metricsService;
         this.metricsConfigService = metricsConfigService;
-        this.sampleInstanceRepository = sampleInstanceRepository;
+        this.sampleInstanceService = sampleInstanceService;
     }
 
     @Override
@@ -68,6 +66,10 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
     private Specification<RuleInstance> withConditions(RuleInstanceConditionRequestDTO requestDTO) {
         return (root, query, builder) -> {
             List<Predicate> conditions = new ArrayList<>();
+
+            if (StringUtils.isNotBlank(requestDTO.getDatasetCode())) {
+                conditions.add((builder.equal(root.get(RuleInstance_.datasetCode), requestDTO.getDatasetCode())));
+            }
 
             if (Objects.nonNull(requestDTO.getCreateEndTime())) {
                 conditions.add(builder.between(root.get(RuleInstance_.createTime), requestDTO.getCreateStartTime(), requestDTO.getCreateEndTime()));
@@ -100,18 +102,11 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
             Metrics metrics = metricsService.findOneByCode(requestDTO.getMetricsCode());
             convert.setMetrics(metrics);
         }
-
-        // When the sampling request data changes, the sampling instance table data also changes.
-        // TODO need to test
-        //if (Objects.nonNull(requestDTO.getSampleInstance())) {
-            // TODO
-        //}
-        SampleInstance sampleInstance = new SampleInstance();
-        sampleInstance.setCode(requestDTO.getSampleCode());
-        Optional<SampleInstance> one = sampleInstanceRepository.findOne(Example.of(sampleInstance));
-        convert.setSampleInstance(one.get());
+        if (Objects.nonNull(requestDTO.getSampleCode())) {
+            SampleInstance sample = sampleInstanceService.findOneByCode(requestDTO.getSampleCode());
+            convert.setSampleInstance(sample);
+        }
         RuleInstance save = ruleInstanceRepository.save(convert);
-        save.setSampleInstance(one.get());
         return conversionService.convert(save, RuleInstanceResponseDTO.class);
     }
 
