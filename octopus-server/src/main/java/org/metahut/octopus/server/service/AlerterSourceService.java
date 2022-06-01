@@ -21,4 +21,6 @@ public interface AlerterSourceService {
     AlerterSourceResponseDTO createOrUpdate(AlerterSourceCreateOrUpdateRequestDTO requestDTO);
 
     void deleteById(Integer id);
+
+    AlerterSource findByCode(Long alertSourceCode);
 }

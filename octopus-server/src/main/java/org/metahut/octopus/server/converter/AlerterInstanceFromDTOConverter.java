@@ -4,6 +4,7 @@ import org.metahut.octopus.api.dto.AlerterInstanceCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.UserResponseDTO;
 import org.metahut.octopus.dao.entity.AlerterInstance;
 import org.metahut.octopus.metrics.api.JSONUtils;
+import org.metahut.octopus.server.service.AlerterSourceService;
 
 import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.Mapper;
@@ -17,11 +18,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {AlerterSourceService.class})
 public interface AlerterInstanceFromDTOConverter extends Converter<AlerterInstanceCreateOrUpdateRequestDTO, AlerterInstance> {
 
     @Override
     @Mapping(source = "source", target = "parameter", qualifiedByName = "generateParameter")
+    @Mapping(source = "alerterSourceCode", target = "source")
     AlerterInstance convert(AlerterInstanceCreateOrUpdateRequestDTO source);
 
     @Deprecated
