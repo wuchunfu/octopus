@@ -167,7 +167,7 @@ public class StarfishMeta implements IMeta {
         metaDatasetEntity1.setName("dwd_im_1");
 
         MetaDatasourceEntity metaDatasourceEntity1 = new MetaDatasourceEntity();
-        metaDatasourceEntity1.setCode("01");
+        metaDatasourceEntity1.setCode(01L);
         metaDatasourceEntity1.setName("Hive-IDC");
         metaDatasourceEntity1.setType("Hive");
         metaDatasetEntity1.setDatasource(metaDatasourceEntity1);
