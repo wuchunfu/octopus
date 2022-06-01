@@ -79,7 +79,7 @@ public class RuleInstanceControllerImplTest extends WebApplicationTest {
     @Test
     public void testCreate() {
         MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO = new MetricsCreateOrUpdateRequestDTO();
-        metricsCreateOrUpdateRequestDTO.setCode("c_count_instance6");
+        metricsCreateOrUpdateRequestDTO.setCode("c_count_instance18");
         metricsCreateOrUpdateRequestDTO.setName("c_count_instance");
         MetricsResponseDTO metrics = createMetrics(metricsCreateOrUpdateRequestDTO);
 
@@ -97,7 +97,9 @@ public class RuleInstanceControllerImplTest extends WebApplicationTest {
         ruleInstanceSingleCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
         ruleInstanceSingleCreateOrUpdateRequestDTO.setMetricsConfigCode(metricsConfig.getCode());
         ruleInstanceSingleCreateOrUpdateRequestDTO.setSubjectCategory(SubjectCategoryEnum.TABLE);
-        ruleInstanceSingleCreateOrUpdateRequestDTO.setSampleCode(5714046032257L);
+        SampleInstanceCreateOrUpdateRequestDTO sampleInstanceCreateOrUpdateRequestDTO = new SampleInstanceCreateOrUpdateRequestDTO();
+        sampleInstanceCreateOrUpdateRequestDTO.setCode(5714046032257L);
+        ruleInstanceSingleCreateOrUpdateRequestDTO.setSampleInstance(sampleInstanceCreateOrUpdateRequestDTO);
         ruleInstanceSingleCreateOrUpdateRequestDTO.setDatasetCode("datasetCode0601");
         RuleInstanceResponseDTO ruleInstanceResponseDTOS = create(ruleInstanceSingleCreateOrUpdateRequestDTO);
     }
@@ -105,7 +107,7 @@ public class RuleInstanceControllerImplTest extends WebApplicationTest {
     @Test
     public void testUpdate() {
         MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO = new MetricsCreateOrUpdateRequestDTO();
-        metricsCreateOrUpdateRequestDTO.setCode("c_count_instance8");
+        metricsCreateOrUpdateRequestDTO.setCode("c_count_instance98");
         metricsCreateOrUpdateRequestDTO.setName("c_count_instance");
         MetricsResponseDTO metrics = createMetrics(metricsCreateOrUpdateRequestDTO);
 
@@ -123,7 +125,12 @@ public class RuleInstanceControllerImplTest extends WebApplicationTest {
         ruleInstanceSingleCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
         ruleInstanceSingleCreateOrUpdateRequestDTO.setMetricsConfigCode(metricsConfig.getCode());
         ruleInstanceSingleCreateOrUpdateRequestDTO.setSubjectCategory(SubjectCategoryEnum.TABLE);
-        ruleInstanceSingleCreateOrUpdateRequestDTO.setSampleCode(5714046032257L);
+        SampleInstanceCreateOrUpdateRequestDTO sampleInstanceCreateOrUpdateRequestDTO = new SampleInstanceCreateOrUpdateRequestDTO();
+        sampleInstanceCreateOrUpdateRequestDTO.setCode(5714046032257L);
+        sampleInstanceCreateOrUpdateRequestDTO.setDatasetCode("datasetCode0601");
+        sampleInstanceCreateOrUpdateRequestDTO.setParameter("111");
+        sampleInstanceCreateOrUpdateRequestDTO.setExecutorType("executorType");
+        ruleInstanceSingleCreateOrUpdateRequestDTO.setSampleInstance(sampleInstanceCreateOrUpdateRequestDTO);
         ruleInstanceSingleCreateOrUpdateRequestDTO.setDatasetCode("datasetCode0601");
         RuleInstanceResponseDTO ruleInstanceResponseDTOS = create(ruleInstanceSingleCreateOrUpdateRequestDTO);
 
@@ -132,7 +139,7 @@ public class RuleInstanceControllerImplTest extends WebApplicationTest {
         updateRequestDTO.setCheckMethod(checkMethod);
         updateRequestDTO.setMetricsCode(metrics.getCode());
         updateRequestDTO.setMetricsConfigCode(metricsConfig.getCode());
-        updateRequestDTO.setSampleCode(5714046032257L);
+        updateRequestDTO.getSampleInstance().setParameter("update");
         String url = REST_FUNCTION_URL_PREFIX + "update";
         HttpHeaders headers = new HttpHeaders();
         HttpEntity httpEntity = new HttpEntity(updateRequestDTO, headers);
@@ -166,7 +173,12 @@ public class RuleInstanceControllerImplTest extends WebApplicationTest {
         ruleInstanceSingleCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
         ruleInstanceSingleCreateOrUpdateRequestDTO.setMetricsConfigCode(metricsConfig.getCode());
         ruleInstanceSingleCreateOrUpdateRequestDTO.setSubjectCategory(SubjectCategoryEnum.TABLE);
-        ruleInstanceSingleCreateOrUpdateRequestDTO.setSampleCode(5714046032257L);
+        SampleInstanceCreateOrUpdateRequestDTO sampleInstanceCreateOrUpdateRequestDTO = new SampleInstanceCreateOrUpdateRequestDTO();
+        sampleInstanceCreateOrUpdateRequestDTO.setCode(5714046032257L);
+        sampleInstanceCreateOrUpdateRequestDTO.setDatasetCode("datasetCode0601");
+        sampleInstanceCreateOrUpdateRequestDTO.setParameter("111");
+        sampleInstanceCreateOrUpdateRequestDTO.setExecutorType("executorType");
+        ruleInstanceSingleCreateOrUpdateRequestDTO.setSampleInstance(sampleInstanceCreateOrUpdateRequestDTO);
         ruleInstanceSingleCreateOrUpdateRequestDTO.setDatasetCode("datasetCode0601");
         RuleInstanceResponseDTO ruleInstanceResponseDTOS = create(ruleInstanceSingleCreateOrUpdateRequestDTO);
 
@@ -199,7 +211,12 @@ public class RuleInstanceControllerImplTest extends WebApplicationTest {
         ruleInstanceSingleCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
         ruleInstanceSingleCreateOrUpdateRequestDTO.setMetricsConfigCode(metricsConfig.getCode());
         ruleInstanceSingleCreateOrUpdateRequestDTO.setSubjectCategory(SubjectCategoryEnum.TABLE);
-        ruleInstanceSingleCreateOrUpdateRequestDTO.setSampleCode(5714046032257L);
+        SampleInstanceCreateOrUpdateRequestDTO sampleInstanceCreateOrUpdateRequestDTO = new SampleInstanceCreateOrUpdateRequestDTO();
+        sampleInstanceCreateOrUpdateRequestDTO.setCode(5714046032257L);
+        sampleInstanceCreateOrUpdateRequestDTO.setDatasetCode("datasetCode0601");
+        sampleInstanceCreateOrUpdateRequestDTO.setParameter("111");
+        sampleInstanceCreateOrUpdateRequestDTO.setExecutorType("executorType");
+        ruleInstanceSingleCreateOrUpdateRequestDTO.setSampleInstance(sampleInstanceCreateOrUpdateRequestDTO);
         ruleInstanceSingleCreateOrUpdateRequestDTO.setDatasetCode("datasetCode06");
         RuleInstanceResponseDTO ruleInstanceResponseDTOS = create(ruleInstanceSingleCreateOrUpdateRequestDTO);
 

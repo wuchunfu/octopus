@@ -102,8 +102,8 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
             Metrics metrics = metricsService.findOneByCode(requestDTO.getMetricsCode());
             convert.setMetrics(metrics);
         }
-        if (Objects.nonNull(requestDTO.getSampleCode())) {
-            SampleInstance sample = sampleInstanceService.findOneByCode(requestDTO.getSampleCode());
+        if (Objects.nonNull(requestDTO.getSampleInstance())) {
+            SampleInstance sample = sampleInstanceService.checkSample(requestDTO.getSampleInstance());
             convert.setSampleInstance(sample);
         }
         RuleInstance save = ruleInstanceRepository.save(convert);
