@@ -8,9 +8,11 @@ import org.metahut.octopus.dao.entity.AlerterSource_;
 import org.metahut.octopus.dao.repository.AlerterSourceRepository;
 import org.metahut.octopus.server.alerter.AlerterPluginHelper;
 import org.metahut.octopus.server.service.AlerterSourceService;
+import org.metahut.octopus.server.utils.Assert;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.convert.ConversionService;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +24,9 @@ import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+
+import static org.metahut.octopus.common.enums.StatusEnum.ALERT_SOURCE_NOT_EXIST;
 
 @Service
 public class AlerterSourceServiceImpl implements AlerterSourceService {
@@ -80,5 +85,14 @@ public class AlerterSourceServiceImpl implements AlerterSourceService {
     @Override
     public void deleteById(Integer id) {
         alerterSourceRepository.deleteById(id);
+    }
+
+    @Override
+    public AlerterSource findByCode(Long alertSourceCode) {
+        AlerterSource alerterSource = new AlerterSource();
+        alerterSource.setCode(alertSourceCode);
+        Optional<AlerterSource> optional = alerterSourceRepository.findOne(Example.of(alerterSource));
+        Assert.notPresent(optional, ALERT_SOURCE_NOT_EXIST, alertSourceCode);
+        return optional.get();
     }
 }

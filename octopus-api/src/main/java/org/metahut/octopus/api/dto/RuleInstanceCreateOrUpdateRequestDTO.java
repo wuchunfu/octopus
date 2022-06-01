@@ -6,6 +6,7 @@ import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -22,10 +23,6 @@ public class RuleInstanceCreateOrUpdateRequestDTO {
 
     @ApiModelProperty(value = "name")
     private String name;
-
-    @ApiModelProperty(value = "datasetCode")
-    @NotEmpty(message = "{parameter.not.null}")
-    private String datasetCode;
 
     @ApiModelProperty(value = "metricsCode")
     @NotEmpty(message = "{parameter.not.null}")
@@ -49,6 +46,9 @@ public class RuleInstanceCreateOrUpdateRequestDTO {
 
     @ApiModelProperty(value = "comparisonMethod")
     private String comparisonMethod;
+
+    @ApiModelProperty(value = "comparisonUnit")
+    private String comparisonUnit;
 
     @ApiModelProperty(value = "expectedValue")
     private String expectedValue;
@@ -88,14 +88,6 @@ public class RuleInstanceCreateOrUpdateRequestDTO {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDatasetCode() {
-        return datasetCode;
-    }
-
-    public void setDatasetCode(String datasetCode) {
-        this.datasetCode = datasetCode;
     }
 
     public String getMetricsCode() {
@@ -186,4 +178,11 @@ public class RuleInstanceCreateOrUpdateRequestDTO {
         this.subjectCode = subjectCode;
     }
 
+    public String getComparisonUnit() {
+        return comparisonUnit;
+    }
+
+    public void setComparisonUnit(String comparisonUnit) {
+        this.comparisonUnit = comparisonUnit;
+    }
 }
