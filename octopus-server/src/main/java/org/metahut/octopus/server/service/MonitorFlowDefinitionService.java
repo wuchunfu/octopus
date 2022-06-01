@@ -16,4 +16,5 @@ public interface MonitorFlowDefinitionService {
 
     Collection<String> queryRegisteredDatasetCodes();
 
+    MonitorFlowDefinitionResponseDTO queryByCode(String code);
 }

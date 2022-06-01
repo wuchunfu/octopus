@@ -9,6 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import java.util.Collection;
 
 @Api(tags = "ALERTER_SOURCE_TAG")
 @RequestMapping("alerterSource")
+@Validated
 public interface AlerterSourceController {
 
     @ApiOperation(value = "queryAllPluginTypes", notes = "ALERTER_PLUGIN_QUERY_ALL_TYPE_NOTES")
@@ -37,11 +39,11 @@ public interface AlerterSourceController {
 
     @ApiOperation(value = "create", notes = "ALERTER_SOURCE_CREATE_NOTES")
     @PostMapping("create")
-    ResultEntity<AlerterSourceResponseDTO> create(@RequestBody AlerterSourceCreateOrUpdateRequestDTO requestDTO);
+    ResultEntity<AlerterSourceResponseDTO> create(@RequestBody @Validated AlerterSourceCreateOrUpdateRequestDTO requestDTO);
 
     @ApiOperation(value = "update", notes = "ALERTER_SOURCE_UPDATE_NOTES")
     @PutMapping("update")
-    ResultEntity<AlerterSourceResponseDTO> update(@RequestBody AlerterSourceCreateOrUpdateRequestDTO requestDTO);
+    ResultEntity<AlerterSourceResponseDTO> update(@RequestBody @Validated AlerterSourceCreateOrUpdateRequestDTO requestDTO);
 
     @ApiOperation(value = "deleteById", notes = "DELETE_ALERTER_SOURCE_BY_ID_NOTES")
     @ApiImplicitParams({

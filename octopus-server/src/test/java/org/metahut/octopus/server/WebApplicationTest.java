@@ -8,6 +8,12 @@ import org.springframework.boot.web.server.LocalServerPort;
 
 import java.net.URL;
 
+/**
+ * <p>
+ *     Web Mvc test {@link WebMvcApplicationTest}
+ * </p>
+ */
+@Deprecated
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class WebApplicationTest {
 

@@ -5,6 +5,7 @@ import org.metahut.octopus.api.dto.SelectItemResponseDTO;
 import org.metahut.octopus.common.enums.MetricsDimensionEnum;
 import org.metahut.octopus.common.enums.SelectItemNameEnum;
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
+import org.metahut.octopus.scheduler.api.ExecutionStatus;
 import org.metahut.octopus.server.service.MetaService;
 import org.metahut.octopus.server.service.SelectItemService;
 
@@ -15,7 +16,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.text.DateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -130,12 +130,7 @@ public class SelectItemServiceImpl implements SelectItemService {
     }
 
     private List<SelectItemResponseDTO> queryTaskStatusItem() {
-        // TODO query metadata interface
-
-        List<SelectItemResponseDTO> list = new ArrayList<>();
-        list.add(SelectItemResponseDTO.of("Hive", "运行中"));
-        list.add(SelectItemResponseDTO.of("Pulsar", "失败"));
-        return list;
+        return enumsToSelectItems(ExecutionStatus.values());
     }
 
     private List<SelectItemResponseDTO> queryDateFormatItem() {

@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -71,7 +72,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResultEntity handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
         logger.error(exception.getMessage(), exception);
-        String message = exception.getBindingResult().getFieldError().getDefaultMessage();
+        FieldError fieldError = exception.getBindingResult().getFieldError();
+        String message = fieldError.getField() + " " + fieldError.getDefaultMessage();
         return ResultEntity.of(VALIDATOR_EXCEPTION.getCode(), message);
     }
 

@@ -17,8 +17,14 @@
 
 package org.metahut.octopus.scheduler.api;
 
+import org.metahut.octopus.scheduler.api.entity.FlowDefinition;
+import org.metahut.octopus.scheduler.api.entity.FlowInstance;
+import org.metahut.octopus.scheduler.api.entity.TaskInstance;
+import org.metahut.octopus.scheduler.api.parameters.FlowInstanceRequestParameter;
 import org.metahut.octopus.scheduler.api.parameters.ScheduleCronParameter;
 import org.metahut.octopus.scheduler.api.parameters.ScheduleParameter;
+import org.metahut.octopus.scheduler.api.parameters.TaskInstanceLogRequestParameter;
+import org.metahut.octopus.scheduler.api.parameters.TaskInstanceRequestParameter;
 import org.metahut.octopus.scheduler.api.parameters.TaskParameter;
 
 import java.util.List;
@@ -33,6 +39,15 @@ public interface IScheduler extends AutoCloseable {
 
     String createSingleHttpTask(TaskParameter taskDefinitionParameter);
 
+    String createSingleTask(TaskParameter taskParameter);
+
     void deleteFlowByCode(String flowCode);
 
+    FlowDefinition queryFlowByCode(String flowCode);
+
+    PageResponse<FlowInstance> queryFlowInstanceListPage(FlowInstanceRequestParameter parameter);
+
+    PageResponse<TaskInstance> queryTaskInstanceListPage(TaskInstanceRequestParameter parameter);
+
+    String queryFlowInstanceLog(TaskInstanceLogRequestParameter requestParameter);
 }

@@ -3,7 +3,9 @@ package org.metahut.octopus.api.controller;
 import org.metahut.octopus.api.dto.MetaDatabaseResponseDTO;
 import org.metahut.octopus.api.dto.MetaDatasetRequestDTO;
 import org.metahut.octopus.api.dto.MetaDatasetResponseDTO;
+import org.metahut.octopus.api.dto.MetaDatasourceRequestDTO;
 import org.metahut.octopus.api.dto.MetaDatasourceResponseDTO;
+import org.metahut.octopus.api.dto.MetaDatasourceTypeRequestDTO;
 import org.metahut.octopus.api.dto.PageResponseDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
 
@@ -18,17 +20,21 @@ import java.util.Collection;
 @RequestMapping("meta")
 public interface MetaController {
 
-    @ApiOperation(value = "queryDatasourceList", notes = "META_DATASOURCE_QUERY_LIST_NOTES")
-    @GetMapping("queryDatasourceList")
-    ResultEntity<Collection<MetaDatasourceResponseDTO>> queryDatasourceList(String name);
+    @ApiOperation(value = "queryDatasourceTypeListPage", notes = "META_DATASOURCE_QUERY_LIST_NOTES")
+    @GetMapping("queryDatasourceTypeListPage")
+    ResultEntity<PageResponseDTO<MetaDatasourceResponseDTO>> queryDatasourceTypeListPage(MetaDatasourceTypeRequestDTO requestDTO);
+
+    @ApiOperation(value = "queryDatasourceListPage", notes = "META_DATASOURCE_QUERY_LIST_NOTES")
+    @GetMapping("queryDatasourceListPage")
+    ResultEntity<PageResponseDTO<MetaDatasourceResponseDTO>> queryDatasourceListPage(MetaDatasourceRequestDTO requestDTO);
 
     @ApiOperation(value = "queryDatabaseList", notes = "META_DATABASE_QUERY_LIST_NOTES")
-    @GetMapping("queryDatabaseList")
-    ResultEntity<Collection<MetaDatabaseResponseDTO>> queryDatabaseList(String datasourceCode);
+    @GetMapping("queryDatabaseListPage")
+    ResultEntity<PageResponseDTO<MetaDatabaseResponseDTO>> queryDatabaseListPage(String datasourceCode);
 
     @ApiOperation(value = "queryDatasetList", notes = "META_DATASET_QUERY_LIST_NOTES")
     @GetMapping("queryDatasetList")
-    ResultEntity<Collection<MetaDatasetResponseDTO>> queryDatasetList(MetaDatasetRequestDTO requestDTO);
+    ResultEntity<PageResponseDTO<MetaDatasetResponseDTO>> queryDatasetListPage(MetaDatasetRequestDTO requestDTO);
 
     @ApiOperation(value = "queryUnregisteredDatasetList", notes = "META_UNREGISTERED_DATASET_QUERY_LIST_NOTES")
     @GetMapping("queryUnregisteredDatasetList")

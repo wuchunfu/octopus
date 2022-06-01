@@ -1,5 +1,8 @@
 package org.metahut.octopus.meta.api;
 
+/**
+ * 数据库
+ */
 public class MetaDatabaseEntity {
 
     private String code;

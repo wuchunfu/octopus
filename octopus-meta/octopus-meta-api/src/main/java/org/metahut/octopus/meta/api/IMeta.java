@@ -1,14 +1,12 @@
 package org.metahut.octopus.meta.api;
 
-import java.util.Collection;
-
 public interface IMeta {
 
-    Collection<MetaDatasourceEntity> queryDatasourceList(String name);
+    PageResponseDTO<MetaDatasourceTypeEntity> queryDatasourceTypeListPage(MetaDatasourceTypeRequest datasourceTypeRequest);
 
-    Collection<MetaDatabaseEntity> queryDatabaseList(String datasourceCode);
+    PageResponseDTO<MetaDatasourceEntity> queryDatasourceListPage(MetaDatasourceRequest metaDatasourceRequest);
 
-    Collection<MetaDatasetEntity> queryDatasetList(MetaDatasetEntityRequest request);
+    PageResponseDTO<MetaDatasetEntity> queryDatasetListPage(MetaDatasetRequest request);
 
     MetaDatasetEntity queryDatasetByCode(String code);
 

@@ -1,14 +1,26 @@
 package org.metahut.octopus.scheduler.api.parameters;
 
-import java.util.Collection;
+import org.metahut.octopus.scheduler.api.ExecutionStatus;
+
+import lombok.Data;
+
 import java.util.Date;
 
-public class FlowInstanceRequestParameter {
+@Data
+public class FlowInstanceRequestParameter extends PageRequest {
 
-    private Collection<String> flowCodes;
+    private String name;
 
-    private Date taskStartStartTime;
+    private ExecutionStatus executionStatus;
 
-    private Date taskStartEndTime;
+    /**
+     * the time when the flow start executing.
+     */
+    private Date beginTime;
+
+    /**
+     * the time when the flow is done.
+     */
+    private Date endTime;
 
 }

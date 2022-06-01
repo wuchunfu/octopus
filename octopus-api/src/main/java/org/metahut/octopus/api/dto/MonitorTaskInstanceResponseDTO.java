@@ -4,16 +4,16 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Date;
 
-public class MonitorFlowInstanceResponseDTO {
+public class MonitorTaskInstanceResponseDTO {
 
-    @ApiModelProperty(value = "datasource code")
+    @ApiModelProperty(value = "flow definition")
     private MonitorFlowDefinitionResponseDTO flowDefinition;
 
-    @ApiModelProperty(value = "datasource code")
-    private String schedulerInstanceCode;
+    @ApiModelProperty(value = "schedulerTaskInstanceCode")
+    private String schedulerTaskInstanceCode;
 
-    @ApiModelProperty(value = "datasource code")
-    private String schedulerInstanceName;
+    @ApiModelProperty(value = "schedulerFlowInstanceCode")
+    private String schedulerFlowInstanceCode;
 
     @ApiModelProperty(value = "executionStatus")
     private String executionStatus;
@@ -32,20 +32,20 @@ public class MonitorFlowInstanceResponseDTO {
         this.flowDefinition = flowDefinition;
     }
 
-    public String getSchedulerInstanceCode() {
-        return schedulerInstanceCode;
+    public String getSchedulerTaskInstanceCode() {
+        return schedulerTaskInstanceCode;
     }
 
-    public void setSchedulerInstanceCode(String schedulerInstanceCode) {
-        this.schedulerInstanceCode = schedulerInstanceCode;
+    public void setSchedulerTaskInstanceCode(String schedulerTaskInstanceCode) {
+        this.schedulerTaskInstanceCode = schedulerTaskInstanceCode;
     }
 
-    public String getSchedulerInstanceName() {
-        return schedulerInstanceName;
+    public String getSchedulerFlowInstanceCode() {
+        return schedulerFlowInstanceCode;
     }
 
-    public void setSchedulerInstanceName(String schedulerInstanceName) {
-        this.schedulerInstanceName = schedulerInstanceName;
+    public void setSchedulerFlowInstanceCode(String schedulerFlowInstanceCode) {
+        this.schedulerFlowInstanceCode = schedulerFlowInstanceCode;
     }
 
     public String getExecutionStatus() {

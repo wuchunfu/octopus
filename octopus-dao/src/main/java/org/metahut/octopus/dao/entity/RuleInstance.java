@@ -6,9 +6,11 @@ import org.metahut.octopus.common.enums.TaskTypeEnum;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,14 +32,14 @@ public class RuleInstance extends BaseEntity {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "metrics_code", referencedColumnName = "code")
+    @JoinColumn(name = "metrics_code", referencedColumnName = "code", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Metrics metrics;
 
     @Column(name = "dataset_code", updatable = false)
     private String datasetCode;
 
     @ManyToOne
-    @JoinColumn(name = "metrics_config_code", referencedColumnName = "code")
+    @JoinColumn(name = "metrics_config_code", referencedColumnName = "code", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private MetricsConfig metricsConfig;
 
     private String metricsParams;
@@ -53,8 +55,8 @@ public class RuleInstance extends BaseEntity {
 
     @Transient
     private Boolean sample;
+    @JoinColumn(name = "sample_code", referencedColumnName = "code", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinColumn(name = "sample_code", referencedColumnName = "code")
     private SampleInstance sampleInstance;
 
     @Enumerated(value = EnumType.STRING)

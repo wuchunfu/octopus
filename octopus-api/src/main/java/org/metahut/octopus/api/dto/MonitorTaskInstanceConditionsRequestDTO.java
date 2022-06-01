@@ -5,8 +5,8 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Date;
 
-@ApiModel(description = "monitor flow instance conditions request dto")
-public class MonitorFlowInstanceConditionsRequestDTO extends PageRequestDTO {
+@ApiModel(description = "monitor task instance conditions request dto")
+public class MonitorTaskInstanceConditionsRequestDTO extends PageRequestDTO {
 
     @ApiModelProperty(value = "datasource code")
     private String datasourceCode;
@@ -25,12 +25,6 @@ public class MonitorFlowInstanceConditionsRequestDTO extends PageRequestDTO {
 
     @ApiModelProperty(value = "startTask end time")
     private Date taskStartEndTime;
-
-    @ApiModelProperty(value = "endTask start time")
-    private Date taskEndStartTime;
-
-    @ApiModelProperty(value = "endTask end time")
-    private Date taskEndEndTime;
 
     public String getDatasourceCode() {
         return datasourceCode;
@@ -80,19 +74,4 @@ public class MonitorFlowInstanceConditionsRequestDTO extends PageRequestDTO {
         this.taskStartEndTime = taskStartEndTime;
     }
 
-    public Date getTaskEndStartTime() {
-        return taskEndStartTime;
-    }
-
-    public void setTaskEndStartTime(Date taskEndStartTime) {
-        this.taskEndStartTime = taskEndStartTime;
-    }
-
-    public Date getTaskEndEndTime() {
-        return taskEndEndTime;
-    }
-
-    public void setTaskEndEndTime(Date taskEndEndTime) {
-        this.taskEndEndTime = taskEndEndTime;
-    }
 }

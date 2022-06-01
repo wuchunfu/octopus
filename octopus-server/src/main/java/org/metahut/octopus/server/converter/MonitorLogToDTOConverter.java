@@ -5,6 +5,7 @@ import org.metahut.octopus.api.dto.MetaDatasetSingleResponseDTO;
 import org.metahut.octopus.api.dto.MetaSchemaResponseDTO;
 import org.metahut.octopus.api.dto.MetaSchemaSingleResponseDTO;
 import org.metahut.octopus.api.dto.MonitorLogResponseDTO;
+import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 import org.metahut.octopus.monitordb.api.MonitorLog;
 import org.metahut.octopus.server.service.MetaService;
 
@@ -35,7 +36,7 @@ public abstract class MonitorLogToDTOConverter implements Converter<MonitorLog, 
         metaSchemaResponseDTO.setDatabase(dataset.getDatabase());
         metaSchemaResponseDTO.setDataset(new MetaDatasetSingleResponseDTO(dataset.getCode(), dataset.getName()));
 
-        if (source.getDatasetCode().equals(source.getSubjectCode())) {
+        if (SubjectCategoryEnum.TABLE.name().equals(source.getSubjectCategory())) {
             return metaSchemaResponseDTO;
         }
 

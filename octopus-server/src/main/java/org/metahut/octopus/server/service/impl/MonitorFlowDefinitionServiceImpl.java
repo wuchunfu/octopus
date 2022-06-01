@@ -8,6 +8,7 @@ import org.metahut.octopus.dao.entity.FlowDefinition;
 import org.metahut.octopus.dao.entity.FlowDefinition_;
 import org.metahut.octopus.dao.repository.FlowDefinitionRepository;
 import org.metahut.octopus.server.service.MonitorFlowDefinitionService;
+import org.metahut.octopus.server.utils.Assert;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.convert.ConversionService;
@@ -24,7 +25,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static org.metahut.octopus.common.enums.StatusEnum.METRICS_CONFIG_NOT_EXIST;
 
 @Service
 public class MonitorFlowDefinitionServiceImpl implements MonitorFlowDefinitionService {
@@ -83,5 +87,17 @@ public class MonitorFlowDefinitionServiceImpl implements MonitorFlowDefinitionSe
     @Override
     public Collection<String> queryRegisteredDatasetCodes() {
         return flowDefinitionRepository.findAll().stream().map(FlowDefinition::getDatasetCode).collect(Collectors.toSet());
+    }
+
+    public FlowDefinition findOneByCode(String code) {
+        Optional<FlowDefinition> optional = flowDefinitionRepository.findOne((root, query, builder) -> builder.equal(root.get(FlowDefinition_.code), code));
+        Assert.notPresent(optional, METRICS_CONFIG_NOT_EXIST, code);
+        return optional.get();
+    }
+
+    @Override
+    public MonitorFlowDefinitionResponseDTO queryByCode(String code) {
+        return conversionService.convert(findOneByCode(code), MonitorFlowDefinitionResponseDTO.class);
+
     }
 }

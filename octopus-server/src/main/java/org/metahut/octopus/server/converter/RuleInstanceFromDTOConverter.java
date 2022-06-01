@@ -19,8 +19,6 @@ import org.springframework.core.convert.converter.Converter;
 import java.util.List;
 import java.util.Objects;
 
-import static org.mapstruct.NullValueCheckStrategy.ALWAYS;
-
 @Mapper(componentModel = "spring", uses = { MetricsService.class, MetricsConfigService.class })
 public abstract class RuleInstanceFromDTOConverter implements Converter<RuleInstanceCreateOrUpdateRequestDTO, RuleInstance> {
 
