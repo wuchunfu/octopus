@@ -6,6 +6,7 @@ import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -45,6 +46,9 @@ public class RuleInstanceCreateOrUpdateRequestDTO {
 
     @ApiModelProperty(value = "comparisonMethod")
     private String comparisonMethod;
+
+    @ApiModelProperty(value = "comparisonUnit")
+    private String comparisonUnit;
 
     @ApiModelProperty(value = "expectedValue")
     private String expectedValue;
@@ -174,4 +178,11 @@ public class RuleInstanceCreateOrUpdateRequestDTO {
         this.subjectCode = subjectCode;
     }
 
+    public String getComparisonUnit() {
+        return comparisonUnit;
+    }
+
+    public void setComparisonUnit(String comparisonUnit) {
+        this.comparisonUnit = comparisonUnit;
+    }
 }

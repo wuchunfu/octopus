@@ -35,6 +35,9 @@ public class RuleInstanceResponseDTO {
     @ApiModelProperty(value = "comparisonMethod")
     private String comparisonMethod;
 
+    @ApiModelProperty(value = "comparisonUnit")
+    private String comparisonUnit;
+
     @ApiModelProperty(value = "expectedValue")
     private String expectedValue;
 
@@ -182,5 +185,13 @@ public class RuleInstanceResponseDTO {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getComparisonUnit() {
+        return comparisonUnit;
+    }
+
+    public void setComparisonUnit(String comparisonUnit) {
+        this.comparisonUnit = comparisonUnit;
     }
 }
