@@ -21,9 +21,6 @@ public class RuleInstanceSingleCreateOrUpdateRequestDTO {
     @ApiModelProperty(value = "name")
     private String name;
 
-    @ApiModelProperty(value = "datasetCode")
-    private String datasetCode;
-
     @ApiModelProperty(value = "metricsCode")
     private String metricsCode;
 
@@ -83,14 +80,6 @@ public class RuleInstanceSingleCreateOrUpdateRequestDTO {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDatasetCode() {
-        return datasetCode;
-    }
-
-    public void setDatasetCode(String datasetCode) {
-        this.datasetCode = datasetCode;
     }
 
     public String getMetricsCode() {

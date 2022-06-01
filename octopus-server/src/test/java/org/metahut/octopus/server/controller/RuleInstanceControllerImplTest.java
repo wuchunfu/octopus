@@ -89,7 +89,7 @@ public class RuleInstanceControllerImplTest extends WebApplicationTest {
         ruleInstanceCreateOrUpdateRequestDTO.setCheckMethod("checkMethod");
         ruleInstanceCreateOrUpdateRequestDTO.setCheckType("checkType");
         ruleInstanceCreateOrUpdateRequestDTO.setComparisonMethod("comparisonMethod");
-        ruleInstanceCreateOrUpdateRequestDTO.setDatasetCode("datasetCode");
+        //ruleInstanceCreateOrUpdateRequestDTO.setDatasetCode("datasetCode");
         ruleInstanceCreateOrUpdateRequestDTO.setExpectedValue("expectedValue");
         ruleInstanceCreateOrUpdateRequestDTO.setSubjectCode("subjectCode");
         ruleInstanceCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
@@ -99,7 +99,7 @@ public class RuleInstanceControllerImplTest extends WebApplicationTest {
         sampleInstance.setDatasetCode("sourceCode_create");
         sampleInstance.setParameter("90");
         //ruleInstanceCreateOrUpdateRequestDTO.setSampleInstance(sampleInstance);
-        ruleInstanceCreateOrUpdateRequestDTO.setDatasetCode("sourceCode_create");
+        //ruleInstanceCreateOrUpdateRequestDTO.setDatasetCode("sourceCode_create");
         RuleInstanceResponseDTO ruleInstanceResponseDTOS = create(ruleInstanceCreateOrUpdateRequestDTO);
     }
 
@@ -126,7 +126,7 @@ public class RuleInstanceControllerImplTest extends WebApplicationTest {
         sampleInstance.setDatasetCode("sourceCode_update");
         sampleInstance.setParameter("90");
         //ruleInstanceCreateOrUpdateRequestDTO.setSampleInstance(sampleInstance);
-        ruleInstanceCreateOrUpdateRequestDTO.setDatasetCode("sourceCode_update");
+        //ruleInstanceCreateOrUpdateRequestDTO.setDatasetCode("sourceCode_update");
         RuleInstanceResponseDTO ruleInstanceResponseDTOS = create(ruleInstanceCreateOrUpdateRequestDTO);
 
         RuleInstanceCreateOrUpdateRequestDTO updateRequestDTO = JSONUtils.parseObject(JSONUtils.toJSONString(ruleInstanceResponseDTOS), RuleInstanceCreateOrUpdateRequestDTO.class);
@@ -169,7 +169,7 @@ public class RuleInstanceControllerImplTest extends WebApplicationTest {
         sampleInstance.setDatasetCode("sourceCode_delete");
         sampleInstance.setParameter("90");
         //ruleInstanceCreateOrUpdateRequestDTO.setSampleInstance(sampleInstance);
-        ruleInstanceCreateOrUpdateRequestDTO.setDatasetCode("sourceCode_delete");
+        //ruleInstanceCreateOrUpdateRequestDTO.setDatasetCode("sourceCode_delete");
         RuleInstanceResponseDTO ruleInstanceResponseDTOS = create(ruleInstanceCreateOrUpdateRequestDTO);
 
         String url = REST_FUNCTION_URL_PREFIX + ruleInstanceResponseDTOS.getId();
@@ -203,7 +203,7 @@ public class RuleInstanceControllerImplTest extends WebApplicationTest {
         sampleInstance.setDatasetCode("sourceCode_query");
         sampleInstance.setParameter("90");
         //ruleInstanceCreateOrUpdateRequestDTO.setSampleInstance(sampleInstance);
-        ruleInstanceCreateOrUpdateRequestDTO.setDatasetCode("sourceCode_query");
+        //ruleInstanceCreateOrUpdateRequestDTO.setDatasetCode("sourceCode_query");
         RuleInstanceResponseDTO ruleInstanceResponseDTOS = create(ruleInstanceCreateOrUpdateRequestDTO);
 
         String url = this.base + REST_FUNCTION_URL_PREFIX + "queryListPage";

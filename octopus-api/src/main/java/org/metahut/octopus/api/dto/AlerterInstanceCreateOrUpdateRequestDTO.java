@@ -15,10 +15,6 @@ public class AlerterInstanceCreateOrUpdateRequestDTO {
     @NotNull(message = "{parameter.not.null}", groups = Update.class)
     private Integer id;
 
-    @ApiModelProperty(value = "datasetCode")
-    @NotEmpty(message = "{parameter.not.null}")
-    private String datasetCode;
-
     @ApiModelProperty(value = "alerterSourceCode")
     @NotNull(message = "{parameter.not.null}")
     private Long alerterSourceCode;
@@ -43,14 +39,6 @@ public class AlerterInstanceCreateOrUpdateRequestDTO {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getDatasetCode() {
-        return datasetCode;
-    }
-
-    public void setDatasetCode(String datasetCode) {
-        this.datasetCode = datasetCode;
     }
 
     public Long getAlerterSourceCode() {

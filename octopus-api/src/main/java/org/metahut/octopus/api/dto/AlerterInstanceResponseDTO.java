@@ -12,9 +12,6 @@ public class AlerterInstanceResponseDTO {
     @ApiModelProperty(value = "id")
     private Integer id;
 
-    @ApiModelProperty(value = "datasetCode")
-    private String datasetCode;
-
     @ApiModelProperty(value = "alerter source response dto")
     private AlerterSourceResponseDTO source;
 
@@ -43,14 +40,6 @@ public class AlerterInstanceResponseDTO {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getDatasetCode() {
-        return datasetCode;
-    }
-
-    public void setDatasetCode(String datasetCode) {
-        this.datasetCode = datasetCode;
     }
 
     public AlerterSourceResponseDTO getSource() {

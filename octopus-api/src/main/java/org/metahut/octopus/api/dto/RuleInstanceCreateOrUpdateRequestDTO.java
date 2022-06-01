@@ -23,10 +23,6 @@ public class RuleInstanceCreateOrUpdateRequestDTO {
     @ApiModelProperty(value = "name")
     private String name;
 
-    @ApiModelProperty(value = "datasetCode")
-    @NotEmpty(message = "{parameter.not.null}")
-    private String datasetCode;
-
     @ApiModelProperty(value = "metricsCode")
     @NotEmpty(message = "{parameter.not.null}")
     private String metricsCode;
@@ -88,14 +84,6 @@ public class RuleInstanceCreateOrUpdateRequestDTO {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDatasetCode() {
-        return datasetCode;
-    }
-
-    public void setDatasetCode(String datasetCode) {
-        this.datasetCode = datasetCode;
     }
 
     public String getMetricsCode() {
