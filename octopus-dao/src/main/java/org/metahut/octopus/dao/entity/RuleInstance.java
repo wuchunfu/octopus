@@ -5,9 +5,11 @@ import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 import org.metahut.octopus.common.enums.TaskTypeEnum;
 
 import javax.persistence.CascadeType;
+import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,11 +31,11 @@ public class RuleInstance extends BaseEntity {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "metrics_code", referencedColumnName = "code")
+    @JoinColumn(name = "metrics_code", referencedColumnName = "code", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Metrics metrics;
 
     @ManyToOne
-    @JoinColumn(name = "metrics_config_code", referencedColumnName = "code")
+    @JoinColumn(name = "metrics_config_code", referencedColumnName = "code", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private MetricsConfig metricsConfig;
 
     private String metricsParams;
@@ -50,7 +52,7 @@ public class RuleInstance extends BaseEntity {
     @Transient
     private Boolean sample;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "sample_code", referencedColumnName = "code")
+    @JoinColumn(name = "sample_code", referencedColumnName = "code", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private SampleInstance sampleInstance;
 
     @Enumerated(value = EnumType.STRING)

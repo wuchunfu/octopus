@@ -1,10 +1,16 @@
 package org.metahut.octopus.server.config;
 
+import org.hibernate.validator.HibernateValidator;
+import org.hibernate.validator.messageinterpolation.ExpressionLanguageFeatureLevel;
+import org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.validation.Validator;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.validation.beanvalidation.MessageSourceResourceBundleLocator;
+
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 @Configuration
 public class ValidatorConfiguration {
@@ -17,17 +23,13 @@ public class ValidatorConfiguration {
 
     @Bean
     public Validator validator() {
-        LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();
-        factoryBean.setValidationMessageSource(messageSource);
-        // 设置使用 HibernateValidator 校验器
-        //factoryBean.setProviderClass(HibernateValidator.class);
-        //Properties properties = new Properties();
-        // 设置 快速异常返回
-        //properties.setProperty("hibernate.validator.fail_fast", "true");
-        //factoryBean.setValidationProperties(properties);
-        // 加载配置
-        //factoryBean.afterPropertiesSet();
-        return factoryBean;
+        ValidatorFactory validatorFactory = Validation.byProvider(HibernateValidator.class)
+                .configure()
+                .failFast(true)
+                .customViolationExpressionLanguageFeatureLevel(ExpressionLanguageFeatureLevel.BEAN_METHODS)
+                .messageInterpolator(new ResourceBundleMessageInterpolator(new MessageSourceResourceBundleLocator(messageSource)))
+                .buildValidatorFactory();
+        return validatorFactory.getValidator();
     }
 
 }

@@ -1,6 +1,8 @@
 package org.metahut.octopus.dao.entity;
 
+import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,7 +19,7 @@ public class AlerterInstance extends BaseEntity {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "alerter_source_code", referencedColumnName = "code")
+    @JoinColumn(name = "alerter_source_code", referencedColumnName = "code", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private AlerterSource source;
 
     private String parameter;

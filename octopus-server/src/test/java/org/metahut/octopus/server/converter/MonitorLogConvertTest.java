@@ -31,6 +31,7 @@ public class MonitorLogConvertTest extends WebApplicationTest {
     public void testStringJoin() {
         String str = null;
         StringJoiner joiner = new StringJoiner("_");
+        Assertions.assertEquals("", joiner.toString());
         joiner.add("1");
         joiner.add(str);
         joiner.add("2");

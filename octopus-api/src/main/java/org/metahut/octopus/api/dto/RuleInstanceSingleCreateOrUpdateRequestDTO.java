@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 public class RuleInstanceSingleCreateOrUpdateRequestDTO {
 
     @ApiModelProperty(value = "id")
-    @NotNull(message = "{parameter.not.null}", groups = RuleInstanceSingleCreateOrUpdateRequestDTO.Update.class)
+    @NotNull(message = "{parameter.not.null}", groups = Update.class)
     private Integer id;
 
     @ApiModelProperty(value = "code")

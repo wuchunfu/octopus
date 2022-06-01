@@ -1,14 +1,23 @@
 package org.metahut.octopus.scheduler.dolphinscheduler;
 
 import org.metahut.octopus.scheduler.api.IScheduler;
+import org.metahut.octopus.scheduler.api.PageResponse;
 import org.metahut.octopus.scheduler.api.SchedulerException;
 import org.metahut.octopus.scheduler.api.SchedulerProperties;
-import org.metahut.octopus.scheduler.api.SchedulerResult;
+import org.metahut.octopus.scheduler.api.entity.FlowDefinition;
+import org.metahut.octopus.scheduler.api.entity.FlowInstance;
+import org.metahut.octopus.scheduler.api.entity.TaskInstance;
+import org.metahut.octopus.scheduler.api.parameters.FlowInstanceRequestParameter;
 import org.metahut.octopus.scheduler.api.parameters.HttpTaskParameter;
 import org.metahut.octopus.scheduler.api.parameters.ScheduleCronParameter;
 import org.metahut.octopus.scheduler.api.parameters.ScheduleParameter;
+import org.metahut.octopus.scheduler.api.parameters.TaskInstanceLogRequestParameter;
+import org.metahut.octopus.scheduler.api.parameters.TaskInstanceRequestParameter;
 import org.metahut.octopus.scheduler.api.parameters.TaskParameter;
+import org.metahut.octopus.scheduler.dolphinscheduler.entity.ComplexProcessDefinition;
+import org.metahut.octopus.scheduler.dolphinscheduler.entity.DolphinTaskInstance;
 import org.metahut.octopus.scheduler.dolphinscheduler.entity.ProcessDefinition;
+import org.metahut.octopus.scheduler.dolphinscheduler.entity.ProcessInstance;
 import org.metahut.octopus.scheduler.dolphinscheduler.entity.Schedule;
 import org.metahut.octopus.scheduler.dolphinscheduler.enums.ReleaseState;
 import org.metahut.octopus.scheduler.dolphinscheduler.parameter.HttpParameter;
@@ -25,14 +34,16 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -42,85 +53,27 @@ public class DolphinScheduler implements IScheduler {
     private static final MediaType MEDIA_TYPE_JSON = MediaType.get("application/json; charset=utf-8");
     private static final String HEADER_TOKEN_NAME = "token";
     private static final int HTTP_SUCCESS = 0;
-    
+
     private final OkHttpClient client;
     private final SchedulerProperties.DolphinScheduler properties;
+
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd+HH:mm:ss");
 
     public DolphinScheduler(OkHttpClient client, SchedulerProperties.DolphinScheduler properties) {
         this.client = client;
         this.properties = properties;
     }
 
-    // TODO  @Deprecated start
-    static final HashMap<String, String> formTaskMap = new HashMap<>();
-    static final HashMap<String, String> onLineMap = new HashMap<>();
-    static HashMap<String, String> schedulerMap = new HashMap<>();
-    static HashMap<String, String> putMap = new HashMap<>();
-    static HashMap<String, String> putScheduleMap = new HashMap<>();
-
-    static {
-        formTaskMap.put("taskDefinitionJson", "[{\"code\":5028755940768,\"name\":\"test_http1\",\"version\":1,\"description\":"
-            + "\"\",\"delayTime\":0,\"taskType\":\"HTTP\",\"taskParams\":{\"localParams\":[],\"httpParams\":[],\"url\":\"http:1\""
-            + ",\"httpMethod\":\"GET\",\"httpCheckCondition\":\"STATUS_CODE_DEFAULT\",\"condition\":\"\",\"connectTimeout\":60000,"
-            + "\"socketTimeout\":60000,\"dependence\":{},\"conditionResult\":{\"successNode\":[],\"failedNode\":[]},\"waitStartTimeout\":{},"
-            + "\"switchResult\":{}},\"flag\":\"YES\",\"taskPriority\":\"MEDIUM\",\"workerGroup\":\"default\",\"failRetryTimes\":0,"
-            + "\"failRetryInterval\":1,\"timeoutFlag\":\"CLOSE\",\"timeoutNotifyStrategy\":null,\"timeout\":0,\"environmentCode\":-1}]");
-        formTaskMap
-            .put("locations", "[{\"taskCode\":5028755940768,\"x\":115,\"y\":270.0000305175781}]");
-        formTaskMap.put("name", "test_http2");
-        formTaskMap.put("taskRelationJson",
-            "[{\"name\":\"\",\"preTaskCode\":0,\"preTaskVersion\":0,\"postTaskCode\":5028755940768,\"postTaskVersion\":0,\"conditionType\":0,\"conditionParams\":{}}]");
-        formTaskMap.put("tenantCode", "default");
-        formTaskMap.put("description", "aa1");
-        formTaskMap.put("globalParams", "[]");
-        formTaskMap.put("timeout", "0");
-
-        onLineMap.put("name", "aa2");
-        onLineMap.put("releaseState", "ONLINE");
-
-        schedulerMap.put("schedule",
-            "{\"startTime\":\"2022-03-30 00:00:00\",\"endTime\":\"2122-03-30 00:00:00\",\"crontab\":\"0 0 * * * ? *\",\"timezoneId\":\"Asia/Shanghai\"}");
-
-        putMap.put("name", "test_http3");
-        putMap.put("locations",
-            "[{\"taskCode\":5028755940768,\"x\":120,\"y\":270},{\"taskCode\":5028755940768,\"x\":120,\"y\":416.0000305175781}]");
-        putMap.put("taskDefinitionJson",
-            "[{\"code\":5028755940768,\"name\":\"test_http1\",\"version\":1,"
-                + "\"description\":\"\",\"delayTime\":0,\"taskType\":\"HTTP\","
-                + "\"taskParams\":{\"localParams\":[],\"httpParams\":[],\"url\""
-                + ":\"http:1\",\"httpMethod\":\"GET\",\"httpCheckCondition\":"
-                + "\"STATUS_CODE_DEFAULT\",\"condition\":\"\",\"connectTimeout\""
-                + ":60000,\"socketTimeout\":60000,\"dependence\":{},"
-                + "\"conditionResult\":{\"successNode\":[],\"failedNode\":[]},\"waitStartTimeout\":{},\"switchResult\":{}},"
-                + "\"flag\":\"YES\",\"taskPriority\":\"MEDIUM\",\"workerGroup\":\"default\",\"failRetryTimes\":0,\"failRetryInterval\":1,"
-                + "\"timeoutFlag\":\"CLOSE\",\"timeoutNotifyStrategy\":null,\"timeout\":0,\"environmentCode\":-1}]");
-        putMap.put("taskRelationJson", "[{\"name\":\"\",\"preTaskCode\":0,\"preTaskVersion\":0,\"postTaskCode\":5028755940768,\"postTaskVersion\":1,\"conditionType\":0,\"conditionParams\":{}}]");
-        putMap.put("tenantCode", "algdataonline");
-        putMap.put("description", "aa1");
-
-        putScheduleMap.put("environmentCode", "");
-        putScheduleMap.put("failureStrategy", "CONTINUE");
-        putScheduleMap.put("processInstancePriority", "MEDIUM");
-        putScheduleMap.put("schedule",
-            "{\"startTime\":\"2022-03-30 00:00:00\",\"endTime\":\"2122-03-30 00:00:00\",\"crontab\":\"0 0 * * * ? *\",\"timezoneId\":\"Asia/Shanghai\"}");
-        putScheduleMap.put("warningType", "NONE");
-        putScheduleMap.put("warningGroupId", "1");
-        putScheduleMap.put("workerGroup", "default");
-
-    }
-    // TODO  @Deprecated end
-
     @Override
     public List<String> previewSchedule(ScheduleCronParameter scheduleCronParameter) {
         setScheduleCronDefaultValue(scheduleCronParameter);
         String url = MessageFormat.format("/projects/{0}/schedules/preview", properties.getProjectCode());
         FormBody body = new FormBody.Builder()
-            .add("schedule", JSONUtils.toJSONString(scheduleCronParameter))
-            .build();
+                .add("schedule", JSONUtils.toJSONString(scheduleCronParameter))
+                .build();
         try {
             String resultJson = post(url, body);
-            DolphinResult<List<String>> result = JSONUtils.parseObject(resultJson, new TypeReference<DolphinResult<List<String>>>() {
-            });
+            DolphinResult<List<String>> result = JSONUtils.parseObject(resultJson, new TypeReference<DolphinResult<List<String>>>() {});
             checkResult(result, "previewSchedule");
             return result.getData();
         } catch (IOException e) {
@@ -130,7 +83,6 @@ public class DolphinScheduler implements IScheduler {
 
     /**
      * set schedule cron default value
-     *
      * @param scheduleCronParameter schedule cron parameter
      */
     private void setScheduleCronDefaultValue(ScheduleCronParameter scheduleCronParameter) {
@@ -149,14 +101,13 @@ public class DolphinScheduler implements IScheduler {
         setScheduleCronDefaultValue(scheduleParameter.getScheduleCronParameter());
         String url = MessageFormat.format("/projects/{0}/schedules", properties.getProjectCode());
         FormBody body = new FormBody.Builder()
-            .add("processDefinitionCode", scheduleParameter.getFlowCode())
-            .add("schedule", JSONUtils.toJSONString(scheduleParameter.getScheduleCronParameter()))
-            .build();
+                .add("processDefinitionCode", scheduleParameter.getFlowCode())
+                .add("schedule", JSONUtils.toJSONString(scheduleParameter.getScheduleCronParameter()))
+                .build();
         try {
             // create schedule instance
             String resultJson = post(url, body);
-            DolphinResult<Schedule> result = JSONUtils.parseObject(resultJson, new TypeReference<DolphinResult<Schedule>>() {
-            });
+            DolphinResult<Schedule> result = JSONUtils.parseObject(resultJson, new TypeReference<DolphinResult<Schedule>>() {});
             checkResult(result, "createSchedule");
             int scheduleId = result.getData().getId();
 
@@ -172,8 +123,8 @@ public class DolphinScheduler implements IScheduler {
     public void updateSchedule(ScheduleParameter scheduleParameter) {
         String url = MessageFormat.format("/projects/{0}/schedules/update/{1}", properties.getProjectCode(), scheduleParameter.getFlowCode());
         FormBody body = new FormBody.Builder()
-            .add("schedule", JSONUtils.toJSONString(scheduleParameter.getScheduleCronParameter()))
-            .build();
+                .add("schedule", JSONUtils.toJSONString(scheduleParameter.getScheduleCronParameter()))
+                .build();
         try {
             Integer scheduleId = Integer.valueOf(scheduleParameter.getScheduleCode());
             // Update schedule status to offline
@@ -181,8 +132,7 @@ public class DolphinScheduler implements IScheduler {
 
             // update schedule instance
             String resultJson = post(url, body);
-            DolphinResult<Schedule> result = JSONUtils.parseObject(resultJson, new TypeReference<DolphinResult<Schedule>>() {
-            });
+            DolphinResult<Schedule> result = JSONUtils.parseObject(resultJson, new TypeReference<DolphinResult<Schedule>>() {});
             checkResult(result, "updateSchedule");
 
             // Update schedule status to online
@@ -200,7 +150,6 @@ public class DolphinScheduler implements IScheduler {
 
     /**
      * update schedule state to online
-     *
      * @param scheduleId schedule id
      * @throws IOException
      */
@@ -214,7 +163,6 @@ public class DolphinScheduler implements IScheduler {
 
     /**
      * update schedule state to offline
-     *
      * @param scheduleId schedule id
      * @throws IOException
      */
@@ -229,8 +177,8 @@ public class DolphinScheduler implements IScheduler {
     private void updateFlowState(long flowCode, String state) throws IOException {
         String url = MessageFormat.format("/projects/{0}/process-definition/{1}/release", properties.getProjectCode(), String.valueOf(flowCode));
         FormBody body = new FormBody.Builder()
-            .add("releaseState", state)
-            .build();
+                .add("releaseState", state)
+                .build();
         String resultJson = post(url, body);
         DolphinResult result = JSONUtils.parseObject(resultJson, DolphinResult.class);
         checkResult(result, "updateFlowState");
@@ -265,8 +213,7 @@ public class DolphinScheduler implements IScheduler {
         });
 
         // http body
-        Map<String, String> bodyMap = JSONUtils.parseObject(httpTaskParameter.getBody(), new TypeReference<Map<String, String>>() {
-        });
+        Map<String, String> bodyMap = JSONUtils.parseObject(httpTaskParameter.getBody(), new TypeReference<Map<String, String>>() {});
         if (Objects.nonNull(bodyMap)) {
             bodyMap.forEach((key, value) -> {
                 HttpProperty httpProperty = new HttpProperty();
@@ -284,8 +231,26 @@ public class DolphinScheduler implements IScheduler {
 
     @Override
     public String createSingleHttpTask(TaskParameter taskParameter) {
-
         String dolphinHttpParameterJson = generateDolphinHttpTaskParameter(taskParameter.getTaskParams());
+        taskParameter.setTaskParams(dolphinHttpParameterJson);
+        return createSingleTask(createSingleTaskDefinitionParameter(taskParameter));
+    }
+
+    @Override
+    public String createSingleTask(TaskParameter taskParameter) {
+        return createSingleTask(createSingleTaskDefinitionParameter(taskParameter));
+    }
+
+    private TaskDefinitionParameter createSingleTaskDefinitionParameter(TaskParameter taskParameter) {
+        TaskDefinitionParameter dolphinTaskDefinitionParameter = new TaskDefinitionParameter();
+        dolphinTaskDefinitionParameter.setTaskParams(taskParameter.getTaskParams());
+        dolphinTaskDefinitionParameter.setTaskType(taskParameter.getTaskType());
+        dolphinTaskDefinitionParameter.setName(taskParameter.getName());
+        dolphinTaskDefinitionParameter.setDescription(taskParameter.getDescription());
+        return dolphinTaskDefinitionParameter;
+    }
+
+    private String createSingleTask(TaskDefinitionParameter taskDefinitionParameter) {
 
         Long taskCode;
         try {
@@ -297,11 +262,7 @@ public class DolphinScheduler implements IScheduler {
         // create task definition
         List<TaskDefinitionParameter> dolphinTaskDefinitionList = new ArrayList<>();
         TaskDefinitionParameter dolphinTaskDefinitionParameter = new TaskDefinitionParameter();
-        dolphinTaskDefinitionParameter.setTaskParams(dolphinHttpParameterJson);
         dolphinTaskDefinitionParameter.setCode(taskCode);
-        dolphinTaskDefinitionParameter.setTaskType("HTTP");
-        dolphinTaskDefinitionParameter.setName(taskParameter.getName());
-        dolphinTaskDefinitionParameter.setDescription(taskParameter.getDescription());
         dolphinTaskDefinitionList.add(dolphinTaskDefinitionParameter);
 
         // create task definition relations
@@ -321,19 +282,18 @@ public class DolphinScheduler implements IScheduler {
 
         String url = MessageFormat.format("/projects/{0}/process-definition", properties.getProjectCode());
         FormBody body = new FormBody.Builder()
-            .add("name", taskParameter.getName())
-            .add("description", taskParameter.getDescription())
-            .add("tenantCode", properties.getTenantCode())
-            .add("taskRelationJson", JSONUtils.toJSONString(taskRelationList))
-            .add("taskDefinitionJson", JSONUtils.toJSONString(dolphinTaskDefinitionList))
-            .add("locations", JSONUtils.toJSONString(locations))
-            .build();
+                .add("name", taskDefinitionParameter.getName())
+                .add("description", taskDefinitionParameter.getDescription())
+                .add("tenantCode", properties.getTenantCode())
+                .add("taskRelationJson", JSONUtils.toJSONString(taskRelationList))
+                .add("taskDefinitionJson", JSONUtils.toJSONString(dolphinTaskDefinitionList))
+                .add("locations", JSONUtils.toJSONString(locations))
+                .build();
 
         try {
             // create task instance and flow instance
             String resultJson = post(url, body);
-            DolphinResult<ProcessDefinition> result = JSONUtils.parseObject(resultJson, new TypeReference<DolphinResult<ProcessDefinition>>() {
-            });
+            DolphinResult<ProcessDefinition> result = JSONUtils.parseObject(resultJson, new TypeReference<DolphinResult<ProcessDefinition>>() {});
             checkResult(result, "createSingleHttpTask");
 
             long flowCode = result.getData().getCode();
@@ -342,20 +302,6 @@ public class DolphinScheduler implements IScheduler {
             return String.valueOf(flowCode);
         } catch (IOException e) {
             throw new SchedulerException("dolphin scheduler call createSingleHttpTask method exception", e);
-        }
-    }
-
-    public void updateSingleHttpTask(TaskParameter taskParameter) {
-
-    }
-
-    private void queryFlowByCode(String flowCode) {
-        String url = MessageFormat.format("/projects/{0}/process-definition/{1}", properties.getProjectCode(), flowCode);
-        try {
-            String resultJson = get(url);
-
-        } catch (IOException e) {
-            throw new SchedulerException("dolphin scheduler call queryFlowByCode method exception", e);
         }
     }
 
@@ -373,108 +319,145 @@ public class DolphinScheduler implements IScheduler {
         } catch (IOException e) {
             throw new SchedulerException("dolphin scheduler call deleteFlowByCode method exception", e);
         }
-
     }
 
-    // TODO @Deprecated start
-    public Object queryTaskDefinitionPageList() {
-        String url = properties.getServiceUrl() + "/dolphinscheduler/projects/4996418468000/process-definition?pageNo=1&pageSize=10&&searchVal=";
-        DolphinResult result = null;
-        try {
-            String json = get(url);
-            result = JSONUtils.parseObject(json, DolphinResult.class);
-            if (Objects.isNull(result) || HTTP_SUCCESS != result.getCode()) {
-                return new SchedulerResult(false, "don't get anything of task definitions");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    public Object queryTaskDefinitionByCode() {
-        String url = properties.getServiceUrl() + "/dolphinscheduler/projects/4996418468000/process-definition/5028876785952";
-        DolphinResult result = null;
-        String cronJson = null;
-        DolphinResult cronResult = null;
-        try {
-            String json = get(url);
-            result = JSONUtils.parseObject(json, DolphinResult.class);
-            if (Objects.isNull(result) || HTTP_SUCCESS != result.getCode()) {
-                return new SchedulerResult(false, "don't get anything of task definition detail");
-            }
-            //获取定时管理
-            schedulerMap
-                .put("processDefinitionCode", "5017950541088");
-            cronJson = get(
-                properties.getServiceUrl() + "/dolphinscheduler/projects/4996418468000/schedules?processDefinitionCode=5028876785952&searchVal=&pageNo=1&pageSize=10");
-            cronResult = JSONUtils.parseObject(cronJson, DolphinResult.class);
-            result.setData(result.getData().toString() + cronResult.getData().toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    public String queryTaskInstanceDetailLogs() {
-        String url = MessageFormat.format("/log/detail?taskInstanceId={0}&skipLineNum={1}&limit={2}", properties.getProjectCode(), "", "");
+    @Override
+    public FlowDefinition queryFlowByCode(String flowCode) {
+        String url = MessageFormat.format("/projects/{0}/process-definition/{1}", properties.getProjectCode(), flowCode);
         try {
             String resultJson = get(url);
-            DolphinResult<String> result = JSONUtils.parseObject(resultJson, new TypeReference<DolphinResult<String>>() {
+
+            DolphinResult<ComplexProcessDefinition> result = JSONUtils.parseObject(resultJson, new TypeReference<DolphinResult<ComplexProcessDefinition>>() {});
+            checkResult(result, "queryFlowByCode");
+
+            ComplexProcessDefinition complexProcessDefinition = result.getData();
+            FlowDefinition flowDefinition = new FlowDefinition();
+            BeanUtils.copyProperties(complexProcessDefinition.getProcessDefinition(), flowDefinition);
+
+            return flowDefinition;
+        } catch (IOException e) {
+            throw new SchedulerException("dolphin scheduler call queryFlowByCode method exception", e);
+        }
+    }
+
+    @Override
+    public PageResponse<FlowInstance> queryFlowInstanceListPage(FlowInstanceRequestParameter parameter) {
+        String executionStatusCode = "";
+        if (Objects.nonNull(parameter.getExecutionStatus())) {
+            if (parameter.getExecutionStatus().getCode() == 1) {
+                executionStatusCode =  "7";
+            } else if (parameter.getExecutionStatus().getCode() == 2) {
+                executionStatusCode =  "6";
+            }
+        }
+        String url = MessageFormat.format("/projects/{0}/process-instances?searchVal={1}&pageSize={2}&pageNo={3}&stateType=",
+            properties.getProjectCode(),
+            StringUtils.isNotBlank(parameter.getName()) ? parameter.getName() : "",
+            parameter.getPageSize().toString(),
+            parameter.getPageNo().toString(),
+            executionStatusCode
+        );
+
+        try {
+            String resultJson = get(url);
+            DolphinResult<DolphinPageInfo<ProcessInstance>> result = JSONUtils.parseObject(resultJson, new TypeReference<DolphinResult<DolphinPageInfo<ProcessInstance>>>() {});
+            checkResult(result, "queryFlowInstanceListPage");
+
+            DolphinPageInfo<ProcessInstance> pageInfo = result.getData();
+
+            PageResponse<FlowInstance> pageResponse = new PageResponse<>();
+
+            pageResponse.setPageNo(pageInfo.getCurrentPage());
+            pageResponse.setPageSize(pageInfo.getPageSize());
+            pageResponse.setTotal(Integer.toUnsignedLong(pageInfo.getTotal()));
+            List<FlowInstance> flowInstanceList = new ArrayList<>();
+            pageResponse.setData(flowInstanceList);
+
+            pageInfo.getTotalList().forEach(processInstance -> {
+                FlowInstance flowInstance = new FlowInstance();
+                BeanUtils.copyProperties(processInstance, flowInstance);
+                flowInstance.setFlowCode(processInstance.getProcessDefinitionCode());
+                flowInstanceList.add(flowInstance);
             });
-            checkResult(result, "queryTaskInstanceLogs");
+            return pageResponse;
+        } catch (IOException e) {
+            throw new SchedulerException("dolphin scheduler call queryFlowInstanceListPage method exception", e);
+        }
+    }
+
+    @Override
+    public PageResponse<TaskInstance> queryTaskInstanceListPage(TaskInstanceRequestParameter parameter) {
+
+        String executionStatusCode = "";
+        if (Objects.nonNull(parameter.getExecutionStatus())) {
+            if (parameter.getExecutionStatus().getCode() == 1) {
+                executionStatusCode =  "7";
+            } else if (parameter.getExecutionStatus().getCode() == 2) {
+                executionStatusCode =  "6";
+            }
+        }
+
+        String url = MessageFormat.format("/projects/{0}/task-instances?searchVal={1}&pageSize={2}&pageNo={3}&stateType={4}&startDate={5}&endDate={6}&processInstanceName={7}",
+            properties.getProjectCode(),
+            StringUtils.isNotBlank(parameter.getName()) ? parameter.getName() : "",
+            parameter.getPageSize().toString(),
+            parameter.getPageNo().toString(),
+            executionStatusCode,
+            Objects.nonNull(parameter.getBeginTime()) ? formatter.format(parameter.getBeginTime().toInstant()) : "",
+            Objects.nonNull(parameter.getEndTime()) ? formatter.format(parameter.getEndTime().toInstant()) : "",
+            StringUtils.isNotBlank(parameter.getFlowInstanceName()) ? parameter.getFlowInstanceName() : ""
+        );
+
+        try {
+            String resultJson = get(url);
+            DolphinResult<DolphinPageInfo<DolphinTaskInstance>> result = JSONUtils.parseObject(resultJson, new TypeReference<DolphinResult<DolphinPageInfo<DolphinTaskInstance>>>() {});
+            checkResult(result, "queryTaskInstanceListPage");
+
+            DolphinPageInfo<DolphinTaskInstance> pageInfo = result.getData();
+
+            PageResponse<TaskInstance> pageResponse = new PageResponse<>();
+
+            pageResponse.setPageNo(pageInfo.getCurrentPage());
+            pageResponse.setPageSize(pageInfo.getPageSize());
+            pageResponse.setTotal(Integer.toUnsignedLong(pageInfo.getTotal()));
+            List<TaskInstance> list = new ArrayList<>();
+            pageResponse.setData(list);
+
+            pageInfo.getTotalList().forEach(instance -> {
+                TaskInstance taskInstance = new TaskInstance();
+                BeanUtils.copyProperties(instance, taskInstance);
+                taskInstance.setFlowInstanceId(instance.getProcessInstanceId());
+                list.add(taskInstance);
+            });
+            return pageResponse;
+        } catch (IOException e) {
+            throw new SchedulerException("dolphin scheduler call queryTaskInstanceListPage method exception", e);
+        }
+    }
+
+    @Override
+    public String queryFlowInstanceLog(TaskInstanceLogRequestParameter requestParameter) {
+        String url = String.format("/log/detail?taskInstanceId=%s&skipLineNum=%s&limit=%s",
+            requestParameter.getTaskInstanceId(),
+            requestParameter.getOffset(),
+            requestParameter.getLimit()
+        );
+
+        try {
+            String resultJson = get(url);
+            DolphinResult<String> result = JSONUtils.parseObject(resultJson, new TypeReference<DolphinResult<String>>() {});
+            checkResult(result, "queryFlowInstanceLog");
+
             return result.getData();
         } catch (IOException e) {
-            throw new SchedulerException("dolphin scheduler call queryTaskInstanceLogs method exception", e);
+            throw new SchedulerException("dolphin scheduler call queryFlowInstanceLog method exception", e);
         }
     }
-
-    public Object queryTaskInstanceLogs() {
-        String url = properties.getServiceUrl() + "/dolphinscheduler/projects/4996418468000/task-instances?"
-            + "pageSize=10&pageNo=1&searchVal=&processInstanceId=&host=&stateType=&startDate=&endDate=&executorName=&processInstanceName=";
-        DolphinResult result = null;
-        try {
-            String json = get(url);
-            result = JSONUtils.parseObject(json, DolphinResult.class);
-            if (Objects.isNull(result) || HTTP_SUCCESS != result.getCode()) {
-                return new SchedulerResult(false, "don't get anything of task definitions' logs");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    public Object updateTaskDefinition() {
-        String url = properties.getServiceUrl() + "/dolphinscheduler/projects/4996418468000/process-definition/5028876785952";
-        DolphinResult result = null;
-        String cronJson = null;
-        DolphinResult cronResult = null;
-        //try {
-        // String json = put(url, putMap);
-        // result = JSONUtils.parseObject(json, DolphinResult.class);
-        if (Objects.isNull(result) || HTTP_SUCCESS != result.getCode()) {
-            return new SchedulerResult(false, "delete processdefinition is error");
-        }
-        schedulerMap
-            .put("processDefinitionCode", "5017950541088");
-        //cronJson = put(
-        //        properties.getServiceUrl() + "/dolphinscheduler/projects/4996418468000/schedules/28",
-        //        putScheduleMap);
-        cronResult = JSONUtils.parseObject(cronJson, DolphinResult.class);
-        //} catch (IOException e) {
-        //    e.printStackTrace();
-        //}
-        return cronResult;
-    }
-
-    // TODO @Deprecated end
 
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
      * get http request
-     *
      * @param url url
      * @return json response
      * @throws IOException
@@ -482,9 +465,9 @@ public class DolphinScheduler implements IScheduler {
     public String get(String url) throws IOException {
         url = properties.getServiceUrl() + url;
         Request request = new Request.Builder()
-            .url(url)
-            .addHeader(HEADER_TOKEN_NAME, properties.getToken())
-            .build();
+                .url(url)
+                .addHeader(HEADER_TOKEN_NAME, properties.getToken())
+                .build();
 
         try (Response response = client.newCall(request).execute()) {
             return response.body().string();
@@ -493,8 +476,7 @@ public class DolphinScheduler implements IScheduler {
 
     /**
      * Form post http request
-     *
-     * @param url  url
+     * @param url url
      * @param body form body
      * @return json response
      * @throws IOException
@@ -502,10 +484,10 @@ public class DolphinScheduler implements IScheduler {
     public String post(String url, FormBody body) throws IOException {
         url = properties.getServiceUrl() + url;
         Request request = new Request.Builder()
-            .url(url)
-            .post(body)
-            .addHeader(HEADER_TOKEN_NAME, properties.getToken())
-            .build();
+                .url(url)
+                .post(body)
+                .addHeader(HEADER_TOKEN_NAME, properties.getToken())
+                .build();
         try (Response response = client.newCall(request).execute()) {
             return response.body().string();
         }
@@ -514,10 +496,10 @@ public class DolphinScheduler implements IScheduler {
     public String delete(String url) throws IOException {
         url = properties.getServiceUrl() + url;
         Request request = new Request.Builder()
-            .url(url)
-            .delete()
-            .addHeader(HEADER_TOKEN_NAME, properties.getToken())
-            .build();
+                .url(url)
+                .delete()
+                .addHeader(HEADER_TOKEN_NAME, properties.getToken())
+                .build();
         try (Response response = client.newCall(request).execute()) {
             return response.body().string();
         }
@@ -527,10 +509,10 @@ public class DolphinScheduler implements IScheduler {
         url = properties.getServiceUrl() + url;
         RequestBody body = RequestBody.create(json, MEDIA_TYPE_JSON);
         Request request = new Request.Builder()
-            .url(url)
-            .post(body)
-            .addHeader(HEADER_TOKEN_NAME, properties.getToken())
-            .build();
+                .url(url)
+                .post(body)
+                .addHeader(HEADER_TOKEN_NAME, properties.getToken())
+                .build();
         try (Response response = client.newCall(request).execute()) {
             return response.body().string();
         }
@@ -539,10 +521,10 @@ public class DolphinScheduler implements IScheduler {
     public String put(String url, FormBody body) throws IOException {
         url = properties.getServiceUrl() + url;
         Request request = new Request.Builder()
-            .url(url)
-            .put(body)
-            .addHeader(HEADER_TOKEN_NAME, properties.getToken())
-            .build();
+                .url(url)
+                .put(body)
+                .addHeader(HEADER_TOKEN_NAME, properties.getToken())
+                .build();
         try (Response response = client.newCall(request).execute()) {
             return response.body().string();
         }

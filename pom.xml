@@ -47,6 +47,8 @@
         <module>octopus-metrics</module>
         <module>octopus-tools</module>
         <module>octopus-rule/octopus-rule-api</module>
+        <module>octopus-rule/octopus-rule-sql</module>
+        <module>octopus-rule/octopus-rule-clickhouse</module>
     </modules>
 
     <properties>

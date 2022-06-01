@@ -36,6 +36,10 @@ public class MonitorFlowDefinitionCreateOrUpdateRequestDTO {
     @ApiModelProperty(value = "sample instance")
     private SampleInstanceCreateOrUpdateRequestDTO sampleInstance;
 
+    @ApiModelProperty(value = "scheduler code")
+    @NotNull(message = "{parameter.not.null}", groups = Update.class)
+    private String schedulerCode;
+
     public interface Update {
     }
 
@@ -93,5 +97,13 @@ public class MonitorFlowDefinitionCreateOrUpdateRequestDTO {
 
     public void setSampleInstance(SampleInstanceCreateOrUpdateRequestDTO sampleInstance) {
         this.sampleInstance = sampleInstance;
+    }
+
+    public String getSchedulerCode() {
+        return schedulerCode;
+    }
+
+    public void setSchedulerCode(String schedulerCode) {
+        this.schedulerCode = schedulerCode;
     }
 }

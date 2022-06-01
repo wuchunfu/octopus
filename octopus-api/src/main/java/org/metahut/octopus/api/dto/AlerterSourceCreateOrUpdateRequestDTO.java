@@ -1,16 +1,26 @@
 package org.metahut.octopus.api.dto;
 
+import javax.validation.constraints.NotNull;
+
 public class AlerterSourceCreateOrUpdateRequestDTO {
 
+    @NotNull(message = "{parameter.not.null}", groups = Update.class)
     private Integer id;
 
+    @NotNull(message = "{parameter.not.null}", groups = Update.class)
     private Long code;
 
+    @NotNull(message = "{parameter.not.null}")
     private String name;
 
+    @NotNull(message = "{parameter.not.null}")
     private String alertType;
 
+    @NotNull(message = "{parameter.not.null}")
     private String parameter;
+
+    public interface Update {
+    }
 
     public Integer getId() {
         return id;
