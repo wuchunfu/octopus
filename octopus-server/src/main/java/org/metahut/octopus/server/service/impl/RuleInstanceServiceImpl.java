@@ -103,11 +103,6 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
             Metrics metrics = metricsService.findOneByCode(requestDTO.getMetricsCode());
             convert.setMetrics(metrics);
         }
-        SampleInstance sampleInstance = conversionService.convert(requestDTO.getSampleInstance(), SampleInstance.class);
-        if (Objects.isNull(requestDTO.getSampleInstance().getCode())) {
-            sampleInstance.setCode(SnowflakeIdGenerator.getInstance().nextId());
-        }
-        convert.setSampleInstance(sampleInstanceRepository.save(sampleInstance));
         RuleInstance save = ruleInstanceRepository.save(convert);
         return conversionService.convert(save, RuleInstanceResponseDTO.class);
     }
