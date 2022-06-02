@@ -35,7 +35,7 @@ public class RuleInstance extends BaseEntity {
     @JoinColumn(name = "metrics_code", referencedColumnName = "code", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Metrics metrics;
 
-    @Column(name = "dataset_code", updatable = false)
+    @Column(name = "dataset_code")
     private String datasetCode;
 
     @ManyToOne
@@ -55,7 +55,7 @@ public class RuleInstance extends BaseEntity {
 
     @Transient
     private Boolean sample;
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @ManyToOne(cascade = {CascadeType.MERGE})
     @JoinColumn(name = "sample_code", referencedColumnName = "code", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private SampleInstance sampleInstance;
 

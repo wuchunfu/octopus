@@ -11,10 +11,11 @@ import org.metahut.octopus.dao.entity.RuleInstance;
 import org.metahut.octopus.dao.entity.RuleInstance_;
 import org.metahut.octopus.dao.entity.SampleInstance;
 import org.metahut.octopus.dao.repository.RuleInstanceRepository;
+import org.metahut.octopus.dao.repository.SampleInstanceRepository;
 import org.metahut.octopus.server.service.MetricsConfigService;
 import org.metahut.octopus.server.service.MetricsService;
 import org.metahut.octopus.server.service.RuleInstanceService;
-import org.metahut.octopus.server.service.SampleInstanceService;
+import org.metahut.octopus.server.utils.SnowflakeIdGenerator;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.convert.ConversionService;
@@ -32,6 +33,9 @@ import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+
+import static org.metahut.octopus.common.enums.StatusEnum.SAMPLE_INSTANCE_NOT_EXIST;
 
 @Service
 public class RuleInstanceServiceImpl implements RuleInstanceService {
@@ -40,17 +44,17 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
     private final ConversionService conversionService;
     private final MetricsService metricsService;
     private final MetricsConfigService metricsConfigService;
-    private final SampleInstanceService sampleInstanceService;
+    private final SampleInstanceRepository sampleInstanceRepository;
 
     public RuleInstanceServiceImpl(RuleInstanceRepository ruleInstanceRepository,
                                    ConversionService conversionService,
                                    MetricsService metricsService,
-                                   MetricsConfigService metricsConfigService, SampleInstanceService sampleInstanceService) {
+                                   MetricsConfigService metricsConfigService, SampleInstanceRepository sampleInstanceRepository) {
         this.ruleInstanceRepository = ruleInstanceRepository;
         this.conversionService = conversionService;
         this.metricsService = metricsService;
         this.metricsConfigService = metricsConfigService;
-        this.sampleInstanceService = sampleInstanceService;
+        this.sampleInstanceRepository = sampleInstanceRepository;
     }
 
     @Override
@@ -102,10 +106,11 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
             Metrics metrics = metricsService.findOneByCode(requestDTO.getMetricsCode());
             convert.setMetrics(metrics);
         }
-        if (Objects.nonNull(requestDTO.getSampleInstance())) {
-            SampleInstance sample = sampleInstanceService.checkSample(requestDTO.getSampleInstance());
-            convert.setSampleInstance(sample);
+        SampleInstance sampleInstance = conversionService.convert(requestDTO.getSampleInstance(), SampleInstance.class);
+        if (Objects.isNull(requestDTO.getSampleInstance().getCode())) {
+            sampleInstance.setCode(SnowflakeIdGenerator.getInstance().nextId());
         }
+        convert.setSampleInstance(sampleInstanceRepository.save(sampleInstance));
         RuleInstance save = ruleInstanceRepository.save(convert);
         return conversionService.convert(save, RuleInstanceResponseDTO.class);
     }
@@ -114,5 +119,4 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
     public void deleteById(Integer id) {
         ruleInstanceRepository.deleteById(id);
     }
-
 }
