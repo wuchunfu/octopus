@@ -11,6 +11,8 @@ public class HiveClusterResponseDTO {
 
     private String name;
 
+    private String type;
+
     private String description;
 
     private Date createTime;
@@ -55,5 +57,13 @@ public class HiveClusterResponseDTO {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
