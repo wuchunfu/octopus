@@ -1,5 +1,6 @@
 package org.metahut.octopus.scheduler.dolphinscheduler;
 
+import org.metahut.octopus.scheduler.api.ExecutionStatus;
 import org.metahut.octopus.scheduler.api.IScheduler;
 import org.metahut.octopus.scheduler.api.PageResponse;
 import org.metahut.octopus.scheduler.api.SchedulerException;
@@ -57,7 +58,7 @@ public class DolphinScheduler implements IScheduler {
     private final OkHttpClient client;
     private final SchedulerProperties.DolphinScheduler properties;
 
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd+HH:mm:ss");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public DolphinScheduler(OkHttpClient client, SchedulerProperties.DolphinScheduler properties) {
         this.client = client;
@@ -261,9 +262,8 @@ public class DolphinScheduler implements IScheduler {
 
         // create task definition
         List<TaskDefinitionParameter> dolphinTaskDefinitionList = new ArrayList<>();
-        TaskDefinitionParameter dolphinTaskDefinitionParameter = new TaskDefinitionParameter();
-        dolphinTaskDefinitionParameter.setCode(taskCode);
-        dolphinTaskDefinitionList.add(dolphinTaskDefinitionParameter);
+        taskDefinitionParameter.setCode(taskCode);
+        dolphinTaskDefinitionList.add(taskDefinitionParameter);
 
         // create task definition relations
         List<ProcessTaskRelationParameter> taskRelationList = new ArrayList<>();
@@ -342,14 +342,9 @@ public class DolphinScheduler implements IScheduler {
 
     @Override
     public PageResponse<FlowInstance> queryFlowInstanceListPage(FlowInstanceRequestParameter parameter) {
-        String executionStatusCode = "";
-        if (Objects.nonNull(parameter.getExecutionStatus())) {
-            if (parameter.getExecutionStatus().getCode() == 1) {
-                executionStatusCode =  "7";
-            } else if (parameter.getExecutionStatus().getCode() == 2) {
-                executionStatusCode =  "6";
-            }
-        }
+        String executionStatusCode = Objects.isNull(parameter.getExecutionStatus()) ? StringUtils.EMPTY
+                : ExecutionStatus.FAIL == parameter.getExecutionStatus() ? "FAILURE" : parameter.getExecutionStatus().name();
+
         String url = MessageFormat.format("/projects/{0}/process-instances?searchVal={1}&pageSize={2}&pageNo={3}&stateType=",
             properties.getProjectCode(),
             StringUtils.isNotBlank(parameter.getName()) ? parameter.getName() : "",
@@ -388,14 +383,8 @@ public class DolphinScheduler implements IScheduler {
     @Override
     public PageResponse<TaskInstance> queryTaskInstanceListPage(TaskInstanceRequestParameter parameter) {
 
-        String executionStatusCode = "";
-        if (Objects.nonNull(parameter.getExecutionStatus())) {
-            if (parameter.getExecutionStatus().getCode() == 1) {
-                executionStatusCode =  "7";
-            } else if (parameter.getExecutionStatus().getCode() == 2) {
-                executionStatusCode =  "6";
-            }
-        }
+        String executionStatusCode = Objects.isNull(parameter.getExecutionStatus()) ? StringUtils.EMPTY
+                : ExecutionStatus.FAIL == parameter.getExecutionStatus() ? "FAILURE" : parameter.getExecutionStatus().name();
 
         String url = MessageFormat.format("/projects/{0}/task-instances?searchVal={1}&pageSize={2}&pageNo={3}&stateType={4}&startDate={5}&endDate={6}&processInstanceName={7}",
             properties.getProjectCode(),

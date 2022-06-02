@@ -52,9 +52,8 @@ public class StarfishMeta implements IMeta {
     @Override
     public PageResponseDTO<MetaDatasourceTypeEntity> queryDatasourceTypeListPage(MetaDatasourceTypeRequest datasourceTypeRequest) {
         try {
-            String url = get(MessageFormat.format("/meta/entity/sources?name={0}&pageNo={1}&pageSize={2}",
+            String resultJson = get(MessageFormat.format("/entity/sources?name={0}&pageNo={1}&pageSize={2}",
                     datasourceTypeRequest.getName(),datasourceTypeRequest.getPageNo(),datasourceTypeRequest.getPageSize()));
-            String resultJson = get(url);
             ResultEntity<PageResponseDTO<SourceResponseDTO>> resultEntity = new ObjectMapper().readValue(resultJson,
                     new TypeReference<ResultEntity<PageResponseDTO<SourceResponseDTO>>>() {});
             if (resultEntity.isSuccess()) {
@@ -78,11 +77,10 @@ public class StarfishMeta implements IMeta {
     public PageResponseDTO<MetaDatasourceEntity> queryDatasourceListPage(MetaDatasourceRequest metaDatasourceRequest) {
         try {
             if ("Hive".equals(metaDatasourceRequest.getDataSourceType())) {
-                String url = get(MessageFormat.format("/meta/entity/hiveClusters?clusterName={0}&pageNo={1}&pageSize={2}",
+                String resultJson = get(MessageFormat.format("/entity/hiveClusters?clusterName={0}&pageNo={1}&pageSize={2}",
                         metaDatasourceRequest.getName(),
                         metaDatasourceRequest.getPageNo(),
                         metaDatasourceRequest.getPageSize()));
-                String resultJson = get(url);
                 ResultEntity<PageResponseDTO<HiveClusterResponseDTO>> resultEntity = new ObjectMapper().readValue(resultJson,
                         new TypeReference<ResultEntity<PageResponseDTO<HiveClusterResponseDTO>>>() {});
                 if (resultEntity.isSuccess()) {
@@ -92,24 +90,25 @@ public class StarfishMeta implements IMeta {
                                 MetaDatasourceEntity entity = new MetaDatasourceEntity();
                                 entity.setCode(sourceResponseDTO.getId());
                                 entity.setName(sourceResponseDTO.getName());
+                                entity.setType(sourceResponseDTO.getType());
                                 return entity;
                             }).collect(Collectors.toList()));
                 }
             } else if ("Pulsar".equals(metaDatasourceRequest.getDataSourceType())) {
-                String url = get(MessageFormat.format("/meta/entity/pulsarClusters?name={0}&pageNo={1}&pageSize={2}",
+                String resultJson = get(MessageFormat.format("/entity/pulsarClusters?name={0}&pageNo={1}&pageSize={2}",
                         metaDatasourceRequest.getName(),
                         metaDatasourceRequest.getPageNo(),
                         metaDatasourceRequest.getPageSize()));
-                String resultJson = get(url);
                 ResultEntity<PageResponseDTO<PulsarClusterResponseDTO>> resultEntity = new ObjectMapper().readValue(resultJson,
                         new TypeReference<ResultEntity<PageResponseDTO<PulsarClusterResponseDTO>>>() {});
                 if (resultEntity.isSuccess()) {
                     PageResponseDTO<PulsarClusterResponseDTO> data = resultEntity.getData();
                     return PageResponseDTO.of(data.getPageNo(),data.getPageSize(),data.getTotal(),
                             data.getData() == null ? null : data.getData().stream().map(sourceResponseDTO -> {
-                                MetaDatasourceTypeEntity entity = new MetaDatasourceTypeEntity();
-                                entity.setId(sourceResponseDTO.getId());
+                                MetaDatasourceEntity entity = new MetaDatasourceEntity();
+                                entity.setCode(sourceResponseDTO.getId());
                                 entity.setName(sourceResponseDTO.getName());
+                                entity.setType(sourceResponseDTO.getType());
                                 return entity;
                             }).collect(Collectors.toList()));
                 }
@@ -124,7 +123,7 @@ public class StarfishMeta implements IMeta {
     public PageResponseDTO<MetaDatabaseEntity> queryDatabaseListPage(MetaDatabaseRequest request) {
         try {
             if ("Hive".equals(request.getDataSourceType())) {
-                String resultJson = get(MessageFormat.format("/meta/entity/hiveDbs?id={0}&name={1}&pageNo={2}&pageSize={3}",
+                String resultJson = get(MessageFormat.format("/entity/hiveDbs?id={0}&name={1}&pageNo={2}&pageSize={3}",
                         request.getCode(),
                         request.getName(),
                         request.getPageNo(),
@@ -135,27 +134,26 @@ public class StarfishMeta implements IMeta {
                     PageResponseDTO<HiveDBResponseDTO> data = resultEntity.getData();
                     return PageResponseDTO.of(data.getPageNo(),data.getPageSize(),data.getTotal(),
                             data.getData() == null ? null : data.getData().stream().map(sourceResponseDTO -> {
-                                MetaDatasourceEntity entity = new MetaDatasourceEntity();
-                                entity.setCode(sourceResponseDTO.getId());
+                                MetaDatabaseEntity entity = new MetaDatabaseEntity();
+                                entity.setCode(String.valueOf(sourceResponseDTO.getId()));
                                 entity.setName(sourceResponseDTO.getName());
                                 return entity;
                             }).collect(Collectors.toList()));
                 }
             } else if ("Pulsar".equals(request.getDataSourceType())) {
-                String url = get(MessageFormat.format("/meta/entity/pulsarNamespaces?id={0}&name={1}&pageNo={2}&pageSize={3}",
+                String resultJson = get(MessageFormat.format("/entity/pulsarNamespaces?id={0}&name={1}&pageNo={2}&pageSize={3}",
                         request.getCode(),
                         request.getName(),
                         request.getPageNo(),
                         request.getPageSize()));
-                String resultJson = get(url);
                 ResultEntity<PageResponseDTO<PulsarNamespaceResponseDTO>> resultEntity = new ObjectMapper().readValue(resultJson,
                         new TypeReference<ResultEntity<PageResponseDTO<PulsarNamespaceResponseDTO>>>() {});
                 if (resultEntity.isSuccess()) {
                     PageResponseDTO<PulsarNamespaceResponseDTO> data = resultEntity.getData();
                     return PageResponseDTO.of(data.getPageNo(),data.getPageSize(),data.getTotal(),
                             data.getData() == null ? null : data.getData().stream().map(sourceResponseDTO -> {
-                                MetaDatasourceTypeEntity entity = new MetaDatasourceTypeEntity();
-                                entity.setId(sourceResponseDTO.getId());
+                                MetaDatabaseEntity entity = new MetaDatabaseEntity();
+                                entity.setCode(String.valueOf(sourceResponseDTO.getId()));
                                 entity.setName(sourceResponseDTO.getName());
                                 return entity;
                             }).collect(Collectors.toList()));
@@ -171,31 +169,31 @@ public class StarfishMeta implements IMeta {
     public PageResponseDTO<MetaDatasetEntity> queryDatasetListPage(MetaDatasetRequest request) {
         try {
             if ("Hive".equals(request.getDataSourceType())) {
-                String url = get(MessageFormat.format("/meta/entity/hiveTables?hiveClusterId={0}&hiveTableName={2}&pageNo={3}&pageSize={4}",
+                String resultJson = get(MessageFormat.format("/entity/hiveTables?hiveClusterId={0}&hiveTableName={2}&pageNo={3}&pageSize={4}",
                         request.getDataSourceCode(),
                         request.getName(),
                         request.getPageNo(),
                         request.getPageSize()));
-                String resultJson = get(url);
                 ResultEntity<PageResponseDTO<HiveTableResponseDTO>> resultEntity = new ObjectMapper().readValue(resultJson,
                         new TypeReference<ResultEntity<PageResponseDTO<HiveTableResponseDTO>>>() {});
                 if (resultEntity.isSuccess()) {
                     PageResponseDTO<HiveTableResponseDTO> data = resultEntity.getData();
                     return PageResponseDTO.of(data.getPageNo(),data.getPageSize(),data.getTotal(),
                             data.getData() == null ? null : data.getData().stream().map(sourceResponseDTO -> {
-                                MetaDatasourceEntity entity = new MetaDatasourceEntity();
-                                entity.setCode(sourceResponseDTO.getId());
-                                entity.setName(sourceResponseDTO.getName());
+                                MetaDatasetEntity entity = new MetaDatasetEntity();
+
+
+
+
                                 return entity;
                             }).collect(Collectors.toList()));
                 }
             } else if ("Pulsar".equals(request.getDataSourceType())) {
-                String url = get(MessageFormat.format("/meta/entity/pulsarTopics?clusterId={0}&topicName={1}&pageNo={2}&pageSize={3}",
+                String resultJson = get(MessageFormat.format("/entity/pulsarTopics?clusterId={0}&topicName={1}&pageNo={2}&pageSize={3}",
                         request.getDataSourceCode(),
                         request.getName(),
                         request.getPageNo(),
                         request.getPageSize()));
-                String resultJson = get(url);
                 ResultEntity<PageResponseDTO<PulsarTopicResponseDTO>> resultEntity = new ObjectMapper().readValue(resultJson,
                         new TypeReference<ResultEntity<PageResponseDTO<PulsarTopicResponseDTO>>>() {});
                 if (resultEntity.isSuccess()) {
@@ -218,12 +216,15 @@ public class StarfishMeta implements IMeta {
     @Override
     public MetaDatasetEntity queryDatasetByCode(String code) {
         try {
-            String typeJson = get(MessageFormat.format("/meta/entity/queryTypeByInstanceId?id={0}", code));
+            String typeJson = get(MessageFormat.format("/entity/queryTypeByInstanceId?id={0}", code));
             ResultEntity<Class> typeResponse = new ObjectMapper().readValue(typeJson, new TypeReference<ResultEntity<Class>>() {});
             if (typeResponse.isSuccess()) {
                 String className = typeResponse.getData().fullClassName();
-                String instanceJson = get(MessageFormat.format("/meta/entity/queryById?id={0}", code));
+                String instanceJson = get(MessageFormat.format("/entity/queryById?id={0}", code));
+
+
                 ResultEntity<Map> instanceResponse = new ObjectMapper().readValue(typeJson, new TypeReference<ResultEntity<Map>>() {});
+
 
 
             }

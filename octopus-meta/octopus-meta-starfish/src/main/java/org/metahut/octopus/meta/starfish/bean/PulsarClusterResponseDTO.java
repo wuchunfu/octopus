@@ -11,6 +11,8 @@ public class PulsarClusterResponseDTO {
 
     private String name;
 
+    private String type;
+
     private String serviceUrl;
 
     private String listenerName;
@@ -75,5 +77,13 @@ public class PulsarClusterResponseDTO {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
