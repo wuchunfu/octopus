@@ -3,7 +3,7 @@ package org.metahut.octopus.server.converter;
 import org.metahut.octopus.api.dto.AlerterInstanceResponseDTO;
 import org.metahut.octopus.api.dto.UserResponseDTO;
 import org.metahut.octopus.dao.entity.AlerterInstance;
-import org.metahut.octopus.metrics.api.JSONUtils;
+import org.metahut.octopus.scheduler.dolphinscheduler.JSONUtils;
 import org.metahut.octopus.server.service.UserService;
 
 import com.fasterxml.jackson.core.type.TypeReference;

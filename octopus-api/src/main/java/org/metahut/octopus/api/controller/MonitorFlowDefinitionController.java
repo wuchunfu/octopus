@@ -30,6 +30,10 @@ public interface MonitorFlowDefinitionController {
     @DeleteMapping("{id}")
     ResultEntity deleteById(@PathVariable(value = "id") Integer id);
 
+    @ApiOperation(value = "queryByCode", notes = "MONITOR_FLOW_DEFINITION_QUERY_BY_CODE_NOTES")
+    @GetMapping("{code}")
+    ResultEntity<MonitorFlowDefinitionResponseDTO> queryByCode(@PathVariable(value = "code") Long code);
+
     @ApiOperation(value = "create", notes = "MONITOR_FLOW_DEFINITION_CREATE_NOTES")
     @PostMapping("create")
     ResultEntity<MonitorFlowDefinitionResponseDTO> create(@RequestBody @Validated MonitorFlowDefinitionCreateOrUpdateRequestDTO requestDTO);

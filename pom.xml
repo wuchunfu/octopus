@@ -40,15 +40,14 @@
         <module>octopus-monitordb</module>
         <module>octopus-scheduler</module>
         <module>octopus-parser</module>
-        <module>octopus-deploy</module>
         <module>octopus-common</module>
         <module>octopus-function</module>
         <module>octopus-rule</module>
-        <module>octopus-metrics</module>
         <module>octopus-tools</module>
         <module>octopus-rule/octopus-rule-api</module>
         <module>octopus-rule/octopus-rule-sql</module>
         <module>octopus-rule/octopus-rule-clickhouse</module>
+        <module>octopus-parser/octopus-parser-flink</module>
     </modules>
 
     <properties>
@@ -136,11 +135,6 @@
             <dependency>
                 <groupId>org.metahut.octopus</groupId>
                 <artifactId>octopus-parser-api</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.metahut.octopus</groupId>
-                <artifactId>octopus-metrics-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

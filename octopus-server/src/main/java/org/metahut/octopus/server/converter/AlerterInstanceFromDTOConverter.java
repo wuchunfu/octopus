@@ -3,7 +3,7 @@ package org.metahut.octopus.server.converter;
 import org.metahut.octopus.api.dto.AlerterInstanceCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.UserResponseDTO;
 import org.metahut.octopus.dao.entity.AlerterInstance;
-import org.metahut.octopus.metrics.api.JSONUtils;
+import org.metahut.octopus.scheduler.dolphinscheduler.JSONUtils;
 import org.metahut.octopus.server.service.AlerterSourceService;
 
 import org.apache.commons.lang3.StringUtils;

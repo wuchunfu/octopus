@@ -17,10 +17,6 @@
             <artifactId>octopus-parser-api</artifactId>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.metahut.octopus</groupId>
-            <artifactId>octopus-metrics-api</artifactId>
-        </dependency>
     </dependencies>
 
 </project>

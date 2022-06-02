@@ -13,6 +13,8 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MonitorTaskInstanceServiceImpl implements MonitorTaskInstanceService {
 
@@ -29,9 +31,10 @@ public class MonitorTaskInstanceServiceImpl implements MonitorTaskInstanceServic
         TaskInstanceRequestParameter parameter = conversionService.convert(requestDTO, TaskInstanceRequestParameter.class);
         PageResponse<TaskInstance> taskInstancePageResponse = schedulerService.queryTaskInstanceListPage(parameter);
 
-        return (PageResponseDTO<MonitorTaskInstanceResponseDTO>) conversionService.convert(taskInstancePageResponse,
-                TypeDescriptor.collection(PageResponse.class, TypeDescriptor.valueOf(TaskInstance.class)),
-                TypeDescriptor.collection(PageResponseDTO.class, TypeDescriptor.valueOf(MonitorTaskInstanceResponseDTO.class)));
+        List<MonitorTaskInstanceResponseDTO> convert = (List<MonitorTaskInstanceResponseDTO>) conversionService.convert(taskInstancePageResponse.getData(),
+                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(TaskInstance.class)),
+                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MonitorTaskInstanceResponseDTO.class)));
+        return PageResponseDTO.of(taskInstancePageResponse.getPageNo(), taskInstancePageResponse.getPageSize(), taskInstancePageResponse.getTotal(), convert);
     }
 
 }

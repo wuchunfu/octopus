@@ -39,10 +39,7 @@
             <groupId>org.metahut.octopus</groupId>
             <artifactId>octopus-dao</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.metahut.octopus</groupId>
-            <artifactId>octopus-metrics-api</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>org.metahut.octopus</groupId>
             <artifactId>octopus-monitordb-api</artifactId>
@@ -83,11 +80,6 @@
         <dependency>
             <groupId>org.metahut.octopus</groupId>
             <artifactId>octopus-scheduler-dolphinscheduler</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.metahut.octopus</groupId>
-            <artifactId>octopus-metrics-single-custom</artifactId>
             <version>${project.version}</version>
         </dependency>
         <!--   Such plug-in modules need to be optimized and deleted, rather than directly introduced in this way     -->

@@ -35,6 +35,11 @@ public class MonitorFlowDefinitionControllerImpl implements MonitorFlowDefinitio
     }
 
     @Override
+    public ResultEntity<MonitorFlowDefinitionResponseDTO> queryByCode(Long code) {
+        return ResultEntity.success(monitorFlowDefinitionService.queryByCode(code));
+    }
+
+    @Override
     public ResultEntity<MonitorFlowDefinitionResponseDTO> create(MonitorFlowDefinitionCreateOrUpdateRequestDTO requestDTO) {
         requestDTO.setCode(SnowflakeIdGenerator.getInstance().nextId());
         if (Objects.nonNull(requestDTO.getSampleInstance())) {
