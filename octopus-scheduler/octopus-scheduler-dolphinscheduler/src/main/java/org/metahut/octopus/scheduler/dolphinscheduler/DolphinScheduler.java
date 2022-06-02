@@ -294,14 +294,14 @@ public class DolphinScheduler implements IScheduler {
             // create task instance and flow instance
             String resultJson = post(url, body);
             DolphinResult<ProcessDefinition> result = JSONUtils.parseObject(resultJson, new TypeReference<DolphinResult<ProcessDefinition>>() {});
-            checkResult(result, "createSingleHttpTask");
+            checkResult(result, "createSingleTask");
 
             long flowCode = result.getData().getCode();
             // Update flow status to online
             updateFlowState(flowCode, ReleaseState.ONLINE.toString());
             return String.valueOf(flowCode);
         } catch (IOException e) {
-            throw new SchedulerException("dolphin scheduler call createSingleHttpTask method exception", e);
+            throw new SchedulerException("dolphin scheduler call createSingleTask method exception", e);
         }
     }
 

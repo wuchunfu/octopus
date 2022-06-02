@@ -32,7 +32,6 @@
         <module>octopus-parser-api</module>
         <module>octopus-parser-sample-hive-flink</module>
         <module>octopus-parser-rule-flink</module>
-        <module>octopus-parser-common</module>
         <module>octopus-parser-source-hive-flink</module>
         <module>octopus-parser-metrics-flink</module>
     </modules>
