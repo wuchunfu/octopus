@@ -45,6 +45,9 @@ public class RuleInstanceSingleCreateOrUpdateRequestDTO {
     @ApiModelProperty(value = "comparisonMethod")
     private String comparisonMethod;
 
+    @ApiModelProperty(value = "comparisonUnit")
+    private String comparisonUnit;
+
     @ApiModelProperty(value = "expectedValue")
     private String expectedValue;
 
@@ -171,6 +174,14 @@ public class RuleInstanceSingleCreateOrUpdateRequestDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getComparisonUnit() {
+        return comparisonUnit;
+    }
+
+    public void setComparisonUnit(String comparisonUnit) {
+        this.comparisonUnit = comparisonUnit;
     }
 
     public SampleInstanceCreateOrUpdateRequestDTO getSampleInstance() {

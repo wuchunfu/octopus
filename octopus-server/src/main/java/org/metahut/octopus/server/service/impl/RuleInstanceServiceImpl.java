@@ -9,10 +9,13 @@ import org.metahut.octopus.dao.entity.MetricsConfig;
 import org.metahut.octopus.dao.entity.Metrics_;
 import org.metahut.octopus.dao.entity.RuleInstance;
 import org.metahut.octopus.dao.entity.RuleInstance_;
+import org.metahut.octopus.dao.entity.SampleInstance;
 import org.metahut.octopus.dao.repository.RuleInstanceRepository;
+import org.metahut.octopus.dao.repository.SampleInstanceRepository;
 import org.metahut.octopus.server.service.MetricsConfigService;
 import org.metahut.octopus.server.service.MetricsService;
 import org.metahut.octopus.server.service.RuleInstanceService;
+import org.metahut.octopus.server.utils.SnowflakeIdGenerator;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.convert.ConversionService;
@@ -38,15 +41,17 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
     private final ConversionService conversionService;
     private final MetricsService metricsService;
     private final MetricsConfigService metricsConfigService;
+    private final SampleInstanceRepository sampleInstanceRepository;
 
     public RuleInstanceServiceImpl(RuleInstanceRepository ruleInstanceRepository,
                                    ConversionService conversionService,
                                    MetricsService metricsService,
-                                   MetricsConfigService metricsConfigService) {
+                                   MetricsConfigService metricsConfigService, SampleInstanceRepository sampleInstanceRepository) {
         this.ruleInstanceRepository = ruleInstanceRepository;
         this.conversionService = conversionService;
         this.metricsService = metricsService;
         this.metricsConfigService = metricsConfigService;
+        this.sampleInstanceRepository = sampleInstanceRepository;
     }
 
     @Override
@@ -62,6 +67,10 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
     private Specification<RuleInstance> withConditions(RuleInstanceConditionRequestDTO requestDTO) {
         return (root, query, builder) -> {
             List<Predicate> conditions = new ArrayList<>();
+
+            if (StringUtils.isNotBlank(requestDTO.getDatasetCode())) {
+                conditions.add((builder.equal(root.get(RuleInstance_.datasetCode), requestDTO.getDatasetCode())));
+            }
 
             if (Objects.nonNull(requestDTO.getCreateEndTime())) {
                 conditions.add(builder.between(root.get(RuleInstance_.createTime), requestDTO.getCreateStartTime(), requestDTO.getCreateEndTime()));
@@ -94,13 +103,6 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
             Metrics metrics = metricsService.findOneByCode(requestDTO.getMetricsCode());
             convert.setMetrics(metrics);
         }
-
-        // When the sampling request data changes, the sampling instance table data also changes.
-        // TODO need to test
-        if (Objects.nonNull(requestDTO.getSampleInstance())) {
-            // TODO
-        }
-
         RuleInstance save = ruleInstanceRepository.save(convert);
         return conversionService.convert(save, RuleInstanceResponseDTO.class);
     }
@@ -109,5 +111,4 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
     public void deleteById(Integer id) {
         ruleInstanceRepository.deleteById(id);
     }
-
 }

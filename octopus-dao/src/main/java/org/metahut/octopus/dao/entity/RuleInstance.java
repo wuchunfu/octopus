@@ -5,6 +5,7 @@ import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 import org.metahut.octopus.common.enums.TaskTypeEnum;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -34,6 +35,9 @@ public class RuleInstance extends BaseEntity {
     @JoinColumn(name = "metrics_code", referencedColumnName = "code", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Metrics metrics;
 
+    @Column(name = "dataset_code")
+    private String datasetCode;
+
     @ManyToOne
     @JoinColumn(name = "metrics_config_code", referencedColumnName = "code", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private MetricsConfig metricsConfig;
@@ -51,7 +55,7 @@ public class RuleInstance extends BaseEntity {
 
     @Transient
     private Boolean sample;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "sample_code", referencedColumnName = "code", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private SampleInstance sampleInstance;
 
@@ -231,5 +235,13 @@ public class RuleInstance extends BaseEntity {
 
     public void setComparisonUnit(String comparisonUnit) {
         this.comparisonUnit = comparisonUnit;
+    }
+
+    public String getDatasetCode() {
+        return datasetCode;
+    }
+
+    public void setDatasetCode(String datasetCode) {
+        this.datasetCode = datasetCode;
     }
 }
