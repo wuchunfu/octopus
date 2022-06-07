@@ -6,7 +6,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.SimpleDateFormat;
 import java.util.Objects;
 
 import static com.fasterxml.jackson.databind.DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT;
@@ -24,8 +23,7 @@ public class JSONUtils {
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
             .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
             .configure(ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT, true)
-            .configure(READ_UNKNOWN_ENUM_VALUES_AS_NULL, true)
-            .setDateFormat(new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS));
+            .configure(READ_UNKNOWN_ENUM_VALUES_AS_NULL, true);
 
     public static <T> T parseObject(String json, Class<T> clazz) {
         if (StringUtils.isEmpty(json) || Objects.isNull(clazz)) {

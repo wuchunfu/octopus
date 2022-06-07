@@ -29,7 +29,7 @@ public class FlowDefinition extends BaseEntity {
     @Column(name = "dataset_code", insertable = false, updatable = false)
     private String datasetCode;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "dataset_code", referencedColumnName = "dataset_code", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private List<AlerterInstance> alerterInstances;
 
