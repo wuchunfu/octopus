@@ -5,6 +5,7 @@ import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Date;
+import java.util.List;
 
 public class RuleInstanceResponseDTO {
 
@@ -17,14 +18,26 @@ public class RuleInstanceResponseDTO {
     @ApiModelProperty(value = "name")
     private String name;
 
-    @ApiModelProperty(value = "subjectCategory")
-    private SubjectCategoryEnum subjectCategory;
-
     @ApiModelProperty(value = "metricsCode")
     private MetricsResponseDTO metrics;
 
     @ApiModelProperty(value = "metricsConfigCode")
     private MetricsConfigResponseDTO metricsConfig;
+
+    @ApiModelProperty(value = "metricsParams")
+    private String metricsParams;
+
+    @ApiModelProperty(value = "subjectCategory")
+    private SubjectCategoryEnum subjectCategory;
+
+    @ApiModelProperty(value = "subjectCode")
+    private String subjectCode;
+
+    @ApiModelProperty(value = "metricsUniqueKey")
+    private String metricsUniqueKey;
+
+    @ApiModelProperty(value = "sampleInstance")
+    private SampleInstanceResponseDTO sampleInstance;
 
     @ApiModelProperty(value = "checkType")
     private String checkType;
@@ -39,13 +52,10 @@ public class RuleInstanceResponseDTO {
     private String comparisonUnit;
 
     @ApiModelProperty(value = "expectedValue")
-    private String expectedValue;
+    private List<String> expectedValue;
 
-    @ApiModelProperty(value = "sampleInstance")
-    private SampleInstanceResponseDTO sampleInstance;
-
-    @ApiModelProperty(value = "subjectCode")
-    private String subjectCode;
+    @ApiModelProperty(value = "description")
+    private String description;
 
     @ApiModelProperty(value = "creator")
     private Long creator;
@@ -83,14 +93,6 @@ public class RuleInstanceResponseDTO {
         this.name = name;
     }
 
-    public SubjectCategoryEnum getSubjectCategory() {
-        return subjectCategory;
-    }
-
-    public void setSubjectCategory(SubjectCategoryEnum subjectCategory) {
-        this.subjectCategory = subjectCategory;
-    }
-
     public MetricsResponseDTO getMetrics() {
         return metrics;
     }
@@ -105,6 +107,46 @@ public class RuleInstanceResponseDTO {
 
     public void setMetricsConfig(MetricsConfigResponseDTO metricsConfig) {
         this.metricsConfig = metricsConfig;
+    }
+
+    public String getMetricsParams() {
+        return metricsParams;
+    }
+
+    public void setMetricsParams(String metricsParams) {
+        this.metricsParams = metricsParams;
+    }
+
+    public SubjectCategoryEnum getSubjectCategory() {
+        return subjectCategory;
+    }
+
+    public void setSubjectCategory(SubjectCategoryEnum subjectCategory) {
+        this.subjectCategory = subjectCategory;
+    }
+
+    public String getSubjectCode() {
+        return subjectCode;
+    }
+
+    public void setSubjectCode(String subjectCode) {
+        this.subjectCode = subjectCode;
+    }
+
+    public String getMetricsUniqueKey() {
+        return metricsUniqueKey;
+    }
+
+    public void setMetricsUniqueKey(String metricsUniqueKey) {
+        this.metricsUniqueKey = metricsUniqueKey;
+    }
+
+    public SampleInstanceResponseDTO getSampleInstance() {
+        return sampleInstance;
+    }
+
+    public void setSampleInstance(SampleInstanceResponseDTO sampleInstance) {
+        this.sampleInstance = sampleInstance;
     }
 
     public String getCheckType() {
@@ -131,28 +173,28 @@ public class RuleInstanceResponseDTO {
         this.comparisonMethod = comparisonMethod;
     }
 
-    public String getExpectedValue() {
+    public String getComparisonUnit() {
+        return comparisonUnit;
+    }
+
+    public void setComparisonUnit(String comparisonUnit) {
+        this.comparisonUnit = comparisonUnit;
+    }
+
+    public List<String> getExpectedValue() {
         return expectedValue;
     }
 
-    public void setExpectedValue(String expectedValue) {
+    public void setExpectedValue(List<String> expectedValue) {
         this.expectedValue = expectedValue;
     }
 
-    public SampleInstanceResponseDTO getSampleInstance() {
-        return sampleInstance;
+    public String getDescription() {
+        return description;
     }
 
-    public void setSampleInstance(SampleInstanceResponseDTO sampleInstance) {
-        this.sampleInstance = sampleInstance;
-    }
-
-    public String getSubjectCode() {
-        return subjectCode;
-    }
-
-    public void setSubjectCode(String subjectCode) {
-        this.subjectCode = subjectCode;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Long getCreator() {
@@ -185,13 +227,5 @@ public class RuleInstanceResponseDTO {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
-    }
-
-    public String getComparisonUnit() {
-        return comparisonUnit;
-    }
-
-    public void setComparisonUnit(String comparisonUnit) {
-        this.comparisonUnit = comparisonUnit;
     }
 }

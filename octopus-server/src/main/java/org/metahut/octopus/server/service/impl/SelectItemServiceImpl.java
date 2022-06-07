@@ -5,6 +5,9 @@ import org.metahut.octopus.api.dto.SelectItemResponseDTO;
 import org.metahut.octopus.common.enums.MetricsDimensionEnum;
 import org.metahut.octopus.common.enums.SelectItemNameEnum;
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
+import org.metahut.octopus.rule.api.CheckTypeEnum;
+import org.metahut.octopus.rule.api.ComparisonMethodEnum;
+import org.metahut.octopus.rule.api.ComparisonUnitEnum;
 import org.metahut.octopus.scheduler.api.ExecutionStatus;
 import org.metahut.octopus.server.service.MetaService;
 import org.metahut.octopus.server.service.SelectItemService;
@@ -87,12 +90,7 @@ public class SelectItemServiceImpl implements SelectItemService {
     }
 
     private List<SelectItemResponseDTO> queryCheckTypeItem() {
-        // TODO query metadata interface
-
-        List<SelectItemResponseDTO> list = new ArrayList<>();
-        list.add(SelectItemResponseDTO.of("Num", "数值类型"));
-        list.add(SelectItemResponseDTO.of("Rate", "波动率类型"));
-        return list;
+        return enumsToSelectItems(CheckTypeEnum.values());
     }
 
     private List<SelectItemResponseDTO> queryCheckMethodItem() {
@@ -105,41 +103,15 @@ public class SelectItemServiceImpl implements SelectItemService {
     }
 
     private List<SelectItemResponseDTO> queryComparisonMethodItem() {
-        // TODO query metadata interface
-
-        List<SelectItemResponseDTO> list = new ArrayList<>();
-        list.add(SelectItemResponseDTO.of("GT", ">"));
-        list.add(SelectItemResponseDTO.of("LT", "<"));
-        list.add(SelectItemResponseDTO.of("GTE", ">="));
-        list.add(SelectItemResponseDTO.of("LTE", "<="));
-        list.add(SelectItemResponseDTO.of("NE", "<>"));
-        list.add(SelectItemResponseDTO.of("EQ", "="));
-        return list;
+        return enumsToSelectItems(ComparisonMethodEnum.values());
     }
 
     private List<SelectItemResponseDTO> queryComparisonUnitItem() {
-        // TODO query metadata interface
-
-        List<SelectItemResponseDTO> list = new ArrayList<>();
-        list.add(SelectItemResponseDTO.of("%", "%"));
-        list.add(SelectItemResponseDTO.of("D", "D"));
-        list.add(SelectItemResponseDTO.of("H", "H"));
-        list.add(SelectItemResponseDTO.of("Min", "Min"));
-        list.add(SelectItemResponseDTO.of("Num", "Num"));
-        return list;
+        return enumsToSelectItems(ComparisonUnitEnum.values());
     }
 
     private List<SelectItemResponseDTO> queryTaskStatusItem() {
         return enumsToSelectItems(ExecutionStatus.values());
-    }
-
-    private List<SelectItemResponseDTO> queryDateFormatItem() {
-        // TODO query metadata interface
-        DateTimeFormatter.ofPattern("");
-        List<SelectItemResponseDTO> list = new ArrayList<>();
-        list.add(SelectItemResponseDTO.of("Hive", "运行中"));
-        list.add(SelectItemResponseDTO.of("Pulsar", "失败"));
-        return list;
     }
 
     private List<SelectItemResponseDTO> queryMetricsDimensionItem() {

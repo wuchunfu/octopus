@@ -3,10 +3,12 @@ package org.metahut.octopus.dao.entity;
 import org.metahut.octopus.common.enums.RuleStateEnum;
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 import org.metahut.octopus.common.enums.TaskTypeEnum;
+import org.metahut.octopus.dao.converter.ListToStringConverter;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -18,6 +20,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import java.util.List;
 
 @Entity
 @Table(name = "tb_octopus_rule_instance")
@@ -70,7 +74,8 @@ public class RuleInstance extends BaseEntity {
 
     private String comparisonUnit;
 
-    private String expectedValue;
+    @Convert(converter = ListToStringConverter.class)
+    private List<String> expectedValue;
 
     @Enumerated(value = EnumType.STRING)
     private RuleStateEnum state;
@@ -205,11 +210,11 @@ public class RuleInstance extends BaseEntity {
         this.comparisonMethod = comparisonMethod;
     }
 
-    public String getExpectedValue() {
+    public List<String> getExpectedValue() {
         return expectedValue;
     }
 
-    public void setExpectedValue(String expectedValue) {
+    public void setExpectedValue(List<String> expectedValue) {
         this.expectedValue = expectedValue;
     }
 

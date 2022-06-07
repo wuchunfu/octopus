@@ -1,9 +1,11 @@
 package org.metahut.octopus.dao.entity;
 
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
+import org.metahut.octopus.dao.converter.ListToStringConverter;
 
 import javax.persistence.CascadeType;
 import javax.persistence.ConstraintMode;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -14,6 +16,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import java.util.List;
 
 @Entity
 @Table(name = "tb_octopus_rule_template")
@@ -39,7 +43,8 @@ public class RuleTemplate extends BaseEntity {
 
     private String comparisonUnit;
 
-    private String expectedValue;
+    @Convert(converter = ListToStringConverter.class)
+    private List<String> expectedValue;
 
     private String description;
 
@@ -102,11 +107,11 @@ public class RuleTemplate extends BaseEntity {
         this.comparisonMethod = comparisonMethod;
     }
 
-    public String getExpectedValue() {
+    public List<String> getExpectedValue() {
         return expectedValue;
     }
 
-    public void setExpectedValue(String expectedValue) {
+    public void setExpectedValue(List<String> expectedValue) {
         this.expectedValue = expectedValue;
     }
 

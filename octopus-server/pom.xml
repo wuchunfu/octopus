@@ -60,6 +60,10 @@
             <groupId>org.metahut.octopus</groupId>
             <artifactId>octopus-scheduler-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.metahut.octopus</groupId>
+            <artifactId>octopus-rule-api</artifactId>
+        </dependency>
 
         <!--   Such plug-in modules need to be optimized and deleted, rather than directly introduced in this way     -->
         <dependency>

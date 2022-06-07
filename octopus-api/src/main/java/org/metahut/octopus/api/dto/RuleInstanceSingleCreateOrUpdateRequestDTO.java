@@ -8,6 +8,8 @@ import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotNull;
 
+import java.util.List;
+
 @ApiModel(description = "rule instance single create or update request dto")
 public class RuleInstanceSingleCreateOrUpdateRequestDTO {
 
@@ -49,7 +51,7 @@ public class RuleInstanceSingleCreateOrUpdateRequestDTO {
     private String comparisonUnit;
 
     @ApiModelProperty(value = "expectedValue")
-    private String expectedValue;
+    private List<String> expectedValue;
 
     @ApiModelProperty(value = "state")
     private RuleStateEnum state;
@@ -152,11 +154,11 @@ public class RuleInstanceSingleCreateOrUpdateRequestDTO {
         this.comparisonMethod = comparisonMethod;
     }
 
-    public String getExpectedValue() {
+    public List<String> getExpectedValue() {
         return expectedValue;
     }
 
-    public void setExpectedValue(String expectedValue) {
+    public void setExpectedValue(List<String> expectedValue) {
         this.expectedValue = expectedValue;
     }
 

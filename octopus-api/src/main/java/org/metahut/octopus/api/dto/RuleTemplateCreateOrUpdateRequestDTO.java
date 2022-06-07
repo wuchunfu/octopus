@@ -5,7 +5,10 @@ import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import java.util.List;
 
 public class RuleTemplateCreateOrUpdateRequestDTO {
 
@@ -41,8 +44,8 @@ public class RuleTemplateCreateOrUpdateRequestDTO {
     private String comparisonMethod;
 
     @ApiModelProperty(value = "expectedValue")
-    @NotBlank(message = "{parameter.not.null}")
-    private String expectedValue;
+    @NotEmpty(message = "{parameter.not.null}")
+    private List<String> expectedValue;
 
     @ApiModelProperty(value = "comparisonUnit")
     @NotBlank(message = "{parameter.not.null}")
@@ -115,11 +118,11 @@ public class RuleTemplateCreateOrUpdateRequestDTO {
         this.comparisonMethod = comparisonMethod;
     }
 
-    public String getExpectedValue() {
+    public List<String> getExpectedValue() {
         return expectedValue;
     }
 
-    public void setExpectedValue(String expectedValue) {
+    public void setExpectedValue(List<String> expectedValue) {
         this.expectedValue = expectedValue;
     }
 

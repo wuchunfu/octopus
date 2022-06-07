@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Date;
+import java.util.List;
 
 @ApiModel(value = "ruleTemplate response")
 public class RuleTemplateResponseDTO {
@@ -34,7 +35,7 @@ public class RuleTemplateResponseDTO {
     private String comparisonMethod;
 
     @ApiModelProperty(value = "expectedValue")
-    private String expectedValue;
+    private List<String> expectedValue;
 
     @ApiModelProperty(value = "comparisonUnit")
     private String comparisonUnit;
@@ -115,11 +116,11 @@ public class RuleTemplateResponseDTO {
         this.comparisonMethod = comparisonMethod;
     }
 
-    public String getExpectedValue() {
+    public List<String> getExpectedValue() {
         return expectedValue;
     }
 
-    public void setExpectedValue(String expectedValue) {
+    public void setExpectedValue(List<String> expectedValue) {
         this.expectedValue = expectedValue;
     }
 
