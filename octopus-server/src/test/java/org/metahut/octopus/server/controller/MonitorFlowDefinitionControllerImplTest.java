@@ -65,9 +65,12 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
         String result = mvcResult.getResponse().getContentAsString();
-        ResultEntity<MetricsResponseDTO> resultEntity = JSONUtils.parseObject(result, new TypeReference<ResultEntity<MetricsResponseDTO>>() {
+        ResultEntity<MetricsResponseDTO> create = JSONUtils.parseObject(result, new TypeReference<ResultEntity<MetricsResponseDTO>>() {
         });
-        return resultEntity.getData();
+        Assertions.assertTrue(create.isSuccess());
+        MetricsResponseDTO createData = create.getData();
+        Assertions.assertNotNull(createData.getId());
+        return createData;
     }
 
     private MetricsConfigResponseDTO createMetricsConfig(MetricsConfigCreateOrUpdateRequestDTO requestDTO) throws Exception {
@@ -77,9 +80,13 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
         String result = mvcResult.getResponse().getContentAsString();
-        ResultEntity<MetricsConfigResponseDTO> resultEntity = JSONUtils.parseObject(result, new TypeReference<ResultEntity<MetricsConfigResponseDTO>>() {
+        ResultEntity<MetricsConfigResponseDTO> create = JSONUtils.parseObject(result, new TypeReference<ResultEntity<MetricsConfigResponseDTO>>() {
         });
-        return resultEntity.getData();
+        Assertions.assertTrue(create.isSuccess());
+        MetricsConfigResponseDTO createData = create.getData();
+        Assertions.assertNotNull(createData.getId());
+        Assertions.assertNotNull(createData.getMetrics());
+        return createData;
     }
 
     private AlerterSourceResponseDTO createAlertInstance(AlerterSourceCreateOrUpdateRequestDTO requestDTO) throws Exception {
@@ -89,9 +96,12 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
         String result = mvcResult.getResponse().getContentAsString();
-        ResultEntity<AlerterSourceResponseDTO> resultEntity = JSONUtils.parseObject(result, new TypeReference<ResultEntity<AlerterSourceResponseDTO>>() {
+        ResultEntity<AlerterSourceResponseDTO> create = JSONUtils.parseObject(result, new TypeReference<ResultEntity<AlerterSourceResponseDTO>>() {
         });
-        return resultEntity.getData();
+        Assertions.assertTrue(create.isSuccess());
+        AlerterSourceResponseDTO createData = create.getData();
+        Assertions.assertNotNull(createData.getId());
+        return createData;
     }
 
     private MonitorFlowDefinitionResponseDTO create(MonitorFlowDefinitionCreateOrUpdateRequestDTO requestDTO) throws Exception {
@@ -111,9 +121,12 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
         String result = mvcResult.getResponse().getContentAsString();
-        ResultEntity<MonitorFlowDefinitionResponseDTO> resultEntity = JSONUtils.parseObject(result, new TypeReference<ResultEntity<MonitorFlowDefinitionResponseDTO>>() {
+        ResultEntity<MonitorFlowDefinitionResponseDTO> create = JSONUtils.parseObject(result, new TypeReference<ResultEntity<MonitorFlowDefinitionResponseDTO>>() {
         });
-        return resultEntity.getData();
+        Assertions.assertTrue(create.isSuccess());
+        MonitorFlowDefinitionResponseDTO createData = create.getData();
+        Assertions.assertNotNull(createData.getId());
+        return createData;
     }
 
     @Test
@@ -212,7 +225,7 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
         MonitorFlowDefinitionResponseDTO monitorFlowDefinitionResponseDTO = create(requestDTO);
 
         MonitorFlowDefinitionCreateOrUpdateRequestDTO updateDTO = JSONUtils.parseObject(JSONUtils.toJSONString(monitorFlowDefinitionResponseDTO), MonitorFlowDefinitionCreateOrUpdateRequestDTO.class);
-        updateDTO.setDatasetCode("dataset4");
+
         updateDTO.getAlerterInstances().forEach(i -> {
             i.setAlerterSourceCode(alertInstance.getCode());
             i.setParameter("phone");
@@ -222,8 +235,9 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
             i.setMetricsCode(metrics.getCode());
             i.setMetricsConfigCode(metricsConfig.getCode());
             i.setSample(true);
+            i.setDatasetCode("dataset76");
             i.setState(RuleStateEnum.OFFLINE);
-            i.setSubjectCategory(SubjectCategoryEnum.TABLE);
+            i.setSubjectCategory(SubjectCategoryEnum.FIELD);
         });
         String sampleValue = "100";
         updateDTO.getSampleInstance().setParameter(sampleValue);
