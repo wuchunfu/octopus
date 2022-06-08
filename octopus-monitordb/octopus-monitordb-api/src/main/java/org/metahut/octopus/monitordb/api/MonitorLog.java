@@ -1,6 +1,6 @@
 package org.metahut.octopus.monitordb.api;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 public class MonitorLog {
 
@@ -32,9 +32,9 @@ public class MonitorLog {
 
     private String errorInfo;
 
-    private LocalDateTime errorTime;
+    private Date errorTime;
 
-    private LocalDateTime createTime;
+    private Date createTime;
 
     public String getId() {
         return id;
@@ -156,19 +156,19 @@ public class MonitorLog {
         this.errorInfo = errorInfo;
     }
 
-    public LocalDateTime getErrorTime() {
+    public Date getErrorTime() {
         return errorTime;
     }
 
-    public void setErrorTime(LocalDateTime errorTime) {
+    public void setErrorTime(Date errorTime) {
         this.errorTime = errorTime;
     }
 
-    public LocalDateTime getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(LocalDateTime createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 }

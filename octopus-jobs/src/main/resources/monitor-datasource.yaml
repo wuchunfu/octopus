@@ -1,7 +1,7 @@
 monitorStorage:
   type: clickhouse
   clickhouse:
-    driverClassName: com.clickhouse.jdbc.ClickHouseDriver
+    driverClassName: ru.yandex.clickhouse.ClickHouseDriver
     # jdbcUrl: jdbc:clickhouse://172.30.240.229:8123/quality
     jdbcUrl: jdbc:clickhouse://172.17.60.10:8123/quality
     user: default

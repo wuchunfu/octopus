@@ -90,8 +90,11 @@ public class ClickhouseMonitorDBSource implements IMonitorDBSource {
         parameters.add(request.getPageSize());
         try {
             QueryRunner queryRunner = new QueryRunner(jdbcDatasource.getDatasource());
+            BeanProcessor processor = new GenerousBeanProcessor();
+            RowProcessor rowProcessor = new BasicRowProcessor(processor);
+
             logger.info("Clickhouse query sql:{}, parameters:{}", builder, parameters.stream().map(String::valueOf).collect(Collectors.joining(",")));
-            List<MetricsResult> list = queryRunner.query(builder.toString(), new BeanListHandler<>(MetricsResult.class), parameters.toArray(new Object[parameters.size()]));
+            List<MetricsResult> list = queryRunner.query(builder.toString(), new BeanListHandler<>(MetricsResult.class, rowProcessor), parameters.toArray(new Object[parameters.size()]));
 
             PageResponse<MetricsResult> pageResponse = new PageResponse<>();
             pageResponse.setPageNo(request.getPageNo());
