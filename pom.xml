@@ -43,6 +43,7 @@
         <module>octopus-common</module>
         <module>octopus-rule</module>
         <module>octopus-tools</module>
+        <module>octopus-jobs</module>
     </modules>
 
     <properties>

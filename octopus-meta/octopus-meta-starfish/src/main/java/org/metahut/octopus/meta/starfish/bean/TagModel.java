@@ -1,6 +1,5 @@
 package org.metahut.octopus.meta.starfish.bean;
 
-
 import java.util.Date;
 
 /**

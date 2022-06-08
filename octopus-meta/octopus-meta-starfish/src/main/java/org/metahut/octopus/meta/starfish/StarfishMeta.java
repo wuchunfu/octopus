@@ -182,9 +182,6 @@ public class StarfishMeta implements IMeta {
                             data.getData() == null ? null : data.getData().stream().map(sourceResponseDTO -> {
                                 MetaDatasetEntity entity = new MetaDatasetEntity();
 
-
-
-
                                 return entity;
                             }).collect(Collectors.toList()));
                 }
@@ -222,11 +219,7 @@ public class StarfishMeta implements IMeta {
                 String className = typeResponse.getData().fullClassName();
                 String instanceJson = get(MessageFormat.format("/entity/queryById?id={0}", code));
 
-
                 ResultEntity<Map> instanceResponse = new ObjectMapper().readValue(typeJson, new TypeReference<ResultEntity<Map>>() {});
-
-
-
             }
         } catch (Exception exception) {
             logger.error(exception.getMessage(),exception);

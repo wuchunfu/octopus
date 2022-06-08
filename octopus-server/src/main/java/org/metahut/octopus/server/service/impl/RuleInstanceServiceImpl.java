@@ -9,13 +9,11 @@ import org.metahut.octopus.dao.entity.MetricsConfig;
 import org.metahut.octopus.dao.entity.Metrics_;
 import org.metahut.octopus.dao.entity.RuleInstance;
 import org.metahut.octopus.dao.entity.RuleInstance_;
-import org.metahut.octopus.dao.entity.SampleInstance;
 import org.metahut.octopus.dao.repository.RuleInstanceRepository;
 import org.metahut.octopus.dao.repository.SampleInstanceRepository;
 import org.metahut.octopus.server.service.MetricsConfigService;
 import org.metahut.octopus.server.service.MetricsService;
 import org.metahut.octopus.server.service.RuleInstanceService;
-import org.metahut.octopus.server.utils.SnowflakeIdGenerator;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.convert.ConversionService;

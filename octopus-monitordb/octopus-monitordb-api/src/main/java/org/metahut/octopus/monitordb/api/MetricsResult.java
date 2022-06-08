@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class MetricsResult {
 
-    private Integer id;
+    private String id;
 
     private String reportChannel;
 
@@ -20,11 +20,11 @@ public class MetricsResult {
     private String metricsValue;
     private LocalDateTime createTime;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

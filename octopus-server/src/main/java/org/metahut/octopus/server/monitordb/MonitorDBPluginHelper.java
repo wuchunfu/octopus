@@ -14,7 +14,7 @@ import javax.annotation.PostConstruct;
 import java.util.ServiceLoader;
 
 @Configuration
-public class MonitorDBPluginHelpher {
+public class MonitorDBPluginHelper {
 
     private IMonitorDBSourceManager monitorDBSourceManager;
 
