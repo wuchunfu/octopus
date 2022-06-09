@@ -1,5 +1,6 @@
 package org.metahut.octopus.server.service;
 
+import org.metahut.octopus.api.dto.MetaDatabaseConditionsRequestDTO;
 import org.metahut.octopus.api.dto.MetaDatabaseResponseDTO;
 import org.metahut.octopus.api.dto.MetaDatasetRequestDTO;
 import org.metahut.octopus.api.dto.MetaDatasetResponseDTO;
@@ -16,7 +17,7 @@ public interface MetaService {
 
     PageResponseDTO<MetaDatasourceResponseDTO> queryDatasourceListPage(MetaDatasourceRequestDTO requestDTO);
 
-    PageResponseDTO<MetaDatabaseResponseDTO> queryDatabaseListPage(String datasourceCode);
+    PageResponseDTO<MetaDatabaseResponseDTO> queryDatabaseListPage(MetaDatabaseConditionsRequestDTO requestDTO);
 
     PageResponseDTO<MetaDatasetResponseDTO> queryDatasetList(MetaDatasetRequestDTO requestDTO);
 

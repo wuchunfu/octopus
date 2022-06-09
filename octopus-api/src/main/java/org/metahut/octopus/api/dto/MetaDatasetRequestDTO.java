@@ -3,6 +3,8 @@ package org.metahut.octopus.api.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.validation.constraints.NotEmpty;
+
 @ApiModel(description = "meta dataset request dto")
 public class MetaDatasetRequestDTO extends PageRequestDTO {
 
@@ -17,6 +19,10 @@ public class MetaDatasetRequestDTO extends PageRequestDTO {
 
     @ApiModelProperty(value = "datasourceCode")
     private String datasourceCode;
+
+    @ApiModelProperty(value = "dataSourceType")
+    @NotEmpty(message = "{parameter.not.null}")
+    private String dataSourceType;
 
     public String getCode() {
         return code;
@@ -48,5 +54,13 @@ public class MetaDatasetRequestDTO extends PageRequestDTO {
 
     public void setDatasourceCode(String datasourceCode) {
         this.datasourceCode = datasourceCode;
+    }
+
+    public String getDataSourceType() {
+        return dataSourceType;
+    }
+
+    public void setDataSourceType(String dataSourceType) {
+        this.dataSourceType = dataSourceType;
     }
 }

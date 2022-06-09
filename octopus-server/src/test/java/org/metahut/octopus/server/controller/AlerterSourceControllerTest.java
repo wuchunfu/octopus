@@ -7,7 +7,6 @@ import org.metahut.octopus.dao.entity.AlerterSource;
 import org.metahut.octopus.dao.repository.AlerterSourceRepository;
 import org.metahut.octopus.scheduler.dolphinscheduler.JSONUtils;
 import org.metahut.octopus.server.WebMvcApplicationTest;
-import org.metahut.octopus.server.alerter.AlerterPluginHelper;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Assertions;
@@ -29,9 +28,6 @@ public class AlerterSourceControllerTest extends WebMvcApplicationTest {
     @MockBean
     private AlerterSourceRepository alerterSourceRepository;
 
-    @MockBean
-    private AlerterPluginHelper alerterPluginHelper;
-    
     @Test
     void testCreate() throws Exception {
         String url = REST_FUNCTION_URL_PREFIX + "create";

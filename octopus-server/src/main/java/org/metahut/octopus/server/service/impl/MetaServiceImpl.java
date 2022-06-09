@@ -1,18 +1,22 @@
 package org.metahut.octopus.server.service.impl;
 
+import org.metahut.octopus.api.dto.MetaDatabaseConditionsRequestDTO;
 import org.metahut.octopus.api.dto.MetaDatabaseResponseDTO;
 import org.metahut.octopus.api.dto.MetaDatasetRequestDTO;
 import org.metahut.octopus.api.dto.MetaDatasetResponseDTO;
 import org.metahut.octopus.api.dto.MetaDatasourceRequestDTO;
 import org.metahut.octopus.api.dto.MetaDatasourceResponseDTO;
 import org.metahut.octopus.api.dto.MetaDatasourceTypeRequestDTO;
+import org.metahut.octopus.api.dto.PageResponseDTO;
 import org.metahut.octopus.meta.api.IMeta;
+import org.metahut.octopus.meta.api.MetaDatabaseEntity;
+import org.metahut.octopus.meta.api.MetaDatabaseRequest;
 import org.metahut.octopus.meta.api.MetaDatasetEntity;
 import org.metahut.octopus.meta.api.MetaDatasetRequest;
 import org.metahut.octopus.meta.api.MetaDatasourceEntity;
 import org.metahut.octopus.meta.api.MetaDatasourceRequest;
+import org.metahut.octopus.meta.api.MetaDatasourceTypeEntity;
 import org.metahut.octopus.meta.api.MetaDatasourceTypeRequest;
-import org.metahut.octopus.meta.api.PageResponseDTO;
 import org.metahut.octopus.server.service.MetaService;
 import org.metahut.octopus.server.service.MonitorFlowDefinitionService;
 
@@ -21,6 +25,7 @@ import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 
 @Service
 public class MetaServiceImpl implements MetaService {
@@ -37,32 +42,51 @@ public class MetaServiceImpl implements MetaService {
     }
 
     @Override
-    public org.metahut.octopus.api.dto.PageResponseDTO<MetaDatasourceResponseDTO> queryDatasourceTypeListPage(MetaDatasourceTypeRequestDTO requestDTO) {
+    public PageResponseDTO<MetaDatasourceResponseDTO> queryDatasourceTypeListPage(MetaDatasourceTypeRequestDTO requestDTO) {
         MetaDatasourceTypeRequest request = conversionService.convert(requestDTO, MetaDatasourceTypeRequest.class);
-        return (org.metahut.octopus.api.dto.PageResponseDTO<MetaDatasourceResponseDTO>) conversionService.convert(meta.queryDatasourceTypeListPage(request),
-                TypeDescriptor.collection(PageResponseDTO.class, TypeDescriptor.valueOf(MetaDatasourceEntity.class)),
-                TypeDescriptor.collection(org.metahut.octopus.api.dto.PageResponseDTO.class, TypeDescriptor.valueOf(MetaDatasourceResponseDTO.class)));
+        org.metahut.octopus.meta.api.PageResponseDTO<MetaDatasourceTypeEntity> responseDTO = meta.queryDatasourceTypeListPage(request);
+        List<MetaDatasourceResponseDTO> convert = (List<MetaDatasourceResponseDTO>) conversionService.convert(responseDTO.getData(),
+            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MetaDatasourceEntity.class)),
+            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MetaDatasourceResponseDTO.class)));
+
+        return PageResponseDTO.of(responseDTO.getPageNo(), responseDTO.getPageSize(), responseDTO.getTotal(), convert);
     }
 
     @Override
-    public org.metahut.octopus.api.dto.PageResponseDTO<MetaDatasourceResponseDTO> queryDatasourceListPage(MetaDatasourceRequestDTO requestDTO) {
+    public PageResponseDTO<MetaDatasourceResponseDTO> queryDatasourceListPage(MetaDatasourceRequestDTO requestDTO) {
+
         MetaDatasourceRequest request = conversionService.convert(requestDTO, MetaDatasourceRequest.class);
-        return (org.metahut.octopus.api.dto.PageResponseDTO<MetaDatasourceResponseDTO>) conversionService.convert(meta.queryDatasourceListPage(request),
-            TypeDescriptor.collection(PageResponseDTO.class, TypeDescriptor.valueOf(MetaDatasourceEntity.class)),
-            TypeDescriptor.collection(org.metahut.octopus.api.dto.PageResponseDTO.class, TypeDescriptor.valueOf(MetaDatasourceResponseDTO.class)));
+        org.metahut.octopus.meta.api.PageResponseDTO<MetaDatasourceEntity> responseDTO = meta.queryDatasourceListPage(request);
+        List<MetaDatasourceResponseDTO> convert = (List<MetaDatasourceResponseDTO>) conversionService.convert(responseDTO.getData(),
+            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MetaDatasourceEntity.class)),
+            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MetaDatasourceResponseDTO.class)));
+
+        return PageResponseDTO.of(responseDTO.getPageNo(), responseDTO.getPageSize(), responseDTO.getTotal(), convert);
     }
 
     @Override
-    public org.metahut.octopus.api.dto.PageResponseDTO<MetaDatabaseResponseDTO> queryDatabaseListPage(String datasourceCode) {
-        return null;
+    public PageResponseDTO<MetaDatabaseResponseDTO> queryDatabaseListPage(MetaDatabaseConditionsRequestDTO requestDTO) {
+
+        MetaDatabaseRequest request = conversionService.convert(requestDTO, MetaDatabaseRequest.class);
+        org.metahut.octopus.meta.api.PageResponseDTO<MetaDatabaseEntity> responseDTO = meta.queryDatabaseListPage(request);
+        List<MetaDatabaseResponseDTO> convert = (List<MetaDatabaseResponseDTO>) conversionService.convert(responseDTO.getData(),
+            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MetaDatabaseEntity.class)),
+            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MetaDatabaseResponseDTO.class)));
+
+        return PageResponseDTO.of(responseDTO.getPageNo(), responseDTO.getPageSize(), responseDTO.getTotal(), convert);
     }
 
     @Override
-    public org.metahut.octopus.api.dto.PageResponseDTO<MetaDatasetResponseDTO> queryDatasetList(MetaDatasetRequestDTO requestDTO) {
-        MetaDatasetRequest convert = conversionService.convert(requestDTO, MetaDatasetRequest.class);
-        return (org.metahut.octopus.api.dto.PageResponseDTO<MetaDatasetResponseDTO>) conversionService.convert(meta.queryDatasetListPage(convert),
-            TypeDescriptor.collection(PageResponseDTO.class, TypeDescriptor.valueOf(MetaDatasetEntity.class)),
-            TypeDescriptor.collection(org.metahut.octopus.api.dto.PageResponseDTO.class, TypeDescriptor.valueOf(MetaDatasetResponseDTO.class)));
+    public PageResponseDTO<MetaDatasetResponseDTO> queryDatasetList(MetaDatasetRequestDTO requestDTO) {
+        MetaDatasetRequest request = conversionService.convert(requestDTO, MetaDatasetRequest.class);
+
+        org.metahut.octopus.meta.api.PageResponseDTO<MetaDatasetEntity> responseDTO = meta.queryDatasetListPage(request);
+
+        List<MetaDatasetResponseDTO> convert = (List<MetaDatasetResponseDTO>) conversionService.convert(responseDTO.getData(),
+            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MetaDatasetEntity.class)),
+            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MetaDatasetResponseDTO.class)));
+
+        return PageResponseDTO.of(responseDTO.getPageNo(), responseDTO.getPageSize(), responseDTO.getTotal(), convert);
     }
 
     @Override

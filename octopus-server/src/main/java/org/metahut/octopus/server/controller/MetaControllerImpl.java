@@ -1,6 +1,7 @@
 package org.metahut.octopus.server.controller;
 
 import org.metahut.octopus.api.controller.MetaController;
+import org.metahut.octopus.api.dto.MetaDatabaseConditionsRequestDTO;
 import org.metahut.octopus.api.dto.MetaDatabaseResponseDTO;
 import org.metahut.octopus.api.dto.MetaDatasetRequestDTO;
 import org.metahut.octopus.api.dto.MetaDatasetResponseDTO;
@@ -35,9 +36,8 @@ public class MetaControllerImpl implements MetaController {
     }
 
     @Override
-    public ResultEntity<PageResponseDTO<MetaDatabaseResponseDTO>> queryDatabaseListPage(String datasourceCode) {
-        //metaService.queryDatabaseList(datasourceCode)
-        return ResultEntity.success();
+    public ResultEntity<PageResponseDTO<MetaDatabaseResponseDTO>> queryDatabaseListPage(MetaDatabaseConditionsRequestDTO requestDTO) {
+        return ResultEntity.success(metaService.queryDatabaseListPage(requestDTO));
     }
 
     @Override

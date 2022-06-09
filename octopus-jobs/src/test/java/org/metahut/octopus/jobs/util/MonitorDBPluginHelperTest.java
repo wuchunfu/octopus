@@ -7,6 +7,7 @@ import org.metahut.octopus.monitordb.api.MonitorLog;
 import org.metahut.octopus.monitordb.api.PageResponse;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -15,6 +16,7 @@ import java.util.Date;
 import java.util.UUID;
 import java.util.stream.Stream;
 
+@Disabled
 public class MonitorDBPluginHelperTest {
 
     @Test
