@@ -12,11 +12,13 @@ import org.metahut.octopus.api.dto.SampleInstanceCreateOrUpdateRequestDTO;
 import org.metahut.octopus.common.enums.MetricsDimensionEnum;
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 import org.metahut.octopus.server.WebMvcApplicationTest;
+import org.metahut.octopus.server.alerter.AlerterPluginHelper;
 import org.metahut.octopus.server.utils.JSONUtils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -29,6 +31,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class RuleInstanceControllerImplTest extends WebMvcApplicationTest {
+
+    @MockBean
+    private AlerterPluginHelper alerterPluginHelper;
 
     private static final String REST_FUNCTION_URL_PREFIX = "/ruleInstance/";
 
