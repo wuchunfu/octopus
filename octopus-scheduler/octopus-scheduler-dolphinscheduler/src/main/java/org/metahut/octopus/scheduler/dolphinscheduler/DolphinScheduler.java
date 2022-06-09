@@ -120,6 +120,24 @@ public class DolphinScheduler implements IScheduler {
         }
     }
 
+    private Schedule queryScheduleByFlowCode(String flowCode) {
+        String url = MessageFormat.format("/projects/{0}/schedules", properties.getProjectCode());
+        FormBody body = new FormBody.Builder()
+                .add("processDefinitionCode", flowCode)
+                .add("pageNo", "1")
+                .add("pageSize", "10")
+                .build();
+        try {
+            // create schedule instance
+            String resultJson = post(url, body);
+            DolphinResult<DolphinPageInfo<Schedule>> result = JSONUtils.parseObject(resultJson, new TypeReference<DolphinResult<DolphinPageInfo<Schedule>>>() {});
+            checkResult(result, "queryScheduleByFlowCode");
+            return result.getData().getTotalList().get(0);
+        } catch (IOException e) {
+            throw new SchedulerException("dolphin scheduler call queryScheduleByFlowCode method exception", e);
+        }
+    }
+
     @Override
     public void updateSchedule(ScheduleParameter scheduleParameter) {
         String url = MessageFormat.format("/projects/{0}/schedules/update/{1}", properties.getProjectCode(), scheduleParameter.getFlowCode());
@@ -127,7 +145,10 @@ public class DolphinScheduler implements IScheduler {
                 .add("schedule", JSONUtils.toJSONString(scheduleParameter.getScheduleCronParameter()))
                 .build();
         try {
-            Integer scheduleId = Integer.valueOf(scheduleParameter.getScheduleCode());
+            // query schedule code by flow code
+            Schedule schedule = queryScheduleByFlowCode(scheduleParameter.getFlowCode());
+
+            Integer scheduleId = schedule.getId();
             // Update schedule status to offline
             updateScheduleToOffline(scheduleId);
 

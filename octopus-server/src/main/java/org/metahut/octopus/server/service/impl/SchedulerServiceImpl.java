@@ -63,4 +63,10 @@ public class SchedulerServiceImpl implements SchedulerService {
     public PageResponse<TaskInstance> queryTaskInstanceListPage(TaskInstanceRequestParameter parameter) {
         return scheduler.queryTaskInstanceListPage(parameter);
     }
+
+    @Override
+    public void updateScheduleTimer(ScheduleParameter scheduleParameter) {
+        scheduler.updateSchedule(scheduleParameter);
+    }
+
 }

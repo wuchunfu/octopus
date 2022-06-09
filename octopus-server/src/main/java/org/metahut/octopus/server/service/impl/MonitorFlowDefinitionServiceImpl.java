@@ -89,6 +89,7 @@ public class MonitorFlowDefinitionServiceImpl implements MonitorFlowDefinitionSe
         return flowDefinitionRepository.findAll().stream().map(FlowDefinition::getDatasetCode).collect(Collectors.toSet());
     }
 
+    @Override
     public FlowDefinition findOneByCode(Long code) {
         Optional<FlowDefinition> optional = flowDefinitionRepository.findOne((root, query, builder) -> builder.equal(root.get(FlowDefinition_.code), code));
         Assert.notPresent(optional, METRICS_CONFIG_NOT_EXIST, code);

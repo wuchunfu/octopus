@@ -18,4 +18,6 @@ public interface SchedulerService {
     String createMetricsProductionTaskAndAddSchedule(String taskName, Long code, String cron);
 
     PageResponse<TaskInstance> queryTaskInstanceListPage(TaskInstanceRequestParameter parameter);
+
+    void updateScheduleTimer(ScheduleParameter scheduleParameter);
 }
