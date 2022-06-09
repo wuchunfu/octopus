@@ -36,6 +36,8 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 
 import java.io.IOException;
@@ -51,6 +53,7 @@ import java.util.Objects;
 
 public class DolphinScheduler implements IScheduler {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(DolphinScheduler.class);
     private static final MediaType MEDIA_TYPE_JSON = MediaType.get("application/json; charset=utf-8");
     private static final String HEADER_TOKEN_NAME = "token";
     private static final int HTTP_SUCCESS = 0;
@@ -121,15 +124,11 @@ public class DolphinScheduler implements IScheduler {
     }
 
     private Schedule queryScheduleByFlowCode(String flowCode) {
-        String url = MessageFormat.format("/projects/{0}/schedules", properties.getProjectCode());
-        FormBody body = new FormBody.Builder()
-                .add("processDefinitionCode", flowCode)
-                .add("pageNo", "1")
-                .add("pageSize", "10")
-                .build();
+        String url = MessageFormat.format("/projects/{0}/schedules?processDefinitionCode={1}&pageNo={2}&pageSize={3}",
+                properties.getProjectCode(), flowCode, "1", "10");
         try {
             // create schedule instance
-            String resultJson = post(url, body);
+            String resultJson = get(url);
             DolphinResult<DolphinPageInfo<Schedule>> result = JSONUtils.parseObject(resultJson, new TypeReference<DolphinResult<DolphinPageInfo<Schedule>>>() {});
             checkResult(result, "queryScheduleByFlowCode");
             return result.getData().getTotalList().get(0);
@@ -140,10 +139,7 @@ public class DolphinScheduler implements IScheduler {
 
     @Override
     public void updateSchedule(ScheduleParameter scheduleParameter) {
-        String url = MessageFormat.format("/projects/{0}/schedules/update/{1}", properties.getProjectCode(), scheduleParameter.getFlowCode());
-        FormBody body = new FormBody.Builder()
-                .add("schedule", JSONUtils.toJSONString(scheduleParameter.getScheduleCronParameter()))
-                .build();
+        setScheduleCronDefaultValue(scheduleParameter.getScheduleCronParameter());
         try {
             // query schedule code by flow code
             Schedule schedule = queryScheduleByFlowCode(scheduleParameter.getFlowCode());
@@ -152,8 +148,14 @@ public class DolphinScheduler implements IScheduler {
             // Update schedule status to offline
             updateScheduleToOffline(scheduleId);
 
+            String url = MessageFormat.format("/projects/{0}/schedules/{1}", properties.getProjectCode(), String.valueOf(scheduleId));
+            FormBody body = new FormBody.Builder()
+                    .add("schedule", JSONUtils.toJSONString(scheduleParameter.getScheduleCronParameter()))
+                    .add("warningGroupId", "1")
+                    .build();
+
             // update schedule instance
-            String resultJson = post(url, body);
+            String resultJson = put(url, body);
             DolphinResult<Schedule> result = JSONUtils.parseObject(resultJson, new TypeReference<DolphinResult<Schedule>>() {});
             checkResult(result, "updateSchedule");
 
@@ -166,7 +168,13 @@ public class DolphinScheduler implements IScheduler {
 
     private void checkResult(DolphinResult result, String method) {
         if (Objects.isNull(result) || HTTP_SUCCESS != result.getCode()) {
-            throw new SchedulerException(MessageFormat.format("dolphin scheduler call {0} method exception, {1}", method, Objects.isNull(result) ? "result is empty" : result.getMsg()));
+            throw new SchedulerException(MessageFormat.format("dolphin scheduler call {0} method exception, message:{1}", method, Objects.isNull(result) ? "result is empty" : result.getCode() + ":" + result.getMsg()));
+        }
+    }
+
+    private void printResult(DolphinResult result, String method) {
+        if (Objects.isNull(result) || HTTP_SUCCESS != result.getCode()) {
+            LOGGER.error("dolphin scheduler call {} method exception, message:{}", method, Objects.isNull(result) ? "result is empty" : result.getCode() + ":" + result.getMsg());
         }
     }
 
@@ -193,17 +201,26 @@ public class DolphinScheduler implements IScheduler {
         FormBody body = new FormBody.Builder().build();
         String resultJson = post(url, body);
         DolphinResult result = JSONUtils.parseObject(resultJson, DolphinResult.class);
-        checkResult(result, "updateScheduleToOffline");
+        printResult(result, "updateScheduleToOffline");
     }
 
-    private void updateFlowState(long flowCode, String state) throws IOException {
+    private DolphinResult updateFlowState(long flowCode, String state) throws IOException {
         String url = MessageFormat.format("/projects/{0}/process-definition/{1}/release", properties.getProjectCode(), String.valueOf(flowCode));
         FormBody body = new FormBody.Builder()
                 .add("releaseState", state)
                 .build();
         String resultJson = post(url, body);
-        DolphinResult result = JSONUtils.parseObject(resultJson, DolphinResult.class);
-        checkResult(result, "updateFlowState");
+        return JSONUtils.parseObject(resultJson, DolphinResult.class);
+    }
+
+    private void updateFlowStateToOffline(long flowCode) throws IOException {
+        DolphinResult result = updateFlowState(flowCode, ReleaseState.OFFLINE.name());
+        printResult(result, "updateFlowStateToOffline");
+    }
+
+    private void updateFlowStateToOnline(long flowCode) throws IOException {
+        DolphinResult result = updateFlowState(flowCode, ReleaseState.ONLINE.name());
+        checkResult(result, "updateFlowStateToOnline");
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -319,7 +336,7 @@ public class DolphinScheduler implements IScheduler {
 
             long flowCode = result.getData().getCode();
             // Update flow status to online
-            updateFlowState(flowCode, ReleaseState.ONLINE.toString());
+            updateFlowStateToOnline(flowCode);
             return String.valueOf(flowCode);
         } catch (IOException e) {
             throw new SchedulerException("dolphin scheduler call createSingleTask method exception", e);
@@ -331,7 +348,7 @@ public class DolphinScheduler implements IScheduler {
         String url = MessageFormat.format("/projects/{0}/process-definition/{1}", properties.getProjectCode(), flowCode);
         try {
             // Update flow status to online
-            updateFlowState(Long.valueOf(flowCode), ReleaseState.OFFLINE.toString());
+            updateFlowStateToOffline(Long.valueOf(flowCode));
 
             // delete flow by code
             String resultJson = delete(url);
@@ -367,11 +384,11 @@ public class DolphinScheduler implements IScheduler {
                 : ExecutionStatus.FAIL == parameter.getExecutionStatus() ? "FAILURE" : parameter.getExecutionStatus().name();
 
         String url = MessageFormat.format("/projects/{0}/process-instances?searchVal={1}&pageSize={2}&pageNo={3}&stateType=",
-            properties.getProjectCode(),
-            StringUtils.isNotBlank(parameter.getName()) ? parameter.getName() : "",
-            parameter.getPageSize().toString(),
-            parameter.getPageNo().toString(),
-            executionStatusCode
+                properties.getProjectCode(),
+                StringUtils.isNotBlank(parameter.getName()) ? parameter.getName() : "",
+                parameter.getPageSize().toString(),
+                parameter.getPageNo().toString(),
+                executionStatusCode
         );
 
         try {
@@ -408,14 +425,14 @@ public class DolphinScheduler implements IScheduler {
                 : ExecutionStatus.FAIL == parameter.getExecutionStatus() ? "FAILURE" : parameter.getExecutionStatus().name();
 
         String url = MessageFormat.format("/projects/{0}/task-instances?searchVal={1}&pageSize={2}&pageNo={3}&stateType={4}&startDate={5}&endDate={6}&processInstanceName={7}",
-            properties.getProjectCode(),
-            StringUtils.isNotBlank(parameter.getName()) ? parameter.getName() : "",
-            parameter.getPageSize().toString(),
-            parameter.getPageNo().toString(),
-            executionStatusCode,
-            Objects.nonNull(parameter.getBeginTime()) ? formatter.format(parameter.getBeginTime().toInstant()) : "",
-            Objects.nonNull(parameter.getEndTime()) ? formatter.format(parameter.getEndTime().toInstant()) : "",
-            StringUtils.isNotBlank(parameter.getFlowInstanceName()) ? parameter.getFlowInstanceName() : ""
+                properties.getProjectCode(),
+                StringUtils.isNotBlank(parameter.getName()) ? parameter.getName() : "",
+                parameter.getPageSize().toString(),
+                parameter.getPageNo().toString(),
+                executionStatusCode,
+                Objects.nonNull(parameter.getBeginTime()) ? formatter.format(parameter.getBeginTime().toInstant().atZone(ZoneId.systemDefault())) : "",
+                Objects.nonNull(parameter.getEndTime()) ? formatter.format(parameter.getEndTime().toInstant().atZone(ZoneId.systemDefault())) : "",
+                StringUtils.isNotBlank(parameter.getFlowInstanceName()) ? parameter.getFlowInstanceName() : ""
         );
 
         try {
@@ -448,9 +465,9 @@ public class DolphinScheduler implements IScheduler {
     @Override
     public String queryFlowInstanceLog(TaskInstanceLogRequestParameter requestParameter) {
         String url = String.format("/log/detail?taskInstanceId=%s&skipLineNum=%s&limit=%s",
-            requestParameter.getTaskInstanceId(),
-            requestParameter.getOffset(),
-            requestParameter.getLimit()
+                requestParameter.getTaskInstanceId(),
+                requestParameter.getOffset(),
+                requestParameter.getLimit()
         );
 
         try {
