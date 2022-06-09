@@ -7,6 +7,7 @@ import org.metahut.octopus.server.converter.MetricsConfigFromDTOConverter;
 import org.metahut.octopus.server.converter.MetricsResultToDTOConverter;
 import org.metahut.octopus.server.converter.MonitorLogToDTOConverter;
 import org.metahut.octopus.server.converter.RuleInstanceFromDTOConverter;
+import org.metahut.octopus.server.converter.RuleInstanceSingleFromDTOConverter;
 import org.metahut.octopus.server.converter.SchedulerTaskInstanceToDTOConverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,8 @@ public class ConverterConfiguration {
     private RuleInstanceFromDTOConverter ruleInstanceFromDTOConverter;
     @Autowired
     private SchedulerTaskInstanceToDTOConverter schedulerTaskInstanceToDTOConverter;
+    @Autowired
+    private RuleInstanceSingleFromDTOConverter ruleInstanceSingleFromDTOConverter;
 
     @Autowired
     public void addFormatters(FormatterRegistry registry) {
@@ -43,5 +46,6 @@ public class ConverterConfiguration {
         registry.addConverter(metricsConfigFromDTOConverter);
         registry.addConverter(ruleInstanceFromDTOConverter);
         registry.addConverter(schedulerTaskInstanceToDTOConverter);
+        registry.addConverter(ruleInstanceSingleFromDTOConverter);
     }
 }

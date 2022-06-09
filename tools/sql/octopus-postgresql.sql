@@ -98,7 +98,7 @@ CREATE TABLE tb_octopus_rule_instance
     -- custom execution script
     metrics_config_code bigint,
 
-    metrics_params      varchar(64)  NOT NULL,
+    metrics_params      text  NOT NULL,
     subject_category    varchar(16) DEFAULT 'TABLE',
     subject_code        varchar(64),
     metrics_unique_key  varchar(254) NOT NULL,
@@ -176,7 +176,7 @@ CREATE TABLE tb_octopus_metrics_config
 
     metrics_code     varchar(64) NOT NULL,
     create_type      varchar(16) DEFAULT 'CUSTOM',
-    metrics_params   varchar(64) NOT NULL,
+    metrics_params   text NOT NULL,
     subject_category varchar(16) DEFAULT 'TABLE',
     source_category  varchar(64) NOT NULL,
 

@@ -31,8 +31,7 @@ public class AlerterSourceControllerTest extends WebMvcApplicationTest {
 
     @MockBean
     private AlerterPluginHelper alerterPluginHelper;
-
-
+    
     @Test
     void testCreate() throws Exception {
         String url = REST_FUNCTION_URL_PREFIX + "create";

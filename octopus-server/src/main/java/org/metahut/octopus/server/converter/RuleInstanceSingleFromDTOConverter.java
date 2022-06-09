@@ -1,6 +1,6 @@
 package org.metahut.octopus.server.converter;
 
-import org.metahut.octopus.api.dto.RuleInstanceCreateOrUpdateRequestDTO;
+import org.metahut.octopus.api.dto.RuleInstanceSingleCreateOrUpdateRequestDTO;
 import org.metahut.octopus.dao.entity.RuleInstance;
 import org.metahut.octopus.server.service.MetricsConfigService;
 import org.metahut.octopus.server.service.MetricsService;
@@ -13,11 +13,11 @@ import org.springframework.core.convert.converter.Converter;
 import java.util.List;
 
 @Mapper(componentModel = "spring", uses = {MetricsService.class, MetricsConfigService.class})
-public abstract class RuleInstanceFromDTOConverter implements Converter<RuleInstanceCreateOrUpdateRequestDTO, RuleInstance>, RuleInstanceConverter {
+public abstract class RuleInstanceSingleFromDTOConverter implements Converter<RuleInstanceSingleCreateOrUpdateRequestDTO, RuleInstance>, RuleInstanceConverter {
 
     @Override
     @Mappings({@Mapping(source = "metricsCode", target = "metrics"), @Mapping(source = "metricsConfigCode", target = "metricsConfig")})
-    public abstract RuleInstance convert(RuleInstanceCreateOrUpdateRequestDTO source);
+    public abstract RuleInstance convert(RuleInstanceSingleCreateOrUpdateRequestDTO source);
 
-    public abstract List<RuleInstance> convert(List<RuleInstanceCreateOrUpdateRequestDTO> sources);
+    public abstract List<RuleInstance> convert(List<RuleInstanceSingleCreateOrUpdateRequestDTO> sources);
 }

@@ -141,7 +141,7 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
         metricsCreateOrUpdateRequestDTO.setCategory("category");
         metricsCreateOrUpdateRequestDTO.setCode("sum66");
         metricsCreateOrUpdateRequestDTO.setMetricsDimension(MetricsDimensionEnum.INTEGRALITY);
-        metricsCreateOrUpdateRequestDTO.setName("test");
+        metricsCreateOrUpdateRequestDTO.setName("test1");
         MetricsResponseDTO metrics = createMetrics(metricsCreateOrUpdateRequestDTO);
 
         MetricsConfigCreateOrUpdateRequestDTO metricsConfigCreateOrUpdateRequestDTO = new MetricsConfigCreateOrUpdateRequestDTO();
@@ -189,7 +189,7 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
         metricsCreateOrUpdateRequestDTO.setCategory("category");
         metricsCreateOrUpdateRequestDTO.setCode("sum76");
         metricsCreateOrUpdateRequestDTO.setMetricsDimension(MetricsDimensionEnum.INTEGRALITY);
-        metricsCreateOrUpdateRequestDTO.setName("test");
+        metricsCreateOrUpdateRequestDTO.setName("test2");
         MetricsResponseDTO metrics = createMetrics(metricsCreateOrUpdateRequestDTO);
 
         MetricsConfigCreateOrUpdateRequestDTO metricsConfigCreateOrUpdateRequestDTO = new MetricsConfigCreateOrUpdateRequestDTO();
@@ -266,7 +266,7 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
         metricsCreateOrUpdateRequestDTO.setCategory("category");
         metricsCreateOrUpdateRequestDTO.setCode("sum86");
         metricsCreateOrUpdateRequestDTO.setMetricsDimension(MetricsDimensionEnum.INTEGRALITY);
-        metricsCreateOrUpdateRequestDTO.setName("test");
+        metricsCreateOrUpdateRequestDTO.setName("test3");
         MetricsResponseDTO metrics = createMetrics(metricsCreateOrUpdateRequestDTO);
 
         MetricsConfigCreateOrUpdateRequestDTO metricsConfigCreateOrUpdateRequestDTO = new MetricsConfigCreateOrUpdateRequestDTO();
@@ -326,7 +326,7 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
         metricsCreateOrUpdateRequestDTO.setCategory("category");
         metricsCreateOrUpdateRequestDTO.setCode("sum96");
         metricsCreateOrUpdateRequestDTO.setMetricsDimension(MetricsDimensionEnum.INTEGRALITY);
-        metricsCreateOrUpdateRequestDTO.setName("test");
+        metricsCreateOrUpdateRequestDTO.setName("test4");
         MetricsResponseDTO metrics = createMetrics(metricsCreateOrUpdateRequestDTO);
 
         MetricsConfigCreateOrUpdateRequestDTO metricsConfigCreateOrUpdateRequestDTO = new MetricsConfigCreateOrUpdateRequestDTO();

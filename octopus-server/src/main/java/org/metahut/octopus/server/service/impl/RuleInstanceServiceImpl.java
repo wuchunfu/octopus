@@ -5,14 +5,10 @@ import org.metahut.octopus.api.dto.RuleInstanceConditionRequestDTO;
 import org.metahut.octopus.api.dto.RuleInstanceResponseDTO;
 import org.metahut.octopus.api.dto.RuleInstanceSingleCreateOrUpdateRequestDTO;
 import org.metahut.octopus.dao.entity.Metrics;
-import org.metahut.octopus.dao.entity.MetricsConfig;
 import org.metahut.octopus.dao.entity.Metrics_;
 import org.metahut.octopus.dao.entity.RuleInstance;
 import org.metahut.octopus.dao.entity.RuleInstance_;
 import org.metahut.octopus.dao.repository.RuleInstanceRepository;
-import org.metahut.octopus.dao.repository.SampleInstanceRepository;
-import org.metahut.octopus.server.service.MetricsConfigService;
-import org.metahut.octopus.server.service.MetricsService;
 import org.metahut.octopus.server.service.RuleInstanceService;
 
 import org.apache.commons.lang3.StringUtils;
@@ -37,19 +33,11 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
 
     private final RuleInstanceRepository ruleInstanceRepository;
     private final ConversionService conversionService;
-    private final MetricsService metricsService;
-    private final MetricsConfigService metricsConfigService;
-    private final SampleInstanceRepository sampleInstanceRepository;
 
     public RuleInstanceServiceImpl(RuleInstanceRepository ruleInstanceRepository,
-                                   ConversionService conversionService,
-                                   MetricsService metricsService,
-                                   MetricsConfigService metricsConfigService, SampleInstanceRepository sampleInstanceRepository) {
+                                   ConversionService conversionService) {
         this.ruleInstanceRepository = ruleInstanceRepository;
         this.conversionService = conversionService;
-        this.metricsService = metricsService;
-        this.metricsConfigService = metricsConfigService;
-        this.sampleInstanceRepository = sampleInstanceRepository;
     }
 
     @Override
@@ -93,14 +81,6 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
     @Override
     public RuleInstanceResponseDTO createOrUpdate(RuleInstanceSingleCreateOrUpdateRequestDTO requestDTO) {
         RuleInstance convert = conversionService.convert(requestDTO, RuleInstance.class);
-        if (Objects.nonNull(requestDTO.getMetricsConfigCode())) {
-            MetricsConfig metricsConfig = metricsConfigService.findOneByCode(requestDTO.getMetricsConfigCode());
-            convert.setMetricsConfig(metricsConfig);
-            convert.setMetrics(metricsConfig.getMetrics());
-        } else {
-            Metrics metrics = metricsService.findOneByCode(requestDTO.getMetricsCode());
-            convert.setMetrics(metrics);
-        }
         RuleInstance save = ruleInstanceRepository.save(convert);
         return conversionService.convert(save, RuleInstanceResponseDTO.class);
     }

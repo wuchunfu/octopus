@@ -3,7 +3,6 @@ package org.metahut.octopus.dao.entity;
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 import org.metahut.octopus.dao.converter.ListToStringConverter;
 
-import javax.persistence.CascadeType;
 import javax.persistence.ConstraintMode;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -31,7 +30,7 @@ public class RuleTemplate extends BaseEntity {
 
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "metrics_code", referencedColumnName = "code", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Metrics metrics;
 
