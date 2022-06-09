@@ -24,11 +24,13 @@ public class MonitorLog {
 
     private String comparisonMethod;
 
+    private String comparisonUnit;
+
     private String expectedValue;
 
     private String result;
 
-    private Boolean error;
+    private Integer error;
 
     private String errorInfo;
 
@@ -140,11 +142,11 @@ public class MonitorLog {
         this.result = result;
     }
 
-    public Boolean getError() {
+    public Integer getError() {
         return error;
     }
 
-    public void setError(Boolean error) {
+    public void setError(Integer error) {
         this.error = error;
     }
 
@@ -170,5 +172,13 @@ public class MonitorLog {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getComparisonUnit() {
+        return comparisonUnit;
+    }
+
+    public void setComparisonUnit(String comparisonUnit) {
+        this.comparisonUnit = comparisonUnit;
     }
 }

@@ -9,6 +9,7 @@ import org.metahut.octopus.monitordb.api.MonitorLog;
 import org.metahut.octopus.monitordb.api.MonitorLogRequest;
 import org.metahut.octopus.monitordb.api.PageResponse;
 
+import com.clickhouse.client.internal.google.common.base.Preconditions;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.dbutils.BasicRowProcessor;
 import org.apache.commons.dbutils.BeanProcessor;
@@ -21,8 +22,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Field;
 import java.sql.SQLException;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -175,6 +180,94 @@ public class ClickhouseMonitorDBSource implements IMonitorDBSource {
             return pageResponse;
         } catch (SQLException e) {
             throw new MonitorDBException("MonitorDB query monitor log list page exception", e);
+        }
+    }
+
+    private static String convertCamelCaseToSnakeCase(String camelCase) {
+        char[] chars = camelCase.toCharArray();
+        boolean flag = false;
+        StringBuilder snakeCase = new StringBuilder();
+
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] >= 65 && chars[i] <= 90) {
+                if (i > 1 && !flag) {
+                    snakeCase.append("_");
+                }
+                flag = true;
+            } else {
+                flag = false;
+            }
+            snakeCase.append(Character.toLowerCase(chars[i]));
+        }
+        return snakeCase.toString();
+    }
+
+    private static String convertToInsertSql(Object model, String database, String table) {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:SS");
+        Preconditions.checkArgument(Objects.nonNull(model) && StringUtils.isNotBlank(table), "The arguments of model and table can not be null.");
+        StringBuilder columnsBuilder = new StringBuilder();
+        StringBuilder valuesBuilder = new StringBuilder();
+        try {
+            Field[] fields = model.getClass().getDeclaredFields();
+            columnsBuilder.append("insert into ");
+            if (StringUtils.isNotBlank(database)) {
+                columnsBuilder.append(database).append(".");
+            }
+            columnsBuilder.append(table).append("(");
+            for (int i = 0; i < fields.length; i++) {
+                Field field = fields[i];
+                field.setAccessible(true);
+                if (Objects.nonNull(field.get(model))) {
+                    String fieldName = convertCamelCaseToSnakeCase(field.getName());
+                    String typeName = field.getGenericType().getTypeName();
+                    columnsBuilder.append(fieldName);
+                    if (typeName.equalsIgnoreCase("java.lang.String") || typeName.equalsIgnoreCase("java.util.Date")) {
+                        valuesBuilder.append("'");
+                        if (typeName.equalsIgnoreCase("java.util.Date")) {
+                            valuesBuilder.append(dateTimeFormatter.format(((Date)field.get(model)).toInstant().atZone(ZoneId.systemDefault())));
+                        } else {
+                            valuesBuilder.append(field.get(model).toString());
+                        }
+                        valuesBuilder.append("'");
+                    } else {
+                        valuesBuilder.append(field.get(model).toString());
+                    }
+                    if (columnsBuilder.length() > 0 && i < fields.length - 1) {
+                        columnsBuilder.append(",");
+                        valuesBuilder.append(",");
+                    }
+                }
+            }
+            columnsBuilder.append(") values(");
+            columnsBuilder.append(valuesBuilder);
+            columnsBuilder.append(")");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return columnsBuilder.toString();
+    }
+
+    @Override
+    public int saveMetricsResult(MetricsResult metricsResult) {
+        String sql = convertToInsertSql(metricsResult, "quality", "monitor_metrics_result_all");
+        try {
+            QueryRunner queryRunner = new QueryRunner(jdbcDatasource.getDatasource());
+            return queryRunner.update(sql);
+        } catch (SQLException e) {
+            logger.error("The clickhouse execution sql:{}", sql);
+            throw new MonitorDBException("Failed to save the metrics result into the monitor database.", e);
+        }
+    }
+
+    @Override
+    public int saveMonitorLog(MonitorLog monitorLog) {
+        String sql = convertToInsertSql(monitorLog, "quality", "monitor_rule_log_all");
+        try {
+            QueryRunner queryRunner = new QueryRunner(jdbcDatasource.getDatasource());
+            return queryRunner.update(sql);
+        } catch (SQLException e) {
+            logger.error("The clickhouse execution sql:{}", sql);
+            throw new MonitorDBException("Failed to save the monitor rule log into the monitor database.", e);
         }
     }
 

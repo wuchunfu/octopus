@@ -16,8 +16,8 @@
 */
 
 
-drop table IF EXISTS monitor_metrics_result;
-CREATE TABLE monitor_metrics_result
+drop table IF EXISTS monitor_metrics_result_all;
+CREATE TABLE monitor_metrics_result_all
 (
     `id`                 String,
     `report_channel`     String,
@@ -33,18 +33,18 @@ ORDER BY create_time
 PARTITION BY toYYYYMMDD(create_time)
 SETTINGS index_granularity = 8192;
 
--- insert into monitor_metrics_result(id, report_channel, dataset_code, subject_code, subject_category, metrics_code, metrics_unique_key, metrics_value)
+-- insert into monitor_metrics_result_all(id, report_channel, dataset_code, subject_code, subject_category, metrics_code, metrics_unique_key, metrics_value)
 -- values(generateUUIDv4(), '', '01', '12312312', 'TABLE', 'delay', '', '123123123');
 
-drop table IF EXISTS monitor_rule_log;
-CREATE TABLE monitor_rule_log
+drop table IF EXISTS monitor_rule_log_all;
+CREATE TABLE monitor_rule_log_all
 (
     `id`                  String,
     `rule_instance_code`  Int64,
     `datasource_code`     String,
     `dataset_code`        String,
     `metrics_code`        String,
-    `metrics_config_code` Int64,
+    `metrics_config_code` String,
     `subject_code`        String,
     `subject_category`    String,
     `check_type`          String,
@@ -62,5 +62,5 @@ ORDER BY create_time
 PARTITION BY toYYYYMMDD(create_time)
 SETTINGS index_granularity = 8192;
 
--- insert into monitor_rule_log(id, rule_instance_code, datasource_code, dataset_code, metrics_code, metrics_config_code, subject_code, subject_category, check_type, check_method, comparison_method, comparison_unit, expected_value, result, error, error_info, error_time)
--- values(generateUUIDv4(), 5779276730530, '1','01', 'delay', 5637843692320, '12312334', 'TABLE', 'Num', 'FixedValue', 'GT', 'Num', '["20","30"]', 'abcsdfasfd', 1, 'error info', now());
+-- insert into monitor_rule_log_all(id, rule_instance_code, datasource_code, dataset_code, metrics_code, metrics_config_code, subject_code, subject_category, check_type, check_method, comparison_method, comparison_unit, expected_value, result, error, error_info, error_time)
+-- values(generateUUIDv4(), 5779276730530, '1','01', 'delay', '5637843692320', '12312334', 'TABLE', 'Num', 'FixedValue', 'GT', 'Num', '["20","30"]', 'abcsdfasfd', 1, 'error info', now());

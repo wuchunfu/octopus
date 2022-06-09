@@ -11,6 +11,7 @@ import org.metahut.octopus.server.service.MetaService;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
@@ -22,7 +23,7 @@ import java.util.Optional;
 public abstract class MonitorLogToDTOConverter implements Converter<MonitorLog, MonitorLogResponseDTO> {
 
     @Override
-    @Mapping(source = "source", target = "meta", qualifiedByName = "querySchemaMeta")
+    @Mappings({@Mapping(source = "source", target = "meta", qualifiedByName = "querySchemaMeta"),@Mapping(source = "error", target = "error", qualifiedByName = "booleanToInt")})
     public abstract MonitorLogResponseDTO convert(MonitorLog source);
 
     @Autowired
@@ -51,6 +52,11 @@ public abstract class MonitorLogToDTOConverter implements Converter<MonitorLog, 
         metaSchemaResponseDTO.setName(metaSchemaSingleResponseDTO.getName());
         return metaSchemaResponseDTO;
 
+    }
+
+    @Named("booleanToInt")
+    public boolean booleanToInt(Integer error) {
+        return error != null && error == 1;
     }
 
     public abstract List<MonitorLogResponseDTO> convert(List<MonitorLog> sources);

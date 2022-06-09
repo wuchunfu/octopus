@@ -13,4 +13,8 @@ public interface IMonitorDBSource extends AutoCloseable {
 
     PageResponse<MonitorLog> queryMonitorLogListPage(MonitorLogRequest request);
 
+    int saveMetricsResult(MetricsResult metricsResult);
+
+    int saveMonitorLog(MonitorLog monitorLog);
+
 }
