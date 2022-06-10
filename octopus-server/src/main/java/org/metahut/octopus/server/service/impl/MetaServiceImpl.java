@@ -6,7 +6,6 @@ import org.metahut.octopus.api.dto.MetaDatasetRequestDTO;
 import org.metahut.octopus.api.dto.MetaDatasetResponseDTO;
 import org.metahut.octopus.api.dto.MetaDatasourceRequestDTO;
 import org.metahut.octopus.api.dto.MetaDatasourceResponseDTO;
-import org.metahut.octopus.api.dto.MetaDatasourceTypeRequestDTO;
 import org.metahut.octopus.api.dto.PageResponseDTO;
 import org.metahut.octopus.meta.api.IMeta;
 import org.metahut.octopus.meta.api.MetaDatabaseEntity;
@@ -26,8 +25,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service

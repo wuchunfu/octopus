@@ -89,7 +89,7 @@ public class StarfishMeta implements IMeta {
     @Override
     public PageResponseDTO<MetaDatasourceEntity> queryDatasourceListPage(MetaDatasourceRequest metaDatasourceRequest) {
         try {
-            if ("Hive".equals(metaDatasourceRequest.getDataSourceType())) {
+            if ("Hive".equals(metaDatasourceRequest.getType())) {
                 Object resultJson = get(MessageFormat.format("/entity/hiveClusters?clusterName={0}&pageNo={1}&pageSize={2}",
                     StringUtils.isEmpty(metaDatasourceRequest.getName()) ? "" : metaDatasourceRequest.getName(), metaDatasourceRequest.getPageNo(),
                     metaDatasourceRequest.getPageSize()));
@@ -102,7 +102,7 @@ public class StarfishMeta implements IMeta {
                     entity.setType(sourceResponseDTO.getType());
                     return entity;
                 }).collect(Collectors.toList()));
-            } else if ("Pulsar".equals(metaDatasourceRequest.getDataSourceType())) {
+            } else if ("Pulsar".equals(metaDatasourceRequest.getType())) {
                 Object resultJson =
                     get(MessageFormat.format("/entity/pulsarClusters?name={0}&pageNo={1}&pageSize={2}", StringUtils.isEmpty(metaDatasourceRequest.getName()) ? "" : metaDatasourceRequest.getName(),
                         metaDatasourceRequest.getPageNo(),
@@ -258,11 +258,12 @@ public class StarfishMeta implements IMeta {
             String body;
             if ("org.starfish.HiveTable".equals(className)) {
                 body =
-                    "{\"eachPointers\": {\"db\" : {\"relationType\": \"CHILD\", \"eachPointers\": {\"cluster\" : {\"relationType\": \"CHILD\", \"eachPointers\": {} } } }, \"columns\": {\"relationType\": \"CHILD\", \"eachPointers\": {} } }, \"id\": "
-                        + code + ", \"typeName\": \"org.starfish.HiveTable\"}";
+                    "{\"eachPointers\": {\"db\" : {\"relationType\": \"CHILD\", \"eachPointers\": {\"cluster\" : {\"relationType\": \"CHILD\", \"eachPointers\": {} } } }, "
+                        + "\"columns\": {\"relationType\": \"CHILD\", \"eachPointers\": {} } }, \"id\": " + code + ", \"typeName\": \"org.starfish.HiveTable\"}";
             } else {
                 body =
-                    "{\"eachPointers\": {\"namespace\" : {\"relationType\": \"CHILD\", \"eachPointers\": {\"tenant\" : {\"relationType\": \"CHILD\", \"eachPointers\": {\"allowedClusters\" : {\"relationType\": \"CHILD\", \"eachPointers\": { } } } } } }, \"schemas\": {\"relationType\": \"CHILD\", \"eachPointers\": {} } }, \"id\": "
+                    "{\"eachPointers\": {\"namespace\" : {\"relationType\": \"CHILD\", \"eachPointers\": {\"tenant\" : {\"relationType\": \"CHILD\", \"eachPointers\": {\"allowedClusters\" : "
+                        + "{\"relationType\": \"CHILD\", \"eachPointers\": { } } } } } }, \"schemas\": {\"relationType\": \"CHILD\", \"eachPointers\": {} } }, \"id\": "
                         + code + " , \"typeName\": \"org.starfish.PulsarTopic\"}";
             }
 

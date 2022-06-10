@@ -6,7 +6,6 @@ import org.metahut.octopus.api.dto.MetaDatasetRequestDTO;
 import org.metahut.octopus.api.dto.MetaDatasetResponseDTO;
 import org.metahut.octopus.api.dto.MetaDatasourceRequestDTO;
 import org.metahut.octopus.api.dto.MetaDatasourceResponseDTO;
-import org.metahut.octopus.api.dto.MetaDatasourceTypeRequestDTO;
 import org.metahut.octopus.api.dto.PageResponseDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
 
@@ -21,10 +20,6 @@ import java.util.Collection;
 @Api(tags = "META_TAG")
 @RequestMapping("meta")
 public interface MetaController {
-
-    @ApiOperation(value = "queryDatasourceTypeListPage", notes = "META_DATASOURCE_QUERY_LIST_NOTES")
-    @GetMapping("queryDatasourceTypeListPage")
-    ResultEntity<PageResponseDTO<MetaDatasourceResponseDTO>> queryDatasourceTypeListPage(MetaDatasourceTypeRequestDTO requestDTO);
 
     @ApiOperation(value = "queryDatasourceListPage", notes = "META_DATASOURCE_QUERY_LIST_NOTES")
     @GetMapping("queryDatasourceListPage")
@@ -41,8 +36,4 @@ public interface MetaController {
     @ApiOperation(value = "queryUnregisteredDatasetList", notes = "META_UNREGISTERED_DATASET_QUERY_LIST_NOTES")
     @GetMapping("queryUnregisteredDatasetList")
     ResultEntity<Collection<MetaDatasetResponseDTO>> queryUnregisteredDatasetList(MetaDatasetRequestDTO requestDTO);
-
-    @ApiOperation(value = "queryUnregisteredDatasetListPage", notes = "META_UNREGISTERED_DATASET_QUERY_LIST_PAGE_NOTES")
-    @GetMapping("queryUnregisteredDatasetListPage")
-    ResultEntity<PageResponseDTO<MetaDatasetResponseDTO>> queryUnregisteredDatasetListPage(MetaDatasetRequestDTO requestDTO);
 }

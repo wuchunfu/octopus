@@ -22,7 +22,6 @@ public class MetaDatasourceRequestDTO extends PageRequestDTO {
         this.name = name;
     }
 
-
     public String getType() {
         return type;
     }

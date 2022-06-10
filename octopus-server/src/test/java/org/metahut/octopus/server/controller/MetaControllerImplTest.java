@@ -31,29 +31,6 @@ public class MetaControllerImplTest extends WebMvcApplicationTest {
     private MetaService metaService;
 
     @Test
-    public void queryDatasourceTypeListPage() throws Exception {
-        String url = REST_FUNCTION_URL_PREFIX + "queryDatasourceTypeListPage";
-        MetaDatasourceResponseDTO responseDTO = new MetaDatasourceResponseDTO();
-        responseDTO.setType("Hive");
-        responseDTO.setCode("1");
-        responseDTO.setName("HIVE-IDC");
-        BDDMockito.given(this.metaService.queryDatasourceTypeListPage(Mockito.argThat(request -> "Hive".equals(request.getName()))))
-            .willReturn(PageResponseDTO.of(1, 100, 1L, Arrays.asList(responseDTO)));
-
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get(url)
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-                .param("name", "Hive"))
-            .andExpect(MockMvcResultMatchers.status().isOk())
-            .andDo(MockMvcResultHandlers.print())
-            .andReturn();
-        String result = mvcResult.getResponse().getContentAsString();
-        ResultEntity<MetaDatasourceResponseDTO> resultEntity = JSONUtils.parseObject(result, new TypeReference<ResultEntity<MetaDatasourceResponseDTO>>() {
-        });
-        Assertions.assertTrue(resultEntity.isSuccess());
-        Assertions.assertNotNull(resultEntity.getData());
-    }
-
-    @Test
     public void queryDatasourceListPage() throws Exception {
         String url = REST_FUNCTION_URL_PREFIX + "queryDatasourceListPage";
 
@@ -62,12 +39,12 @@ public class MetaControllerImplTest extends WebMvcApplicationTest {
         responseDTO.setCode("1");
         responseDTO.setName("HIVE-IDC");
 
-        BDDMockito.given(this.metaService.queryDatasourceListPage(Mockito.argThat(request -> "Hive".equals(request.getDataSourceType()))))
+        BDDMockito.given(this.metaService.queryDatasourceListPage(Mockito.argThat(request -> "Hive".equals(request.getType()))))
             .willReturn(PageResponseDTO.of(1, 100, 1L, Arrays.asList(responseDTO)));
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get(url)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-                .param("dataSourceType", "Hive"))
+                .param("type", "Hive"))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andDo(MockMvcResultHandlers.print())
             .andReturn();

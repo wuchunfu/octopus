@@ -17,6 +17,11 @@
 # limitations under the License.
 #
 
+PID=`lsof -i :8989 |grep java |awk '{print $2}'`
+if [ $PID ]; then
+	kill -9 $PID
+fi
+
 BIN_DIR=$(dirname $0)
 OCTOPUS_HOME=${OCTOPUS_HOME:-$(cd $BIN_DIR/..; pwd)}
 

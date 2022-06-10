@@ -168,7 +168,8 @@ public class DolphinScheduler implements IScheduler {
 
     private void checkResult(DolphinResult result, String method) {
         if (Objects.isNull(result) || HTTP_SUCCESS != result.getCode()) {
-            throw new SchedulerException(MessageFormat.format("dolphin scheduler call {0} method exception, message:{1}", method, Objects.isNull(result) ? "result is empty" : result.getCode() + ":" + result.getMsg()));
+            throw new SchedulerException(MessageFormat.format("dolphin scheduler call {0} method exception, message:{1}",
+                method, Objects.isNull(result) ? "result is empty" : result.getCode() + ":" + result.getMsg()));
         }
     }
 

@@ -5,7 +5,7 @@ package org.metahut.octopus.meta.api;
  */
 public class MetaDatasourceRequest {
 
-    private String dataSourceType;
+    private String type;
 
     private String name;
 
@@ -13,12 +13,12 @@ public class MetaDatasourceRequest {
 
     private Integer pageNo;
 
-    public String getDataSourceType() {
-        return dataSourceType;
+    public String getType() {
+        return type;
     }
 
-    public void setDataSourceType(String dataSourceType) {
-        this.dataSourceType = dataSourceType;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getName() {

@@ -7,7 +7,6 @@ import org.metahut.octopus.api.dto.MetaDatasetRequestDTO;
 import org.metahut.octopus.api.dto.MetaDatasetResponseDTO;
 import org.metahut.octopus.api.dto.MetaDatasourceRequestDTO;
 import org.metahut.octopus.api.dto.MetaDatasourceResponseDTO;
-import org.metahut.octopus.api.dto.MetaDatasourceTypeRequestDTO;
 import org.metahut.octopus.api.dto.PageResponseDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
 import org.metahut.octopus.server.service.MetaService;
@@ -23,11 +22,6 @@ public class MetaControllerImpl implements MetaController {
 
     public MetaControllerImpl(MetaService metaService) {
         this.metaService = metaService;
-    }
-
-    @Override
-    public ResultEntity<PageResponseDTO<MetaDatasourceResponseDTO>> queryDatasourceTypeListPage(MetaDatasourceTypeRequestDTO requestDTO) {
-        return ResultEntity.success(metaService.queryDatasourceTypeListPage(requestDTO));
     }
 
     @Override
@@ -50,10 +44,4 @@ public class MetaControllerImpl implements MetaController {
         //return ResultEntity.success(metaService.queryDatasetList(requestDTO));
         return ResultEntity.success();
     }
-
-    @Override
-    public ResultEntity<PageResponseDTO<MetaDatasetResponseDTO>> queryUnregisteredDatasetListPage(MetaDatasetRequestDTO requestDTO) {
-        return ResultEntity.success(metaService.queryUnregisteredDatasetList(requestDTO));
-    }
-
 }
