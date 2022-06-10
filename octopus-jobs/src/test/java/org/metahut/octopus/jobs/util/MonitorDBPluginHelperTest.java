@@ -13,11 +13,15 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
 
 @Disabled
 public class MonitorDBPluginHelperTest {
+
+    public static final String monitorRuleLogTable ="monitor_rule_log_all";
+    public static final String monitorMetricsResultTable = "monitor_metrics_result_all";
 
     @Test
     public void getMonitorDBSourceTest() {
@@ -36,6 +40,10 @@ public class MonitorDBPluginHelperTest {
     public static Stream<MetricsResult> generateMetricsResult() {
         MetricsResult metricsResult = new MetricsResult();
         metricsResult.setId(UUID.randomUUID().toString());
+        metricsResult.setWindowBeginTime(new Date());
+        metricsResult.setWindowSize(1);
+        metricsResult.setWindowUnit("DAY");
+        metricsResult.setScheduleTime(new Date());
         metricsResult.setReportChannel("");
         metricsResult.setDatasetCode("01");
         metricsResult.setSubjectCode("12312312");
@@ -51,8 +59,12 @@ public class MonitorDBPluginHelperTest {
         MonitorLog monitorLog = new MonitorLog();
         monitorLog.setId(UUID.randomUUID().toString());
         monitorLog.setRuleInstanceCode(5779276730530L);
-        monitorLog.setDatasetCode("");
-        monitorLog.setMetricsCode("");
+        monitorLog.setWindowBeginTime(new Date());
+        monitorLog.setWindowSize(1);
+        monitorLog.setWindowUnit("DAY");
+        monitorLog.setScheduleTime(new Date());
+        monitorLog.setDatasetCode("01");
+        monitorLog.setMetricsCode("delay");
         monitorLog.setMetricsConfigCode("");
         monitorLog.setSubjectCode("12312312");
         monitorLog.setSubjectCategory("TABLE");
@@ -74,7 +86,6 @@ public class MonitorDBPluginHelperTest {
     @MethodSource("generateMetricsResult")
     public void saveMonitorResultTest(MetricsResult metricsResult) {
         IMonitorDBSource monitorDBSource = MonitorDBPluginHelper.getMonitorDBSource();
-
         int affectedRecords = monitorDBSource.saveMetricsResult(metricsResult);
         Assertions.assertEquals(1, affectedRecords);
     }
@@ -83,8 +94,16 @@ public class MonitorDBPluginHelperTest {
     @MethodSource("generateMonitorLog")
     public void saveMonitorResultTest(MonitorLog monitorLog) {
         IMonitorDBSource monitorDBSource = MonitorDBPluginHelper.getMonitorDBSource();
-
         int affectedRecords = monitorDBSource.saveMonitorLog(monitorLog);
         Assertions.assertEquals(1, affectedRecords);
+    }
+
+    @Test
+    public void customSQLQueryTest() {
+        IMonitorDBSource monitorDBSource = MonitorDBPluginHelper.getMonitorDBSource();
+
+        String sql = String.format("select * from %s", monitorMetricsResultTable);
+        List<MetricsResult> result = monitorDBSource.customSQLQuery(sql, MetricsResult.class);
+        Assertions.assertNotNull(result);
     }
 }

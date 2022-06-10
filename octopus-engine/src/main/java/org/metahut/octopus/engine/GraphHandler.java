@@ -40,10 +40,8 @@ public class GraphHandler {
         // 根据sourceCode查询Flow表
 
         String sourceCategory = "";
-
         // query online status rule list
         List<RuleInstance> ruleInstances = new ArrayList<>();
-
         // monitor_metrics_result: report channel???, subject_code, subject_category, metrics_code, metrics_unique_key, metrics_value, create_time
 
         // executor type: flink / shell / python / automatic report

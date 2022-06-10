@@ -8,6 +8,14 @@ public class MonitorLog {
 
     private Long ruleInstanceCode;
 
+    private Date windowBeginTime;
+
+    private Integer windowSize;
+
+    private String windowUnit;
+
+    private Date scheduleTime;
+
     private String datasourceCode;
 
     private String datasetCode;
@@ -180,5 +188,37 @@ public class MonitorLog {
 
     public void setComparisonUnit(String comparisonUnit) {
         this.comparisonUnit = comparisonUnit;
+    }
+
+    public Date getWindowBeginTime() {
+        return windowBeginTime;
+    }
+
+    public void setWindowBeginTime(Date windowBeginTime) {
+        this.windowBeginTime = windowBeginTime;
+    }
+
+    public Integer getWindowSize() {
+        return windowSize;
+    }
+
+    public void setWindowSize(Integer windowSize) {
+        this.windowSize = windowSize;
+    }
+
+    public String getWindowUnit() {
+        return windowUnit;
+    }
+
+    public void setWindowUnit(String windowUnit) {
+        this.windowUnit = windowUnit;
+    }
+
+    public Date getScheduleTime() {
+        return scheduleTime;
+    }
+
+    public void setScheduleTime(Date scheduleTime) {
+        this.scheduleTime = scheduleTime;
     }
 }

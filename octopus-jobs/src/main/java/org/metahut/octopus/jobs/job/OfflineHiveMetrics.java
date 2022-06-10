@@ -110,7 +110,7 @@ public class OfflineHiveMetrics {
             metricMessage.setSubjectCategory(jsonObject.getString("subjectCategory"));
             metricMessage.setMetricsCode(jsonObject.getJSONObject("metrics").getString("code"));
             metricMessage.setMetricsConfigCode(jsonObject.getJSONObject("metricsConfig").getLong("code"));
-            metricMessage.setExecutorScript(jsonObject.getJSONObject("metricsConfig").getString("executorScript"));
+            // metricMessage.setExecutorScript(jsonObject.getJSONObject("metricsConfig").getString("executorScript"));
             metricMessage.setMetricsUniqueKey(jsonObject.getString("metricsUniqueKey"));
 
             RuleInstance ruleInstance = new RuleInstance();
@@ -149,7 +149,7 @@ public class OfflineHiveMetrics {
             MetricMessage metricMessage = entry.getKey();
             String subjectCategory = metricMessage.getSubjectCategory();
             String subjectCode = metricMessage.getSubjectCode();
-            String metricSqlPre = metricMessage.getExecutorScript();
+            String metricSqlPre = ""; //metricMessage.getExecutorScript();
             String metricSql = null;
             metricMessage.setRuleInstances(entry.getValue());
 

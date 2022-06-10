@@ -46,7 +46,9 @@ public class ClickhouseMonitorDBSource implements IMonitorDBSource {
     public List<Map<String, Object>> customSQLQuery(String sql) {
         try {
             QueryRunner queryRunner = new QueryRunner(jdbcDatasource.getDatasource());
-            return queryRunner.query(sql, new MapListHandler());
+            BeanProcessor processor = new GenerousBeanProcessor();
+            RowProcessor rowProcessor = new BasicRowProcessor(processor);
+            return queryRunner.query(sql, new MapListHandler(rowProcessor));
         } catch (SQLException e) {
             throw new MonitorDBException("MonitorDB custom sql query exception", e);
         }
@@ -56,7 +58,9 @@ public class ClickhouseMonitorDBSource implements IMonitorDBSource {
     public <T> List<T> customSQLQuery(String sql, Class<T> classT) {
         try {
             QueryRunner queryRunner = new QueryRunner(jdbcDatasource.getDatasource());
-            return queryRunner.query(sql, new BeanListHandler<>(classT));
+            BeanProcessor processor = new GenerousBeanProcessor();
+            RowProcessor rowProcessor = new BasicRowProcessor(processor);
+            return queryRunner.query(sql, new BeanListHandler<>(classT, rowProcessor));
         } catch (SQLException e) {
             throw new MonitorDBException("MonitorDB custom sql query exception", e);
         }

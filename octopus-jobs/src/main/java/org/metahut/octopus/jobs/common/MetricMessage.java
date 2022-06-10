@@ -1,9 +1,10 @@
 package org.metahut.octopus.jobs.common;
 
+import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
-public class MetricMessage {
+public class MetricMessage implements Serializable {
 
     private String id;
     private String reportChannel;
@@ -14,8 +15,12 @@ public class MetricMessage {
     private String metricsCode;
     private Long metricsConfigCode;
     private String metricsUniqueKey;
-    private String executorScript;
     private String metricsValue;
+
+    private Integer windowSize;
+    private String windowUnit;
+    private Date sendDate;
+
     private List<RuleInstance> ruleInstances;
 
     public String getId() {
@@ -106,30 +111,27 @@ public class MetricMessage {
         this.metricsConfigCode = metricsConfigCode;
     }
 
-    public String getExecutorScript() {
-        return executorScript;
+    public Date getSendDate() {
+        return sendDate;
     }
 
-    public void setExecutorScript(String executorScript) {
-        this.executorScript = executorScript;
+    public void setSendDate(Date sendDate) {
+        this.sendDate = sendDate;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(metricsUniqueKey);
+    public Integer getWindowSize() {
+        return windowSize;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) {
-            return true;
-        } else if (!(obj instanceof MetricMessage)) {
-            return false;
-        } else if (obj instanceof MetricMessage) {
-            MetricMessage metricMessage = (MetricMessage)obj;
-            return metricMessage.metricsUniqueKey.equals(metricsUniqueKey);
-        }
-        return false;
+    public void setWindowSize(Integer windowSize) {
+        this.windowSize = windowSize;
     }
 
+    public String getWindowUnit() {
+        return windowUnit;
+    }
+
+    public void setWindowUnit(String windowUnit) {
+        this.windowUnit = windowUnit;
+    }
 }

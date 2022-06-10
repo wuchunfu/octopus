@@ -1,6 +1,8 @@
 package org.metahut.octopus.jobs.common;
 
-public class FlowInstance {
+import java.io.Serializable;
+
+public class FlowInstance implements Serializable {
     private int code;
     private String message;
     private FlowData data;
