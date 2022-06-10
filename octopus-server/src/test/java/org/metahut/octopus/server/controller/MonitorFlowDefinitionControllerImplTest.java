@@ -18,12 +18,15 @@ import org.metahut.octopus.api.dto.SampleInstanceCreateOrUpdateRequestDTO;
 import org.metahut.octopus.common.enums.MetricsDimensionEnum;
 import org.metahut.octopus.common.enums.RuleStateEnum;
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
+import org.metahut.octopus.common.enums.WindowType;
+import org.metahut.octopus.common.enums.WindowUnit;
 import org.metahut.octopus.server.WebMvcApplicationTest;
 import org.metahut.octopus.server.service.MetaService;
 import org.metahut.octopus.server.service.SchedulerService;
 import org.metahut.octopus.server.utils.JSONUtils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.metahut.octopus.common.entity.DateTimeFieldConfig;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -173,6 +176,15 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
         sampleInstanceCreateOrUpdateRequestDTO.setExecutorType("executorType");
         sampleInstanceCreateOrUpdateRequestDTO.setParameter("90");
         requestDTO.setSampleInstance(sampleInstanceCreateOrUpdateRequestDTO);
+
+        DateTimeFieldConfig dateTimeFieldConfig = new DateTimeFieldConfig();
+        dateTimeFieldConfig.setName("dt");
+        dateTimeFieldConfig.setFormat("yyyy-MM-dd");
+
+        requestDTO.setWindowSize("20");
+        requestDTO.setWindowType(WindowType.TUMBLE);
+        requestDTO.setWindowUnit(WindowUnit.MINUTE);
+        requestDTO.setDateTimeFields(Arrays.asList(dateTimeFieldConfig));
         MonitorFlowDefinitionResponseDTO monitorFlowDefinitionResponseDTO = create(requestDTO);
     }
 

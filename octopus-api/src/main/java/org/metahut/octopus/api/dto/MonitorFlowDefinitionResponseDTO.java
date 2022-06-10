@@ -1,5 +1,9 @@
 package org.metahut.octopus.api.dto;
 
+import org.metahut.octopus.common.enums.WindowType;
+import org.metahut.octopus.common.enums.WindowUnit;
+
+import com.metahut.octopus.common.entity.DateTimeFieldConfig;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -41,6 +45,18 @@ public class MonitorFlowDefinitionResponseDTO {
 
     @ApiModelProperty(value = "update time")
     private Date updateTime;
+
+    @ApiModelProperty(value = "dateTimeFields")
+    private List<DateTimeFieldConfig> dateTimeFields;
+
+    @ApiModelProperty(value = "windowType")
+    private WindowType windowType;
+
+    @ApiModelProperty(value = "windowSize")
+    private String windowSize;
+
+    @ApiModelProperty(value = "windowUnit")
+    private WindowUnit windowUnit;
 
     public Integer getId() {
         return id;
@@ -128,5 +144,37 @@ public class MonitorFlowDefinitionResponseDTO {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public WindowType getWindowType() {
+        return windowType;
+    }
+
+    public void setWindowType(WindowType windowType) {
+        this.windowType = windowType;
+    }
+
+    public String getWindowSize() {
+        return windowSize;
+    }
+
+    public void setWindowSize(String windowSize) {
+        this.windowSize = windowSize;
+    }
+
+    public WindowUnit getWindowUnit() {
+        return windowUnit;
+    }
+
+    public void setWindowUnit(WindowUnit windowUnit) {
+        this.windowUnit = windowUnit;
+    }
+
+    public List<DateTimeFieldConfig> getDateTimeFields() {
+        return dateTimeFields;
+    }
+
+    public void setDateTimeFields(List<DateTimeFieldConfig> dateTimeFields) {
+        this.dateTimeFields = dateTimeFields;
     }
 }

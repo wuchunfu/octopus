@@ -1,9 +1,18 @@
 package org.metahut.octopus.dao.entity;
 
+import org.metahut.octopus.common.enums.WindowType;
+import org.metahut.octopus.common.enums.WindowUnit;
+import org.metahut.octopus.dao.converter.ListToJSONConverter;
+
+import com.metahut.octopus.common.entity.DateTimeFieldConfig;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -43,6 +52,17 @@ public class FlowDefinition extends BaseEntity {
     private String env;
     private String crontab;
     private String schedulerCode;
+
+    @Convert(converter = ListToJSONConverter.class)
+    private List<DateTimeFieldConfig> dateTimeFields;
+
+    @Enumerated(value = EnumType.STRING)
+    private WindowType windowType;
+
+    private String windowSize;
+
+    @Enumerated(value = EnumType.STRING)
+    private WindowUnit windowUnit;
 
     public Integer getId() {
         return id;
@@ -114,5 +134,37 @@ public class FlowDefinition extends BaseEntity {
 
     public void setSchedulerCode(String schedulerCode) {
         this.schedulerCode = schedulerCode;
+    }
+
+    public List<DateTimeFieldConfig> getDateTimeFields() {
+        return dateTimeFields;
+    }
+
+    public void setDateTimeFields(List<DateTimeFieldConfig> dateTimeFields) {
+        this.dateTimeFields = dateTimeFields;
+    }
+
+    public WindowType getWindowType() {
+        return windowType;
+    }
+
+    public void setWindowType(WindowType windowType) {
+        this.windowType = windowType;
+    }
+
+    public String getWindowSize() {
+        return windowSize;
+    }
+
+    public void setWindowSize(String windowSize) {
+        this.windowSize = windowSize;
+    }
+
+    public WindowUnit getWindowUnit() {
+        return windowUnit;
+    }
+
+    public void setWindowUnit(WindowUnit windowUnit) {
+        this.windowUnit = windowUnit;
     }
 }
