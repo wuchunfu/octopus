@@ -6,7 +6,7 @@ import org.metahut.octopus.api.dto.AlerterSourceResponseDTO;
 import org.metahut.octopus.dao.entity.AlerterSource;
 import org.metahut.octopus.dao.entity.AlerterSource_;
 import org.metahut.octopus.dao.repository.AlerterSourceRepository;
-import org.metahut.octopus.server.alerter.AlerterPluginHelper;
+import org.metahut.octopus.server.alerter.AlerterPluginParameterHelper;
 import org.metahut.octopus.server.service.AlerterSourceService;
 import org.metahut.octopus.server.utils.Assert;
 
@@ -38,18 +38,18 @@ import static org.metahut.octopus.common.enums.StatusEnum.ALERT_SOURCE_NOT_EXIST
 public class AlerterSourceServiceImpl implements AlerterSourceService {
 
     private final AlerterSourceRepository alerterSourceRepository;
-    private final AlerterPluginHelper alerterPluginHelper;
+    private final AlerterPluginParameterHelper alerterPluginParameterHelper;
     private final ConversionService conversionService;
 
-    public AlerterSourceServiceImpl(AlerterSourceRepository alerterSourceRepository, AlerterPluginHelper alerterPluginHelper, ConversionService conversionService) {
+    public AlerterSourceServiceImpl(AlerterSourceRepository alerterSourceRepository, AlerterPluginParameterHelper alerterPluginParameterHelper, ConversionService conversionService) {
         this.alerterSourceRepository = alerterSourceRepository;
-        this.alerterPluginHelper = alerterPluginHelper;
+        this.alerterPluginParameterHelper = alerterPluginParameterHelper;
         this.conversionService = conversionService;
     }
 
     @Override
     public Collection<String> queryAllPluginTypes() {
-        return alerterPluginHelper.queryAllTypes();
+        return alerterPluginParameterHelper.queryAllTypes();
     }
 
     @Override
@@ -82,7 +82,7 @@ public class AlerterSourceServiceImpl implements AlerterSourceService {
     @Override
     public AlerterSourceResponseDTO createOrUpdate(AlerterSourceCreateOrUpdateRequestDTO requestDTO) {
         // check alerter plugin instance parameter
-        alerterPluginHelper.deserializeSourceParameter(requestDTO.getAlertType(), requestDTO.getParameter());
+        alerterPluginParameterHelper.deserializeSourceParameter(requestDTO.getAlertType(), requestDTO.getParameter());
         AlerterSource convert = conversionService.convert(requestDTO, AlerterSource.class);
         AlerterSource save = alerterSourceRepository.save(convert);
         return conversionService.convert(save, AlerterSourceResponseDTO.class);

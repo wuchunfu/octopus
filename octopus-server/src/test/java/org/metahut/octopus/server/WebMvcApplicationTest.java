@@ -1,6 +1,6 @@
 package org.metahut.octopus.server;
 
-import org.metahut.octopus.server.alerter.AlerterPluginHelper;
+import org.metahut.octopus.server.alerter.AlerterPluginParameterHelper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,5 +20,5 @@ public class WebMvcApplicationTest {
     protected MockMvc mockMvc;
 
     @MockBean
-    private AlerterPluginHelper alerterPluginHelper;
+    private AlerterPluginParameterHelper alerterPluginParameterHelper;
 }

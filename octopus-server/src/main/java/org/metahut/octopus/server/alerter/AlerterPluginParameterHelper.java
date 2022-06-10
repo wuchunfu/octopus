@@ -16,7 +16,7 @@ import java.util.Objects;
 import java.util.ServiceLoader;
 
 @Component
-public class AlerterPluginHelper {
+public class AlerterPluginParameterHelper {
 
     private static final Map<String, IAlerterManager> ALERTER_MANAGER_HASH_MAP = new HashMap<>();
 
