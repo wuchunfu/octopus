@@ -17,8 +17,10 @@ public class MetricMessage implements Serializable {
     private String metricsUniqueKey;
     private String metricsValue;
 
+    private Date windowBeginTime;
     private Integer windowSize;
     private String windowUnit;
+    private Date scheduleTime;
     private Date sendDate;
 
     private List<RuleInstance> ruleInstances;
@@ -133,5 +135,21 @@ public class MetricMessage implements Serializable {
 
     public void setWindowUnit(String windowUnit) {
         this.windowUnit = windowUnit;
+    }
+
+    public Date getWindowBeginTime() {
+        return windowBeginTime;
+    }
+
+    public void setWindowBeginTime(Date windowBeginTime) {
+        this.windowBeginTime = windowBeginTime;
+    }
+
+    public Date getScheduleTime() {
+        return scheduleTime;
+    }
+
+    public void setScheduleTime(Date scheduleTime) {
+        this.scheduleTime = scheduleTime;
     }
 }
