@@ -29,7 +29,7 @@ server:
 
 spring:
   application:
-    name: octopus-api
+    name: octopus-standalone
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
@@ -87,3 +87,26 @@ octopus:
       project-code: 5811145128992
       tenant-code: xxx
       token: xxx
+
+# Override by profile
+---
+spring:
+  config:
+    activate:
+      on-profile: postgresql
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres?serverTimezone=CST
+    username: test
+    password: test
+
+---
+spring:
+  config:
+    activate:
+      on-profile: mysql
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/starfish?useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: root

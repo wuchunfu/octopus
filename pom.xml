@@ -44,6 +44,7 @@
         <module>octopus-rule</module>
         <module>octopus-tools</module>
         <module>octopus-jobs</module>
+        <module>octopus-standalone-server</module>
     </modules>
 
     <properties>

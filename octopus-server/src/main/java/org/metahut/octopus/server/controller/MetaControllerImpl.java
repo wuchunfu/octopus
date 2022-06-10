@@ -13,8 +13,6 @@ import org.metahut.octopus.server.service.MetaService;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collection;
-
 @RestController
 public class MetaControllerImpl implements MetaController {
 
@@ -36,12 +34,11 @@ public class MetaControllerImpl implements MetaController {
 
     @Override
     public ResultEntity<PageResponseDTO<MetaDatasetResponseDTO>> queryDatasetListPage(MetaDatasetRequestDTO requestDTO) {
-        return ResultEntity.success(metaService.queryDatasetList(requestDTO));
+        return ResultEntity.success(metaService.queryDatasetListPage(requestDTO));
     }
 
     @Override
-    public ResultEntity<Collection<MetaDatasetResponseDTO>> queryUnregisteredDatasetList(MetaDatasetRequestDTO requestDTO) {
-        //return ResultEntity.success(metaService.queryDatasetList(requestDTO));
-        return ResultEntity.success();
+    public ResultEntity<PageResponseDTO<MetaDatasetResponseDTO>> queryUnregisteredDatasetListPage(MetaDatasetRequestDTO requestDTO) {
+        return ResultEntity.success(metaService.queryDatasetListPage(requestDTO));
     }
 }

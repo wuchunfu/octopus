@@ -89,7 +89,7 @@ public class MetaControllerImplTest extends WebMvcApplicationTest {
         MetaDatasetResponseDTO responseDTO = new MetaDatasetResponseDTO();
         responseDTO.setCode("1");
         responseDTO.setName("dwd_xxx");
-        BDDMockito.given(this.metaService.queryDatasetList(Mockito.any()))
+        BDDMockito.given(this.metaService.queryDatasetListPage(Mockito.any()))
             .willReturn(PageResponseDTO.of(1, 100, 1L, Arrays.asList(responseDTO)));
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get(url)

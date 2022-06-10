@@ -2,7 +2,9 @@ package org.metahut.octopus.api.controller;
 
 import org.metahut.octopus.api.dto.MetricsConditionsRequestDTO;
 import org.metahut.octopus.api.dto.MetricsCreateOrUpdateRequestDTO;
+import org.metahut.octopus.api.dto.MetricsCreateOrUpdateRequestDTO.Update;
 import org.metahut.octopus.api.dto.MetricsResponseDTO;
+import org.metahut.octopus.api.dto.PageRequestDTO.Page;
 import org.metahut.octopus.api.dto.PageResponseDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
 
@@ -36,7 +38,7 @@ public interface MetricsController {
 
     @ApiOperation(value = "queryListPage", notes = "QUERY_METRICS_LIST_PAGE_NOTES")
     @GetMapping("queryListPage")
-    ResultEntity<PageResponseDTO<MetricsResponseDTO>> queryListPage(MetricsConditionsRequestDTO metricsConditionsRequestDTO);
+    ResultEntity<PageResponseDTO<MetricsResponseDTO>> queryListPage(@Validated({Page.class})MetricsConditionsRequestDTO metricsConditionsRequestDTO);
 
     @ApiOperation(value = "create", notes = "CREATE_METRICS_NOTES")
     @PostMapping("create")
@@ -44,7 +46,7 @@ public interface MetricsController {
 
     @ApiOperation(value = "update", notes = "UPDATE_METRICS_NOTES")
     @PutMapping("update")
-    ResultEntity<MetricsResponseDTO> update(@RequestBody @Validated({MetricsCreateOrUpdateRequestDTO.Update.class}) MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO);
+    ResultEntity<MetricsResponseDTO> update(@RequestBody @Validated({Update.class}) MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO);
 
     @ApiOperation(value = "deleteById", notes = "DELETE_METRICS_BY_ID_NOTES")
     @ApiImplicitParams({

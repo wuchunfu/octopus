@@ -9,6 +9,7 @@ import org.metahut.octopus.meta.api.MetaDatasourceEntity;
 import org.metahut.octopus.meta.api.MetaDatasourceRequest;
 import org.metahut.octopus.meta.api.MetaDatasourceTypeEntity;
 import org.metahut.octopus.meta.api.MetaDatasourceTypeRequest;
+import org.metahut.octopus.meta.api.MetaException;
 import org.metahut.octopus.meta.api.MetaProperties;
 import org.metahut.octopus.meta.api.MetaSchemaEntity;
 import org.metahut.octopus.meta.api.PageResponseDTO;
@@ -47,7 +48,7 @@ import java.util.stream.Collectors;
 
 public class StarfishMeta implements IMeta {
 
-    private Logger logger = LoggerFactory.getLogger(StarfishMeta.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StarfishMeta.class);
 
     private final OkHttpClient client;
     private final MetaProperties.Starfish properties;
@@ -81,9 +82,8 @@ public class StarfishMeta implements IMeta {
                 return entity;
             }).collect(Collectors.toList()));
         } catch (Exception exception) {
-            logger.error(exception.getMessage(), exception);
+            throw new MetaException(exception);
         }
-        return null;
     }
 
     @Override
@@ -117,12 +117,12 @@ public class StarfishMeta implements IMeta {
                     entity.setType(sourceResponseDTO.getType());
                     return entity;
                 }).collect(Collectors.toList()));
-
             }
+
+            throw new MetaException("unsupported type:" + metaDatasourceRequest.getType());
         } catch (Exception exception) {
-            logger.error(exception.getMessage(), exception);
+            throw new MetaException(exception);
         }
-        return null;
     }
 
     @Override
@@ -161,10 +161,10 @@ public class StarfishMeta implements IMeta {
                 }).collect(Collectors.toList()));
 
             }
+            throw new MetaException("unsupported type:" + request.getDataSourceType());
         } catch (Exception exception) {
-            logger.error(exception.getMessage(), exception);
+            throw new MetaException(exception);
         }
-        return null;
     }
 
     @Override
@@ -241,10 +241,10 @@ public class StarfishMeta implements IMeta {
                 }).collect(Collectors.toList()));
 
             }
+            throw new MetaException("unsupported type:" + request.getDataSourceType());
         } catch (Exception exception) {
-            logger.error(exception.getMessage(), exception);
+            throw new MetaException(exception);
         }
-        return null;
     }
 
     @Override
@@ -338,9 +338,8 @@ public class StarfishMeta implements IMeta {
             return dataset;
 
         } catch (Exception exception) {
-            logger.error(exception.getMessage(), exception);
+            throw new MetaException(exception);
         }
-        return null;
     }
 
     public Object get(String url) throws IOException {

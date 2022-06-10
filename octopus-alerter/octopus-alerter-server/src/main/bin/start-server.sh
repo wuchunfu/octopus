@@ -1,4 +1,6 @@
+#!/bin/bash
 #
+#  Copyright 2010-2012 Apache DolphinScheduler, Inc.
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.
@@ -15,25 +17,13 @@
 # limitations under the License.
 #
 
-server:
-  port: 8981
+BIN_DIR=$(dirname $0)
+OCTOPUS_HOME=${OCTOPUS_HOME:-$(cd $BIN_DIR/..; pwd)}
 
-spring:
-  application:
-    name: octopus-alerter
-  jackson:
-    time-zone: GMT+8
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:octopus;MODE=MySQL;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=true;INIT=runscript from '${user.dir}/tools/sql/octopus-h2.sql'
-    username: sa
-    password: ""
-  #    driver-class-name: org.postgresql.Driver
-  #    url: jdbc:postgresql://localhost:5432/postgres?serverTimezone=CST
-  #    username: test
-  #    password: test
+HOSTNAME=`hostname`
 
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
+log=$OCTOPUS_HOME/logs/nohup-$HOSTNAME.out
+
+JAVA_OPTS=${JAVA_OPTS:-"-server -Xms1g -Xmx1g -Xmn512m -XX:+PrintGCDetails -Xloggc:gc.log -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=dump.hprof"}
+
+nohup java $JAVA_OPTS -cp "$OCTOPUS_HOME/config":"$OCTOPUS_HOME/libs/*" org.metahut.octopus.alerter.server.AlerterApplication > $log 2>&1 &

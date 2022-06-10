@@ -24,6 +24,12 @@
 
         <dependency>
             <groupId>org.metahut.octopus</groupId>
+            <artifactId>octopus-alerter-server</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.metahut.octopus</groupId>
             <artifactId>octopus-tools</artifactId>
             <version>${project.version}</version>
         </dependency>

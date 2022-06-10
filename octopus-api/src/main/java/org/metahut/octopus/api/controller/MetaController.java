@@ -25,15 +25,15 @@ public interface MetaController {
     @GetMapping("queryDatasourceListPage")
     ResultEntity<PageResponseDTO<MetaDatasourceResponseDTO>> queryDatasourceListPage(@Validated MetaDatasourceRequestDTO requestDTO);
 
-    @ApiOperation(value = "queryDatabaseList", notes = "META_DATABASE_QUERY_LIST_NOTES")
+    @ApiOperation(value = "queryDatabaseListPage", notes = "META_DATABASE_QUERY_LIST_NOTES")
     @GetMapping("queryDatabaseListPage")
     ResultEntity<PageResponseDTO<MetaDatabaseResponseDTO>> queryDatabaseListPage(@Validated MetaDatabaseConditionsRequestDTO requestDTO);
 
-    @ApiOperation(value = "queryDatasetList", notes = "META_DATASET_QUERY_LIST_NOTES")
-    @GetMapping("queryDatasetList")
+    @ApiOperation(value = "queryDatasetListPage", notes = "META_DATASET_QUERY_LIST_NOTES")
+    @GetMapping("queryDatasetListPage")
     ResultEntity<PageResponseDTO<MetaDatasetResponseDTO>> queryDatasetListPage(@Validated MetaDatasetRequestDTO requestDTO);
 
-    @ApiOperation(value = "queryUnregisteredDatasetList", notes = "META_UNREGISTERED_DATASET_QUERY_LIST_NOTES")
-    @GetMapping("queryUnregisteredDatasetList")
-    ResultEntity<Collection<MetaDatasetResponseDTO>> queryUnregisteredDatasetList(MetaDatasetRequestDTO requestDTO);
+    @ApiOperation(value = "queryUnregisteredDatasetListPage", notes = "META_UNREGISTERED_DATASET_QUERY_LIST_NOTES")
+    @GetMapping("queryUnregisteredDatasetListPage")
+    ResultEntity<PageResponseDTO<MetaDatasetResponseDTO>> queryUnregisteredDatasetListPage(MetaDatasetRequestDTO requestDTO);
 }

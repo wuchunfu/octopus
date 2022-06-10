@@ -16,7 +16,7 @@ public interface MetaService {
 
     PageResponseDTO<MetaDatabaseResponseDTO> queryDatabaseListPage(MetaDatabaseConditionsRequestDTO requestDTO);
 
-    PageResponseDTO<MetaDatasetResponseDTO> queryDatasetList(MetaDatasetRequestDTO requestDTO);
+    PageResponseDTO<MetaDatasetResponseDTO> queryDatasetListPage(MetaDatasetRequestDTO requestDTO);
 
     PageResponseDTO<MetaDatasetResponseDTO> queryUnregisteredDatasetListPage(MetaDatasetRequestDTO requestDTO);
 

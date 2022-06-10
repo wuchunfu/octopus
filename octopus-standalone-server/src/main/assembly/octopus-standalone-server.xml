@@ -18,34 +18,32 @@
 <assembly xmlns="http://maven.apache.org/ASSEMBLY/2.1.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.1.0 http://maven.apache.org/xsd/assembly-2.1.0.xsd">
-    <id>bin</id>
+    <id>octopus-standalone-server</id>
     <formats>
-        <format>tar.gz</format>
+        <format>dir</format>
     </formats>
-    <includeBaseDirectory>true</includeBaseDirectory>
-    <baseDirectory>${project.build.finalName}-bin</baseDirectory>
-
+    <includeBaseDirectory>false</includeBaseDirectory>
+    <baseDirectory>standalone-server</baseDirectory>
     <fileSets>
-
         <fileSet>
-            <directory>${basedir}/../octopus-server/target/api-server</directory>
-            <outputDirectory>api-server</outputDirectory>
+            <directory>${basedir}/src/main/resources</directory>
+            <includes>
+                <include>*.yaml</include>
+                <include>*.xml</include>
+            </includes>
+            <outputDirectory>config</outputDirectory>
         </fileSet>
-
         <fileSet>
-            <directory>${basedir}/../octopus-alerter/octopus-alerter-server/target/alerter-server</directory>
-            <outputDirectory>alerter-server</outputDirectory>
-        </fileSet>
-
-        <fileSet>
-            <directory>${basedir}/../octopus-tools/target/tools</directory>
-            <outputDirectory>tools</outputDirectory>
-        </fileSet>
-
-        <fileSet>
-            <directory>${basedir}/../octopus-standalone-server/target/standalone-server</directory>
-            <outputDirectory>standalone-server</outputDirectory>
+            <directory>${basedir}/src/main/bin</directory>
+            <outputDirectory>bin</outputDirectory>
+            <fileMode>0755</fileMode>
+            <directoryMode>0755</directoryMode>
         </fileSet>
 
     </fileSets>
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>libs</outputDirectory>
+        </dependencySet>
+    </dependencySets>
 </assembly>

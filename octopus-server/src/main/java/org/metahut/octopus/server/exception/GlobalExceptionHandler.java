@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -69,8 +70,8 @@ public class GlobalExceptionHandler {
      * @param exception MethodArgumentNotValidException
      * @return
      */
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResultEntity handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+    @ExceptionHandler({MethodArgumentNotValidException.class, BindException.class})
+    public ResultEntity handleMethodArgumentNotValidException(BindException exception) {
         logger.error(exception.getMessage(), exception);
         FieldError fieldError = exception.getBindingResult().getFieldError();
         String message = fieldError.getField() + " " + fieldError.getDefaultMessage();

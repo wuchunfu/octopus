@@ -43,7 +43,6 @@ public class MetaServiceImpl implements MetaService {
 
     @Override
     public PageResponseDTO<MetaDatasourceResponseDTO> queryDatasourceListPage(MetaDatasourceRequestDTO requestDTO) {
-
         MetaDatasourceRequest request = conversionService.convert(requestDTO, MetaDatasourceRequest.class);
         org.metahut.octopus.meta.api.PageResponseDTO<MetaDatasourceEntity> responseDTO = meta.queryDatasourceListPage(request);
         List<MetaDatasourceResponseDTO> convert = (List<MetaDatasourceResponseDTO>) conversionService.convert(responseDTO.getData(),
@@ -66,7 +65,7 @@ public class MetaServiceImpl implements MetaService {
     }
 
     @Override
-    public PageResponseDTO<MetaDatasetResponseDTO> queryDatasetList(MetaDatasetRequestDTO requestDTO) {
+    public PageResponseDTO<MetaDatasetResponseDTO> queryDatasetListPage(MetaDatasetRequestDTO requestDTO) {
         MetaDatasetRequest request = conversionService.convert(requestDTO, MetaDatasetRequest.class);
 
         org.metahut.octopus.meta.api.PageResponseDTO<MetaDatasetEntity> responseDTO = meta.queryDatasetListPage(request);
@@ -81,7 +80,7 @@ public class MetaServiceImpl implements MetaService {
     @Override
     public PageResponseDTO<MetaDatasetResponseDTO> queryUnregisteredDatasetListPage(MetaDatasetRequestDTO requestDTO) {
         // TODO The amount of metadata data is large, which makes it impossible to query all of them, and then exclude the dataset data that has been recorded by the system
-        return queryDatasetList(requestDTO);
+        return queryDatasetListPage(requestDTO);
     }
 
     @Override
