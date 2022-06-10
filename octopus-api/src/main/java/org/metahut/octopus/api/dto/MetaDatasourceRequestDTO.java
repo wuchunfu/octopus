@@ -12,7 +12,7 @@ public class MetaDatasourceRequestDTO extends PageRequestDTO {
     private String name;
 
     @NotEmpty(message = "{parameter.not.null}")
-    private String dataSourceType;
+    private String type;
 
     public String getName() {
         return name;
@@ -22,12 +22,13 @@ public class MetaDatasourceRequestDTO extends PageRequestDTO {
         this.name = name;
     }
 
-    public String getDataSourceType() {
-        return dataSourceType;
+
+    public String getType() {
+        return type;
     }
 
-    public void setDataSourceType(String dataSourceType) {
-        this.dataSourceType = dataSourceType;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getCode() {

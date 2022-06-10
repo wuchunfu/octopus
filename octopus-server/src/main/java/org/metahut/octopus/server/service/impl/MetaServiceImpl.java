@@ -26,6 +26,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class MetaServiceImpl implements MetaService {
@@ -39,17 +42,6 @@ public class MetaServiceImpl implements MetaService {
         this.meta = meta;
         this.conversionService = conversionService;
         this.monitorFlowDefinitionService = monitorFlowDefinitionService;
-    }
-
-    @Override
-    public PageResponseDTO<MetaDatasourceResponseDTO> queryDatasourceTypeListPage(MetaDatasourceTypeRequestDTO requestDTO) {
-        MetaDatasourceTypeRequest request = conversionService.convert(requestDTO, MetaDatasourceTypeRequest.class);
-        org.metahut.octopus.meta.api.PageResponseDTO<MetaDatasourceTypeEntity> responseDTO = meta.queryDatasourceTypeListPage(request);
-        List<MetaDatasourceResponseDTO> convert = (List<MetaDatasourceResponseDTO>) conversionService.convert(responseDTO.getData(),
-            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MetaDatasourceEntity.class)),
-            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MetaDatasourceResponseDTO.class)));
-
-        return PageResponseDTO.of(responseDTO.getPageNo(), responseDTO.getPageSize(), responseDTO.getTotal(), convert);
     }
 
     @Override
@@ -90,26 +82,9 @@ public class MetaServiceImpl implements MetaService {
     }
 
     @Override
-    public org.metahut.octopus.api.dto.PageResponseDTO<MetaDatasetResponseDTO> queryUnregisteredDatasetList(MetaDatasetRequestDTO requestDTO) {
-        //Collection<MetaDatasetResponseDTO> metaDatasetResponseDTOS = queryDatasetList(requestDTO);
-        //Map<String, Integer> collect = monitorFlowDefinitionService.queryRegisteredDatasetCodes().stream().collect(Collectors.toMap(Function.identity(), code -> 1));
-        //return metaDatasetResponseDTOS.stream().filter(dataset -> Objects.isNull(collect.get(dataset.getCode()))).collect(Collectors.toList());
-        return null;
-    }
-
-    @Override
-    public org.metahut.octopus.api.dto.PageResponseDTO<MetaDatasetResponseDTO> queryUnregisteredDatasetListPage(MetaDatasetRequestDTO requestDTO) {
-        //Collection<MetaDatasetResponseDTO> metaDatasetResponseDTOS = queryUnregisteredDatasetList(requestDTO);
-        //if (CollectionUtils.isEmpty(metaDatasetResponseDTOS)) {
-        //    return PageResponseDTO.of(requestDTO.getPageNo(), 0, 0L, Collections.emptyList());
-        //}
-        //List<MetaDatasetResponseDTO> collect = metaDatasetResponseDTOS.stream()
-        //    .skip((requestDTO.getPageNo() - 1) * requestDTO.getPageSize())
-        //    .limit(requestDTO.getPageSize())
-        //    .collect(Collectors.toList());
-        //Integer size = CollectionUtils.isEmpty(collect) ? 0 : collect.size();
-        //return PageResponseDTO.of(requestDTO.getPageNo(), size, Long.valueOf(metaDatasetResponseDTOS.size()), collect);
-        return null;
+    public PageResponseDTO<MetaDatasetResponseDTO> queryUnregisteredDatasetListPage(MetaDatasetRequestDTO requestDTO) {
+        // TODO The amount of metadata data is large, which makes it impossible to query all of them, and then exclude the dataset data that has been recorded by the system
+        return queryDatasetList(requestDTO);
     }
 
     @Override
@@ -120,9 +95,11 @@ public class MetaServiceImpl implements MetaService {
 
     @Override
     public Collection<String> queryAllSourceCategories() {
-        //Collection<MetaDatasourceEntity> metaDatasourceEntities = meta.queryDatasourceListPage(null);
-        //return metaDatasourceEntities.stream().map(MetaDatasourceEntity::getType).collect(Collectors.toSet());
-        return null;
+        MetaDatasourceTypeRequest request = new MetaDatasourceTypeRequest();
+        request.setPageNo(1);
+        request.setPageSize(100);
+        org.metahut.octopus.meta.api.PageResponseDTO<MetaDatasourceTypeEntity> responseDTO = meta.queryDatasourceTypeListPage(request);
+        return responseDTO.getData().stream().map(MetaDatasourceTypeEntity::getName).collect(Collectors.toSet());
     }
 
 }

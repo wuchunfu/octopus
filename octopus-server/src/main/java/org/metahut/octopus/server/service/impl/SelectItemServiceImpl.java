@@ -77,7 +77,12 @@ public class SelectItemServiceImpl implements SelectItemService {
     }
 
     private List<SelectItemResponseDTO> queryDatasourceTypeItem() {
-        return metaService.queryAllSourceCategories().stream().map(category -> SelectItemResponseDTO.of(category, category)).collect(Collectors.toList());
+        // TODO query metadata interface
+
+        List<SelectItemResponseDTO> list = new ArrayList<>();
+        list.add(SelectItemResponseDTO.of("Hive", "Hive"));
+        list.add(SelectItemResponseDTO.of("Pulsar", "Pulsar"));
+        return list;
     }
 
     private List<SelectItemResponseDTO> queryExecutorTypeItem() {
