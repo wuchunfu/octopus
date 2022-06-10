@@ -44,7 +44,6 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
 
     private static final String REST_FUNCTION_URL_PREFIX = "/monitorFlowDefinition/";
 
-
     @MockBean
     private SchedulerService schedulerService;
 

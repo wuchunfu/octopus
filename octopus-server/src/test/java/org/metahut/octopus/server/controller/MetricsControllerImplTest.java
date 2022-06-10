@@ -46,16 +46,16 @@ public class MetricsControllerImplTest extends WebMvcApplicationTest {
     @Test
     public void testCreate() throws Exception {
         MetricsCreateOrUpdateRequestDTO requestDTO = new MetricsCreateOrUpdateRequestDTO();
-        requestDTO.setCode("count");
-        requestDTO.setName("count");
+        requestDTO.setCode("count1");
+        requestDTO.setName("count1");
         create(requestDTO);
     }
 
     @Test
     public void testUpdate() throws Exception {
         MetricsCreateOrUpdateRequestDTO requestDTO = new MetricsCreateOrUpdateRequestDTO();
-        requestDTO.setCode("null_value");
-        requestDTO.setName("null_value");
+        requestDTO.setCode("null_value2");
+        requestDTO.setName("null_value2");
         requestDTO.setCategory("single");
         MetricsResponseDTO createData = create(requestDTO);
 
@@ -83,20 +83,20 @@ public class MetricsControllerImplTest extends WebMvcApplicationTest {
     public void testQueryList() throws Exception {
 
         MetricsCreateOrUpdateRequestDTO requestDTO1 = new MetricsCreateOrUpdateRequestDTO();
-        requestDTO1.setCode("null_value1");
-        requestDTO1.setName("null_value");
+        requestDTO1.setCode("null_value3");
+        requestDTO1.setName("null_value3");
         requestDTO1.setCategory("single");
         create(requestDTO1);
 
         MetricsCreateOrUpdateRequestDTO requestDTO2 = new MetricsCreateOrUpdateRequestDTO();
-        requestDTO2.setCode("m_count1");
-        requestDTO2.setName("m_count1");
+        requestDTO2.setCode("m_count4");
+        requestDTO2.setName("m_count4");
         requestDTO2.setCategory("single");
         MetricsResponseDTO createData2 = create(requestDTO2);
 
         String url = REST_FUNCTION_URL_PREFIX + "queryList";
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get(url).param("code", "m_count1")
-                        .param("name", "m_count1"))
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get(url).param("code", "m_count4")
+                        .param("name", "m_count4"))
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
@@ -112,20 +112,20 @@ public class MetricsControllerImplTest extends WebMvcApplicationTest {
     @Test
     public void testQueryListPage() throws Exception {
         MetricsCreateOrUpdateRequestDTO requestDTO1 = new MetricsCreateOrUpdateRequestDTO();
-        requestDTO1.setCode("null_value2");
-        requestDTO1.setName("null_value");
+        requestDTO1.setCode("null_value5");
+        requestDTO1.setName("null_value5");
         requestDTO1.setCategory("single");
         create(requestDTO1);
 
         MetricsCreateOrUpdateRequestDTO requestDTO2 = new MetricsCreateOrUpdateRequestDTO();
-        requestDTO2.setCode("m_count2");
-        requestDTO2.setName("m_count2");
+        requestDTO2.setCode("m_count6");
+        requestDTO2.setName("m_count6");
         requestDTO2.setCategory("single");
         MetricsResponseDTO createData2 = create(requestDTO2);
 
         String url = REST_FUNCTION_URL_PREFIX + "queryListPage";
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get(url).param("pageNo", "1")
-                        .param("pageSize", "10").param("code", "m_count2"))
+                        .param("pageSize", "10").param("code", "m_count6"))
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
@@ -141,8 +141,8 @@ public class MetricsControllerImplTest extends WebMvcApplicationTest {
     @Test
     public void deleteById() throws Exception {
         MetricsCreateOrUpdateRequestDTO requestDTO1 = new MetricsCreateOrUpdateRequestDTO();
-        requestDTO1.setCode("null_value3");
-        requestDTO1.setName("null_value");
+        requestDTO1.setCode("null_value7");
+        requestDTO1.setName("null_value7");
         requestDTO1.setCategory("single");
         MetricsResponseDTO metricsResponseDTO = create(requestDTO1);
 
@@ -160,8 +160,8 @@ public class MetricsControllerImplTest extends WebMvcApplicationTest {
     @Test
     public void findByCode() throws Exception {
         MetricsCreateOrUpdateRequestDTO requestDTO1 = new MetricsCreateOrUpdateRequestDTO();
-        requestDTO1.setCode("null_value4");
-        requestDTO1.setName("null_value");
+        requestDTO1.setCode("null_value8");
+        requestDTO1.setName("null_value8");
         requestDTO1.setCategory("single");
         MetricsResponseDTO metricsResponseDTO = create(requestDTO1);
 
