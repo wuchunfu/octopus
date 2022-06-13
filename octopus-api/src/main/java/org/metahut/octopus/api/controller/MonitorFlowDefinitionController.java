@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @Api(tags = "MONITOR_FLOW_DEFINITION_TAG")
 @RequestMapping("monitorFlowDefinition")
 @Validated
@@ -37,6 +39,11 @@ public interface MonitorFlowDefinitionController {
     @ApiOperation(value = "create", notes = "MONITOR_FLOW_DEFINITION_CREATE_NOTES")
     @PostMapping("create")
     ResultEntity<MonitorFlowDefinitionResponseDTO> create(@RequestBody @Validated MonitorFlowDefinitionCreateOrUpdateRequestDTO requestDTO);
+
+    @ApiOperation(value = "batchCreate", notes = "MONITOR_FLOW_DEFINITION_BATCH_CREATE_NOTES")
+    @PostMapping("batchCreate")
+    ResultEntity<List<MonitorFlowDefinitionResponseDTO>> batchCreate(@RequestBody @Validated List<MonitorFlowDefinitionCreateOrUpdateRequestDTO> requestDTOs);
+
 
     @ApiOperation(value = "update", notes = "MONITOR_FLOW_DEFINITION_UPDATE_NOTES")
     @PutMapping("update")

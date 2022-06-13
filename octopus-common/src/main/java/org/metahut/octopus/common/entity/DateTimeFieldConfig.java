@@ -1,4 +1,4 @@
-package com.metahut.octopus.common.entity;
+package org.metahut.octopus.common.entity;
 
 public class DateTimeFieldConfig {
 

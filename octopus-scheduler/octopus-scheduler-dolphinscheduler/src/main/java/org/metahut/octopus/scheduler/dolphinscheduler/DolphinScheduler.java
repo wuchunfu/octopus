@@ -322,7 +322,7 @@ public class DolphinScheduler implements IScheduler {
         String url = MessageFormat.format("/projects/{0}/process-definition", properties.getProjectCode());
         FormBody body = new FormBody.Builder()
                 .add("name", taskDefinitionParameter.getName())
-                .add("description", taskDefinitionParameter.getDescription())
+                .add("description", StringUtils.isNotBlank(taskDefinitionParameter.getDescription()) ? taskDefinitionParameter.getDescription() : "")
                 .add("tenantCode", properties.getTenantCode())
                 .add("taskRelationJson", JSONUtils.toJSONString(taskRelationList))
                 .add("taskDefinitionJson", JSONUtils.toJSONString(dolphinTaskDefinitionList))

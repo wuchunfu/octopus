@@ -15,6 +15,7 @@ import org.metahut.octopus.api.dto.PageResponseDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
 import org.metahut.octopus.api.dto.RuleInstanceCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.SampleInstanceCreateOrUpdateRequestDTO;
+import org.metahut.octopus.common.entity.DateTimeFieldConfig;
 import org.metahut.octopus.common.enums.MetricsDimensionEnum;
 import org.metahut.octopus.common.enums.RuleStateEnum;
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
@@ -26,7 +27,6 @@ import org.metahut.octopus.server.service.SchedulerService;
 import org.metahut.octopus.server.utils.JSONUtils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.metahut.octopus.common.entity.DateTimeFieldConfig;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -37,6 +37,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -131,6 +132,31 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
         return createData;
     }
 
+    private List<MonitorFlowDefinitionResponseDTO> batchCreate(List<MonitorFlowDefinitionCreateOrUpdateRequestDTO> requestDTOs) throws Exception {
+        MetaDatasourceResponseDTO metaDatasourceResponseDTO = new MetaDatasourceResponseDTO();
+        metaDatasourceResponseDTO.setCode("123");
+        MetaDatasetResponseDTO metaDatasetResponseDTO = new MetaDatasetResponseDTO();
+        metaDatasetResponseDTO.setDatasource(metaDatasourceResponseDTO);
+        given(this.metaService.queryDatasetByCode(Mockito.any(String.class))).willReturn(metaDatasetResponseDTO);
+
+        String schedulerCode = "456";
+        given(this.schedulerService.createMetricsProductionTaskAndAddSchedule(Mockito.any(String.class), Mockito.any(Long.class), Mockito.any(String.class)))
+                .willReturn(schedulerCode);
+
+        String url = REST_FUNCTION_URL_PREFIX + "batchCreate";
+        MvcResult mvcResult = mockMvc.perform(post(url).contentType(MediaType.APPLICATION_JSON).content(JSONUtils.toJSONString(requestDTOs)))
+                .andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+        String result = mvcResult.getResponse().getContentAsString();
+        ResultEntity<List<MonitorFlowDefinitionResponseDTO>> create = JSONUtils.parseObject(result, new TypeReference<ResultEntity<List<MonitorFlowDefinitionResponseDTO>>>() {
+        });
+        Assertions.assertTrue(create.isSuccess());
+        List<MonitorFlowDefinitionResponseDTO> createData = create.getData();
+        Assertions.assertNotNull(createData);
+        return createData;
+    }
+
     @Test
     public void create() throws Exception {
         AlerterSourceCreateOrUpdateRequestDTO alerterSourceCreateOrUpdateRequestDTO = new AlerterSourceCreateOrUpdateRequestDTO();
@@ -186,6 +212,63 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
         requestDTO.setWindowUnit(WindowUnit.MINUTE);
         requestDTO.setDateTimeFields(Arrays.asList(dateTimeFieldConfig));
         MonitorFlowDefinitionResponseDTO monitorFlowDefinitionResponseDTO = create(requestDTO);
+    }
+
+    @Test
+    public void batchCreate() throws Exception {
+        AlerterSourceCreateOrUpdateRequestDTO alerterSourceCreateOrUpdateRequestDTO = new AlerterSourceCreateOrUpdateRequestDTO();
+        alerterSourceCreateOrUpdateRequestDTO.setAlertType("DingTalk");
+        alerterSourceCreateOrUpdateRequestDTO.setName("dingTalk test");
+        alerterSourceCreateOrUpdateRequestDTO.setParameter("{\"webhook\":\"1\", \"secret\":\"secret\"}");
+        AlerterSourceResponseDTO alertInstance = createAlertInstance(alerterSourceCreateOrUpdateRequestDTO);
+
+        MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO = new MetricsCreateOrUpdateRequestDTO();
+        metricsCreateOrUpdateRequestDTO.setCategory("category");
+        metricsCreateOrUpdateRequestDTO.setCode("sum66");
+        metricsCreateOrUpdateRequestDTO.setMetricsDimension(MetricsDimensionEnum.INTEGRALITY);
+        metricsCreateOrUpdateRequestDTO.setName("test1");
+        MetricsResponseDTO metrics = createMetrics(metricsCreateOrUpdateRequestDTO);
+
+        MetricsConfigCreateOrUpdateRequestDTO metricsConfigCreateOrUpdateRequestDTO = new MetricsConfigCreateOrUpdateRequestDTO();
+        metricsConfigCreateOrUpdateRequestDTO.setDescription("test");
+        metricsConfigCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
+        metricsConfigCreateOrUpdateRequestDTO.setMetricsParams("{\"subjectCategory\": \"\",\"subjectCode\":  \"\", \"metricsCode\": \"sum\", \"filter\":\"\"}");
+        metricsConfigCreateOrUpdateRequestDTO.setSubjectCategory(SubjectCategoryEnum.TABLE);
+        metricsConfigCreateOrUpdateRequestDTO.setSourceCategory("sourceCategory");
+        MetricsConfigResponseDTO metricsConfig = createMetricsConfig(metricsConfigCreateOrUpdateRequestDTO);
+
+        MonitorFlowDefinitionCreateOrUpdateRequestDTO requestDTO = new MonitorFlowDefinitionCreateOrUpdateRequestDTO();
+
+        AlerterInstanceCreateOrUpdateRequestDTO alerterInstanceCreateOrUpdateRequestDTO = new AlerterInstanceCreateOrUpdateRequestDTO();
+        alerterInstanceCreateOrUpdateRequestDTO.setAlerterSourceCode(alertInstance.getCode());
+        alerterInstanceCreateOrUpdateRequestDTO.setParameter("phone");
+        requestDTO.setAlerterInstances(Arrays.asList(alerterInstanceCreateOrUpdateRequestDTO));
+        requestDTO.setCrontab("crontab");
+        requestDTO.setDatasetCode("dataset66");
+
+        RuleInstanceCreateOrUpdateRequestDTO ruleInstanceCreateOrUpdateRequestDTO = new RuleInstanceCreateOrUpdateRequestDTO();
+        ruleInstanceCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
+        ruleInstanceCreateOrUpdateRequestDTO.setMetricsConfigCode(metricsConfig.getCode());
+        ruleInstanceCreateOrUpdateRequestDTO.setSample(true);
+        ruleInstanceCreateOrUpdateRequestDTO.setState(RuleStateEnum.OFFLINE);
+        ruleInstanceCreateOrUpdateRequestDTO.setSubjectCategory(SubjectCategoryEnum.TABLE);
+        requestDTO.setRuleInstances(Arrays.asList(ruleInstanceCreateOrUpdateRequestDTO));
+
+        SampleInstanceCreateOrUpdateRequestDTO sampleInstanceCreateOrUpdateRequestDTO = new SampleInstanceCreateOrUpdateRequestDTO();
+        sampleInstanceCreateOrUpdateRequestDTO.setDatasetCode("dataset66");
+        sampleInstanceCreateOrUpdateRequestDTO.setExecutorType("executorType");
+        sampleInstanceCreateOrUpdateRequestDTO.setParameter("90");
+        requestDTO.setSampleInstance(sampleInstanceCreateOrUpdateRequestDTO);
+
+        DateTimeFieldConfig dateTimeFieldConfig = new DateTimeFieldConfig();
+        dateTimeFieldConfig.setName("dt");
+        dateTimeFieldConfig.setFormat("yyyy-MM-dd");
+
+        requestDTO.setWindowSize("20");
+        requestDTO.setWindowType(WindowType.TUMBLE);
+        requestDTO.setWindowUnit(WindowUnit.MINUTE);
+        requestDTO.setDateTimeFields(Arrays.asList(dateTimeFieldConfig));
+        List<MonitorFlowDefinitionResponseDTO> monitorFlowDefinitionResponseDTO = batchCreate(Arrays.asList(requestDTO));
     }
 
     @Test

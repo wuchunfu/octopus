@@ -1,9 +1,9 @@
 package org.metahut.octopus.api.dto;
 
+import org.metahut.octopus.common.entity.DateTimeFieldConfig;
 import org.metahut.octopus.common.enums.WindowType;
 import org.metahut.octopus.common.enums.WindowUnit;
 
-import com.metahut.octopus.common.entity.DateTimeFieldConfig;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 

@@ -11,7 +11,9 @@ import org.metahut.octopus.server.utils.SnowflakeIdGenerator;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @RestController
 public class MonitorFlowDefinitionControllerImpl implements MonitorFlowDefinitionController {
@@ -41,7 +43,9 @@ public class MonitorFlowDefinitionControllerImpl implements MonitorFlowDefinitio
 
     @Override
     public ResultEntity<MonitorFlowDefinitionResponseDTO> create(MonitorFlowDefinitionCreateOrUpdateRequestDTO requestDTO) {
-        requestDTO.setCode(SnowflakeIdGenerator.getInstance().nextId());
+        if (Objects.isNull(requestDTO.getCode())) {
+            requestDTO.setCode(SnowflakeIdGenerator.getInstance().nextId());
+        }
         if (Objects.nonNull(requestDTO.getSampleInstance())) {
             requestDTO.getSampleInstance().setCode(SnowflakeIdGenerator.getInstance().nextId());
         }
@@ -49,6 +53,15 @@ public class MonitorFlowDefinitionControllerImpl implements MonitorFlowDefinitio
             requestDTO.getRuleInstances().forEach(i -> i.setCode(SnowflakeIdGenerator.getInstance().nextId()));
         }
         return ResultEntity.success(monitorFlowDefinitionService.createOrUpdate(requestDTO));
+    }
+
+    @Override
+    public ResultEntity<List<MonitorFlowDefinitionResponseDTO>> batchCreate(List<MonitorFlowDefinitionCreateOrUpdateRequestDTO> requestDTOs) {
+        List<MonitorFlowDefinitionResponseDTO> list = requestDTOs.stream().map(requestDTO -> {
+            ResultEntity<MonitorFlowDefinitionResponseDTO> monitorFlowDefinitionResponseDTOResultEntity = create(requestDTO);
+            return monitorFlowDefinitionResponseDTOResultEntity.getData();
+        }).collect(Collectors.toList());
+        return ResultEntity.success(list);
     }
 
     @Override

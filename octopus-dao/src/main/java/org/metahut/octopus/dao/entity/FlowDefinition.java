@@ -1,10 +1,9 @@
 package org.metahut.octopus.dao.entity;
 
+import org.metahut.octopus.common.entity.DateTimeFieldConfig;
 import org.metahut.octopus.common.enums.WindowType;
 import org.metahut.octopus.common.enums.WindowUnit;
 import org.metahut.octopus.dao.converter.ListToJSONConverter;
-
-import com.metahut.octopus.common.entity.DateTimeFieldConfig;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
