@@ -107,7 +107,7 @@ public class ClickhouseMonitorDBSource implements IMonitorDBSource {
 
             PageResponse<MetricsResult> pageResponse = new PageResponse<>();
             pageResponse.setPageNo(request.getPageNo());
-            pageResponse.setPageSize(list.size());
+            pageResponse.setPageSize(request.getPageSize());
             pageResponse.setData(list);
             return pageResponse;
         } catch (SQLException e) {
@@ -179,7 +179,7 @@ public class ClickhouseMonitorDBSource implements IMonitorDBSource {
 
             PageResponse<MonitorLog> pageResponse = new PageResponse<>();
             pageResponse.setPageNo(request.getPageNo());
-            pageResponse.setPageSize(list.size());
+            pageResponse.setPageSize(request.getPageSize());
             pageResponse.setData(list);
             return pageResponse;
         } catch (SQLException e) {
@@ -228,7 +228,7 @@ public class ClickhouseMonitorDBSource implements IMonitorDBSource {
                     if (typeName.equalsIgnoreCase("java.lang.String") || typeName.equalsIgnoreCase("java.util.Date")) {
                         valuesBuilder.append("'");
                         if (typeName.equalsIgnoreCase("java.util.Date")) {
-                            valuesBuilder.append(dateTimeFormatter.format(((Date)field.get(model)).toInstant().atZone(ZoneId.systemDefault())));
+                            valuesBuilder.append(dateTimeFormatter.format(((Date) field.get(model)).toInstant().atZone(ZoneId.systemDefault())));
                         } else {
                             valuesBuilder.append(field.get(model).toString());
                         }

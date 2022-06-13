@@ -84,7 +84,7 @@ public class MetaControllerImplTest extends WebMvcApplicationTest {
 
     @Test
     public void queryDatasetListPage() throws Exception {
-        String url = REST_FUNCTION_URL_PREFIX + "queryDatasetList";
+        String url = REST_FUNCTION_URL_PREFIX + "queryDatasetListPage";
 
         MetaDatasetResponseDTO responseDTO = new MetaDatasetResponseDTO();
         responseDTO.setCode("1");

@@ -61,7 +61,7 @@ CREATE TABLE monitor_rule_log_all
     `comparison_unit`     String,
     `expected_value`      String,
     `result`              String,
-    `error`               Boolean,
+    `error`               Int8,
     `error_info`          String,
     `error_time`          DateTime,
     `create_time`         DateTime default now()

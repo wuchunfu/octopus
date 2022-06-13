@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 @Disabled
 public class MonitorDBPluginHelperTest {
 
-    public static final String monitorRuleLogTable ="monitor_rule_log_all";
+    public static final String monitorRuleLogTable = "monitor_rule_log_all";
     public static final String monitorMetricsResultTable = "monitor_metrics_result_all";
 
     @Test

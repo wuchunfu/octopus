@@ -224,7 +224,7 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
 
         MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO = new MetricsCreateOrUpdateRequestDTO();
         metricsCreateOrUpdateRequestDTO.setCategory("category");
-        metricsCreateOrUpdateRequestDTO.setCode("sum66");
+        metricsCreateOrUpdateRequestDTO.setCode("sum67");
         metricsCreateOrUpdateRequestDTO.setMetricsDimension(MetricsDimensionEnum.INTEGRALITY);
         metricsCreateOrUpdateRequestDTO.setName("test1");
         MetricsResponseDTO metrics = createMetrics(metricsCreateOrUpdateRequestDTO);
@@ -244,7 +244,7 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
         alerterInstanceCreateOrUpdateRequestDTO.setParameter("phone");
         requestDTO.setAlerterInstances(Arrays.asList(alerterInstanceCreateOrUpdateRequestDTO));
         requestDTO.setCrontab("crontab");
-        requestDTO.setDatasetCode("dataset66");
+        requestDTO.setDatasetCode("dataset67");
 
         RuleInstanceCreateOrUpdateRequestDTO ruleInstanceCreateOrUpdateRequestDTO = new RuleInstanceCreateOrUpdateRequestDTO();
         ruleInstanceCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
@@ -255,7 +255,7 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
         requestDTO.setRuleInstances(Arrays.asList(ruleInstanceCreateOrUpdateRequestDTO));
 
         SampleInstanceCreateOrUpdateRequestDTO sampleInstanceCreateOrUpdateRequestDTO = new SampleInstanceCreateOrUpdateRequestDTO();
-        sampleInstanceCreateOrUpdateRequestDTO.setDatasetCode("dataset66");
+        sampleInstanceCreateOrUpdateRequestDTO.setDatasetCode("dataset67");
         sampleInstanceCreateOrUpdateRequestDTO.setExecutorType("executorType");
         sampleInstanceCreateOrUpdateRequestDTO.setParameter("90");
         requestDTO.setSampleInstance(sampleInstanceCreateOrUpdateRequestDTO);

@@ -16,10 +16,12 @@ import org.metahut.octopus.meta.api.PageResponseDTO;
 import org.metahut.octopus.meta.api.ResultEntity;
 import org.metahut.octopus.meta.starfish.bean.Class;
 import org.metahut.octopus.meta.starfish.bean.HiveClusterResponseDTO;
+import org.metahut.octopus.meta.starfish.bean.HiveColumnResponseDTO;
 import org.metahut.octopus.meta.starfish.bean.HiveDBResponseDTO;
 import org.metahut.octopus.meta.starfish.bean.HiveTableResponseDTO;
 import org.metahut.octopus.meta.starfish.bean.PulsarClusterResponseDTO;
 import org.metahut.octopus.meta.starfish.bean.PulsarNamespaceResponseDTO;
+import org.metahut.octopus.meta.starfish.bean.PulsarSchemaResponseDTO;
 import org.metahut.octopus.meta.starfish.bean.PulsarTenantResponseDTO;
 import org.metahut.octopus.meta.starfish.bean.PulsarTopicResponseDTO;
 import org.metahut.octopus.meta.starfish.bean.SourceResponseDTO;
@@ -197,6 +199,17 @@ public class StarfishMeta implements IMeta {
                     datasource.setType(cluster.getType());
                     entity.setDatasource(datasource);
 
+                    List<MetaSchemaEntity> schemas = new ArrayList<>();
+                    List<HiveColumnResponseDTO> columns = sourceResponseDTO.getColumns();
+                    if (CollectionUtils.isNotEmpty(columns)) {
+                        columns.stream().forEach(column -> {
+                            MetaSchemaEntity schema = new MetaSchemaEntity();
+                            schema.setName(column.getName());
+                            schema.setCode(String.valueOf(column.getId()));
+                            schemas.add(schema);
+                        });
+                    }
+                    entity.setSchemas(schemas);
                     return entity;
                 }).collect(Collectors.toList()));
 
@@ -236,6 +249,18 @@ public class StarfishMeta implements IMeta {
                         }
                     }
                     entity.setDatasource(datasource);
+
+                    List<PulsarSchemaResponseDTO> schemas = sourceResponseDTO.getSchemas();
+                    List<MetaSchemaEntity> schemaEntitys = new ArrayList<>();
+                    if (CollectionUtils.isNotEmpty(schemas)) {
+                        schemas.stream().forEach(schema -> {
+                            MetaSchemaEntity schemaEntity = new MetaSchemaEntity();
+                            schemaEntity.setName(schema.getName());
+                            schemaEntity.setCode(String.valueOf(schema.getId()));
+                            schemaEntitys.add(schemaEntity);
+                        });
+                    }
+                    entity.setSchemas(schemaEntitys);
 
                     return entity;
                 }).collect(Collectors.toList()));

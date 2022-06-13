@@ -51,7 +51,7 @@ public class MetricsConfigCreateOrUpdateRequestDTO {
     private CreateTypeEnum createType;
 
     @ApiModelProperty(value = "metricsParams")
-    @NotEmpty(message = "{parameter.not.null}")
+    //@NotEmpty(message = "{parameter.not.null}")
     private String metricsParams;
 
     @ApiModelProperty(value = "subjectCategory")
