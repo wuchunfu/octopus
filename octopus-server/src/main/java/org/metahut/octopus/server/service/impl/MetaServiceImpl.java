@@ -80,7 +80,11 @@ public class MetaServiceImpl implements MetaService {
     @Override
     public PageResponseDTO<MetaDatasetResponseDTO> queryUnregisteredDatasetListPage(MetaDatasetRequestDTO requestDTO) {
         // TODO The amount of metadata data is large, which makes it impossible to query all of them, and then exclude the dataset data that has been recorded by the system
-        return queryDatasetListPage(requestDTO);
+        Collection<String> registeredDatasetCodes = monitorFlowDefinitionService.queryRegisteredDatasetCodes();
+        PageResponseDTO<MetaDatasetResponseDTO> metaDatasetResponseDTOPageResponseDTO = queryDatasetListPage(requestDTO);
+        List<MetaDatasetResponseDTO> collect = metaDatasetResponseDTOPageResponseDTO.getData().stream().filter(value -> !registeredDatasetCodes.contains(value.getCode())).collect(Collectors.toList());
+        metaDatasetResponseDTOPageResponseDTO.setData(collect);
+        return metaDatasetResponseDTOPageResponseDTO;
     }
 
     @Override

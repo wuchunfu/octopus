@@ -54,7 +54,6 @@ public class MetaControllerImpl implements MetaController {
 
     @Override
     public ResultEntity<PageResponseDTO<MetaDatasetResponseDTO>> queryUnregisteredDatasetListPage(MetaDatasetRequestDTO requestDTO) {
-        defaultPage(requestDTO);
-        return ResultEntity.success(metaService.queryDatasetListPage(requestDTO));
+        return ResultEntity.success(metaService.queryUnregisteredDatasetListPage(requestDTO));
     }
 }
