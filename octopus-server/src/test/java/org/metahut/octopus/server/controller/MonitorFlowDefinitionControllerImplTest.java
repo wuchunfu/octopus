@@ -15,6 +15,7 @@ import org.metahut.octopus.api.dto.PageResponseDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
 import org.metahut.octopus.api.dto.RuleInstanceCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.SampleInstanceCreateOrUpdateRequestDTO;
+import org.metahut.octopus.api.dto.UserResponseDTO;
 import org.metahut.octopus.common.entity.DateTimeFieldConfig;
 import org.metahut.octopus.common.enums.MetricsDimensionEnum;
 import org.metahut.octopus.common.enums.RuleStateEnum;
@@ -184,7 +185,15 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
 
         AlerterInstanceCreateOrUpdateRequestDTO alerterInstanceCreateOrUpdateRequestDTO = new AlerterInstanceCreateOrUpdateRequestDTO();
         alerterInstanceCreateOrUpdateRequestDTO.setAlerterSourceCode(alertInstance.getCode());
-        alerterInstanceCreateOrUpdateRequestDTO.setParameter("phone");
+        alerterInstanceCreateOrUpdateRequestDTO.setAlerterType("DingTalk");
+        UserResponseDTO user = new UserResponseDTO();
+        user.setId(1);
+        user.setCode(1L);
+        user.setName("xiaoliang.wang");
+        user.setCnName("wxl");
+        user.setEmail("xiaoliang.wang@zhaopin.com");
+        user.setPhoneNumber("15210284595");
+        alerterInstanceCreateOrUpdateRequestDTO.setUsers(Arrays.asList(user));
         requestDTO.setAlerterInstances(Arrays.asList(alerterInstanceCreateOrUpdateRequestDTO));
         requestDTO.setCrontab("crontab");
         requestDTO.setDatasetCode("dataset66");

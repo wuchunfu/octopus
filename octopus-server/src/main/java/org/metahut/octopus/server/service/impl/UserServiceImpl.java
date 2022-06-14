@@ -39,8 +39,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserResponseDTO> findListByContactInfo(List<String> contactInfos) {
         Specification specification = (root, query, builder) -> builder.or(
-                builder.in(root.get(User_.email).as(String.class).in(contactInfos)),
-                builder.in(root.get(User_.phoneNumber).as(String.class).in(contactInfos)));
+                root.get(User_.email).as(String.class).in(contactInfos),
+                root.get(User_.phoneNumber).as(String.class).in(contactInfos));
         return (List<UserResponseDTO>) conversionService.convert(userRepository.findAll(specification),
                 TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(User.class)),
                 TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(UserResponseDTO.class)));
