@@ -66,6 +66,11 @@ public class MonitorFlowDefinitionControllerImpl implements MonitorFlowDefinitio
 
     @Override
     public ResultEntity<MonitorFlowDefinitionResponseDTO> update(MonitorFlowDefinitionCreateOrUpdateRequestDTO requestDTO) {
+        requestDTO.getRuleInstances().forEach(i -> {
+            if (Objects.isNull(i.getCode())) {
+                i.setCode(SnowflakeIdGenerator.getInstance().nextId());
+            }
+        });
         return ResultEntity.success(monitorFlowDefinitionService.createOrUpdate(requestDTO));
     }
 

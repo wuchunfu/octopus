@@ -333,6 +333,7 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
             i.setAlerterSourceCode(alertInstance.getCode());
             i.setParameter("phone");
         });
+        requestDTO.setDatasetCode("dataset76");
 
         updateDTO.getRuleInstances().forEach(i -> {
             i.setMetricsCode(metrics.getCode());
@@ -342,6 +343,31 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
             i.setState(RuleStateEnum.OFFLINE);
             i.setSubjectCategory(SubjectCategoryEnum.FIELD);
         });
+
+        MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTOUpdate = new MetricsCreateOrUpdateRequestDTO();
+        metricsCreateOrUpdateRequestDTOUpdate.setCategory("category");
+        metricsCreateOrUpdateRequestDTOUpdate.setCode("sum67-update");
+        metricsCreateOrUpdateRequestDTOUpdate.setMetricsDimension(MetricsDimensionEnum.INTEGRALITY);
+        metricsCreateOrUpdateRequestDTOUpdate.setName("test1");
+        MetricsResponseDTO metricsUpdate = createMetrics(metricsCreateOrUpdateRequestDTOUpdate);
+
+        MetricsConfigCreateOrUpdateRequestDTO metricsConfigCreateOrUpdateRequestDTOUpdate = new MetricsConfigCreateOrUpdateRequestDTO();
+        metricsConfigCreateOrUpdateRequestDTOUpdate.setDescription("test");
+        metricsConfigCreateOrUpdateRequestDTOUpdate.setMetricsCode(metricsUpdate.getCode());
+        metricsConfigCreateOrUpdateRequestDTOUpdate.setMetricsParams("{\"subjectCategory\": \"\",\"subjectCode\":  \"\", \"metricsCode\": \"sum\", \"filter\":\"\"}");
+        metricsConfigCreateOrUpdateRequestDTOUpdate.setSubjectCategory(SubjectCategoryEnum.TABLE);
+        metricsConfigCreateOrUpdateRequestDTOUpdate.setSourceCategory("sourceCategory");
+        MetricsConfigResponseDTO metricsConfigUpdate = createMetricsConfig(metricsConfigCreateOrUpdateRequestDTOUpdate);
+
+        RuleInstanceCreateOrUpdateRequestDTO ruleUpdate = new RuleInstanceCreateOrUpdateRequestDTO();
+        ruleUpdate.setMetricsCode(metricsUpdate.getCode());
+        ruleUpdate.setMetricsConfigCode(metricsConfigUpdate.getCode());
+        ruleUpdate.setSample(true);
+        ruleUpdate.setState(RuleStateEnum.OFFLINE);
+        ruleUpdate.setDatasetCode("dataset76");
+        ruleUpdate.setSubjectCategory(SubjectCategoryEnum.TABLE);
+        updateDTO.getRuleInstances().add(ruleUpdate);
+
         String sampleValue = "100";
         updateDTO.getSampleInstance().setParameter(sampleValue);
         String url = REST_FUNCTION_URL_PREFIX + "update";
