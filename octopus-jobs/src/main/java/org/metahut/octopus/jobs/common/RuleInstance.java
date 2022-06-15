@@ -1,8 +1,9 @@
 package org.metahut.octopus.jobs.common;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class RuleInstance {
+public class RuleInstance implements Serializable {
     private Long ruleInstanceCode;
     private String checkType;
     private String checkMethod;

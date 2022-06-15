@@ -1,16 +1,24 @@
 package org.metahut.octopus.jobs.job;
 
-import org.metahut.octopus.jobs.common.FlowData;
-import org.metahut.octopus.jobs.common.FlowInstance;
+import org.metahut.octopus.jobs.common.MetaDatasetResponseDTO;
+import org.metahut.octopus.jobs.common.MetaSchemaSingleResponseDTO;
+import org.metahut.octopus.jobs.common.MetricInfo;
 import org.metahut.octopus.jobs.common.MetricMessage;
 import org.metahut.octopus.jobs.common.MetricResult;
+import org.metahut.octopus.jobs.common.MonitorFlowDefinitionResponseDTO;
 import org.metahut.octopus.jobs.common.RuleInstance;
+import org.metahut.octopus.jobs.common.RuleInstanceResponseDTO;
+import org.metahut.octopus.jobs.common.SampleInstanceResponseDTO;
+import org.metahut.octopus.jobs.enums.WindowUnit;
 import org.metahut.octopus.jobs.util.HttpUtils;
+import org.metahut.octopus.jobs.util.MonitorDBPluginHelper;
+import org.metahut.octopus.monitordb.api.IMonitorDBSource;
+import org.metahut.octopus.monitordb.api.MetricsResult;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
+import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.connector.pulsar.sink.PulsarSink;
 import org.apache.flink.connector.pulsar.sink.writer.serializer.PulsarSerializationSchema;
@@ -21,11 +29,14 @@ import org.apache.flink.table.api.EnvironmentSettings;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import org.apache.flink.table.catalog.hive.HiveCatalog;
-import org.apache.flink.table.functions.UserDefinedFunction;
 import org.apache.flink.table.module.hive.HiveModule;
 
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -39,10 +50,19 @@ public class OfflineHiveMetrics {
 
     private static volatile Map<String, String> metaSchemasMap = new ConcurrentHashMap<>();
     private static volatile JSONObject sampleInstanceJson = null;
-    private static volatile Map<MetricMessage, List<RuleInstance>> ruleInstancesMap = new ConcurrentHashMap<>();
+    private static volatile Map<MetricInfo, List<RuleInstance>> ruleInstancesMap = new ConcurrentHashMap<>();
     private static volatile String tableName = null;
+    private static volatile String database = null;
+    private static volatile String fullTableName = null;
+    private static volatile Date scheduleTime = null;  //new Date()
+    private static final IMonitorDBSource monitorDBSource = MonitorDBPluginHelper.getMonitorDBSource();
 
     public static void main(String[] args) throws Exception {
+        // -- schduleTIme 2022-06-14 13:10:20
+        ParameterTool parameterTool = ParameterTool.fromArgs(args);
+        String schduleTimeStr = parameterTool.get("schduleTIme");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        scheduleTime = sdf.parse(schduleTimeStr);
 
         EnvironmentSettings settings = EnvironmentSettings.newInstance()
                 .inBatchMode()
@@ -65,75 +85,129 @@ public class OfflineHiveMetrics {
         tableEnvironment.loadModule("myhive", new HiveModule("3.1.0"));
 
         //register udf
-        registerUdf("insert_metrics_clickhouse", "org.metahut.octopus.jobs.udf.InsertMetricsToClickhouse");
+        //registerUdf("insert_metrics_clickhouse", "org.metahut.octopus.jobs.udf.InsertMetricsToClickhouse");
 
-        String flowResponse = HttpUtils.get("https://qinglong-pre.dev.zhaopin.com/quality/monitorFlowDefinition/5782139932320");
+        String flowResponse = HttpUtils.get("https://qinglong-pre.dev.zhaopin.com/quality/monitorFlowDefinition/5856993537312");
+
+        JSONObject flowResponseJson = JSONObject.parseObject(flowResponse);
+        String flowResponseData = flowResponseJson.getString("data");
         ObjectMapper objectMapper = new ObjectMapper();
-        FlowInstance flowInstance = objectMapper.readValue(flowResponse, FlowInstance.class);
+        MonitorFlowDefinitionResponseDTO flowInstance = objectMapper.readValue(flowResponseData, MonitorFlowDefinitionResponseDTO.class);
+
+        //get window info
+        int windowSize = Integer.valueOf(flowInstance.getWindowSize());
+        WindowUnit windowUnit = flowInstance.getWindowUnit();
+        Date windowBeginTime = null;
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(scheduleTime);
+        String timecConditionsPre = "";
+        String dateTimeField = flowInstance.getDateTimeFields().get(0).getName();
+        String dateTimeFormat = flowInstance.getDateTimeFields().get(0).getFormat();
+        String type = flowInstance.getDateTimeFields().get(0).getType();
+        if (type.equals("string")) {
+            timecConditionsPre = "where ${dateTimeField} >= '${beginTime}' and ${dateTimeField}< '${endTime}'";
+        } else if (type.equals("int")) {
+            timecConditionsPre = "where ${dateTimeField} >= ${beginTime} and ${dateTimeField}< ${endTime}";
+        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateTimeFormat);
+        String beginTime = null;
+        String endTime = simpleDateFormat.format(scheduleTime);
+        switch (windowUnit) {
+            case DAY:
+                cal.add(Calendar.DAY_OF_MONTH, -windowSize);
+                windowBeginTime = cal.getTime();
+                beginTime = simpleDateFormat.format(windowBeginTime);
+                break;
+            case HOUR:
+                cal.add(Calendar.HOUR_OF_DAY, -windowSize);
+                windowBeginTime = cal.getTime();
+                beginTime = simpleDateFormat.format(windowBeginTime);
+                break;
+            case MINUTE:
+                cal.add(Calendar.MINUTE, -windowSize);
+                windowBeginTime = cal.getTime();
+                break;
+            default:
+                throw new Exception(
+                        "Unsupported windowUnit.");
+        }
+        String timeConditions = timecConditionsPre.replaceAll("\\$\\{dateTimeField\\}",dateTimeField)
+                .replaceAll("\\$\\{beginTime\\}",beginTime)
+                .replaceAll("\\$\\{endTime\\}",endTime);
 
         //get meta info
-        FlowData flowData = flowInstance.getData();
-        JSONObject metaJsonObject = flowData.getMeta();
-        tableName = metaJsonObject.getString("name");
-        String datasourceCode = metaJsonObject.getJSONObject("datasource").getString("code");
-        String datasetCode = metaJsonObject.getString("code");
-        JSONArray schemasJsonArray = metaJsonObject.getJSONArray("schemas");
-        for (int i = 0; i < schemasJsonArray.size(); i++) {
-            JSONObject jsonObject = schemasJsonArray.getJSONObject(i);
-            metaSchemasMap.put(jsonObject.getString("code"), jsonObject.getString("name"));
+        MetaDatasetResponseDTO meta = flowInstance.getMeta();
+        tableName = meta.getName();
+        database = meta.getDatabase().getName();
+        fullTableName = database + "." + tableName;
+        String datasourceCode = meta.getDatasource().getCode();
+        String datasetCode = meta.getCode();
+        Collection<MetaSchemaSingleResponseDTO> schemas = meta.getSchemas();
+        for (MetaSchemaSingleResponseDTO schema : schemas) {
+            metaSchemasMap.put(schema.getCode(), schema.getName());
         }
 
+        //sample data : FLink only support random sample
+        //String viewSamplesPre = "select * from myhive.{0} TABLESAMPLE ({1} PERCENT)";
+        //select * from default.test_obs_octopus_jobs where dt >= '20220610' and dt < '20220615' and rand() <= 0.1;
+        String viewSamplesPre = "select * from myhive.{0} {1} and rand() <= {2}";
+        String viewSamples = null;
         //get sampleInstance info
-        sampleInstanceJson = flowData.getSampleInstance();
-        Integer number = sampleInstanceJson.getInteger("number");
-        //String viewSamplesPre = "select feature_name from myhive.dmm.fdm_cv_feature_day TABLESAMPLE ({0} PERCENT)";
-        String viewSamplesPre = "select\n"
-                + "age\n"
-                //"feature_name\n" +
-                + "from\n"
-                + "myhive.{0}\n"
-                //"myhive.dmm.fdm_cv_feature_day\n" +
-                + "order by rand()\n"
-                + "limit {1}";
-        //        String viewSamplesPre = "select * from myhive.{0} TABLESAMPLE ({1} PERCENT)";
-        String viewSamples = MessageFormat.format(viewSamplesPre, tableName, number);
+        SampleInstanceResponseDTO sampleInstance = flowInstance.getSampleInstance();
+        if (sampleInstance != null) {
+            String parameter = sampleInstance.getParameter();
+            JSONObject parameterJson = JSONObject.parseObject(parameter);
+            int number = parameterJson.getInteger("number");
+            viewSamples = MessageFormat.format(viewSamplesPre, fullTableName, timeConditions, (float)number / 100);
+        }
 
         //get ruleInstances info
-        JSONArray ruleInstancesJsonArray = flowData.getRuleInstances();
-        for (int i = 0; i < ruleInstancesJsonArray.size(); i++) {
-            MetricMessage metricMessage = new MetricMessage();
-            JSONObject jsonObject = ruleInstancesJsonArray.getJSONObject(i);
-            metricMessage.setId(UUID.randomUUID().toString());
-            metricMessage.setDatasourceCode(datasourceCode);
-            metricMessage.setDatasetCode(datasetCode);
-            metricMessage.setSubjectCode(jsonObject.getString("subjectCode"));
-            metricMessage.setSubjectCategory(jsonObject.getString("subjectCategory"));
-            metricMessage.setMetricsCode(jsonObject.getJSONObject("metrics").getString("code"));
-            metricMessage.setMetricsConfigCode(jsonObject.getJSONObject("metricsConfig").getLong("code"));
-            // metricMessage.setExecutorScript(jsonObject.getJSONObject("metricsConfig").getString("executorScript"));
-            metricMessage.setMetricsUniqueKey(jsonObject.getString("metricsUniqueKey"));
+        List<RuleInstanceResponseDTO> ruleInstancesList = flowInstance.getRuleInstances();
+        for (RuleInstanceResponseDTO ruleInstanceResponseDTO : ruleInstancesList) {
+            MetricInfo metricInfo = new MetricInfo();
+            metricInfo.setId(UUID.randomUUID().toString());
+            metricInfo.setReportChannel("");
+            metricInfo.setDatasourceCode(datasourceCode);
+            metricInfo.setDatasetCode(datasetCode);
+            metricInfo.setSubjectCode(ruleInstanceResponseDTO.getSubjectCode());
+            metricInfo.setSubjectCategory(ruleInstanceResponseDTO.getSubjectCategory().toString());
+            metricInfo.setMetricsCode(ruleInstanceResponseDTO.getMetrics().getCode());
+            metricInfo.setMetricsConfigCode(ruleInstanceResponseDTO.getMetricsConfig().getCode());
+            metricInfo.setMetricsUniqueKey(ruleInstanceResponseDTO.getMetricsUniqueKey());
+            metricInfo.setExecutorScript(ruleInstanceResponseDTO.getMetricsConfig().getExecutorScript() + " " + timeConditions);
+            metricInfo.setWindowBeginTime(windowBeginTime);
+            metricInfo.setWindowSize(windowSize);
+            metricInfo.setWindowUnit(windowUnit.toString());
+            metricInfo.setScheduleTime(scheduleTime);
+            SampleInstanceResponseDTO metricSampleInstance = ruleInstanceResponseDTO.getSampleInstance();
+            if (metricSampleInstance == null) {
+                metricInfo.setSampleFlag(Boolean.FALSE);
+            }
 
             RuleInstance ruleInstance = new RuleInstance();
-            ruleInstance.setRuleInstanceCode(jsonObject.getLong("code"));
-            ruleInstance.setCheckType(jsonObject.getString("checkType"));
-            ruleInstance.setCheckMethod(jsonObject.getString("checkMethod"));
-            ruleInstance.setComparisonUnit(jsonObject.getString("comparisonUnit"));
-            ruleInstance.setComparisonMethod(jsonObject.getString("comparisonMethod"));
-            ruleInstance.setExpectedValue((List<String>)jsonObject.get("expectedValue"));
+            ruleInstance.setRuleInstanceCode(ruleInstanceResponseDTO.getCode());
+            ruleInstance.setCheckType(ruleInstanceResponseDTO.getCheckType());
+            ruleInstance.setCheckMethod(ruleInstanceResponseDTO.getCheckMethod());
+            ruleInstance.setComparisonUnit(ruleInstanceResponseDTO.getComparisonUnit());
+            ruleInstance.setCheckMethod(ruleInstanceResponseDTO.getComparisonMethod());
+            ruleInstance.setExpectedValue(ruleInstanceResponseDTO.getExpectedValue());
 
-            List<RuleInstance> ruleInstanceList = ruleInstancesMap.get(metricMessage);
+            List<RuleInstance> ruleInstanceList = ruleInstancesMap.get(metricInfo);
             if (ruleInstanceList == null) {
                 ArrayList<RuleInstance> ruleInstances = new ArrayList<>();
                 ruleInstances.add(ruleInstance);
-                ruleInstancesMap.put(metricMessage, ruleInstances);
+                ruleInstancesMap.put(metricInfo, ruleInstances);
             } else {
                 ruleInstanceList.add(ruleInstance);
-                ruleInstancesMap.put(metricMessage, ruleInstanceList);
+                ruleInstancesMap.put(metricInfo, ruleInstanceList);
             }
+
         }
 
         //sample data
-        tableEnvironment.createTemporaryView("view_samples", tableEnvironment.sqlQuery(viewSamples));
+        if (viewSamples != null) {
+            tableEnvironment.createTemporaryView("view_samples", tableEnvironment.sqlQuery(viewSamples));
+        }
 
         //sink
         PulsarSink<String> sink = PulsarSink.builder()
@@ -145,30 +219,81 @@ public class OfflineHiveMetrics {
                 .build();
 
         // get metric info list and compute
-        for (Map.Entry<MetricMessage, List<RuleInstance>> entry : ruleInstancesMap.entrySet()) {
-            MetricMessage metricMessage = entry.getKey();
-            String subjectCategory = metricMessage.getSubjectCategory();
-            String subjectCode = metricMessage.getSubjectCode();
-            String metricSqlPre = ""; //metricMessage.getExecutorScript();
+        for (Map.Entry<MetricInfo, List<RuleInstance>> entry : ruleInstancesMap.entrySet()) {
+            List<RuleInstance> ruleInstanceList = entry.getValue();
+            MetricInfo metricInfo = entry.getKey();
+            String subjectCategory = metricInfo.getSubjectCategory().toString();
+            String subjectCode = metricInfo.getSubjectCode();
+            String metricSqlPre = metricInfo.getExecutorScript();
             String metricSql = null;
-            metricMessage.setRuleInstances(entry.getValue());
-
             if (subjectCategory.equals("TABLE")) {
-                metricSql = metricSqlPre.replaceAll("\\$\\{table\\}","view_samples");
+                if (metricInfo.getSampleFlag().equals(Boolean.TRUE)) {
+                    metricSql = metricSqlPre.replaceAll("\\$\\{table\\}","view_samples");
+                } else {
+                    metricSql = metricSqlPre.replaceAll("\\$\\{table\\}",fullTableName);
+                }
             } else {
-                String metricSqlPreTwo = metricSqlPre.replaceAll("\\$\\{table\\}","view_samples");
-                metricSql = metricSqlPreTwo.replaceAll("\\$\\{field\\}",metaSchemasMap.get(subjectCode));
+                if (metricInfo.getSampleFlag().equals(Boolean.TRUE)) {
+                    String metricSqlPreTwo = metricSqlPre.replaceAll("\\$\\{table\\}","view_samples");
+                    metricSql = metricSqlPreTwo.replaceAll("\\$\\{field\\}",metaSchemasMap.get(subjectCode));
+                } else {
+                    String metricSqlPreTwo = metricSqlPre.replaceAll("\\$\\{table\\}",fullTableName);
+                    metricSql = metricSqlPreTwo.replaceAll("\\$\\{field\\}",metaSchemasMap.get(subjectCode));
+                }
             }
 
             Table table = tableEnvironment.sqlQuery(metricSql);
-            DataStream<MetricResult> metricResultDataStream = tableEnvironment.toDataStream(table, MetricResult.class);
-            SingleOutputStreamOperator<String> metricStringDataStream = metricResultDataStream.map(data -> {
-                metricMessage.setMetricsValue(data.getMetricsValue());
-                MetricMessage metricMessage1 = new MetricMessage();
-                metricMessage1 = metricMessage;
-                return JSONObject.toJSONString(metricMessage);
-            });
+            DataStream<MetricResult> metricResultDataStream = tableEnvironment.toDataStream(table, MetricResult.class); //这里改下类名，不然有些混淆MetricValue.class
+            SingleOutputStreamOperator<String> metricStringDataStream = metricResultDataStream
+                    //insert into clickhouse
+                    .map(data -> {
+                        MetricsResult metricsResult = new MetricsResult();
+                        metricsResult.setId(metricInfo.getId());
+                        metricsResult.setWindowBeginTime(metricInfo.getWindowBeginTime());
+                        metricsResult.setWindowSize(metricInfo.getWindowSize());
+                        metricsResult.setWindowUnit(metricInfo.getWindowUnit());
+                        metricsResult.setScheduleTime(scheduleTime);
+                        metricsResult.setReportChannel(metricInfo.getReportChannel());
+                        metricsResult.setDatasetCode(metricInfo.getDatasetCode());
+                        metricsResult.setSubjectCode(metricInfo.getSubjectCode());
+                        metricsResult.setSubjectCategory(metricInfo.getSubjectCategory().toString());
+                        metricsResult.setMetricsCode(metricInfo.getMetricsCode());
+                        metricsResult.setMetricsUniqueKey(metricInfo.getMetricsUniqueKey());
+                        if (data.getMetricsValue() == null && metricInfo.getMetricsCode().equals("null_rate")) {
+                            metricsResult.setMetricsValue("1");
+                        } else {
+                            metricsResult.setMetricsValue(data.getMetricsValue());
+                        }
+                        metricsResult.setCreateTime(new Date());
+                        monitorDBSource.saveMetricsResult(metricsResult);
+                        return data;
+                    })
+                    //send to pulsar
+                    .map(data -> {
+                        MetricMessage metricMessage = new MetricMessage();
+                        metricMessage.setId(metricInfo.getId());
+                        metricMessage.setReportChannel(metricInfo.getReportChannel());
+                        metricMessage.setDatasourceCode(metricInfo.getDatasourceCode());
+                        metricMessage.setDatasetCode(metricInfo.getDatasetCode());
+                        metricMessage.setSubjectCode(metricInfo.getSubjectCode());
+                        metricMessage.setSubjectCategory(metricInfo.getSubjectCategory().toString());
+                        metricMessage.setMetricsCode(metricInfo.getMetricsCode());
+                        metricMessage.setMetricsConfigCode(metricInfo.getMetricsConfigCode());
+                        metricMessage.setMetricsUniqueKey(metricInfo.getMetricsUniqueKey());
+                        if (data.getMetricsValue() == null && metricInfo.getMetricsCode().equals("null_rate")) {
+                            metricMessage.setMetricsValue("1");
+                        } else {
+                            metricMessage.setMetricsValue(data.getMetricsValue());
+                        }
+                        metricMessage.setWindowBeginTime(metricInfo.getWindowBeginTime());
+                        metricMessage.setWindowSize(metricInfo.getWindowSize());
+                        metricMessage.setWindowUnit(metricInfo.getWindowUnit());
+                        metricMessage.setScheduleTime(metricInfo.getScheduleTime());
+                        metricMessage.setSendDate(new Date());
+                        metricMessage.setRuleInstances(ruleInstanceList);
 
+                        return objectMapper.writeValueAsString(metricMessage);
+                    });
             metricStringDataStream.sinkTo(sink);
         }
 
@@ -179,10 +304,10 @@ public class OfflineHiveMetrics {
     }
 
     //register udf
-    private static void registerUdf(String funcName, String classPath) throws Exception {
+    /*private static void registerUdf(String funcName, String classPath) throws Exception {
         Class<?> udfClass = Thread.currentThread().getContextClassLoader().loadClass(classPath);
         UserDefinedFunction udfFunc = udfClass.asSubclass(UserDefinedFunction.class).newInstance();
 
         tableEnvironment.createTemporarySystemFunction(funcName, udfFunc);
-    }
+    }*/
 }

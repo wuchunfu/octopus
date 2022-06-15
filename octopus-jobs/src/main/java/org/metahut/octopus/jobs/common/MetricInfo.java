@@ -1,12 +1,10 @@
 package org.metahut.octopus.jobs.common;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import java.util.Objects;
 
-public class MetricMessage implements Serializable {
+public class MetricInfo implements Serializable {
 
     private String id;
     private String reportChannel;
@@ -17,16 +15,12 @@ public class MetricMessage implements Serializable {
     private String metricsCode;
     private Long metricsConfigCode;
     private String metricsUniqueKey;
-    private String metricsValue;
-    @JsonFormat(pattern = "yyyy-MM-dd' 'HH:mm:ss", timezone = "GMT+8")
     private Date windowBeginTime;
     private Integer windowSize;
     private String windowUnit;
-    @JsonFormat(pattern = "yyyy-MM-dd' 'HH:mm:ss", timezone = "GMT+8")
     private Date scheduleTime;
-    @JsonFormat(pattern = "yyyy-MM-dd' 'HH:mm:ss", timezone = "GMT+8")
-    private Date sendDate;
-    private List<RuleInstance> ruleInstances;
+    private String executorScript;
+    private Boolean sampleFlag = Boolean.TRUE;
 
     public String getId() {
         return id;
@@ -84,14 +78,6 @@ public class MetricMessage implements Serializable {
         this.subjectCategory = subjectCategory;
     }
 
-    public List<RuleInstance> getRuleInstances() {
-        return ruleInstances;
-    }
-
-    public void setRuleInstances(List<RuleInstance> ruleInstances) {
-        this.ruleInstances = ruleInstances;
-    }
-
     public String getDatasourceCode() {
         return datasourceCode;
     }
@@ -106,14 +92,6 @@ public class MetricMessage implements Serializable {
 
     public void setMetricsConfigCode(Long metricsConfigCode) {
         this.metricsConfigCode = metricsConfigCode;
-    }
-
-    public Date getSendDate() {
-        return sendDate;
-    }
-
-    public void setSendDate(Date sendDate) {
-        this.sendDate = sendDate;
     }
 
     public Integer getWindowSize() {
@@ -148,11 +126,37 @@ public class MetricMessage implements Serializable {
         this.scheduleTime = scheduleTime;
     }
 
-    public String getMetricsValue() {
-        return metricsValue;
+    public String getExecutorScript() {
+        return executorScript;
     }
 
-    public void setMetricsValue(String metricsValue) {
-        this.metricsValue = metricsValue;
+    public void setExecutorScript(String executorScript) {
+        this.executorScript = executorScript;
+    }
+
+    public Boolean getSampleFlag() {
+        return sampleFlag;
+    }
+
+    public void setSampleFlag(Boolean sampleFlag) {
+        this.sampleFlag = sampleFlag;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(metricsUniqueKey);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        } else if (!(obj instanceof MetricInfo)) {
+            return false;
+        } else if (obj instanceof MetricInfo) {
+            MetricInfo metricInfo = (MetricInfo)obj;
+            return metricInfo.metricsUniqueKey.equals(metricsUniqueKey);
+        }
+        return false;
     }
 }
