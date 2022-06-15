@@ -1,15 +1,19 @@
 package org.metahut.octopus.server.service.impl;
 
 import org.metahut.octopus.api.dto.PageResponseDTO;
+import org.metahut.octopus.api.dto.RuleExistConditionDTO;
 import org.metahut.octopus.api.dto.RuleInstanceConditionRequestDTO;
 import org.metahut.octopus.api.dto.RuleInstanceResponseDTO;
 import org.metahut.octopus.api.dto.RuleInstanceSingleCreateOrUpdateRequestDTO;
+import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 import org.metahut.octopus.dao.entity.Metrics;
 import org.metahut.octopus.dao.entity.Metrics_;
 import org.metahut.octopus.dao.entity.RuleInstance;
 import org.metahut.octopus.dao.entity.RuleInstance_;
 import org.metahut.octopus.dao.repository.RuleInstanceRepository;
+import org.metahut.octopus.server.service.MetricsConfigService;
 import org.metahut.octopus.server.service.RuleInstanceService;
+import org.metahut.octopus.server.utils.Assert;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.convert.ConversionService;
@@ -27,17 +31,22 @@ import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+
+import static org.metahut.octopus.common.enums.StatusEnum.RULE_INSTANCE_EXIST;
 
 @Service
 public class RuleInstanceServiceImpl implements RuleInstanceService {
 
     private final RuleInstanceRepository ruleInstanceRepository;
     private final ConversionService conversionService;
+    private final MetricsConfigService metricsConfigService;
 
     public RuleInstanceServiceImpl(RuleInstanceRepository ruleInstanceRepository,
-                                   ConversionService conversionService) {
+                                   ConversionService conversionService, MetricsConfigService metricsConfigService) {
         this.ruleInstanceRepository = ruleInstanceRepository;
         this.conversionService = conversionService;
+        this.metricsConfigService = metricsConfigService;
     }
 
     @Override
@@ -88,5 +97,23 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
     @Override
     public void deleteById(Integer id) {
         ruleInstanceRepository.deleteById(id);
+    }
+
+    @Override
+    public void checkExistRule(RuleExistConditionDTO ruleExistConditionDTO) {
+        Specification specification = (root, query, builder) -> {
+            List<Predicate> conditions = new ArrayList<>();
+            Join<RuleInstance, Metrics> metricsJoin = root.join(RuleInstance_.metrics, JoinType.INNER);
+            conditions.add(builder.equal(metricsJoin.get(Metrics_.code), ruleExistConditionDTO.getMetricsCode()));
+            conditions.add(root.get(RuleInstance_.subjectCategory).as(SubjectCategoryEnum.class).in(ruleExistConditionDTO.getSubjectCategory()));
+            conditions.add(root.get(RuleInstance_.subjectCode).as(String.class).in(ruleExistConditionDTO.getSubjectCodes()));
+            return builder.and(conditions.toArray(new Predicate[conditions.size()]));
+        };
+
+        List<RuleInstanceResponseDTO> convert = (List<RuleInstanceResponseDTO>) conversionService.convert(ruleInstanceRepository.findAll(specification),
+                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleInstance.class)),
+                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleInstanceResponseDTO.class)));
+        List<String> ruleExists = convert.stream().map(i -> i.getSubjectCode()).collect(Collectors.toList());
+        Assert.empty(convert, RULE_INSTANCE_EXIST, ruleExists);
     }
 }

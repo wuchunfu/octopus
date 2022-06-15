@@ -3,6 +3,7 @@ package org.metahut.octopus.server.controller;
 import org.metahut.octopus.api.controller.RuleInstanceController;
 import org.metahut.octopus.api.dto.PageResponseDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
+import org.metahut.octopus.api.dto.RuleExistConditionDTO;
 import org.metahut.octopus.api.dto.RuleInstanceConditionRequestDTO;
 import org.metahut.octopus.api.dto.RuleInstanceResponseDTO;
 import org.metahut.octopus.api.dto.RuleInstanceSingleCreateOrUpdateRequestDTO;
@@ -40,6 +41,12 @@ public class RuleInstanceControllerImpl implements RuleInstanceController {
     @Override
     public ResultEntity<RuleInstanceResponseDTO> update(RuleInstanceSingleCreateOrUpdateRequestDTO requestDTO) {
         return ResultEntity.success(ruleInstanceService.createOrUpdate(requestDTO));
+    }
+
+    @Override
+    public ResultEntity checkExistRule(RuleExistConditionDTO ruleExistConditionDTO) {
+        ruleInstanceService.checkExistRule(ruleExistConditionDTO);
+        return ResultEntity.success();
     }
 
     @Override

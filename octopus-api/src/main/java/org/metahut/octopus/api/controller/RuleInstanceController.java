@@ -2,6 +2,7 @@ package org.metahut.octopus.api.controller;
 
 import org.metahut.octopus.api.dto.PageResponseDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
+import org.metahut.octopus.api.dto.RuleExistConditionDTO;
 import org.metahut.octopus.api.dto.RuleInstanceConditionRequestDTO;
 import org.metahut.octopus.api.dto.RuleInstanceResponseDTO;
 import org.metahut.octopus.api.dto.RuleInstanceSingleCreateOrUpdateRequestDTO;
@@ -41,4 +42,7 @@ public interface RuleInstanceController {
     ResultEntity<RuleInstanceResponseDTO> update(@RequestBody @Validated(RuleInstanceSingleCreateOrUpdateRequestDTO.Update
             .class) RuleInstanceSingleCreateOrUpdateRequestDTO requestDTO);
 
+    @ApiOperation(value = "check", notes = "CHECK_RULE_WHETHER_OR_NOT_NOTS")
+    @GetMapping("check")
+    ResultEntity checkExistRule(@Validated RuleExistConditionDTO ruleExistConditionDTO);
 }

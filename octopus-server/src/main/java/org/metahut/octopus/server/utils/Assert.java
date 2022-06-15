@@ -36,4 +36,10 @@ public class Assert {
     public static void throwException(Throwable cause, StatusEnum status, @Nullable Object... args) {
         throw new BusinessException(status, args, cause);
     }
+
+    public static void empty(@Nullable Collection<?> collection, StatusEnum status, @Nullable Object... args) {
+        if (!CollectionUtils.isEmpty(collection)) {
+            throw new BusinessException(status, args);
+        }
+    }
 }

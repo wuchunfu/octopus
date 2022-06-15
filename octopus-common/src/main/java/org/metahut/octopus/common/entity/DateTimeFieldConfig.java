@@ -6,6 +6,8 @@ public class DateTimeFieldConfig {
 
     private String format;
 
+    private String type;
+
     public String getName() {
         return name;
     }
@@ -20,5 +22,13 @@ public class DateTimeFieldConfig {
 
     public void setFormat(String format) {
         this.format = format;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

@@ -259,4 +259,17 @@ public class RuleInstanceControllerImplTest extends WebMvcApplicationTest {
         PageResponseDTO<RuleInstanceResponseDTO> data = resultEntity.getData();
         Assertions.assertEquals(1, data.getTotal());
     }
+
+    @Test
+    public void testCheck() throws Exception {
+        String url = REST_FUNCTION_URL_PREFIX + "check";
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get(url)
+                        .param("metricsCode", "sum67-update")
+                        .param("subjectCodes", "dataset76")
+                        .param("subjectCategory", "TABLE"))
+                .andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+        String result = mvcResult.getResponse().getContentAsString();
+    }
 }
