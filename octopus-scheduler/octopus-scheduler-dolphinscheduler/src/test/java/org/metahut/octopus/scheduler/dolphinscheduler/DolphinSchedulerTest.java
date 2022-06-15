@@ -4,7 +4,13 @@ import org.metahut.octopus.scheduler.api.ExecutionStatus;
 import org.metahut.octopus.scheduler.api.SchedulerProperties;
 import org.metahut.octopus.scheduler.api.SchedulerTypeEnum;
 import org.metahut.octopus.scheduler.api.entity.FlowDefinition;
-import org.metahut.octopus.scheduler.api.parameters.*;
+import org.metahut.octopus.scheduler.api.parameters.FlowInstanceRequestParameter;
+import org.metahut.octopus.scheduler.api.parameters.HttpTaskParameter;
+import org.metahut.octopus.scheduler.api.parameters.ScheduleCronParameter;
+import org.metahut.octopus.scheduler.api.parameters.ScheduleParameter;
+import org.metahut.octopus.scheduler.api.parameters.TaskInstanceLogRequestParameter;
+import org.metahut.octopus.scheduler.api.parameters.TaskInstanceRequestParameter;
+import org.metahut.octopus.scheduler.api.parameters.TaskParameter;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

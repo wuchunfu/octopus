@@ -49,8 +49,10 @@ public class GraphHandler {
         // parser plugin
 
         // source: 根据不同的引擎创建 ？？？
-        // sample: input: src_table, params:{"method": "BLOCK", "number": 10, "unit": "percent"}   output: src_table, executor_type, script: create table octopus_${src_table} as select * from ${src_table} tablesample(10 percent)
-        // metrics: input: src_table, subject_code, subject_category, metrics_code, metrics_unique_key, params:{"executorType":"flink-sql","script":"select count(1) from ${src_table}"}, rules   output: executor_type, script
+        // sample: input: src_table, params:{"method": "BLOCK", "number": 10, "unit": "percent"}
+        //         output: src_table, executor_type, script: create table octopus_${src_table} as select * from ${src_table} tablesample(10 percent)
+        // metrics: input: src_table, subject_code, subject_category, metrics_code, metrics_unique_key, params:{"executorType":"flink-sql","script":"select count(1) from ${src_table}"}, rules
+        //          output: executor_type, script
         // sink: 两个sink 必须有顺序 monitordb, pulsar/kafka
 
         // metrics 1.generateUniqueKey 2.parser
@@ -63,9 +65,7 @@ public class GraphHandler {
         // flink-function -> rule plugin -> jdbc execute(monitordb plugin)
         // rule plugin: input: source_table output: executor_type, script: select value ${ComparisonSymbol} ${ExpectedValue} from ${src_table}
 
-
         // metrics instance : metrics_code, metrics_config_code, metrics_params, subject_code, subject_category, metrics_unique_key???, filter, executorType, script, task_type
-
 
         // metrics: select count(1) from ${src_table}
         // metrics: select subject_code, subject_category, metrics_code, metrics_unique_key, count(1) as value, now() as create_time from ${src_table}

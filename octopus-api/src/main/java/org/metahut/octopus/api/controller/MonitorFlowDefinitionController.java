@@ -44,7 +44,6 @@ public interface MonitorFlowDefinitionController {
     @PostMapping("batchCreate")
     ResultEntity<List<MonitorFlowDefinitionResponseDTO>> batchCreate(@RequestBody @Validated List<MonitorFlowDefinitionCreateOrUpdateRequestDTO> requestDTOs);
 
-
     @ApiOperation(value = "update", notes = "MONITOR_FLOW_DEFINITION_UPDATE_NOTES")
     @PutMapping("update")
     ResultEntity<MonitorFlowDefinitionResponseDTO> update(@RequestBody @Validated(MonitorFlowDefinitionCreateOrUpdateRequestDTO.Update.class) MonitorFlowDefinitionCreateOrUpdateRequestDTO requestDTO);

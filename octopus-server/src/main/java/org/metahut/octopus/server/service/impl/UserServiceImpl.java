@@ -32,18 +32,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserResponseDTO> findList(UserConditionsRequestDTO requestDTO) {
         return (List<UserResponseDTO>) conversionService.convert(userRepository.findAll(withConditions(requestDTO)),
-                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(User.class)),
-                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(UserResponseDTO.class)));
+            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(User.class)),
+            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(UserResponseDTO.class)));
     }
 
     @Override
     public List<UserResponseDTO> findListByContactInfo(List<String> contactInfos) {
         Specification specification = (root, query, builder) -> builder.or(
-                root.get(User_.email).as(String.class).in(contactInfos),
-                root.get(User_.phoneNumber).as(String.class).in(contactInfos));
+            root.get(User_.email).as(String.class).in(contactInfos),
+            root.get(User_.phoneNumber).as(String.class).in(contactInfos));
         return (List<UserResponseDTO>) conversionService.convert(userRepository.findAll(specification),
-                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(User.class)),
-                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(UserResponseDTO.class)));
+            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(User.class)),
+            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(UserResponseDTO.class)));
     }
 
     private Specification<User> withConditions(UserConditionsRequestDTO requestDTO) {

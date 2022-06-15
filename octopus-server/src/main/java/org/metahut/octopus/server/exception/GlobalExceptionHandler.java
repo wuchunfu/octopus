@@ -34,10 +34,10 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = BusinessException.class)
     public ResultEntity exceptionHandler(BusinessException exception) {
-        logger.error(exception.getMessage(), exception);
         String message = exception.getMessage();
         try {
             message = messageSource.getMessage(exception.getMessage(), exception.getArgs(), LocaleContextHolder.getLocale());
+            logger.error(message, exception);
         } catch (Throwable throwable) {
             logger.error(throwable.getMessage(), throwable);
         }
@@ -46,8 +46,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
     public ResultEntity exceptionHandler(Exception exception) {
-        logger.error(exception.getMessage(), exception);
         String message = messageSource.getMessage(UNKNOWN_EXCEPTION.getMessage(), new Object[]{exception.getMessage()}, LocaleContextHolder.getLocale());
+        logger.error(message, exception);
         return ResultEntity.of(UNKNOWN_EXCEPTION.getCode(), message);
     }
 
@@ -58,10 +58,10 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(ConstraintViolationException.class)
     public ResultEntity constraintViolationException(ConstraintViolationException exception) {
-        logger.error(exception.getMessage(), exception);
         String message = exception.getConstraintViolations().stream()
                 .map(ConstraintViolation::getMessage)
                 .collect(Collectors.joining(", "));
+        logger.error(message, exception);
         return ResultEntity.of(VALIDATOR_EXCEPTION.getCode(), message);
     }
 
@@ -72,9 +72,9 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler({MethodArgumentNotValidException.class, BindException.class})
     public ResultEntity handleMethodArgumentNotValidException(BindException exception) {
-        logger.error(exception.getMessage(), exception);
         FieldError fieldError = exception.getBindingResult().getFieldError();
         String message = fieldError.getField() + " " + fieldError.getDefaultMessage();
+        logger.error(message, exception);
         return ResultEntity.of(VALIDATOR_EXCEPTION.getCode(), message);
     }
 
