@@ -46,7 +46,10 @@ CREATE TABLE tb_octopus_flow_definition
     crontab        varchar(200) NOT NULL,
     scheduler_code varchar(254),
     filter              text,
-
+    date_time_fields  text DEFAULT NULL,
+    window_type varchar(64) DEFAULT NULL,
+    window_size varchar(64) DEFAULT NULL,
+    window_unit varchar(64) DEFAULT NULL,
     create_time    datetime DEFAULT NULL,
     update_time    datetime DEFAULT NULL,
     creator        int(11)  DEFAULT NULL,
