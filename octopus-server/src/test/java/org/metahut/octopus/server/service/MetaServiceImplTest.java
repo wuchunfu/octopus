@@ -1,11 +1,14 @@
 package org.metahut.octopus.server.service;
 
+import org.metahut.octopus.api.dto.MetaDatasetRequestDTO;
 import org.metahut.octopus.api.dto.MetaDatasetResponseDTO;
+import org.metahut.octopus.api.dto.PageResponseDTO;
 import org.metahut.octopus.meta.api.IMeta;
 import org.metahut.octopus.meta.api.MetaDatasetEntity;
 import org.metahut.octopus.server.WebMvcApplicationTest;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,4 +35,17 @@ public class MetaServiceImplTest extends WebMvcApplicationTest {
         Assertions.assertNotNull(responseDTO);
         Assertions.assertTrue("35".equals(responseDTO.getCode()));
     }
+
+    @Test
+    @Disabled
+    public void queryDatasetListPageTest() {
+        MetaDatasetRequestDTO requestDTO = new MetaDatasetRequestDTO();
+        requestDTO.setPageNo(1);
+        requestDTO.setPageSize(100);
+        requestDTO.setName("stage_crm_tc_employee");
+        requestDTO.setDataSourceType("Hive");
+        PageResponseDTO<MetaDatasetResponseDTO> responseDTO = metaService.queryDatasetListPage(requestDTO);
+        Assertions.assertNotNull(responseDTO.getData());
+    }
+
 }

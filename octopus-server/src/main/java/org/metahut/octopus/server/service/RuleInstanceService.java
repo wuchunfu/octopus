@@ -15,4 +15,6 @@ public interface RuleInstanceService {
     void deleteById(Integer id);
 
     void checkExistRule(RuleExistConditionDTO ruleExistConditionDTO);
+
+    long count(RuleInstanceConditionRequestDTO requestDTO);
 }

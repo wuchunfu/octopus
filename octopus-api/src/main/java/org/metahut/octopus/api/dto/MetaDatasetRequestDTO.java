@@ -8,9 +8,6 @@ import javax.validation.constraints.NotEmpty;
 @ApiModel(description = "meta dataset request dto")
 public class MetaDatasetRequestDTO extends PageRequestDTO {
 
-    @ApiModelProperty(value = "code")
-    private String code;
-
     @ApiModelProperty(value = "name")
     private String name;
 
@@ -23,14 +20,6 @@ public class MetaDatasetRequestDTO extends PageRequestDTO {
     @ApiModelProperty(value = "dataSourceType")
     @NotEmpty(message = "{parameter.not.null}")
     private String dataSourceType;
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
 
     public String getName() {
         return name;

@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Date;
+import java.util.List;
 
 @ApiModel(description = "monitor log response dto")
 public class MonitorLogResponseDTO {
@@ -43,8 +44,11 @@ public class MonitorLogResponseDTO {
     @ApiModelProperty(value = "comparison method")
     private String comparisonMethod;
 
+    @ApiModelProperty(value = "comparisonUnit")
+    private String comparisonUnit;
+
     @ApiModelProperty(value = "expected value")
-    private String expectedValue;
+    private List<String> expectedValue;
 
     @ApiModelProperty(value = "sample instance")
     private SampleInstanceResponseDTO sampleInstance;
@@ -155,11 +159,19 @@ public class MonitorLogResponseDTO {
         this.comparisonMethod = comparisonMethod;
     }
 
-    public String getExpectedValue() {
+    public String getComparisonUnit() {
+        return comparisonUnit;
+    }
+
+    public void setComparisonUnit(String comparisonUnit) {
+        this.comparisonUnit = comparisonUnit;
+    }
+
+    public List<String> getExpectedValue() {
         return expectedValue;
     }
 
-    public void setExpectedValue(String expectedValue) {
+    public void setExpectedValue(List<String> expectedValue) {
         this.expectedValue = expectedValue;
     }
 

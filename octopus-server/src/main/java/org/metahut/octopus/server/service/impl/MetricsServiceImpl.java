@@ -1,14 +1,20 @@
 package org.metahut.octopus.server.service.impl;
 
 import org.metahut.octopus.api.dto.MetricsConditionsRequestDTO;
+import org.metahut.octopus.api.dto.MetricsConfigConditionsRequestDTO;
 import org.metahut.octopus.api.dto.MetricsCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.MetricsResponseDTO;
 import org.metahut.octopus.api.dto.PageResponseDTO;
+import org.metahut.octopus.api.dto.RuleInstanceConditionRequestDTO;
+import org.metahut.octopus.api.dto.RuleTemplateConditionRequestDTO;
 import org.metahut.octopus.common.enums.MetricsDimensionEnum;
 import org.metahut.octopus.dao.entity.Metrics;
 import org.metahut.octopus.dao.entity.Metrics_;
 import org.metahut.octopus.dao.repository.MetricsRepository;
+import org.metahut.octopus.server.service.MetricsConfigService;
 import org.metahut.octopus.server.service.MetricsService;
+import org.metahut.octopus.server.service.RuleInstanceService;
+import org.metahut.octopus.server.service.RuleTemplateService;
 import org.metahut.octopus.server.utils.Assert;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -29,6 +35,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import static org.metahut.octopus.common.enums.StatusEnum.METRICS_DELETE_ERROR;
 import static org.metahut.octopus.common.enums.StatusEnum.METRICS_NOT_EXIST;
 
 @Service
@@ -36,10 +43,17 @@ public class MetricsServiceImpl implements MetricsService {
 
     private final MetricsRepository metricsRepository;
     private final ConversionService conversionService;
+    private final MetricsConfigService metricsConfigService;
+    private final RuleInstanceService ruleInstanceService;
+    private final RuleTemplateService ruleTemplateService;
 
-    public MetricsServiceImpl(MetricsRepository metricsRepository, ConversionService conversionService) {
+    public MetricsServiceImpl(MetricsRepository metricsRepository, ConversionService conversionService, MetricsConfigService metricsConfigService,
+                              RuleInstanceService ruleInstanceService, RuleTemplateService ruleTemplateService) {
         this.metricsRepository = metricsRepository;
         this.conversionService = conversionService;
+        this.metricsConfigService = metricsConfigService;
+        this.ruleInstanceService = ruleInstanceService;
+        this.ruleTemplateService = ruleTemplateService;
     }
 
     @Override
@@ -113,6 +127,23 @@ public class MetricsServiceImpl implements MetricsService {
 
     @Override
     public void deleteById(Integer id) {
+        Optional<Metrics> optional = metricsRepository.findById(id);
+        Assert.notPresent(optional, METRICS_NOT_EXIST, id);
+
+        String metricsCode = optional.get().getCode();
+
+        MetricsConfigConditionsRequestDTO metricsConfigConditionsRequestDTO = new MetricsConfigConditionsRequestDTO();
+        metricsConfigConditionsRequestDTO.setMetricsCode(metricsCode);
+        Assert.assertTrue(metricsConfigService.count(metricsConfigConditionsRequestDTO) > 0, METRICS_DELETE_ERROR, new Object[] {metricsCode, "metricsConfig"});
+
+        RuleTemplateConditionRequestDTO ruleTemplateConditionRequestDTO = new RuleTemplateConditionRequestDTO();
+        ruleTemplateConditionRequestDTO.setMetricsCode(metricsCode);
+        Assert.assertTrue(ruleTemplateService.count(ruleTemplateConditionRequestDTO) > 0, METRICS_DELETE_ERROR, new Object[] {metricsCode, "ruleTemplate"});
+
+        RuleInstanceConditionRequestDTO ruleInstanceConditionRequestDTO = new RuleInstanceConditionRequestDTO();
+        ruleInstanceConditionRequestDTO.setMetricsCode(metricsCode);
+        Assert.assertTrue(ruleInstanceService.count(ruleInstanceConditionRequestDTO) > 0, METRICS_DELETE_ERROR, new Object[] {metricsCode, "ruleInstance"});
+
         metricsRepository.deleteById(id);
     }
 }

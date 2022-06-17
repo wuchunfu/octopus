@@ -44,6 +44,7 @@ import java.net.UnknownServiceException;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -200,15 +201,15 @@ public class StarfishMeta implements IMeta {
                     entity.setDatasource(datasource);
 
                     List<MetaSchemaEntity> schemas = new ArrayList<>();
-                    List<HiveColumnResponseDTO> columns = sourceResponseDTO.getColumns();
-                    if (CollectionUtils.isNotEmpty(columns)) {
-                        columns.stream().forEach(column -> {
-                            MetaSchemaEntity schema = new MetaSchemaEntity();
-                            schema.setName(column.getName());
-                            schema.setCode(String.valueOf(column.getId()));
-                            schemas.add(schema);
-                        });
-                    }
+
+                    List<HiveColumnResponseDTO> columns = CollectionUtils.isNotEmpty(sourceResponseDTO.getColumns()) ? sourceResponseDTO.getColumns() : Collections.emptyList();
+                    columns.addAll(CollectionUtils.isNotEmpty(sourceResponseDTO.getPartitionKeys()) ? sourceResponseDTO.getPartitionKeys() : Collections.emptyList());
+                    columns.stream().forEach(column -> {
+                        MetaSchemaEntity schema = new MetaSchemaEntity();
+                        schema.setName(column.getName());
+                        schema.setCode(String.valueOf(column.getId()));
+                        schemas.add(schema);
+                    });
                     entity.setSchemas(schemas);
                     return entity;
                 }).collect(Collectors.toList()));
@@ -315,14 +316,15 @@ public class StarfishMeta implements IMeta {
                     datasource.setCode(hiveCluster.getId());
                     datasource.setName(hiveCluster.getName());
                     datasource.setType(hiveCluster.getType());
-                    if (CollectionUtils.isNotEmpty(table.getColumns())) {
-                        table.getColumns().stream().forEach(column -> {
-                            MetaSchemaEntity schema = new MetaSchemaEntity();
-                            schema.setCode(String.valueOf(column.getId()));
-                            schema.setName(column.getName());
-                            schemas.add(schema);
-                        });
-                    }
+
+                    List<HiveColumnResponseDTO> columns = CollectionUtils.isNotEmpty(table.getColumns()) ? table.getColumns() : Collections.emptyList();
+                    columns.addAll(CollectionUtils.isNotEmpty(table.getPartitionKeys()) ? table.getPartitionKeys() : Collections.emptyList());
+                    columns.stream().forEach(column -> {
+                        MetaSchemaEntity schema = new MetaSchemaEntity();
+                        schema.setName(column.getName());
+                        schema.setCode(String.valueOf(column.getId()));
+                        schemas.add(schema);
+                    });
 
                     break;
 

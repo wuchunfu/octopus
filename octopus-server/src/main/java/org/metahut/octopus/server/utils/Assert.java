@@ -21,6 +21,12 @@ public class Assert {
         }
     }
 
+    public static void exists(@Nullable Optional optional, StatusEnum status, @Nullable Object... args) {
+        if (optional.isPresent()) {
+            throw new BusinessException(status, args);
+        }
+    }
+
     public static void notNull(@Nullable Object object, StatusEnum status, @Nullable Object... args) {
         if (object == null) {
             throw new BusinessException(status, args);
@@ -42,4 +48,15 @@ public class Assert {
             throw new BusinessException(status, args);
         }
     }
+
+    public static void assertTrue(boolean bool, StatusEnum status, @Nullable Object... args) {
+        if (bool) {
+            throw new BusinessException(status, args);
+        }
+    }
+
+    public static void assertFalse(boolean bool, StatusEnum status, @Nullable Object... args) {
+        assertTrue(!bool, status, args);
+    }
+
 }

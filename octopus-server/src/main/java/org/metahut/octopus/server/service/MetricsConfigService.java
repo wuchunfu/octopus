@@ -20,4 +20,6 @@ public interface MetricsConfigService {
     MetricsConfigResponseDTO findByCode(Long metricsConfigCode);
 
     MetricsConfig findOneByCode(Long metricsConfigCode);
+
+    long count(MetricsConfigConditionsRequestDTO requestDTO);
 }

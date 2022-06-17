@@ -119,7 +119,7 @@ public class ClickhouseMonitorDBSource implements IMonitorDBSource {
     public PageResponse<MonitorLog> queryMonitorLogListPage(MonitorLogRequest request) {
 
         StringBuilder builder = new StringBuilder("select id,rule_instance_code,datasource_code,dataset_code,metrics_code,metrics_config_code,subject_code,subject_category,"
-            + "check_type,check_method,comparison_method,expected_value,result,error,error_info,error_time,create_time "
+            + "check_type,check_method,comparison_method,comparison_unit,expected_value,result,error,error_info,error_time,create_time "
             + "from monitor_rule_log_all");
 
         List<Object> parameters = new ArrayList<>();

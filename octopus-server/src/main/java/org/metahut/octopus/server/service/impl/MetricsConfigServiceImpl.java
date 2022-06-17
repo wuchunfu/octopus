@@ -133,4 +133,21 @@ public class MetricsConfigServiceImpl implements MetricsConfigService {
         Assert.notPresent(optional, METRICS_CONFIG_NOT_EXIST, code);
         return optional.get();
     }
+
+    @Override
+    public long count(MetricsConfigConditionsRequestDTO requestDTO) {
+        return metricsConfigRepository.count(countConditions(requestDTO));
+    }
+
+    private Specification<MetricsConfig> countConditions(MetricsConfigConditionsRequestDTO requestDTO) {
+        return (root, query, builder) -> {
+            List<Predicate> conditions = new ArrayList<>();
+
+            if (StringUtils.isNotBlank(requestDTO.getMetricsCode())) {
+                conditions.add(builder.equal(root.get(MetricsConfig_.metrics).get(Metrics_.code), requestDTO.getMetricsCode()));
+            }
+
+            return builder.and(conditions.toArray(new Predicate[conditions.size()]));
+        };
+    }
 }

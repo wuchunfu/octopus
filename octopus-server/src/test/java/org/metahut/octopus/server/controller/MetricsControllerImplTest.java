@@ -46,8 +46,8 @@ public class MetricsControllerImplTest extends WebMvcApplicationTest {
     @Test
     public void testCreate() throws Exception {
         MetricsCreateOrUpdateRequestDTO requestDTO = new MetricsCreateOrUpdateRequestDTO();
-        requestDTO.setCode("count1");
-        requestDTO.setName("count1");
+        requestDTO.setCode("count2");
+        requestDTO.setName("count2");
         create(requestDTO);
     }
 

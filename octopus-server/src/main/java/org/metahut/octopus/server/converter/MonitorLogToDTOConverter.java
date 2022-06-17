@@ -6,9 +6,11 @@ import org.metahut.octopus.api.dto.MetaSchemaResponseDTO;
 import org.metahut.octopus.api.dto.MetaSchemaSingleResponseDTO;
 import org.metahut.octopus.api.dto.MonitorLogResponseDTO;
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
+import org.metahut.octopus.dao.utils.JSONUtils;
 import org.metahut.octopus.monitordb.api.MonitorLog;
 import org.metahut.octopus.server.service.MetaService;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -23,7 +25,11 @@ import java.util.Optional;
 public abstract class MonitorLogToDTOConverter implements Converter<MonitorLog, MonitorLogResponseDTO> {
 
     @Override
-    @Mappings({@Mapping(source = "source", target = "meta", qualifiedByName = "querySchemaMeta"),@Mapping(source = "error", target = "error", qualifiedByName = "booleanToInt")})
+    @Mappings({
+        @Mapping(source = "source", target = "meta", qualifiedByName = "querySchemaMeta"),
+        @Mapping(source = "error", target = "error", qualifiedByName = "booleanToInt"),
+        @Mapping(source = "expectedValue", target = "expectedValue", qualifiedByName = "strToList")
+    })
     public abstract MonitorLogResponseDTO convert(MonitorLog source);
 
     @Autowired
@@ -57,6 +63,13 @@ public abstract class MonitorLogToDTOConverter implements Converter<MonitorLog, 
     @Named("booleanToInt")
     public boolean booleanToInt(Integer error) {
         return error != null && error == 1;
+    }
+
+    @Named("strToList")
+    public List<String> strToList(String expectedValue) {
+        return JSONUtils.parseObject(expectedValue, new TypeReference<List<String>>() {
+        });
+
     }
 
     public abstract List<MonitorLogResponseDTO> convert(List<MonitorLog> sources);

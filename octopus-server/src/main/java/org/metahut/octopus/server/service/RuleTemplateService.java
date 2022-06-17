@@ -16,4 +16,6 @@ public interface RuleTemplateService {
     void deleteById(Integer id);
 
     List<RuleTemplateResponseDTO> findList(RuleTemplateConditionRequestDTO ruleTemplateRequest);
+
+    long count(RuleTemplateConditionRequestDTO ruleTemplateRequestDTO);
 }

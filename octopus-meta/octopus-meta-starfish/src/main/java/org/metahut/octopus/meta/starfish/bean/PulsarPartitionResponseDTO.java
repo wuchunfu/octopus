@@ -3,10 +3,7 @@ package org.metahut.octopus.meta.starfish.bean;
 import java.util.Date;
 import java.util.List;
 
-/**
- *
- */
-public class PulsarTopicResponseDTO {
+public class PulsarPartitionResponseDTO {
 
     private Long id;
 
@@ -16,11 +13,9 @@ public class PulsarTopicResponseDTO {
 
     private Long backlogSize;
 
-    private PulsarNamespaceResponseDTO namespace;
+    private PulsarTopicResponseDTO topic;
 
-    private List<PulsarSchemaResponseDTO> schemas;
-
-    private List<PulsarPartitionResponseDTO> partitions;
+    private List<PulsarPublisherResponseDTO> publishers;
 
     private Date createTime;
 
@@ -58,28 +53,20 @@ public class PulsarTopicResponseDTO {
         this.backlogSize = backlogSize;
     }
 
-    public PulsarNamespaceResponseDTO getNamespace() {
-        return namespace;
+    public PulsarTopicResponseDTO getTopic() {
+        return topic;
     }
 
-    public void setNamespace(PulsarNamespaceResponseDTO namespace) {
-        this.namespace = namespace;
+    public void setTopic(PulsarTopicResponseDTO topic) {
+        this.topic = topic;
     }
 
-    public List<PulsarSchemaResponseDTO> getSchemas() {
-        return schemas;
+    public List<PulsarPublisherResponseDTO> getPublishers() {
+        return publishers;
     }
 
-    public void setSchemas(List<PulsarSchemaResponseDTO> schemas) {
-        this.schemas = schemas;
-    }
-
-    public List<PulsarPartitionResponseDTO> getPartitions() {
-        return partitions;
-    }
-
-    public void setPartitions(List<PulsarPartitionResponseDTO> partitions) {
-        this.partitions = partitions;
+    public void setPublishers(List<PulsarPublisherResponseDTO> publishers) {
+        this.publishers = publishers;
     }
 
     public Date getCreateTime() {

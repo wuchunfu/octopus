@@ -170,7 +170,7 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
         metricsCreateOrUpdateRequestDTO.setCategory("category");
         metricsCreateOrUpdateRequestDTO.setCode("sum66");
         metricsCreateOrUpdateRequestDTO.setMetricsDimension(MetricsDimensionEnum.INTEGRALITY);
-        metricsCreateOrUpdateRequestDTO.setName("test1");
+        metricsCreateOrUpdateRequestDTO.setName("test66");
         MetricsResponseDTO metrics = createMetrics(metricsCreateOrUpdateRequestDTO);
 
         MetricsConfigCreateOrUpdateRequestDTO metricsConfigCreateOrUpdateRequestDTO = new MetricsConfigCreateOrUpdateRequestDTO();
@@ -235,7 +235,7 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
         metricsCreateOrUpdateRequestDTO.setCategory("category");
         metricsCreateOrUpdateRequestDTO.setCode("sum67");
         metricsCreateOrUpdateRequestDTO.setMetricsDimension(MetricsDimensionEnum.INTEGRALITY);
-        metricsCreateOrUpdateRequestDTO.setName("test1");
+        metricsCreateOrUpdateRequestDTO.setName("test1-67");
         MetricsResponseDTO metrics = createMetrics(metricsCreateOrUpdateRequestDTO);
 
         MetricsConfigCreateOrUpdateRequestDTO metricsConfigCreateOrUpdateRequestDTO = new MetricsConfigCreateOrUpdateRequestDTO();
@@ -348,7 +348,7 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
         metricsCreateOrUpdateRequestDTOUpdate.setCategory("category");
         metricsCreateOrUpdateRequestDTOUpdate.setCode("sum67-update");
         metricsCreateOrUpdateRequestDTOUpdate.setMetricsDimension(MetricsDimensionEnum.INTEGRALITY);
-        metricsCreateOrUpdateRequestDTOUpdate.setName("test1");
+        metricsCreateOrUpdateRequestDTOUpdate.setName("test67");
         MetricsResponseDTO metricsUpdate = createMetrics(metricsCreateOrUpdateRequestDTOUpdate);
 
         MetricsConfigCreateOrUpdateRequestDTO metricsConfigCreateOrUpdateRequestDTOUpdate = new MetricsConfigCreateOrUpdateRequestDTO();

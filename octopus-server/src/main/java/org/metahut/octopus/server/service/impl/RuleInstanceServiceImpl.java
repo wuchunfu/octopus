@@ -11,7 +11,6 @@ import org.metahut.octopus.dao.entity.Metrics_;
 import org.metahut.octopus.dao.entity.RuleInstance;
 import org.metahut.octopus.dao.entity.RuleInstance_;
 import org.metahut.octopus.dao.repository.RuleInstanceRepository;
-import org.metahut.octopus.server.service.MetricsConfigService;
 import org.metahut.octopus.server.service.RuleInstanceService;
 import org.metahut.octopus.server.utils.Assert;
 
@@ -40,13 +39,11 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
 
     private final RuleInstanceRepository ruleInstanceRepository;
     private final ConversionService conversionService;
-    private final MetricsConfigService metricsConfigService;
 
     public RuleInstanceServiceImpl(RuleInstanceRepository ruleInstanceRepository,
-                                   ConversionService conversionService, MetricsConfigService metricsConfigService) {
+                                   ConversionService conversionService) {
         this.ruleInstanceRepository = ruleInstanceRepository;
         this.conversionService = conversionService;
-        this.metricsConfigService = metricsConfigService;
     }
 
     @Override
@@ -111,9 +108,26 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
         };
 
         List<RuleInstanceResponseDTO> convert = (List<RuleInstanceResponseDTO>) conversionService.convert(ruleInstanceRepository.findAll(specification),
-                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleInstance.class)),
-                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleInstanceResponseDTO.class)));
+            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleInstance.class)),
+            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleInstanceResponseDTO.class)));
         List<String> ruleExists = convert.stream().map(i -> i.getSubjectCode()).collect(Collectors.toList());
         Assert.empty(convert, RULE_INSTANCE_EXIST, ruleExists);
+    }
+
+    @Override
+    public long count(RuleInstanceConditionRequestDTO requestDTO) {
+        return ruleInstanceRepository.count(countConditions(requestDTO));
+    }
+
+    private Specification<RuleInstance> countConditions(RuleInstanceConditionRequestDTO requestDTO) {
+        return (root, query, builder) -> {
+            List<Predicate> conditions = new ArrayList<>();
+
+            if (StringUtils.isNotBlank(requestDTO.getMetricsCode())) {
+                conditions.add(builder.equal(root.get(RuleInstance_.metrics).get(Metrics_.code), requestDTO.getMetricsCode()));
+            }
+
+            return builder.and(conditions.toArray(new Predicate[conditions.size()]));
+        };
     }
 }
