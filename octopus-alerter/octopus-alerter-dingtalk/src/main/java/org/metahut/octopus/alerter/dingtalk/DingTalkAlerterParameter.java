@@ -3,6 +3,7 @@ package org.metahut.octopus.alerter.dingtalk;
 import org.metahut.octopus.alerter.api.AbstractAlerterParameter;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.BooleanUtils;
 
 import java.util.List;
 import java.util.Objects;
@@ -15,7 +16,7 @@ public class DingTalkAlerterParameter extends AbstractAlerterParameter {
 
     private List<String> userList;
 
-    private DingTalkMsgType dingTalkMsgType;
+    private MsgTypeEnum msgType;
 
     @Override
     public boolean checkParameter() {
@@ -26,10 +27,7 @@ public class DingTalkAlerterParameter extends AbstractAlerterParameter {
     }
 
     public Boolean getAtAll() {
-        if (Objects.isNull(getAtAll())) {
-            atAll = false;
-        }
-        return atAll;
+        return BooleanUtils.toBoolean(atAll);
     }
 
     public void setAtAll(Boolean atAll) {
@@ -52,14 +50,14 @@ public class DingTalkAlerterParameter extends AbstractAlerterParameter {
         this.userList = userList;
     }
 
-    public DingTalkMsgType getDingTalkMsgType() {
-        if (Objects.isNull(dingTalkMsgType)) {
-            dingTalkMsgType = DingTalkMsgType.TEXT;
+    public MsgTypeEnum getMsgType() {
+        if (Objects.isNull(msgType)) {
+            msgType = MsgTypeEnum.TEXT;
         }
-        return dingTalkMsgType;
+        return msgType;
     }
 
-    public void setDingTalkMsgType(DingTalkMsgType dingTalkMsgType) {
-        this.dingTalkMsgType = dingTalkMsgType;
+    public void setMsgType(MsgTypeEnum msgType) {
+        this.msgType = msgType;
     }
 }

@@ -1,8 +1,9 @@
 package org.metahut.octopus.monitordb.api;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class MonitorLog {
+public class MonitorLog implements Serializable {
 
     private String id;
 
@@ -33,6 +34,8 @@ public class MonitorLog {
     private String comparisonMethod;
 
     private String comparisonUnit;
+
+    private String metricsValue;
 
     private String expectedValue;
 
@@ -220,5 +223,13 @@ public class MonitorLog {
 
     public void setScheduleTime(Date scheduleTime) {
         this.scheduleTime = scheduleTime;
+    }
+
+    public String getMetricsValue() {
+        return metricsValue;
+    }
+
+    public void setMetricsValue(String metricsValue) {
+        this.metricsValue = metricsValue;
     }
 }

@@ -211,13 +211,9 @@ public class ClickhouseMonitorDBSource implements IMonitorDBSource {
         Preconditions.checkArgument(Objects.nonNull(model) && StringUtils.isNotBlank(table), "The arguments of model and table can not be null.");
         StringBuilder columnsBuilder = new StringBuilder();
         StringBuilder valuesBuilder = new StringBuilder();
+        StringBuilder wholeBuilder = new StringBuilder();
         try {
             Field[] fields = model.getClass().getDeclaredFields();
-            columnsBuilder.append("insert into ");
-            if (StringUtils.isNotBlank(database)) {
-                columnsBuilder.append(database).append(".");
-            }
-            columnsBuilder.append(table).append("(");
             for (int i = 0; i < fields.length; i++) {
                 Field field = fields[i];
                 field.setAccessible(true);
@@ -242,13 +238,29 @@ public class ClickhouseMonitorDBSource implements IMonitorDBSource {
                     }
                 }
             }
-            columnsBuilder.append(") values(");
-            columnsBuilder.append(valuesBuilder);
-            columnsBuilder.append(")");
+
+            if (columnsBuilder.charAt(columnsBuilder.length() - 1) == ',') {
+                columnsBuilder = columnsBuilder.deleteCharAt(columnsBuilder.length() - 1);
+            }
+
+            if (valuesBuilder.charAt(valuesBuilder.length() - 1) == ',') {
+                valuesBuilder = valuesBuilder.deleteCharAt(valuesBuilder.length() - 1);
+            }
+
+            wholeBuilder.append("insert into ");
+            if (StringUtils.isNotBlank(database)) {
+                wholeBuilder.append(database).append(".");
+            }
+            wholeBuilder.append(table).append("(");
+            wholeBuilder.append(columnsBuilder);
+
+            wholeBuilder.append(") values(");
+            wholeBuilder.append(valuesBuilder);
+            wholeBuilder.append(")");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return columnsBuilder.toString();
+        return wholeBuilder.toString();
     }
 
     @Override

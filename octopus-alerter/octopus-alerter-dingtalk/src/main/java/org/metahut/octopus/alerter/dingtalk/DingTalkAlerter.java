@@ -19,6 +19,7 @@ import java.time.Instant;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class DingTalkAlerter implements IAlerter {
 
@@ -47,6 +48,18 @@ public class DingTalkAlerter implements IAlerter {
         return new AlerterResult(true);
     }
 
+    @Override
+    public AlerterResult sendByTemplate(String titleTemplate, String contentTemplate,
+        Map<String, String> placeholders) {
+        for (Entry<String, String> entry: placeholders.entrySet()) {
+            String key = String.format("${%s}", entry.getKey());
+            String value = StringUtils.isBlank(entry.getValue()) ? "" : entry.getValue();
+            titleTemplate = titleTemplate.replace(key, value);
+            contentTemplate = contentTemplate.replace(key, value);
+        }
+        return send(titleTemplate, contentTemplate);
+    }
+
     private String generateSign(long timestamp) throws NoSuchAlgorithmException, InvalidKeyException, UnsupportedEncodingException {
         String secret = sourceParameter.getSecret();
         String stringToSign = timestamp + "\n" + secret;
@@ -63,12 +76,12 @@ public class DingTalkAlerter implements IAlerter {
         atMap.put("atMobiles", parameter.getMobileList());
         atMap.put("atUserIds", parameter.getUserList());
         reqMap.put("at", atMap);
-        reqMap.put("msgtype", parameter.getDingTalkMsgType().getMessage());
+        reqMap.put("msgtype", parameter.getMsgType().getMessage());
         StringBuilder builder = new StringBuilder(content);
         if (org.apache.commons.lang3.StringUtils.isNotBlank(sourceParameter.getKeyWord())) {
             builder.append(sourceParameter.getKeyWord());
         }
-        if (DingTalkMsgType.MARKDOWN == parameter.getDingTalkMsgType()) {
+        if (MsgTypeEnum.MARKDOWN == parameter.getMsgType()) {
             getMarkDownText(title, builder, reqMap);
         } else {
             getTextContent(title, builder, reqMap);

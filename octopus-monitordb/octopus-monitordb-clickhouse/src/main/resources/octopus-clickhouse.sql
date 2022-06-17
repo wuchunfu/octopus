@@ -59,6 +59,7 @@ CREATE TABLE monitor_rule_log_all
     `check_method`        String,
     `comparison_method`   String,
     `comparison_unit`     String,
+    `metrics_value`       String,
     `expected_value`      String,
     `result`              String,
     `error`               Int8,
@@ -70,5 +71,5 @@ ORDER BY create_time
 PARTITION BY toYYYYMMDD(create_time)
 SETTINGS index_granularity = 8192;
 
--- insert into monitor_rule_log_all(id, rule_instance_code,  window_begin_time, window_size, window_unit, schedule_time, datasource_code, dataset_code, metrics_code, metrics_config_code, subject_code, subject_category, check_type, check_method, comparison_method, comparison_unit, expected_value, result, error, error_info, error_time)
--- values(generateUUIDv4(), 5779276730530,'2022-06-10 12:00:00', 1, 'HOUR', '2022-06-10 13:35:00', '1','01', 'delay', '5637843692320', '12312334', 'TABLE', 'Num', 'FixedValue', 'GT', 'Num', '["20","30"]', 'abcsdfasfd', 1, 'error info', now());
+-- insert into monitor_rule_log_all(id, rule_instance_code,  window_begin_time, window_size, window_unit, schedule_time, datasource_code, dataset_code, metrics_code, metrics_config_code, subject_code, subject_category, check_type, check_method, comparison_method, comparison_unit, metrics_value, expected_value, result, error, error_info, error_time)
+-- values(generateUUIDv4(), 5779276730530,'2022-06-10 12:00:00', 1, 'HOUR', '2022-06-10 13:35:00', '1','01', 'delay', '5637843692320', '12312334', 'TABLE', 'Num', 'FixedValue', 'GT', 'Num', '25', '["20","30"]', 'abcsdfasfd', 1, 'error info', now());

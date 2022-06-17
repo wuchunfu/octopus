@@ -3,9 +3,11 @@ package org.metahut.octopus.alerter.server.controller;
 import org.metahut.octopus.alerter.api.AlerterResult;
 import org.metahut.octopus.alerter.server.dto.AlertSenderBatchSendRequestDTO;
 import org.metahut.octopus.alerter.server.dto.AlertSenderSendRequestDTO;
+import org.metahut.octopus.alerter.server.dto.AlertStructuralRequestDTO;
 import org.metahut.octopus.alerter.server.service.AlertSenderService;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,12 +24,17 @@ public class AlertSenderController {
     }
 
     @PostMapping("batchSend")
-    public List<AlerterResult> batchSend(AlertSenderBatchSendRequestDTO requestDTO) {
+    public List<AlerterResult> batchSend(@RequestBody AlertSenderBatchSendRequestDTO requestDTO) {
+        return alertSenderService.batchSend(requestDTO);
+    }
+
+    @PostMapping("batchSendWithDetails")
+    public List<AlerterResult> batchSend(@RequestBody AlertStructuralRequestDTO requestDTO) {
         return alertSenderService.batchSend(requestDTO);
     }
 
     @PostMapping("send")
-    public AlerterResult send(AlertSenderSendRequestDTO requestDTO) {
+    public AlerterResult send(@RequestBody AlertSenderSendRequestDTO requestDTO) {
         return alertSenderService.send(requestDTO);
     }
 }

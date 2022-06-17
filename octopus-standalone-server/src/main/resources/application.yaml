@@ -93,8 +93,8 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/postgres?serverTimezone=CST
-    username: test
-    password: test
+    username: root
+    password: root
 
 ---
 spring:

@@ -1,0 +1,40 @@
+[
+  {
+    "id": "b351d394-3466-4c15-b0a4-2f321013b778",
+    "reportChannel": "",
+    "datasourceCode": "01",
+    "datasourceCode": "IDC-DW",
+    "datasetCode": "01",
+    "datasetName": "clickstream",
+    "subjectCode": "507",
+    "subjectCategory": "TABLE",
+    "metricsCode": "count",
+    "metricsName": "产出量指标",
+    "metricsConfigCode": 5637843692320,
+    "metricsUniqueKey": "TABLE-507-count-null",
+    "metricsValue": "20.0",
+    "windowBeginTime": "2022-05-26 13:00:00",
+    "windowSize": 1,
+    "windowUnit": "HOUR",
+    "scheduleTime": "2022-06-14 13:10:20",
+    "sendDate": "2022-06-14 18:00:37",
+    "ruleInstances": [
+      {
+        "ruleInstanceCode": 5856993537314,
+        "checkType": "Number",
+        "checkMethod": "FIXED_VALUE",
+        "comparisonUnit": "Num",
+        "comparisonMethod": "EQ",
+        "expectedValue": ["20"]
+      },
+      {
+        "ruleInstanceCode": 5856993537314,
+        "checkType": "Fluctuation",
+        "checkMethod": "SEVEN_DAY_AVERAGE",
+        "comparisonUnit": "Num",
+        "comparisonMethod": "GT",
+        "expectedValue": ["0.1"]
+      }
+    ]
+  }
+]

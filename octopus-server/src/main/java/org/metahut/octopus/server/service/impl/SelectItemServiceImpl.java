@@ -2,6 +2,7 @@ package org.metahut.octopus.server.service.impl;
 
 import org.metahut.octopus.api.dto.SelectItemRequestDTO;
 import org.metahut.octopus.api.dto.SelectItemResponseDTO;
+import org.metahut.octopus.common.enums.CheckMethodEnum;
 import org.metahut.octopus.common.enums.MetricsDimensionEnum;
 import org.metahut.octopus.common.enums.SelectItemNameEnum;
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
@@ -101,8 +102,9 @@ public class SelectItemServiceImpl implements SelectItemService {
         // TODO query metadata interface
 
         List<SelectItemResponseDTO> list = new ArrayList<>();
-        list.add(SelectItemResponseDTO.of("FixedValue", "与固定值比较"));
-        list.add(SelectItemResponseDTO.of("7-DayAverage", "7天平均值波动"));
+        for (CheckMethodEnum checkMethodEnum : CheckMethodEnum.values()) {
+            list.add(SelectItemResponseDTO.of(checkMethodEnum, checkMethodEnum.getName()));
+        }
         return list;
     }
 

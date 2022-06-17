@@ -20,6 +20,7 @@ import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
 import java.util.stream.Collectors;
@@ -71,6 +72,14 @@ public class EmailAlerter implements IAlerter {
         }
 
         return new AlerterResult(true);
+    }
+
+    @Override
+    public AlerterResult sendByTemplate(String titleTemplate, String contentTemplate,
+        Map<String, String> placeholders) {
+        String title = titleTemplate;
+        String content = contentTemplate;
+        return send(title, content);
     }
 
     public void createTextMsg(Message mailMessage, String title, String content) throws MessagingException {

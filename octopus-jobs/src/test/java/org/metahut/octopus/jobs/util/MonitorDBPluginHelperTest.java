@@ -69,11 +69,12 @@ public class MonitorDBPluginHelperTest {
         monitorLog.setSubjectCode("12312312");
         monitorLog.setSubjectCategory("TABLE");
         monitorLog.setMetricsCode("delay");
-        monitorLog.setCheckType("Num");
+        monitorLog.setCheckType("Number");
         monitorLog.setCheckMethod("FixedValue");
         monitorLog.setComparisonMethod("GT");
         monitorLog.setComparisonUnit("Num");
         monitorLog.setExpectedValue("[\"20\",\"30\"]");
+        monitorLog.setMetricsValue("25");
         monitorLog.setResult("abcsdfasfd");
         monitorLog.setError(1);
         monitorLog.setErrorInfo("error info");
@@ -92,7 +93,7 @@ public class MonitorDBPluginHelperTest {
 
     @ParameterizedTest
     @MethodSource("generateMonitorLog")
-    public void saveMonitorResultTest(MonitorLog monitorLog) {
+    public void saveMonitorLogTest(MonitorLog monitorLog) {
         IMonitorDBSource monitorDBSource = MonitorDBPluginHelper.getMonitorDBSource();
         int affectedRecords = monitorDBSource.saveMonitorLog(monitorLog);
         Assertions.assertEquals(1, affectedRecords);
