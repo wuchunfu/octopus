@@ -6,6 +6,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
@@ -19,7 +20,8 @@ public class HttpUtils {
         if (httpClient == null) {
             synchronized (HttpUtils.class) {
                 if (httpClient == null) {
-                    httpClient = HttpClients.createDefault();
+                    // retryCount 3
+                    httpClient = HttpClients.custom().setRetryHandler(new DefaultHttpRequestRetryHandler()).build();
                 }
             }
 
@@ -50,21 +52,17 @@ public class HttpUtils {
     }
 
     //httpGet
-    public static String get(String url) {
+    public static String get(String url) throws IOException {
         String responseMsg = null;
-        try {
-            HttpGet httpGet = new HttpGet(url);
-            RequestConfig config = RequestConfig.custom().setConnectionRequestTimeout(5000).setSocketTimeout(5000).build();
-            httpGet.setHeader("Content-Type", "application/json;charset=utf-8");
-            httpGet.setConfig(config);
+        HttpGet httpGet = new HttpGet(url);
+        RequestConfig config = RequestConfig.custom().setConnectionRequestTimeout(5000).setSocketTimeout(5000).build();
+        httpGet.setHeader("Content-Type", "application/json;charset=utf-8");
+        httpGet.setConfig(config);
 
-            CloseableHttpResponse response = getHttpClient().execute(httpGet);
-            if (response != null) {
-                responseMsg = EntityUtils.toString(response.getEntity(),"utf-8");
-                response.close();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        CloseableHttpResponse response = getHttpClient().execute(httpGet);
+        if (response != null) {
+            responseMsg = EntityUtils.toString(response.getEntity(),"utf-8");
+            response.close();
         }
         return responseMsg;
     }

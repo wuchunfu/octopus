@@ -1,5 +1,6 @@
 package org.metahut.octopus.jobs.job;
 
+import org.metahut.octopus.jobs.common.DateTimeFieldConfig;
 import org.metahut.octopus.jobs.common.MetaDatasetResponseDTO;
 import org.metahut.octopus.jobs.common.MetaSchemaSingleResponseDTO;
 import org.metahut.octopus.jobs.common.MetricInfo;
@@ -44,25 +45,27 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class OfflineHiveMetrics {
     private static StreamTableEnvironment tableEnvironment;
-    private static final String serviceUrl = "pulsar://pulsar-idc-qa.zpidc.com:6650";
-    private static final String adminUrl = "http://pulsar-idc-qa.zpidc.com:8080";
-    private static final String topic = "persistent://data/uu/octopus.metrics.result";
 
     private static volatile Map<String, String> metaSchemasMap = new ConcurrentHashMap<>();
-    private static volatile JSONObject sampleInstanceJson = null;
     private static volatile Map<MetricInfo, List<RuleInstance>> ruleInstancesMap = new ConcurrentHashMap<>();
     private static volatile String tableName = null;
     private static volatile String database = null;
     private static volatile String fullTableName = null;
     private static volatile Date scheduleTime = null;  //new Date()
+    private static volatile String flowCode = null;
     private static final IMonitorDBSource monitorDBSource = MonitorDBPluginHelper.getMonitorDBSource();
 
     public static void main(String[] args) throws Exception {
-        // -- schduleTIme 2022-06-14 13:10:20
+        ParameterTool parameterToolConfig = ParameterTool.fromPropertiesFile("/data/online/octopus-jobs/flink/conf/config.properties");
+
+        // --schduleTIme "2022-06-15 13:10:20"
         ParameterTool parameterTool = ParameterTool.fromArgs(args);
         String schduleTimeStr = parameterTool.get("schduleTIme");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         scheduleTime = sdf.parse(schduleTimeStr);
+
+        //--flowCode 5856993537312
+        flowCode = parameterTool.get("flowCode");
 
         EnvironmentSettings settings = EnvironmentSettings.newInstance()
                 .inBatchMode()
@@ -79,7 +82,7 @@ public class OfflineHiveMetrics {
         configuration.setString("table.optimizer.agg-phase-strategy", "TWO_PHASE"); // enable two-phase, i.e. local-global aggregation
 
         // register catalog
-        HiveCatalog hiveCatalog = new HiveCatalog("myhive", "default", "./octopus-jobs/src/main/resources/", "3.1.0");
+        HiveCatalog hiveCatalog = new HiveCatalog("myhive", "default", "/data/online/octopus-jobs/flink/conf", "3.1.0");
         // HiveCatalog hiveCatalog = new HiveCatalog("myhive", "dmm", "/data/online/octopus-jobs/flink/conf", "3.1.0");
         tableEnvironment.registerCatalog("myhive", hiveCatalog);
         tableEnvironment.loadModule("myhive", new HiveModule("3.1.0"));
@@ -87,9 +90,11 @@ public class OfflineHiveMetrics {
         //register udf
         //registerUdf("insert_metrics_clickhouse", "org.metahut.octopus.jobs.udf.InsertMetricsToClickhouse");
 
-        String flowResponse = HttpUtils.get("https://qinglong-pre.dev.zhaopin.com/quality/monitorFlowDefinition/5856993537312");
-
+        String flowResponse = HttpUtils.get(parameterToolConfig.get("INTERFACE_URL") + flowCode);
         JSONObject flowResponseJson = JSONObject.parseObject(flowResponse);
+        if (flowResponseJson.getInteger("code") != 200) {
+            throw new RuntimeException("the interface responses error: \n" + flowResponse);
+        }
         String flowResponseData = flowResponseJson.getString("data");
         ObjectMapper objectMapper = new ObjectMapper();
         MonitorFlowDefinitionResponseDTO flowInstance = objectMapper.readValue(flowResponseData, MonitorFlowDefinitionResponseDTO.class);
@@ -100,28 +105,55 @@ public class OfflineHiveMetrics {
         Date windowBeginTime = null;
         Calendar cal = Calendar.getInstance();
         cal.setTime(scheduleTime);
-        String timecConditionsPre = "";
-        String dateTimeField = flowInstance.getDateTimeFields().get(0).getName();
-        String dateTimeFormat = flowInstance.getDateTimeFields().get(0).getFormat();
-        String type = flowInstance.getDateTimeFields().get(0).getType();
-        if (type.equals("string")) {
-            timecConditionsPre = "where ${dateTimeField} >= '${beginTime}' and ${dateTimeField}< '${endTime}'";
-        } else if (type.equals("int")) {
-            timecConditionsPre = "where ${dateTimeField} >= ${beginTime} and ${dateTimeField}< ${endTime}";
-        }
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateTimeFormat);
-        String beginTime = null;
-        String endTime = simpleDateFormat.format(scheduleTime);
+        String timeConditions = "";
+        String conditions = null;
         switch (windowUnit) {
             case DAY:
                 cal.add(Calendar.DAY_OF_MONTH, -windowSize);
                 windowBeginTime = cal.getTime();
-                beginTime = simpleDateFormat.format(windowBeginTime);
+                String dateTimeField = flowInstance.getDateTimeFields().get(0).getName();
+                String dateTimeFormat = flowInstance.getDateTimeFields().get(0).getFormat();
+                SimpleDateFormat simpleDayFormat = new SimpleDateFormat(dateTimeFormat);
+                String dayBeginTime = simpleDayFormat.format(windowBeginTime);
+                String dayEndTime = simpleDayFormat.format(scheduleTime);
+                String dayType = flowInstance.getDateTimeFields().get(0).getType();
+                timeConditions = getTimeConditions(dayType, dateTimeField, dayBeginTime, dayEndTime);
+
+                conditions = "where " + timeConditions;
                 break;
             case HOUR:
                 cal.add(Calendar.HOUR_OF_DAY, -windowSize);
                 windowBeginTime = cal.getTime();
-                beginTime = simpleDateFormat.format(windowBeginTime);
+                String filterCondition = "";
+                List<DateTimeFieldConfig> dateTimeFields = flowInstance.getDateTimeFields();
+                for (DateTimeFieldConfig timeField : dateTimeFields) {
+                    if (timeField.getFormat().equals("HH") || timeField.getFormat().equals("hh")) {
+                        String hourtype = timeField.getType();
+                        String hourTimeField = timeField.getName();
+                        //"hour" is the flink key word
+                        if (hourTimeField.equals("hour")) {
+                            hourTimeField = "`hour`";
+                        }
+                        String hourTimeFormat = timeField.getFormat();
+                        SimpleDateFormat simplehourFormat = new SimpleDateFormat(hourTimeFormat);
+                        String beginTime = simplehourFormat.format(windowBeginTime);
+                        String endTime = simplehourFormat.format(scheduleTime);
+                        timeConditions = getTimeConditions(hourtype, hourTimeField, beginTime, endTime);
+                    } else {
+                        String filterFiledType = timeField.getType();
+                        String filterFiledFormat = timeField.getFormat();
+                        String fiterFiledName = timeField.getName();
+
+                        String filterTime = new SimpleDateFormat(filterFiledFormat).format(scheduleTime);
+                        if (filterFiledType.equals("string")) {
+                            filterCondition = fiterFiledName + "='" + filterTime + "'";
+                        } else if (filterFiledType.equals("int")) {
+                            filterCondition = fiterFiledName + "=" + filterTime;
+                        }
+                    }
+
+                }
+                conditions = "where " + filterCondition + " and " + timeConditions;
                 break;
             case MINUTE:
                 cal.add(Calendar.MINUTE, -windowSize);
@@ -131,9 +163,6 @@ public class OfflineHiveMetrics {
                 throw new Exception(
                         "Unsupported windowUnit.");
         }
-        String timeConditions = timecConditionsPre.replaceAll("\\$\\{dateTimeField\\}",dateTimeField)
-                .replaceAll("\\$\\{beginTime\\}",beginTime)
-                .replaceAll("\\$\\{endTime\\}",endTime);
 
         //get meta info
         MetaDatasetResponseDTO meta = flowInstance.getMeta();
@@ -141,7 +170,9 @@ public class OfflineHiveMetrics {
         database = meta.getDatabase().getName();
         fullTableName = database + "." + tableName;
         String datasourceCode = meta.getDatasource().getCode();
+        String datasourceName = meta.getDatasource().getName();
         String datasetCode = meta.getCode();
+        String datasetName = meta.getName();
         Collection<MetaSchemaSingleResponseDTO> schemas = meta.getSchemas();
         for (MetaSchemaSingleResponseDTO schema : schemas) {
             metaSchemasMap.put(schema.getCode(), schema.getName());
@@ -158,7 +189,7 @@ public class OfflineHiveMetrics {
             String parameter = sampleInstance.getParameter();
             JSONObject parameterJson = JSONObject.parseObject(parameter);
             int number = parameterJson.getInteger("number");
-            viewSamples = MessageFormat.format(viewSamplesPre, fullTableName, timeConditions, (float)number / 100);
+            viewSamples = MessageFormat.format(viewSamplesPre, fullTableName, conditions, (float)number / 100);
         }
 
         //get ruleInstances info
@@ -168,13 +199,16 @@ public class OfflineHiveMetrics {
             metricInfo.setId(UUID.randomUUID().toString());
             metricInfo.setReportChannel("");
             metricInfo.setDatasourceCode(datasourceCode);
+            metricInfo.setDatasourceName(datasourceName);
             metricInfo.setDatasetCode(datasetCode);
+            metricInfo.setDatasetName(datasetName);
             metricInfo.setSubjectCode(ruleInstanceResponseDTO.getSubjectCode());
             metricInfo.setSubjectCategory(ruleInstanceResponseDTO.getSubjectCategory().toString());
             metricInfo.setMetricsCode(ruleInstanceResponseDTO.getMetrics().getCode());
+            metricInfo.setMetricsName(ruleInstanceResponseDTO.getMetrics().getName());
             metricInfo.setMetricsConfigCode(ruleInstanceResponseDTO.getMetricsConfig().getCode());
             metricInfo.setMetricsUniqueKey(ruleInstanceResponseDTO.getMetricsUniqueKey());
-            metricInfo.setExecutorScript(ruleInstanceResponseDTO.getMetricsConfig().getExecutorScript() + " " + timeConditions);
+            metricInfo.setExecutorScript(ruleInstanceResponseDTO.getMetricsConfig().getExecutorScript() + " " + conditions);
             metricInfo.setWindowBeginTime(windowBeginTime);
             metricInfo.setWindowSize(windowSize);
             metricInfo.setWindowUnit(windowUnit.toString());
@@ -211,9 +245,9 @@ public class OfflineHiveMetrics {
 
         //sink
         PulsarSink<String> sink = PulsarSink.builder()
-                .setServiceUrl(serviceUrl)
-                .setAdminUrl(adminUrl)
-                .setTopics(topic)
+                .setServiceUrl(parameterToolConfig.get("SERVICE_URL"))
+                .setAdminUrl(parameterToolConfig.get("ADMIN_URL"))
+                .setTopics(parameterToolConfig.get("TOPIC"))
                 .setSerializationSchema(PulsarSerializationSchema.flinkSchema(new SimpleStringSchema()))
                 //  .setDeliverGuarantee(DeliveryGuarantee.AT_LEAST_ONCE)
                 .build();
@@ -230,14 +264,14 @@ public class OfflineHiveMetrics {
                 if (metricInfo.getSampleFlag().equals(Boolean.TRUE)) {
                     metricSql = metricSqlPre.replaceAll("\\$\\{table\\}","view_samples");
                 } else {
-                    metricSql = metricSqlPre.replaceAll("\\$\\{table\\}",fullTableName);
+                    metricSql = metricSqlPre.replaceAll("\\$\\{table\\}","myhive." + fullTableName);
                 }
             } else {
                 if (metricInfo.getSampleFlag().equals(Boolean.TRUE)) {
                     String metricSqlPreTwo = metricSqlPre.replaceAll("\\$\\{table\\}","view_samples");
                     metricSql = metricSqlPreTwo.replaceAll("\\$\\{field\\}",metaSchemasMap.get(subjectCode));
                 } else {
-                    String metricSqlPreTwo = metricSqlPre.replaceAll("\\$\\{table\\}",fullTableName);
+                    String metricSqlPreTwo = metricSqlPre.replaceAll("\\$\\{table\\}","myhive." + fullTableName);
                     metricSql = metricSqlPreTwo.replaceAll("\\$\\{field\\}",metaSchemasMap.get(subjectCode));
                 }
             }
@@ -274,10 +308,13 @@ public class OfflineHiveMetrics {
                         metricMessage.setId(metricInfo.getId());
                         metricMessage.setReportChannel(metricInfo.getReportChannel());
                         metricMessage.setDatasourceCode(metricInfo.getDatasourceCode());
+                        metricMessage.setDatasourceName(metricInfo.getDatasourceName());
                         metricMessage.setDatasetCode(metricInfo.getDatasetCode());
+                        metricMessage.setDatasetName(metricInfo.getDatasetName());
                         metricMessage.setSubjectCode(metricInfo.getSubjectCode());
                         metricMessage.setSubjectCategory(metricInfo.getSubjectCategory().toString());
                         metricMessage.setMetricsCode(metricInfo.getMetricsCode());
+                        metricMessage.setMetricsName(metricInfo.getMetricsName());
                         metricMessage.setMetricsConfigCode(metricInfo.getMetricsConfigCode());
                         metricMessage.setMetricsUniqueKey(metricInfo.getMetricsUniqueKey());
                         if (data.getMetricsValue() == null && metricInfo.getMetricsCode().equals("null_rate")) {
@@ -310,4 +347,19 @@ public class OfflineHiveMetrics {
 
         tableEnvironment.createTemporarySystemFunction(funcName, udfFunc);
     }*/
+
+    public static String getTimeConditions(String type, String dateTimeField, String beginTime, String endTime) {
+        String timeConditionsPre = null;
+        if (type.equals("string")) {
+            timeConditionsPre = " ${dateTimeField} >= '${beginTime}' and ${dateTimeField}< '${endTime}'";
+        } else if (type.equals("int")) {
+            timeConditionsPre = " ${dateTimeField} >= ${beginTime} and ${dateTimeField}< ${endTime}";
+        }
+
+        String timeConditions = timeConditionsPre.replaceAll("\\$\\{dateTimeField\\}",dateTimeField)
+                .replaceAll("\\$\\{beginTime\\}",beginTime)
+                .replaceAll("\\$\\{endTime\\}",endTime);
+
+        return timeConditions;
+    }
 }

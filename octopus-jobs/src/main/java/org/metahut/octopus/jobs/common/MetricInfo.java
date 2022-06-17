@@ -9,10 +9,13 @@ public class MetricInfo implements Serializable {
     private String id;
     private String reportChannel;
     private String datasourceCode;
+    private String datasourceName;
     private String datasetCode;
+    private String datasetName;
     private String subjectCode;
     private String subjectCategory;
     private String metricsCode;
+    private String metricsName;
     private Long metricsConfigCode;
     private String metricsUniqueKey;
     private Date windowBeginTime;
@@ -140,6 +143,30 @@ public class MetricInfo implements Serializable {
 
     public void setSampleFlag(Boolean sampleFlag) {
         this.sampleFlag = sampleFlag;
+    }
+
+    public String getDatasetName() {
+        return datasetName;
+    }
+
+    public void setDatasetName(String datasetName) {
+        this.datasetName = datasetName;
+    }
+
+    public String getMetricsName() {
+        return metricsName;
+    }
+
+    public void setMetricsName(String metricsName) {
+        this.metricsName = metricsName;
+    }
+
+    public String getDatasourceName() {
+        return datasourceName;
+    }
+
+    public void setDatasourceName(String datasourceName) {
+        this.datasourceName = datasourceName;
     }
 
     @Override
