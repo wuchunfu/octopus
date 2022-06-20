@@ -4,6 +4,7 @@ import org.metahut.octopus.common.enums.CheckMethodEnum;
 import org.metahut.octopus.jobs.common.JSONUtils;
 import org.metahut.octopus.jobs.common.MetricMessage;
 import org.metahut.octopus.jobs.common.MetricRule;
+import org.metahut.octopus.jobs.common.MonitorConfig;
 import org.metahut.octopus.jobs.util.HttpUtils;
 import org.metahut.octopus.jobs.util.MonitorDBPluginHelper;
 import org.metahut.octopus.monitordb.api.IMonitorDBSource;
@@ -45,30 +46,22 @@ import java.util.stream.Collectors;
 
 public class MonitorRuleTask {
 
-    private static final String pulsarServiceUrl = "pulsar://pulsar-qa.zpidc.com:6650";
-    private static final String pulsarAdminUrl = "http://pulsar-idc-qa.zpidc.com:8080";
-    private static final String topicName = "persistent://data/quality/octopus.metrics.result";
-    private static final String subscriptionName = "data.quality.dev";
-    private static final String jobName = "data-quality-monitor";
-
-    private static final String alertService = "http://localhost:8989/alertSender/batchSendWithDetails";
-
-    private static final String monitorRuleLogTable = "monitor_rule_log_all";
     private static final String monitorMetricsResultTable = "monitor_metrics_result_all";
-
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    private static final MonitorConfig monitorConfig = MonitorConfig.getMonitorConfig();
 
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setRuntimeMode(RuntimeExecutionMode.STREAMING);
 
         PulsarSource<String> pulsarSource = PulsarSource.builder()
-            .setServiceUrl(pulsarServiceUrl)
-            .setAdminUrl(pulsarAdminUrl)
+            .setServiceUrl(monitorConfig.getMessageQueue().getPulsar().getServiceUrl())
+            .setAdminUrl(monitorConfig.getMessageQueue().getPulsar().getAdminUrl())
             .setStartCursor(StartCursor.earliest())
-            .setTopics(topicName)
+            .setTopics(monitorConfig.getMessageQueue().getPulsar().getTopic())
             .setDeserializationSchema(PulsarDeserializationSchema.flinkSchema(new SimpleStringSchema()))
-            .setSubscriptionName(subscriptionName)
+            .setSubscriptionName(monitorConfig.getMessageQueue().getPulsar().getSubscriptionName())
             .setSubscriptionType(SubscriptionType.Key_Shared)
             .build();
 
@@ -81,7 +74,7 @@ public class MonitorRuleTask {
         sourceDataStream.flatMap(new EvaluateMonitorRuleFlatMapFunction(), TypeInformation.of(new TypeHint<Tuple2<MetricRule, Integer>>() {}));
         sourceDataStream.print().name("print-sink");
 
-        env.execute(jobName);
+        env.execute(monitorConfig.getMonitorRuleTask().getJobName());
     }
 
     public static final class EvaluateMonitorRuleMapFunction implements MapFunction<String, String> {
@@ -328,7 +321,7 @@ public class MonitorRuleTask {
 
     public static String callAlertService(MetricRule metricRule) {
         String requestBody = JSONUtils.toJSONString(metricRule);
-        return HttpUtils.post(alertService, requestBody);
+        return HttpUtils.post(monitorConfig.getAlertService(), requestBody);
     }
 
 }

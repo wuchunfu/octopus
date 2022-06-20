@@ -1,0 +1,22 @@
+messageQueue:
+  type: pulsar
+  pulsar:
+    serviceUrl: pulsar://pulsar-qa.zpidc.com:6650
+    adminUrl: http://pulsar-idc-qa.zpidc.com:8080
+    topic: persistent://data/quality/octopus.metrics.result
+    subscriptionName: data.quality.dev
+alertService: http://localhost:8989/alertSender/batchSendWithDetails
+monitorFlowDefinitionService: https://localhost:8989/quality/monitorFlowDefinition/
+monitorRuleTask:
+  type: flink
+  jobName: data-quality-monitor
+
+
+monitorStorage:
+  type: clickhouse
+  clickhouse:
+    driverClassName: ru.yandex.clickhouse.ClickHouseDriver
+    # jdbcUrl: jdbc:clickhouse://172.30.240.229:8123/quality
+    jdbcUrl: jdbc:clickhouse://172.17.60.10:8123/quality
+    user: default
+    password:

@@ -36,10 +36,10 @@ public class MonitorRuleTaskTest {
     @Test
     public void buildSQLToQueryAverageValueTest() {
         String expectedSql = "select avg(toDecimal64(metrics_value,4)) as avg,count(1) as items "
-                + "from monitor_metrics_result_all "
-                + "where dataset_code = '35' and metrics_code = 'count' and window_begin_time>='2022-06-08 12:00:00' and window_begin_time<'2022-06-15 12:00:00' and toHour(window_begin_time) = '12' "
-                + "and metrics_value is not null and metrics_value !='null' and metrics_value !='' "
-                + "group by toHour(window_begin_time)";
+            + "from monitor_metrics_result_all "
+            + "where dataset_code = '35' and metrics_code = 'count' and window_begin_time>='2022-06-08 12:00:00' and window_begin_time<'2022-06-15 12:00:00' and toHour(window_begin_time) = '12' "
+            + "and metrics_value is not null and metrics_value !='null' or metrics_value =!'' "
+            + "group by toHour(window_begin_time)";
 
         String beginTime = "2022-06-15 12:00:00";
         Integer days = 7;
@@ -60,11 +60,11 @@ public class MonitorRuleTaskTest {
             windowSize,
             windowUnit
         );
+
         Assertions.assertEquals(expectedSql, sql);
     }
 
     @Test
-    @Disabled
     public void queryAverageValueTest() {
         String beginTime = "2022-05-26 13:00:00";
         int days = 7;
