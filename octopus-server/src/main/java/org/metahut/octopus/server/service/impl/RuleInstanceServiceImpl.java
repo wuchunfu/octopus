@@ -20,6 +20,7 @@ import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -48,11 +49,13 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
 
     @Override
     public PageResponseDTO<RuleInstanceResponseDTO> queryListPage(RuleInstanceConditionRequestDTO requestDTO) {
+        Sort.TypedSort<RuleInstance> typedSort = Sort.sort(RuleInstance.class);
+        Sort sort = typedSort.by(RuleInstance::getUpdateTime).descending();
         Pageable pageable = PageRequest.of(requestDTO.getPageNo() - 1, requestDTO.getPageSize());
         Page<RuleInstance> ruleInstancePage = ruleInstanceRepository.findAll(withConditions(requestDTO), pageable);
-        List<RuleInstanceResponseDTO> convert = (List<RuleInstanceResponseDTO>) conversionService.convert(ruleInstanceRepository.findAll(withConditions(requestDTO)),
-            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleInstance.class)),
-            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleInstanceResponseDTO.class)));
+        List<RuleInstanceResponseDTO> convert = (List<RuleInstanceResponseDTO>) conversionService.convert(ruleInstancePage.getContent(),
+                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleInstance.class)),
+                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleInstanceResponseDTO.class)));
         return PageResponseDTO.of(requestDTO.getPageNo(), ruleInstancePage.getSize(), ruleInstancePage.getTotalElements(), convert);
     }
 

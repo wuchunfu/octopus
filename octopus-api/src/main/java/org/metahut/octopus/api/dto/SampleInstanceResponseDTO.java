@@ -23,6 +23,9 @@ public class SampleInstanceResponseDTO {
     @ApiModelProperty(value = "parameter")
     private String parameter;
 
+    @ApiModelProperty(value = "runtimeParameter")
+    private String runtimeParameter;
+
     @ApiModelProperty(value = "creator")
     private Long creator;
 
@@ -105,5 +108,13 @@ public class SampleInstanceResponseDTO {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getRuntimeParameter() {
+        return runtimeParameter;
+    }
+
+    public void setRuntimeParameter(String runtimeParameter) {
+        this.runtimeParameter = runtimeParameter;
     }
 }

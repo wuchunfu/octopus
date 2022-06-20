@@ -19,6 +19,7 @@ import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -43,12 +44,14 @@ public class RuleTemplateServiceImpl implements RuleTemplateService {
 
     @Override
     public PageResponseDTO<RuleTemplateResponseDTO> queryListPage(RuleTemplateConditionRequestDTO ruleTemplateRequestDTO) {
-        Pageable pageable = PageRequest.of(ruleTemplateRequestDTO.getPageNo() - 1, ruleTemplateRequestDTO.getPageSize());
+        Sort.TypedSort<RuleTemplate> typedSort = Sort.sort(RuleTemplate.class);
+        Sort sort = typedSort.by(RuleTemplate::getUpdateTime).descending();
+        Pageable pageable = PageRequest.of(ruleTemplateRequestDTO.getPageNo() - 1, ruleTemplateRequestDTO.getPageSize(), sort);
         Page<RuleTemplate> ruleTemplatePage = ruleTemplateRespository.findAll(withConditions(ruleTemplateRequestDTO), pageable);
         List<RuleTemplateResponseDTO> convert = (List<RuleTemplateResponseDTO>) conversionService.convert(ruleTemplatePage.getContent(),
-            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleTemplate.class)),
-            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleTemplateResponseDTO.class)));
-        return PageResponseDTO.of(ruleTemplateRequestDTO.getPageNo(), ruleTemplateRequestDTO.getPageSize(), ruleTemplatePage.getTotalElements(), convert);
+                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleTemplate.class)),
+                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleTemplateResponseDTO.class)));
+        return PageResponseDTO.of(ruleTemplateRequestDTO.getPageNo(), ruleTemplatePage.getSize(), ruleTemplatePage.getTotalElements(), convert);
     }
 
     private Specification<RuleTemplate> withConditions(RuleTemplateConditionRequestDTO requestDTO) {
@@ -85,7 +88,6 @@ public class RuleTemplateServiceImpl implements RuleTemplateService {
             if (StringUtils.isNotBlank(requestDTO.getMetricsName())) {
                 conditions.add(builder.like(metricsJoin.get(Metrics_.name), "%" + requestDTO.getMetricsName() + "%"));
             }
-            query.orderBy(builder.desc(root.get(RuleTemplate_.updateTime)));
             return builder.and(conditions.toArray(new Predicate[conditions.size()]));
         };
     }
@@ -105,8 +107,8 @@ public class RuleTemplateServiceImpl implements RuleTemplateService {
     @Override
     public List<RuleTemplateResponseDTO> findList(RuleTemplateConditionRequestDTO ruleTemplateRequest) {
         return (List<RuleTemplateResponseDTO>) conversionService.convert(ruleTemplateRespository.findAll(withConditions(ruleTemplateRequest)),
-            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleTemplate.class)),
-            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleTemplateResponseDTO.class)));
+                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleTemplate.class)),
+                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleTemplateResponseDTO.class)));
     }
 
     @Override
@@ -125,4 +127,5 @@ public class RuleTemplateServiceImpl implements RuleTemplateService {
             return builder.and(conditions.toArray(new Predicate[conditions.size()]));
         };
     }
+
 }

@@ -8,7 +8,7 @@ public enum ComparisonMethodEnum {
     LTE("<="),
     NE("<>"),
     EQ("="),
-    OUTSIDE_THE_INTERVAL("><");
+    OUTSIDE("><");
 
     private String symbol;
 

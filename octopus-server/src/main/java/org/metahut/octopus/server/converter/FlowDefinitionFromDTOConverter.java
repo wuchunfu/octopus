@@ -71,6 +71,9 @@ public abstract class FlowDefinitionFromDTOConverter implements Converter<Monito
         target.getRuleInstances().stream()
                 .filter(ruleInstance -> BooleanUtils.isTrue(ruleInstance.getSample()))
                 .forEach(ruleInstance -> ruleInstance.setSampleInstance(target.getSampleInstance()));
+
+        String parameter = target.getSampleInstance().getParameter();
+        target.getSampleInstance().setRuntimeParameter("{\"method\":\"BLOCK\",\"number\":" + parameter + ", \"unit\": \"percent\"}");
     }
 
 }

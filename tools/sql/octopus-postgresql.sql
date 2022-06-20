@@ -161,7 +161,7 @@ CREATE TABLE tb_octopus_sample_instance
     dataset_code  varchar(64),
     executor_type varchar(64),
     parameter     text,
-
+    runtime_parameter text,
     create_time   timestamp DEFAULT NULL,
     update_time   timestamp DEFAULT NULL,
     creator       int       DEFAULT NULL,

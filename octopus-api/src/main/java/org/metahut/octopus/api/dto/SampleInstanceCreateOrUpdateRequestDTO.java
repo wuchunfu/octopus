@@ -70,6 +70,7 @@ public class SampleInstanceCreateOrUpdateRequestDTO {
     public void setParameter(String parameter) {
         this.parameter = parameter;
     }
+
 }
 
 

@@ -24,6 +24,8 @@ public class SampleInstance extends BaseEntity {
 
     private String parameter;
 
+    private String runtimeParameter;
+
     public Integer getId() {
         return id;
     }
@@ -62,5 +64,13 @@ public class SampleInstance extends BaseEntity {
 
     public void setParameter(String parameter) {
         this.parameter = parameter;
+    }
+
+    public String getRuntimeParameter() {
+        return runtimeParameter;
+    }
+
+    public void setRuntimeParameter(String runtimeParameter) {
+        this.runtimeParameter = runtimeParameter;
     }
 }

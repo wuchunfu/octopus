@@ -102,12 +102,12 @@ public class RuleInstanceControllerImplTest extends WebMvcApplicationTest {
         ruleInstanceSingleCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
         ruleInstanceSingleCreateOrUpdateRequestDTO.setMetricsConfigCode(metricsConfig.getCode());
         ruleInstanceSingleCreateOrUpdateRequestDTO.setSubjectCategory(SubjectCategoryEnum.TABLE);
-        ruleInstanceSingleCreateOrUpdateRequestDTO.setDatasetCode("datasetCode0608");
+        ruleInstanceSingleCreateOrUpdateRequestDTO.setDatasetCode("dataset26");
 
         SampleInstanceCreateOrUpdateRequestDTO sampleInstanceCreateOrUpdateRequestDTO = new SampleInstanceCreateOrUpdateRequestDTO();
         sampleInstanceCreateOrUpdateRequestDTO.setCode(5857119121793L);
         sampleInstanceCreateOrUpdateRequestDTO.setExecutorType("executorType");
-        sampleInstanceCreateOrUpdateRequestDTO.setDatasetCode("dataset61");
+        sampleInstanceCreateOrUpdateRequestDTO.setDatasetCode("dataset26");
         sampleInstanceCreateOrUpdateRequestDTO.setParameter("90");
         ruleInstanceSingleCreateOrUpdateRequestDTO.setSampleInstance(sampleInstanceCreateOrUpdateRequestDTO);
 
