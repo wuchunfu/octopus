@@ -18,11 +18,8 @@
 package org.metahut.octopus.common.utils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.deser.std.DateDeserializers.DateDeserializer;
-import com.fasterxml.jackson.databind.deser.std.DateDeserializers.SqlDateDeserializer;
-import com.fasterxml.jackson.databind.deser.std.DateDeserializers.TimestampDeserializer;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +31,7 @@ import static com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_UNQUOTED_FIELD
 import static com.fasterxml.jackson.databind.DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT;
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 import static com.fasterxml.jackson.databind.DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL;
+import static com.fasterxml.jackson.databind.DeserializationFeature.UNWRAP_SINGLE_VALUE_ARRAYS;
 
 public class JSONUtils {
 
@@ -48,13 +46,10 @@ public class JSONUtils {
         OBJECT_MAPPER.configure(ALLOW_UNQUOTED_FIELD_NAMES, true)
             .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
             .configure(ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT, true)
-            .configure(READ_UNKNOWN_ENUM_VALUES_AS_NULL, true);
+            .configure(READ_UNKNOWN_ENUM_VALUES_AS_NULL, true)
+            .configure(UNWRAP_SINGLE_VALUE_ARRAYS,true)
+            .setDateFormat(new ZhStdDateFormat());
 
-        SimpleModule module = new SimpleModule();
-        module.addDeserializer(java.util.Date.class, new DateDeserializer());
-        module.addDeserializer(java.sql.Date.class, new SqlDateDeserializer());
-        module.addDeserializer(java.sql.Timestamp.class, new TimestampDeserializer());
-        OBJECT_MAPPER.registerModule(module);
     }
 
     public static ObjectMapper getObjectMapper() {

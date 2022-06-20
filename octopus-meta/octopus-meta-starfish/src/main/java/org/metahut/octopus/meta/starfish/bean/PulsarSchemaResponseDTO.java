@@ -13,9 +13,9 @@ public class PulsarSchemaResponseDTO {
 
     private String type;
 
-    private String definition;
+    private Object definition;
 
-    private String schema;
+    private Object schema;
 
     private Date createTime;
 
@@ -45,22 +45,6 @@ public class PulsarSchemaResponseDTO {
         this.type = type;
     }
 
-    public String getDefinition() {
-        return definition;
-    }
-
-    public void setDefinition(String definition) {
-        this.definition = definition;
-    }
-
-    public String getSchema() {
-        return schema;
-    }
-
-    public void setSchema(String schema) {
-        this.schema = schema;
-    }
-
     public Date getCreateTime() {
         return createTime;
     }
@@ -75,5 +59,21 @@ public class PulsarSchemaResponseDTO {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Object getDefinition() {
+        return definition;
+    }
+
+    public void setDefinition(Object definition) {
+        this.definition = definition;
+    }
+
+    public Object getSchema() {
+        return schema;
+    }
+
+    public void setSchema(Object schema) {
+        this.schema = schema;
     }
 }

@@ -12,7 +12,7 @@ public class PulsarNamespaceResponseDTO {
 
     private String name;
 
-    private List<PulsarTenantResponseDTO> tenant;
+    private PulsarTenantResponseDTO tenant;
 
     private Integer messageTTL;
 
@@ -38,11 +38,11 @@ public class PulsarNamespaceResponseDTO {
         this.name = name;
     }
 
-    public List<PulsarTenantResponseDTO> getTenant() {
+    public PulsarTenantResponseDTO getTenant() {
         return tenant;
     }
 
-    public void setTenant(List<PulsarTenantResponseDTO> tenant) {
+    public void setTenant(PulsarTenantResponseDTO tenant) {
         this.tenant = tenant;
     }
 

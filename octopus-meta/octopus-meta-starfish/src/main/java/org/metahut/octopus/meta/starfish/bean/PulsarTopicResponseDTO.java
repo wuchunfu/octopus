@@ -22,6 +22,8 @@ public class PulsarTopicResponseDTO {
 
     private List<PulsarPartitionResponseDTO> partitions;
 
+    private List<PulsarPublisherResponseDTO> publishers;
+
     private Date createTime;
 
     private Date updateTime;
@@ -96,5 +98,13 @@ public class PulsarTopicResponseDTO {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public List<PulsarPublisherResponseDTO> getPublishers() {
+        return publishers;
+    }
+
+    public void setPublishers(List<PulsarPublisherResponseDTO> publishers) {
+        this.publishers = publishers;
     }
 }

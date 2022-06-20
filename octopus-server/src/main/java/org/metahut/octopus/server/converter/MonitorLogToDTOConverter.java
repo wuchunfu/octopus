@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Mapper(componentModel = "spring")
@@ -39,6 +40,9 @@ public abstract class MonitorLogToDTOConverter implements Converter<MonitorLog, 
     public MetaSchemaResponseDTO queryMeta(MonitorLog source) {
         MetaDatasetResponseDTO dataset = metaService.queryDatasetByCode(source.getDatasetCode());
         MetaSchemaResponseDTO metaSchemaResponseDTO = new MetaSchemaResponseDTO();
+        if (Objects.isNull(dataset)) {
+            return metaSchemaResponseDTO;
+        }
         metaSchemaResponseDTO.setDatasource(dataset.getDatasource());
         metaSchemaResponseDTO.setDatabase(dataset.getDatabase());
         metaSchemaResponseDTO.setDataset(new MetaDatasetSingleResponseDTO(dataset.getCode(), dataset.getName()));
