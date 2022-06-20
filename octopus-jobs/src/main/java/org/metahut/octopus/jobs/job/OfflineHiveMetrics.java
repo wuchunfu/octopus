@@ -6,6 +6,7 @@ import org.metahut.octopus.jobs.common.MetaSchemaSingleResponseDTO;
 import org.metahut.octopus.jobs.common.MetricInfo;
 import org.metahut.octopus.jobs.common.MetricMessage;
 import org.metahut.octopus.jobs.common.MetricResult;
+import org.metahut.octopus.jobs.common.MonitorConfig;
 import org.metahut.octopus.jobs.common.MonitorFlowDefinitionResponseDTO;
 import org.metahut.octopus.jobs.common.RuleInstance;
 import org.metahut.octopus.jobs.common.RuleInstanceResponseDTO;
@@ -54,9 +55,9 @@ public class OfflineHiveMetrics {
     private static volatile Date scheduleTime = null;  //new Date()
     private static volatile String flowCode = null;
     private static final IMonitorDBSource monitorDBSource = MonitorDBPluginHelper.getMonitorDBSource();
+    private static final MonitorConfig monitorConfig = MonitorConfig.getMonitorConfig();
 
     public static void main(String[] args) throws Exception {
-        ParameterTool parameterToolConfig = ParameterTool.fromPropertiesFile("/data/online/octopus-jobs/flink/conf/config.properties");
 
         // --schduleTIme "2022-06-15 13:10:20"
         ParameterTool parameterTool = ParameterTool.fromArgs(args);
@@ -90,7 +91,7 @@ public class OfflineHiveMetrics {
         //register udf
         //registerUdf("insert_metrics_clickhouse", "org.metahut.octopus.jobs.udf.InsertMetricsToClickhouse");
 
-        String flowResponse = HttpUtils.get(parameterToolConfig.get("INTERFACE_URL") + flowCode);
+        String flowResponse = HttpUtils.get(monitorConfig.getMonitorFlowDefinitionService() + flowCode);
         JSONObject flowResponseJson = JSONObject.parseObject(flowResponse);
         if (flowResponseJson.getInteger("code") != 200) {
             throw new RuntimeException("the interface responses error: \n" + flowResponse);
@@ -245,9 +246,9 @@ public class OfflineHiveMetrics {
 
         //sink
         PulsarSink<String> sink = PulsarSink.builder()
-                .setServiceUrl(parameterToolConfig.get("SERVICE_URL"))
-                .setAdminUrl(parameterToolConfig.get("ADMIN_URL"))
-                .setTopics(parameterToolConfig.get("TOPIC"))
+                .setServiceUrl(monitorConfig.getMessageQueue().getPulsar().getServiceUrl())
+                .setAdminUrl(monitorConfig.getMessageQueue().getPulsar().getAdminUrl())
+                .setTopics(monitorConfig.getMessageQueue().getPulsar().getTopic())
                 .setSerializationSchema(PulsarSerializationSchema.flinkSchema(new SimpleStringSchema()))
                 //  .setDeliverGuarantee(DeliveryGuarantee.AT_LEAST_ONCE)
                 .build();
