@@ -24,7 +24,7 @@ import static org.metahut.octopus.common.enums.StatusEnum.VALIDATOR_EXCEPTION;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     private final MessageSource messageSource;
 
@@ -37,9 +37,9 @@ public class GlobalExceptionHandler {
         String message = exception.getMessage();
         try {
             message = messageSource.getMessage(exception.getMessage(), exception.getArgs(), LocaleContextHolder.getLocale());
-            logger.error(message, exception);
+            LOGGER.error(message, exception);
         } catch (Throwable throwable) {
-            logger.error(throwable.getMessage(), throwable);
+            LOGGER.error(throwable.getMessage(), throwable);
         }
         return ResultEntity.of(exception.getCode(), message);
     }
@@ -47,7 +47,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public ResultEntity exceptionHandler(Exception exception) {
         String message = messageSource.getMessage(UNKNOWN_EXCEPTION.getMessage(), new Object[]{exception.getMessage()}, LocaleContextHolder.getLocale());
-        logger.error(message, exception);
+        LOGGER.error(message, exception);
         return ResultEntity.of(UNKNOWN_EXCEPTION.getCode(), message);
     }
 
@@ -61,7 +61,7 @@ public class GlobalExceptionHandler {
         String message = exception.getConstraintViolations().stream()
                 .map(ConstraintViolation::getMessage)
                 .collect(Collectors.joining(", "));
-        logger.error(message, exception);
+        LOGGER.error(message, exception);
         return ResultEntity.of(VALIDATOR_EXCEPTION.getCode(), message);
     }
 
@@ -74,7 +74,7 @@ public class GlobalExceptionHandler {
     public ResultEntity handleMethodArgumentNotValidException(BindException exception) {
         FieldError fieldError = exception.getBindingResult().getFieldError();
         String message = fieldError.getField() + " " + fieldError.getDefaultMessage();
-        logger.error(message, exception);
+        LOGGER.error(message, exception);
         return ResultEntity.of(VALIDATOR_EXCEPTION.getCode(), message);
     }
 

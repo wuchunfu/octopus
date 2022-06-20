@@ -12,7 +12,7 @@ import java.util.Objects;
 
 public class JDBCDatasourceProvider {
 
-    private static final Logger logger = LoggerFactory.getLogger(JDBCDatasourceProvider.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(JDBCDatasourceProvider.class);
 
     private static volatile JDBCDatasourceProvider singleton = null;
 

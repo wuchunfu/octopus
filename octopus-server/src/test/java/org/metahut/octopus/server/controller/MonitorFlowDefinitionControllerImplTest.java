@@ -22,10 +22,10 @@ import org.metahut.octopus.common.enums.RuleStateEnum;
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
 import org.metahut.octopus.common.enums.WindowType;
 import org.metahut.octopus.common.enums.WindowUnit;
+import org.metahut.octopus.common.utils.JSONUtils;
 import org.metahut.octopus.server.WebMvcApplicationTest;
 import org.metahut.octopus.server.service.MetaService;
 import org.metahut.octopus.server.service.SchedulerService;
-import org.metahut.octopus.server.utils.JSONUtils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Assertions;

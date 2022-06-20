@@ -17,20 +17,9 @@
             <artifactId>octopus-parser-api</artifactId>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
+            <groupId>org.metahut.octopus</groupId>
+            <artifactId>octopus-common</artifactId>
         </dependency>
     </dependencies>
 

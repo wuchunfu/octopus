@@ -1,7 +1,7 @@
 package org.metahut.octopus.parser.sample.hive;
 
+import org.metahut.octopus.common.utils.JSONUtils;
 import org.metahut.octopus.parser.sample.hive.flink.BlockSampleHiveParserParameter;
-import org.metahut.octopus.parser.sample.hive.flink.JSONUtils;
 import org.metahut.octopus.parser.sample.hive.flink.SampleHiveParserParameter;
 import org.metahut.octopus.parser.sample.hive.flink.SampleMethodEnum;
 

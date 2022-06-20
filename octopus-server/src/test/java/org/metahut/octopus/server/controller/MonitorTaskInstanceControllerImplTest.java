@@ -3,12 +3,12 @@ package org.metahut.octopus.server.controller;
 import org.metahut.octopus.api.dto.MonitorTaskInstanceResponseDTO;
 import org.metahut.octopus.api.dto.PageResponseDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
+import org.metahut.octopus.common.utils.JSONUtils;
 import org.metahut.octopus.scheduler.api.PageResponse;
 import org.metahut.octopus.scheduler.api.entity.TaskInstance;
 import org.metahut.octopus.scheduler.api.parameters.TaskInstanceRequestParameter;
 import org.metahut.octopus.server.WebMvcApplicationTest;
 import org.metahut.octopus.server.service.SchedulerService;
-import org.metahut.octopus.server.utils.JSONUtils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Assertions;

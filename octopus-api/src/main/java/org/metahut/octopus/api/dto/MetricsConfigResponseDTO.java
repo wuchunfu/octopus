@@ -1,8 +1,8 @@
 package org.metahut.octopus.api.dto;
 
-import org.metahut.octopus.api.dto.MetricsConfigCreateOrUpdateRequestDTO.JSONUtils;
 import org.metahut.octopus.common.enums.CreateTypeEnum;
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
+import org.metahut.octopus.common.utils.JSONUtils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.swagger.annotations.ApiModel;

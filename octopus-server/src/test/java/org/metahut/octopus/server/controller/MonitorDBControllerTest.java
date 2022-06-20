@@ -6,9 +6,9 @@ import org.metahut.octopus.api.dto.MonitorLogConditionsRequestDTO;
 import org.metahut.octopus.api.dto.MonitorLogResponseDTO;
 import org.metahut.octopus.api.dto.PageResponseDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
+import org.metahut.octopus.common.utils.JSONUtils;
 import org.metahut.octopus.server.WebMvcApplicationTest;
 import org.metahut.octopus.server.service.MonitorDBService;
-import org.metahut.octopus.server.utils.JSONUtils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Assertions;

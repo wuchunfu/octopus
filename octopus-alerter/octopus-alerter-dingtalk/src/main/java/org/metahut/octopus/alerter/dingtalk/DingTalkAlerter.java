@@ -2,8 +2,8 @@ package org.metahut.octopus.alerter.dingtalk;
 
 import org.metahut.octopus.alerter.api.AlerterResult;
 import org.metahut.octopus.alerter.api.IAlerter;
-import org.metahut.octopus.alerter.common.utils.JSONUtils;
 import org.metahut.octopus.alerter.common.utils.OkHttpUtils;
+import org.metahut.octopus.common.utils.JSONUtils;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;

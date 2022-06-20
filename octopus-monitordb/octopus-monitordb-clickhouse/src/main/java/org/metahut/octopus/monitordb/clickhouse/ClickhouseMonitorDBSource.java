@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
 
 public class ClickhouseMonitorDBSource implements IMonitorDBSource {
 
-    private static final Logger logger = LoggerFactory.getLogger(ClickhouseMonitorDBSource.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClickhouseMonitorDBSource.class);
     private final JDBCDatasourceProvider jdbcDatasource;
 
     public ClickhouseMonitorDBSource(MonitorDBProperties.Clickhouse properties) {
@@ -102,7 +102,7 @@ public class ClickhouseMonitorDBSource implements IMonitorDBSource {
             BeanProcessor processor = new GenerousBeanProcessor();
             RowProcessor rowProcessor = new BasicRowProcessor(processor);
 
-            logger.info("Clickhouse query sql:{}, parameters:{}", builder, parameters.stream().map(String::valueOf).collect(Collectors.joining(",")));
+            LOGGER.info("Clickhouse query sql:{}, parameters:{}", builder, parameters.stream().map(String::valueOf).collect(Collectors.joining(",")));
             List<MetricsResult> list = queryRunner.query(builder.toString(), new BeanListHandler<>(MetricsResult.class, rowProcessor), parameters.toArray(new Object[parameters.size()]));
 
             PageResponse<MetricsResult> pageResponse = new PageResponse<>();
@@ -174,7 +174,7 @@ public class ClickhouseMonitorDBSource implements IMonitorDBSource {
             BeanProcessor processor = new GenerousBeanProcessor();
             RowProcessor rowProcessor = new BasicRowProcessor(processor);
 
-            logger.info("Clickhouse query sql:{}, parameters:{}", builder, parameters.stream().map(String::valueOf).collect(Collectors.joining(",")));
+            LOGGER.info("Clickhouse query sql:{}, parameters:{}", builder, parameters.stream().map(String::valueOf).collect(Collectors.joining(",")));
             List<MonitorLog> list = queryRunner.query(builder.toString(), new BeanListHandler<>(MonitorLog.class, rowProcessor), parameters.toArray(new Object[parameters.size()]));
 
             PageResponse<MonitorLog> pageResponse = new PageResponse<>();
@@ -270,7 +270,7 @@ public class ClickhouseMonitorDBSource implements IMonitorDBSource {
             QueryRunner queryRunner = new QueryRunner(jdbcDatasource.getDatasource());
             return queryRunner.update(sql);
         } catch (SQLException e) {
-            logger.error("The clickhouse execution sql:{}", sql);
+            LOGGER.error("The clickhouse execution sql:{}", sql);
             throw new MonitorDBException("Failed to save the metrics result into the monitor database.", e);
         }
     }
@@ -282,7 +282,7 @@ public class ClickhouseMonitorDBSource implements IMonitorDBSource {
             QueryRunner queryRunner = new QueryRunner(jdbcDatasource.getDatasource());
             return queryRunner.update(sql);
         } catch (SQLException e) {
-            logger.error("The clickhouse execution sql:{}", sql);
+            LOGGER.error("The clickhouse execution sql:{}", sql);
             throw new MonitorDBException("Failed to save the monitor rule log into the monitor database.", e);
         }
     }

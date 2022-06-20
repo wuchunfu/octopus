@@ -1,5 +1,6 @@
 package org.metahut.octopus.meta.starfish;
 
+import org.metahut.octopus.common.utils.JSONUtils;
 import org.metahut.octopus.meta.api.IMeta;
 import org.metahut.octopus.meta.api.MetaDatabaseEntity;
 import org.metahut.octopus.meta.api.MetaDatabaseRequest;
@@ -27,8 +28,6 @@ import org.metahut.octopus.meta.starfish.bean.PulsarTopicResponseDTO;
 import org.metahut.octopus.meta.starfish.bean.SourceResponseDTO;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -42,7 +41,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.UnknownServiceException;
 import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -56,15 +54,6 @@ public class StarfishMeta implements IMeta {
     private final OkHttpClient client;
     private final MetaProperties.Starfish properties;
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
-
-    static {
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
-        objectMapper.configure(DeserializationFeature.UNWRAP_SINGLE_VALUE_ARRAYS, true);
-        objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
-    }
-
     public StarfishMeta(OkHttpClient client, MetaProperties.Starfish properties) {
         this.client = client;
         this.properties = properties;
@@ -76,7 +65,7 @@ public class StarfishMeta implements IMeta {
             Object resultJson =
                 get(MessageFormat.format("/entity/sources?name={0}&pageNo={1}&pageSize={2}", StringUtils.isEmpty(datasourceTypeRequest.getName()) ? "" : datasourceTypeRequest.getName(),
                     datasourceTypeRequest.getPageNo(), datasourceTypeRequest.getPageSize()));
-            PageResponseDTO<SourceResponseDTO> data = objectMapper.convertValue(resultJson, new TypeReference<PageResponseDTO<SourceResponseDTO>>() {
+            PageResponseDTO<SourceResponseDTO> data = JSONUtils.parseObject(resultJson, new TypeReference<PageResponseDTO<SourceResponseDTO>>() {
             });
             return PageResponseDTO.of(data.getPageNo(), data.getPageSize(), data.getTotal(), data.getData() == null ? null : data.getData().stream().map(sourceResponseDTO -> {
                 MetaDatasourceTypeEntity entity = new MetaDatasourceTypeEntity();
@@ -96,7 +85,7 @@ public class StarfishMeta implements IMeta {
                 Object resultJson = get(MessageFormat.format("/entity/hiveClusters?clusterName={0}&pageNo={1}&pageSize={2}",
                     StringUtils.isEmpty(metaDatasourceRequest.getName()) ? "" : metaDatasourceRequest.getName(), metaDatasourceRequest.getPageNo(),
                     metaDatasourceRequest.getPageSize()));
-                PageResponseDTO<HiveClusterResponseDTO> data = objectMapper.convertValue(resultJson, new TypeReference<PageResponseDTO<HiveClusterResponseDTO>>() {
+                PageResponseDTO<HiveClusterResponseDTO> data = JSONUtils.parseObject(resultJson, new TypeReference<PageResponseDTO<HiveClusterResponseDTO>>() {
                 });
                 return PageResponseDTO.of(data.getPageNo(), data.getPageSize(), data.getTotal(), data.getData() == null ? null : data.getData().stream().map(sourceResponseDTO -> {
                     MetaDatasourceEntity entity = new MetaDatasourceEntity();
@@ -110,7 +99,7 @@ public class StarfishMeta implements IMeta {
                     get(MessageFormat.format("/entity/pulsarClusters?name={0}&pageNo={1}&pageSize={2}", StringUtils.isEmpty(metaDatasourceRequest.getName()) ? "" : metaDatasourceRequest.getName(),
                         metaDatasourceRequest.getPageNo(),
                         metaDatasourceRequest.getPageSize()));
-                PageResponseDTO<PulsarClusterResponseDTO> data = objectMapper.convertValue(resultJson, new TypeReference<PageResponseDTO<PulsarClusterResponseDTO>>() {
+                PageResponseDTO<PulsarClusterResponseDTO> data = JSONUtils.parseObject(resultJson, new TypeReference<PageResponseDTO<PulsarClusterResponseDTO>>() {
                 });
 
                 return PageResponseDTO.of(data.getPageNo(), data.getPageSize(), data.getTotal(), data.getData() == null ? null : data.getData().stream().map(sourceResponseDTO -> {
@@ -137,7 +126,7 @@ public class StarfishMeta implements IMeta {
                         Objects.isNull(request.getCode()) ? "" : request.getCode(),
                         StringUtils.isEmpty(request.getName()) ? "" : request.getName(),
                         request.getPageNo(), request.getPageSize()));
-                PageResponseDTO<HiveDBResponseDTO> data = objectMapper.convertValue(resultJson, new TypeReference<PageResponseDTO<HiveDBResponseDTO>>() {
+                PageResponseDTO<HiveDBResponseDTO> data = JSONUtils.parseObject(resultJson, new TypeReference<PageResponseDTO<HiveDBResponseDTO>>() {
                 });
 
                 return PageResponseDTO.of(data.getPageNo(), data.getPageSize(), data.getTotal(), data.getData() == null ? null : data.getData().stream().map(sourceResponseDTO -> {
@@ -153,7 +142,7 @@ public class StarfishMeta implements IMeta {
                         Objects.isNull(request.getCode()) ? "" : request.getCode(),
                         StringUtils.isEmpty(request.getName()) ? "" : request.getName(),
                         request.getPageNo(), request.getPageSize()));
-                PageResponseDTO<PulsarNamespaceResponseDTO> data = objectMapper.convertValue(resultJson, new TypeReference<PageResponseDTO<PulsarNamespaceResponseDTO>>() {
+                PageResponseDTO<PulsarNamespaceResponseDTO> data = JSONUtils.parseObject(resultJson, new TypeReference<PageResponseDTO<PulsarNamespaceResponseDTO>>() {
                 });
 
                 return PageResponseDTO.of(data.getPageNo(), data.getPageSize(), data.getTotal(), data.getData() == null ? null : data.getData().stream().map(sourceResponseDTO -> {
@@ -179,7 +168,7 @@ public class StarfishMeta implements IMeta {
                         Objects.isNull(request.getDataSourceCode()) ? "" : request.getDataSourceCode(),
                         StringUtils.isEmpty(request.getName()) ? "" : request.getName(),
                         request.getPageNo(), request.getPageSize()));
-                PageResponseDTO<HiveTableResponseDTO> data = objectMapper.convertValue(resultJson, new TypeReference<PageResponseDTO<HiveTableResponseDTO>>() {
+                PageResponseDTO<HiveTableResponseDTO> data = JSONUtils.parseObject(resultJson, new TypeReference<PageResponseDTO<HiveTableResponseDTO>>() {
                 });
 
                 return PageResponseDTO.of(data.getPageNo(), data.getPageSize(), data.getTotal(), data.getData() == null ? null : data.getData().stream().map(sourceResponseDTO -> {
@@ -221,7 +210,7 @@ public class StarfishMeta implements IMeta {
                         StringUtils.isEmpty(request.getName()) ? "" : request.getName(),
                         request.getPageNo(),
                         request.getPageSize()));
-                PageResponseDTO<PulsarTopicResponseDTO> data = objectMapper.convertValue(resultJson, new TypeReference<PageResponseDTO<PulsarTopicResponseDTO>>() {
+                PageResponseDTO<PulsarTopicResponseDTO> data = JSONUtils.parseObject(resultJson, new TypeReference<PageResponseDTO<PulsarTopicResponseDTO>>() {
                 });
                 return PageResponseDTO.of(data.getPageNo(), data.getPageSize(), data.getTotal(), data.getData() == null ? null : data.getData().stream().map(sourceResponseDTO -> {
 
@@ -277,7 +266,7 @@ public class StarfishMeta implements IMeta {
     public MetaDatasetEntity queryDatasetByCode(String code) {
         try {
             Object typeJson = get(MessageFormat.format("/entity/queryTypeByInstanceId?id={0}", code));
-            Class clazz = objectMapper.convertValue(typeJson, new TypeReference<Class>() {
+            Class clazz = JSONUtils.parseObject(typeJson, new TypeReference<Class>() {
             });
             String className = clazz.fullClassName();
 
@@ -301,7 +290,7 @@ public class StarfishMeta implements IMeta {
             MetaDatasourceEntity datasource = new MetaDatasourceEntity();
             switch (className) {
                 case "org.starfish.HiveTable":
-                    HiveTableResponseDTO table = objectMapper.convertValue(instanceJson, new TypeReference<HiveTableResponseDTO>() {
+                    HiveTableResponseDTO table = JSONUtils.parseObject(instanceJson, new TypeReference<HiveTableResponseDTO>() {
                     });
 
                     dataset.setCode(String.valueOf(table.getId()));
@@ -329,7 +318,7 @@ public class StarfishMeta implements IMeta {
                     break;
 
                 case "org.starfish.PulsarTopic":
-                    PulsarTopicResponseDTO topic = objectMapper.convertValue(instanceJson, new TypeReference<PulsarTopicResponseDTO>() {
+                    PulsarTopicResponseDTO topic = JSONUtils.parseObject(instanceJson, new TypeReference<PulsarTopicResponseDTO>() {
                     });
                     dataset.setCode(String.valueOf(topic.getId()));
                     dataset.setName(topic.getName());
@@ -376,9 +365,10 @@ public class StarfishMeta implements IMeta {
             build();
 
         try (Response response = client.newCall(request).execute()) {
-            ResultEntity<Object> resultEntity = objectMapper.readValue(response.body().string(), new TypeReference<ResultEntity<Object>>() {
+            ResultEntity<Object> resultEntity = JSONUtils.parseObject(response.body().string(), new TypeReference<ResultEntity<Object>>() {
             });
             if (resultEntity.isFailed()) {
+                LOGGER.error("url:{}; message:{}", url, resultEntity.getMessage());
                 throw new UnknownServiceException(resultEntity.getMessage());
             }
             return resultEntity.getData();
@@ -396,9 +386,10 @@ public class StarfishMeta implements IMeta {
             build();
 
         try (Response response = client.newCall(request).execute()) {
-            ResultEntity<Object> resultEntity = objectMapper.readValue(response.body().string(), new TypeReference<ResultEntity<Object>>() {
+            ResultEntity<Object> resultEntity = JSONUtils.parseObject(response.body().string(), new TypeReference<ResultEntity<Object>>() {
             });
             if (resultEntity.isFailed()) {
+                LOGGER.error("url:{}; message:{}", url, resultEntity.getMessage());
                 throw new UnknownServiceException(resultEntity.getMessage());
             }
             return resultEntity.getData();

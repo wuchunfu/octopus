@@ -15,31 +15,51 @@
  * limitations under the License.
  */
 
-package org.metahut.octopus.alerter.common.utils;
+package org.metahut.octopus.common.utils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.deser.std.DateDeserializers.DateDeserializer;
+import com.fasterxml.jackson.databind.deser.std.DateDeserializers.SqlDateDeserializer;
+import com.fasterxml.jackson.databind.deser.std.DateDeserializers.TimestampDeserializer;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.InputStream;
 import java.util.Objects;
 
+import static com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES;
 import static com.fasterxml.jackson.databind.DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT;
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 import static com.fasterxml.jackson.databind.DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL;
 
 public class JSONUtils {
 
-    private static final Logger logger = LoggerFactory.getLogger(JSONUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(JSONUtils.class);
 
     private JSONUtils() {
     }
 
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
+    static {
+        OBJECT_MAPPER.configure(ALLOW_UNQUOTED_FIELD_NAMES, true)
             .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
             .configure(ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT, true)
             .configure(READ_UNKNOWN_ENUM_VALUES_AS_NULL, true);
+
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(java.util.Date.class, new DateDeserializer());
+        module.addDeserializer(java.sql.Date.class, new SqlDateDeserializer());
+        module.addDeserializer(java.sql.Timestamp.class, new TimestampDeserializer());
+        OBJECT_MAPPER.registerModule(module);
+    }
+
+    public static ObjectMapper getObjectMapper() {
+        return new ObjectMapper();
+    }
 
     public static <T> T parseObject(String json, Class<T> clazz) {
         if (StringUtils.isEmpty(json) || Objects.isNull(clazz)) {
@@ -49,7 +69,7 @@ public class JSONUtils {
         try {
             return OBJECT_MAPPER.readValue(json, clazz);
         } catch (Exception e) {
-            logger.error("JSON parse Object exception, JSON:{}, Class:{}", json, clazz, e);
+            LOGGER.error("JSON parse Object exception, JSON:{}, Class:{}", json, clazz, e);
             return null;
         }
     }
@@ -62,7 +82,32 @@ public class JSONUtils {
         try {
             return OBJECT_MAPPER.readValue(json, type);
         } catch (Exception e) {
-            logger.error("JSON parse Object exception, JSON:{}, TypeReference:{}", json, type, e);
+            LOGGER.error("JSON parse Object exception, JSON:{}, TypeReference:{}", json, type, e);
+            return null;
+        }
+    }
+
+    public static <T> T parseObject(Object object, TypeReference<T> type) {
+        if (Objects.isNull(object)) {
+            return null;
+        }
+
+        try {
+            return OBJECT_MAPPER.convertValue(object, type);
+        } catch (Exception e) {
+            LOGGER.error("Object convert exception, Object:{}, TypeReference:{}", object, type, e);
+            return null;
+        }
+    }
+
+    public static <T> T parseObject(InputStream is, TypeReference<T> type) {
+        if (Objects.isNull(is)) {
+            return null;
+        }
+        try {
+            return OBJECT_MAPPER.readValue(is, type);
+        } catch (Exception e) {
+            LOGGER.error("InputStream convert exception, InputStream:{}, TypeReference:{}", is, type, e);
             return null;
         }
     }

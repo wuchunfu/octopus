@@ -1,7 +1,7 @@
 package org.metahut.octopus.jobs.job;
 
 import org.metahut.octopus.common.enums.CheckMethodEnum;
-import org.metahut.octopus.jobs.common.JSONUtils;
+import org.metahut.octopus.common.utils.JSONUtils;
 import org.metahut.octopus.jobs.common.MetricMessage;
 import org.metahut.octopus.jobs.common.MetricRule;
 import org.metahut.octopus.jobs.common.MonitorConfig;

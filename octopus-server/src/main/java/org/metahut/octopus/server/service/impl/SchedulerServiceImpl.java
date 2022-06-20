@@ -1,6 +1,7 @@
 package org.metahut.octopus.server.service.impl;
 
 import org.metahut.octopus.api.dto.SchedulerCronRequestDTO;
+import org.metahut.octopus.common.utils.JSONUtils;
 import org.metahut.octopus.scheduler.api.IScheduler;
 import org.metahut.octopus.scheduler.api.PageResponse;
 import org.metahut.octopus.scheduler.api.entity.TaskInstance;
@@ -9,7 +10,6 @@ import org.metahut.octopus.scheduler.api.parameters.ScheduleParameter;
 import org.metahut.octopus.scheduler.api.parameters.ShellTaskParameter;
 import org.metahut.octopus.scheduler.api.parameters.TaskInstanceRequestParameter;
 import org.metahut.octopus.scheduler.api.parameters.TaskParameter;
-import org.metahut.octopus.scheduler.dolphinscheduler.JSONUtils;
 import org.metahut.octopus.server.service.SchedulerService;
 
 import org.springframework.stereotype.Service;

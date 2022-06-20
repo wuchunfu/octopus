@@ -1,5 +1,6 @@
 package org.metahut.octopus.parser.sample.hive.flink;
 
+import org.metahut.octopus.common.utils.JSONUtils;
 import org.metahut.octopus.parser.api.IParser;
 import org.metahut.octopus.parser.api.IParserManager;
 import org.metahut.octopus.parser.api.ParserException;

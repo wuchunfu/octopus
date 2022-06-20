@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 @Service
 public class SelectItemServiceImpl implements SelectItemService {
 
-    private static final Logger logger = LoggerFactory.getLogger(SelectItemServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SelectItemServiceImpl.class);
 
     private final MessageSource messageSource;
     private final MetaService metaService;
@@ -137,7 +137,7 @@ public class SelectItemServiceImpl implements SelectItemService {
         try {
             message = messageSource.getMessage(message, null, LocaleContextHolder.getLocale());
         } catch (Throwable throwable) {
-            logger.error("select item value to i18n exception", throwable);
+            LOGGER.error("select item value to i18n exception", throwable);
         }
         return SelectItemResponseDTO.of(value, message);
     }

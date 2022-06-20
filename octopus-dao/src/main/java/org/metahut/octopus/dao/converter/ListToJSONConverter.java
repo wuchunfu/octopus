@@ -1,6 +1,6 @@
 package org.metahut.octopus.dao.converter;
 
-import org.metahut.octopus.dao.utils.JSONUtils;
+import org.metahut.octopus.common.utils.JSONUtils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 

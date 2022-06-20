@@ -1,7 +1,7 @@
 package org.metahut.octopus.engine.domain;
 
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
-import org.metahut.octopus.engine.utils.JSONUtils;
+import org.metahut.octopus.common.utils.JSONUtils;
 
 import java.util.ArrayList;
 import java.util.List;

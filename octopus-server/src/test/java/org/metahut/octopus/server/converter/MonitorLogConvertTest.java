@@ -1,4 +1,4 @@
-package org.metahut.octopus.server.controller;
+package org.metahut.octopus.server.converter;
 
 import org.metahut.octopus.api.dto.MonitorLogConditionsRequestDTO;
 import org.metahut.octopus.monitordb.api.MonitorLogRequest;

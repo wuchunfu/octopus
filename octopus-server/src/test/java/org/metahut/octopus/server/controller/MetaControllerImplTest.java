@@ -5,7 +5,7 @@ import org.metahut.octopus.api.dto.MetaDatasetResponseDTO;
 import org.metahut.octopus.api.dto.MetaDatasourceResponseDTO;
 import org.metahut.octopus.api.dto.PageResponseDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
-import org.metahut.octopus.scheduler.dolphinscheduler.JSONUtils;
+import org.metahut.octopus.common.utils.JSONUtils;
 import org.metahut.octopus.server.WebMvcApplicationTest;
 import org.metahut.octopus.server.service.MetaService;
 

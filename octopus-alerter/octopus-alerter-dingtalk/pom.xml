@@ -39,6 +39,10 @@
             <groupId>org.metahut.octopus</groupId>
             <artifactId>octopus-alerter-common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.metahut.octopus</groupId>
+            <artifactId>octopus-common</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

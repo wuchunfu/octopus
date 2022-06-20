@@ -1,6 +1,6 @@
 package org.metahut.octopus.jobs.common;
 
-import org.metahut.octopus.jobs.common.MetricsConfigCreateOrUpdateRequestDTO.JSONUtils;
+import org.metahut.octopus.common.utils.JSONUtils;
 import org.metahut.octopus.jobs.enums.CreateTypeEnum;
 import org.metahut.octopus.jobs.enums.SubjectCategoryEnum;
 

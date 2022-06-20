@@ -6,7 +6,7 @@ import org.metahut.octopus.api.dto.MetaSchemaResponseDTO;
 import org.metahut.octopus.api.dto.MetaSchemaSingleResponseDTO;
 import org.metahut.octopus.api.dto.MonitorLogResponseDTO;
 import org.metahut.octopus.common.enums.SubjectCategoryEnum;
-import org.metahut.octopus.dao.utils.JSONUtils;
+import org.metahut.octopus.common.utils.JSONUtils;
 import org.metahut.octopus.monitordb.api.MonitorLog;
 import org.metahut.octopus.server.service.MetaService;
 

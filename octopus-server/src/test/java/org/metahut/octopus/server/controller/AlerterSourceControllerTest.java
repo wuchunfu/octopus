@@ -3,9 +3,9 @@ package org.metahut.octopus.server.controller;
 import org.metahut.octopus.api.dto.AlerterSourceCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.AlerterSourceResponseDTO;
 import org.metahut.octopus.api.dto.ResultEntity;
+import org.metahut.octopus.common.utils.JSONUtils;
 import org.metahut.octopus.dao.entity.AlerterSource;
 import org.metahut.octopus.dao.repository.AlerterSourceRepository;
-import org.metahut.octopus.scheduler.dolphinscheduler.JSONUtils;
 import org.metahut.octopus.server.WebMvcApplicationTest;
 
 import com.fasterxml.jackson.core.type.TypeReference;

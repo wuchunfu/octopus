@@ -2,7 +2,7 @@ package org.metahut.octopus.alerter.email;
 
 import org.metahut.octopus.alerter.api.AlerterException;
 import org.metahut.octopus.alerter.api.IAlerterManager;
-import org.metahut.octopus.alerter.common.utils.JSONUtils;
+import org.metahut.octopus.common.utils.JSONUtils;
 
 import java.util.Objects;
 
