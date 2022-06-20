@@ -40,6 +40,7 @@ spring:
   messages:
     basename: i18n/messages
     encoding: UTF-8
+    fallback-to-system-locale: true
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
