@@ -19,6 +19,7 @@ import org.metahut.octopus.monitordb.api.MetricsResult;
 
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Preconditions;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.configuration.Configuration;
@@ -35,6 +36,9 @@ import org.apache.flink.table.module.hive.HiveModule;
 
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -56,17 +60,27 @@ public class OfflineHiveMetrics {
     private static volatile String flowCode = null;
     private static final IMonitorDBSource monitorDBSource = MonitorDBPluginHelper.getMonitorDBSource();
     private static final MonitorConfig monitorConfig = MonitorConfig.getMonitorConfig();
+    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     public static void main(String[] args) throws Exception {
 
-        // --schduleTIme "2022-06-15 13:10:20"
+        // --scheduleTime "2022-06-15 13:10:20"
         ParameterTool parameterTool = ParameterTool.fromArgs(args);
-        String schduleTimeStr = parameterTool.get("schduleTIme");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        scheduleTime = sdf.parse(schduleTimeStr);
+        Preconditions.checkArgument(parameterTool.has("scheduleTime") && parameterTool.has("flowCode"), "Missed the arguments of scheduleTime or flowCode.");
+
+        String schduleTimeStr = parameterTool.get("scheduleTime");
 
         //--flowCode 5856993537312
         flowCode = parameterTool.get("flowCode");
+
+        String flowResponse = HttpUtils.get(monitorConfig.getMonitorFlowDefinitionService() + flowCode);
+        JSONObject flowResponseJson = JSONObject.parseObject(flowResponse);
+        if (flowResponseJson.getInteger("code") != 200) {
+            throw new RuntimeException("the interface responses error: \n" + flowResponse);
+        }
+        String flowResponseData = flowResponseJson.getString("data");
+        MonitorFlowDefinitionResponseDTO flowInstance = objectMapper.readValue(flowResponseData, MonitorFlowDefinitionResponseDTO.class);
 
         EnvironmentSettings settings = EnvironmentSettings.newInstance()
                 .inBatchMode()
@@ -74,8 +88,48 @@ public class OfflineHiveMetrics {
         // tableEnvironment = TableEnvironment.create(settings);
 
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-        tableEnvironment = StreamTableEnvironment.create(env, settings);
 
+        //sink
+        PulsarSink<String> sink = PulsarSink.builder()
+                .setServiceUrl(monitorConfig.getMessageQueue().getPulsar().getServiceUrl())
+                .setAdminUrl(monitorConfig.getMessageQueue().getPulsar().getAdminUrl())
+                .setTopics(monitorConfig.getMessageQueue().getPulsar().getTopic())
+                .setSerializationSchema(PulsarSerializationSchema.flinkSchema(new SimpleStringSchema()))
+                //  .setDeliverGuarantee(DeliveryGuarantee.AT_LEAST_ONCE)
+                .build();
+
+        executeTask(schduleTimeStr, flowInstance, env, settings, sink);
+    }
+
+    //register udf
+    /*private static void registerUdf(String funcName, String classPath) throws Exception {
+        Class<?> udfClass = Thread.currentThread().getContextClassLoader().loadClass(classPath);
+        UserDefinedFunction udfFunc = udfClass.asSubclass(UserDefinedFunction.class).newInstance();
+
+        tableEnvironment.createTemporarySystemFunction(funcName, udfFunc);
+    }*/
+
+    public static String getTimeConditions(String type, String dateTimeField, String beginTime, String endTime) {
+        String timeConditionsPre = null;
+        if (type.equals("string")) {
+            timeConditionsPre = " ${dateTimeField} >= '${beginTime}' and ${dateTimeField}< '${endTime}'";
+        } else if (type.equals("int")) {
+            timeConditionsPre = " ${dateTimeField} >= ${beginTime} and ${dateTimeField}< ${endTime}";
+        }
+
+        String timeConditions = timeConditionsPre.replaceAll("\\$\\{dateTimeField\\}",dateTimeField)
+                .replaceAll("\\$\\{beginTime\\}",beginTime)
+                .replaceAll("\\$\\{endTime\\}",endTime);
+
+        return timeConditions;
+    }
+
+    public static void executeTask(String schduleTimeStr, MonitorFlowDefinitionResponseDTO flowInstance, StreamExecutionEnvironment env, EnvironmentSettings settings, PulsarSink<String> sink)
+            throws Exception {
+        scheduleTime = Date.from(LocalDateTime.from(dateTimeFormatter.parse(schduleTimeStr)).atZone(
+                ZoneId.systemDefault()).toInstant());
+
+        tableEnvironment = StreamTableEnvironment.create(env, settings);
         Configuration configuration = tableEnvironment.getConfig().getConfiguration();
         configuration.setString("table.exec.spill-compression.block-size", "262144 kb");
         configuration.setString("table.optimizer.join-reorder-enabled", "true");
@@ -90,15 +144,6 @@ public class OfflineHiveMetrics {
 
         //register udf
         //registerUdf("insert_metrics_clickhouse", "org.metahut.octopus.jobs.udf.InsertMetricsToClickhouse");
-
-        String flowResponse = HttpUtils.get(monitorConfig.getMonitorFlowDefinitionService() + flowCode);
-        JSONObject flowResponseJson = JSONObject.parseObject(flowResponse);
-        if (flowResponseJson.getInteger("code") != 200) {
-            throw new RuntimeException("the interface responses error: \n" + flowResponse);
-        }
-        String flowResponseData = flowResponseJson.getString("data");
-        ObjectMapper objectMapper = new ObjectMapper();
-        MonitorFlowDefinitionResponseDTO flowInstance = objectMapper.readValue(flowResponseData, MonitorFlowDefinitionResponseDTO.class);
 
         //get window info
         int windowSize = Integer.valueOf(flowInstance.getWindowSize());
@@ -244,15 +289,6 @@ public class OfflineHiveMetrics {
             tableEnvironment.createTemporaryView("view_samples", tableEnvironment.sqlQuery(viewSamples));
         }
 
-        //sink
-        PulsarSink<String> sink = PulsarSink.builder()
-                .setServiceUrl(monitorConfig.getMessageQueue().getPulsar().getServiceUrl())
-                .setAdminUrl(monitorConfig.getMessageQueue().getPulsar().getAdminUrl())
-                .setTopics(monitorConfig.getMessageQueue().getPulsar().getTopic())
-                .setSerializationSchema(PulsarSerializationSchema.flinkSchema(new SimpleStringSchema()))
-                //  .setDeliverGuarantee(DeliveryGuarantee.AT_LEAST_ONCE)
-                .build();
-
         // get metric info list and compute
         for (Map.Entry<MetricInfo, List<RuleInstance>> entry : ruleInstancesMap.entrySet()) {
             List<RuleInstance> ruleInstanceList = entry.getValue();
@@ -339,28 +375,5 @@ public class OfflineHiveMetrics {
 
         //Thread.sleep(1000000000);
 
-    }
-
-    //register udf
-    /*private static void registerUdf(String funcName, String classPath) throws Exception {
-        Class<?> udfClass = Thread.currentThread().getContextClassLoader().loadClass(classPath);
-        UserDefinedFunction udfFunc = udfClass.asSubclass(UserDefinedFunction.class).newInstance();
-
-        tableEnvironment.createTemporarySystemFunction(funcName, udfFunc);
-    }*/
-
-    public static String getTimeConditions(String type, String dateTimeField, String beginTime, String endTime) {
-        String timeConditionsPre = null;
-        if (type.equals("string")) {
-            timeConditionsPre = " ${dateTimeField} >= '${beginTime}' and ${dateTimeField}< '${endTime}'";
-        } else if (type.equals("int")) {
-            timeConditionsPre = " ${dateTimeField} >= ${beginTime} and ${dateTimeField}< ${endTime}";
-        }
-
-        String timeConditions = timeConditionsPre.replaceAll("\\$\\{dateTimeField\\}",dateTimeField)
-                .replaceAll("\\$\\{beginTime\\}",beginTime)
-                .replaceAll("\\$\\{endTime\\}",endTime);
-
-        return timeConditions;
     }
 }
