@@ -61,6 +61,9 @@ public class MetricsConfigCreateOrUpdateRequestDTO {
     @ApiModelProperty(value = "executorScript")
     private String executorScript;
 
+    @ApiModelProperty(value = "name")
+    private String name;
+
     public Integer getId() {
         return id;
     }
@@ -149,6 +152,14 @@ public class MetricsConfigCreateOrUpdateRequestDTO {
     @Deprecated
     public void setExecutorScript(String executorScript) {
         this.executorScript = executorScript;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Deprecated
