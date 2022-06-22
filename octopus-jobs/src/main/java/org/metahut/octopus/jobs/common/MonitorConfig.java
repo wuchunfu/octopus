@@ -15,6 +15,16 @@ public class MonitorConfig implements Serializable {
 
     private String alertService;
 
+    private HiveConfig hiveConfig;
+
+    public HiveConfig getHiveConfig() {
+        return hiveConfig;
+    }
+
+    public void setHiveConfig(HiveConfig hiveConfig) {
+        this.hiveConfig = hiveConfig;
+    }
+
     private String monitorFlowDefinitionService;
 
     private MonitorDBProperties monitorStorage;
@@ -159,6 +169,27 @@ public class MonitorConfig implements Serializable {
 
         public void setJobName(String jobName) {
             this.jobName = jobName;
+        }
+    }
+
+    public static class HiveConfig {
+        private String hiveConfDir;
+        private String version;
+
+        public String getHiveConfDir() {
+            return hiveConfDir;
+        }
+
+        public void setHiveConfDir(String hiveConfDir) {
+            this.hiveConfDir = hiveConfDir;
+        }
+
+        public String getVersion() {
+            return version;
+        }
+
+        public void setVersion(String version) {
+            this.version = version;
         }
     }
 

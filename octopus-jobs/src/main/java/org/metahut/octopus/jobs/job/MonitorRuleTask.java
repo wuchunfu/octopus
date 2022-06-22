@@ -18,11 +18,13 @@ import org.apache.flink.api.common.RuntimeExecutionMode;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.common.functions.MapFunction;
+import org.apache.flink.api.common.restartstrategy.RestartStrategies.NoRestartStrategyConfiguration;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.api.common.typeinfo.TypeHint;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.connector.pulsar.source.PulsarSource;
+import org.apache.flink.connector.pulsar.source.PulsarSourceOptions;
 import org.apache.flink.connector.pulsar.source.enumerator.cursor.StartCursor;
 import org.apache.flink.connector.pulsar.source.reader.deserializer.PulsarDeserializationSchema;
 import org.apache.flink.streaming.api.datastream.DataStream;
@@ -54,6 +56,7 @@ public class MonitorRuleTask {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setRuntimeMode(RuntimeExecutionMode.STREAMING);
+        env.setRestartStrategy(new NoRestartStrategyConfiguration());
 
         PulsarSource<String> pulsarSource = PulsarSource.builder()
             .setServiceUrl(monitorConfig.getMessageQueue().getPulsar().getServiceUrl())
@@ -63,6 +66,7 @@ public class MonitorRuleTask {
             .setDeserializationSchema(PulsarDeserializationSchema.flinkSchema(new SimpleStringSchema()))
             .setSubscriptionName(monitorConfig.getMessageQueue().getPulsar().getSubscriptionName())
             .setSubscriptionType(SubscriptionType.Key_Shared)
+            .setConfig(PulsarSourceOptions.PULSAR_ENABLE_AUTO_ACKNOWLEDGE_MESSAGE, true)
             .build();
 
         DataStream<String> dataStream = env.fromSource(pulsarSource, WatermarkStrategy.noWatermarks(), "quality-metrics-source", TypeInformation.of(String.class));
@@ -74,7 +78,9 @@ public class MonitorRuleTask {
         sourceDataStream.flatMap(new EvaluateMonitorRuleFlatMapFunction(), TypeInformation.of(new TypeHint<Tuple2<MetricRule, Integer>>() {}));
         sourceDataStream.print().name("print-sink");
 
-        env.execute(monitorConfig.getMonitorRuleTask().getJobName());
+        env.execute();
+
+        // env.execute(monitorConfig.getMonitorRuleTask().getJobName());
     }
 
     public static final class EvaluateMonitorRuleMapFunction implements MapFunction<String, String> {

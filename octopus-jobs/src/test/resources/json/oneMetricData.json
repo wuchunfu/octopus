@@ -1,1 +1,330 @@
-{"id":38,"code":5858422782752,"meta":{"code":"35","name":"test_obs_octopus_jobs","comment":null,"database":{"code":"28","name":"`default`"},"datasource":{"code":"19","name":"Hive-HW-PROD","type":"Hive"},"schemas":[{"code":"35","name":"name"},{"code":"38","name":"emp_id"},{"code":"39","name":"dept_id"},{"code":"40","name":"emp_code"},{"code":"41","name":"emp_pin_no"},{"code":"42","name":"emp_simple_code"},{"code":"43","name":"emp_name"},{"code":"44","name":"emp_gender"},{"code":"45","name":"emp_role"},{"code":"46","name":"emp_position"},{"code":"47","name":"emp_memo1k"},{"code":"48","name":"emp_address"},{"code":"49","name":"emp_birth_place"},{"code":"50","name":"emp_office_phone"},{"code":"51","name":"emp_home_phone"},{"code":"52","name":"emp_pager"},{"code":"53","name":"emp_mobile_phone"},{"code":"54","name":"emp_email"},{"code":"55","name":"emp_birth_year"},{"code":"56","name":"emp_birth_month"},{"code":"57","name":"emp_birth_day"},{"code":"58","name":"emp_edu_level"},{"code":"59","name":"emp_icq"},{"code":"60","name":"stop_flag"},{"code":"61","name":"key_privilege"},{"code":"62","name":"crm_privilege"},{"code":"63","name":"dss_privilege"},{"code":"64","name":"ext_privilege"},{"code":"65","name":"read_scope"},{"code":"66","name":"write_scope"},{"code":"67","name":"ext_data_privilege"},{"code":"68","name":"emptmp_dec1"},{"code":"69","name":"emptmp_dec2"},{"code":"70","name":"emptmp_dec3"},{"code":"71","name":"emptmp_dec4"},{"code":"72","name":"create_emp_id"},{"code":"73","name":"create_time"},{"code":"74","name":"modify_emp_id"},{"code":"75","name":"modify_time"}]},"alerterInstances":[{"id":24,"source":{"id":322,"code":5689168527392,"name":"钉钉测试1","alertType":"DingTalk","parameter":"{\"keyWord\": \"keyWord1\", \"webhook\": \"webhook1\", \"secret\": \"secret1\"}","description":null,"creator":0,"operator":null,"createTime":"2022-05-30 10:17:09","updateTime":"2022-05-30 10:17:09"},"parameter":"{\"mobileList\":[\"14210264578\",\"15210284595\"]}","creator":0,"operator":null,"createTime":"2022-06-14 17:35:28","updateTime":"2022-06-14 17:38:17","users":[{"id":1,"code":1,"name":"xiaoliang.wang","cnName":"wxl","email":"xiaoliang.wang@zhaopin.com","phoneNumber":"15210284595","departmentName":"ZTC","groupName":"DATA","creator":0,"operator":null,"createTime":"2022-05-30 19:04:53","updateTime":"2022-05-30 19:04:56"},{"id":2,"code":2,"name":"liyou.li","cnName":"ly","email":"liyou.li@zhaopin.com","phoneNumber":"14210264578","departmentName":"ZTC","groupName":"DATA","creator":0,"operator":null,"createTime":"2022-05-30 19:05:00","updateTime":"2022-05-30 19:05:02"}]}],"ruleInstances":[{"id":33,"code":5858444450208,"name":null,"metrics":{"id":1,"code":"null_rate","name":"空置率","category":null,"description":"空置率","metricsDimension":"INTEGRALITY","createTime":"2022-06-14 14:23:55","updateTime":"2022-06-14 14:23:55","creator":0,"updater":0},"metricsConfig":{"id":2,"code":5856996519968,"name":"TABLE_空置率_Hive_Flink","sourceCategory":"Hive","metrics":{"id":1,"code":"null_rate","name":"空置率","category":null,"description":"空置率","metricsDimension":"INTEGRALITY","createTime":"2022-06-14 14:23:55","updateTime":"2022-06-14 14:23:55","creator":0,"updater":0},"subjectCategory":"FIELD","createType":null,"metricsParams":"{\"executorType\":\"Flink\",\"executorScript\":\"select cast (sum(if(${field} is null, 1, 0))/count(1) as varchar) from ${table}\"}","description":null,"createTime":"2022-06-14 14:29:45","updateTime":"2022-06-14 14:29:45","creator":0,"updater":0,"executorType":"Flink","executorScript":"select cast (sum(if(${field} is null, 1, 0))/count(1) as varchar) from ${table}"},"metricsParams":"{\"executorType\":\"Flink\",\"executorScript\":\"select cast (sum(if(${field} is null, 1, 0))/count(1) as varchar) from ${table}\"}","subjectCategory":"FIELD","subjectCode":"35","metricsUniqueKey":"TABLE-01-null_rate-null","sampleInstance":{"id":50,"code":5858422782753,"datasetCode":"35","executorType":"executorType","parameter":"{\"method\":\"BLOCK\",\"number\":50, \"unit\": \"percent\"}","creator":0,"operator":null,"createTime":"2022-06-14 17:35:28","updateTime":"2022-06-14 17:38:17"},"checkType":"RATE","checkMethod":"FixedValue","comparisonMethod":"LT","comparisonUnit":"%","expectedValue":["100232132"],"description":null,"creator":0,"operator":null,"createTime":"2022-06-14 17:38:17","updateTime":"2022-06-14 17:38:17"}],"sampleInstance":{"id":50,"code":5858422782753,"datasetCode":"35","executorType":"executorType","parameter":"{\"method\":\"BLOCK\",\"number\":50, \"unit\": \"percent\"}","creator":0,"operator":null,"createTime":"2022-06-14 17:35:28","updateTime":"2022-06-14 17:38:17"},"env":null,"crontab":"0 0/5 * * * ? *","schedulerCode":"5858422842016","createTime":"2022-06-14 17:35:28","updateTime":"2022-06-14 17:38:17","dateTimeFields":[{"type":"string","name":"dt","format":"yyyyMMdd"}],"windowType":"TUMBLE","windowSize":"20","windowUnit":"DAY"}
+{
+  "id": 38,
+  "code": 5858422782752,
+  "meta":
+  {
+    "code": "01",
+    "name": "test_obs_octopus_jobs",
+    "comment": null,
+    "database":
+    {
+      "code": "28",
+      "name": "`default`"
+    },
+    "datasource":
+    {
+      "code": "01",
+      "name": "Hive-HW-PROD",
+      "type": "Hive"
+    },
+    "schemas": [
+      {
+        "code": "35",
+        "name": "name"
+      },
+      {
+        "code": "38",
+        "name": "emp_id"
+      },
+      {
+        "code": "39",
+        "name": "dept_id"
+      },
+      {
+        "code": "40",
+        "name": "emp_code"
+      },
+      {
+        "code": "41",
+        "name": "emp_pin_no"
+      },
+      {
+        "code": "42",
+        "name": "emp_simple_code"
+      },
+      {
+        "code": "43",
+        "name": "emp_name"
+      },
+      {
+        "code": "44",
+        "name": "emp_gender"
+      },
+      {
+        "code": "45",
+        "name": "emp_role"
+      },
+      {
+        "code": "46",
+        "name": "emp_position"
+      },
+      {
+        "code": "47",
+        "name": "emp_memo1k"
+      },
+      {
+        "code": "48",
+        "name": "emp_address"
+      },
+      {
+        "code": "49",
+        "name": "emp_birth_place"
+      },
+      {
+        "code": "50",
+        "name": "emp_office_phone"
+      },
+      {
+        "code": "51",
+        "name": "emp_home_phone"
+      },
+      {
+        "code": "52",
+        "name": "emp_pager"
+      },
+      {
+        "code": "53",
+        "name": "emp_mobile_phone"
+      },
+      {
+        "code": "54",
+        "name": "emp_email"
+      },
+      {
+        "code": "55",
+        "name": "emp_birth_year"
+      },
+      {
+        "code": "56",
+        "name": "emp_birth_month"
+      },
+      {
+        "code": "57",
+        "name": "emp_birth_day"
+      },
+      {
+        "code": "58",
+        "name": "emp_edu_level"
+      },
+      {
+        "code": "59",
+        "name": "emp_icq"
+      },
+      {
+        "code": "60",
+        "name": "stop_flag"
+      },
+      {
+        "code": "61",
+        "name": "key_privilege"
+      },
+      {
+        "code": "62",
+        "name": "crm_privilege"
+      },
+      {
+        "code": "63",
+        "name": "dss_privilege"
+      },
+      {
+        "code": "64",
+        "name": "ext_privilege"
+      },
+      {
+        "code": "65",
+        "name": "read_scope"
+      },
+      {
+        "code": "66",
+        "name": "write_scope"
+      },
+      {
+        "code": "67",
+        "name": "ext_data_privilege"
+      },
+      {
+        "code": "68",
+        "name": "emptmp_dec1"
+      },
+      {
+        "code": "69",
+        "name": "emptmp_dec2"
+      },
+      {
+        "code": "70",
+        "name": "emptmp_dec3"
+      },
+      {
+        "code": "71",
+        "name": "emptmp_dec4"
+      },
+      {
+        "code": "72",
+        "name": "create_emp_id"
+      },
+      {
+        "code": "73",
+        "name": "create_time"
+      },
+      {
+        "code": "74",
+        "name": "modify_emp_id"
+      },
+      {
+        "code": "75",
+        "name": "modify_time"
+      }]
+  },
+  "alerterInstances": [
+    {
+      "id": 24,
+      "source":
+      {
+        "id": 322,
+        "code": 5689168527392,
+        "name": "钉钉测试1",
+        "alertType": "DingTalk",
+        "parameter": "{\"keyWord\": \"keyWord1\", \"webhook\": \"webhook1\", \"secret\": \"secret1\"}",
+        "description": null,
+        "creator": 0,
+        "operator": null,
+        "createTime": "2022-05-30 10:17:09",
+        "updateTime": "2022-05-30 10:17:09"
+      },
+      "parameter": "{\"mobileList\":[\"14210264578\",\"15210284595\"]}",
+      "creator": 0,
+      "operator": null,
+      "createTime": "2022-06-14 17:35:28",
+      "updateTime": "2022-06-14 17:38:17",
+      "users": [
+        {
+          "id": 1,
+          "code": 1,
+          "name": "xiaoliang.wang",
+          "cnName": "wxl",
+          "email": "xiaoliang.wang@zhaopin.com",
+          "phoneNumber": "15210284595",
+          "departmentName": "ZTC",
+          "groupName": "DATA",
+          "creator": 0,
+          "operator": null,
+          "createTime": "2022-05-30 19:04:53",
+          "updateTime": "2022-05-30 19:04:56"
+        },
+        {
+          "id": 2,
+          "code": 2,
+          "name": "liyou.li",
+          "cnName": "ly",
+          "email": "liyou.li@zhaopin.com",
+          "phoneNumber": "14210264578",
+          "departmentName": "ZTC",
+          "groupName": "DATA",
+          "creator": 0,
+          "operator": null,
+          "createTime": "2022-05-30 19:05:00",
+          "updateTime": "2022-05-30 19:05:02"
+        }]
+    }],
+  "ruleInstances": [
+    {
+      "id": 33,
+      "code": 5858444450208,
+      "name": null,
+      "metrics":
+      {
+        "id": 1,
+        "code": "null_rate",
+        "name": "空值率",
+        "category": null,
+        "description": "空值率",
+        "metricsDimension": "INTEGRALITY",
+        "createTime": "2022-06-14 14:23:55",
+        "updateTime": "2022-06-14 14:23:55",
+        "creator": 0,
+        "updater": 0
+      },
+      "metricsConfig":
+      {
+        "id": 2,
+        "code": 5856996519968,
+        "name": "TABLE_空置率_Hive_Flink",
+        "sourceCategory": "Hive",
+        "metrics":
+        {
+          "id": 1,
+          "code": "null_rate",
+          "name": "空值率",
+          "category": null,
+          "description": "空值率",
+          "metricsDimension": "INTEGRALITY",
+          "createTime": "2022-06-14 14:23:55",
+          "updateTime": "2022-06-14 14:23:55",
+          "creator": 0,
+          "updater": 0
+        },
+        "subjectCategory": "FIELD",
+        "createType": null,
+        "metricsParams": "{\"executorType\":\"Flink\",\"executorScript\":\"select cast (sum(if(${field} is null, 1, 0))/count(1) as varchar) from ${table}\"}",
+        "description": null,
+        "createTime": "2022-06-14 14:29:45",
+        "updateTime": "2022-06-14 14:29:45",
+        "creator": 0,
+        "updater": 0,
+        "executorType": "Flink",
+        "executorScript": "select cast (sum(if(${field} is null, 1, 0))/count(1) as varchar) from ${table}"
+      },
+      "metricsParams": "{\"executorType\":\"Flink\",\"executorScript\":\"select cast (sum(if(${field} is null, 1, 0))/count(1) as varchar) from ${table}\"}",
+      "subjectCategory": "FIELD",
+      "subjectCode": "35",
+      "metricsUniqueKey": "TABLE-01-null_rate-null",
+      "sampleInstance":
+      {
+        "id": 50,
+        "code": 5858422782753,
+        "datasetCode": "01",
+        "executorType": "executorType",
+        "parameter": "{\"method\":\"BLOCK\",\"number\":50, \"unit\": \"percent\"}",
+        "creator": 0,
+        "operator": null,
+        "createTime": "2022-06-14 17:35:28",
+        "updateTime": "2022-06-14 17:38:17"
+      },
+      "checkType": "RATE",
+      "checkMethod": "FIXED_VALUE",
+      "comparisonMethod": "LT",
+      "comparisonUnit": "%",
+      "expectedValue": ["100232132"],
+      "description": null,
+      "creator": 0,
+      "operator": null,
+      "createTime": "2022-06-14 17:38:17",
+      "updateTime": "2022-06-14 17:38:17"
+    }],
+  "sampleInstance":
+  {
+    "id": 50,
+    "code": 5858422782753,
+    "datasetCode": "01",
+    "executorType": "executorType",
+    "parameter": "{\"method\":\"BLOCK\",\"number\":50, \"unit\": \"percent\"}",
+    "creator": 0,
+    "operator": null,
+    "createTime": "2022-06-14 17:35:28",
+    "updateTime": "2022-06-14 17:38:17"
+  },
+  "env": null,
+  "crontab": "0 0/5 * * * ? *",
+  "schedulerCode": "5858422842016",
+  "createTime": "2022-06-14 17:35:28",
+  "updateTime": "2022-06-14 17:38:17",
+  "dateTimeFields": [
+    {
+      "type": "string",
+      "name": "dt",
+      "format": "yyyyMMdd"
+    }],
+  "windowType": "TUMBLE",
+  "windowSize": "20",
+  "windowUnit": "DAY"
+}

@@ -137,10 +137,10 @@ public class OfflineHiveMetrics {
         configuration.setString("table.optimizer.agg-phase-strategy", "TWO_PHASE"); // enable two-phase, i.e. local-global aggregation
 
         // register catalog
-        HiveCatalog hiveCatalog = new HiveCatalog("myhive", "default", "/data/online/octopus-jobs/flink/conf", "3.1.0");
+        HiveCatalog hiveCatalog = new HiveCatalog("myhive", "default", monitorConfig.getHiveConfig().getHiveConfDir(), monitorConfig.getHiveConfig().getVersion());
         // HiveCatalog hiveCatalog = new HiveCatalog("myhive", "dmm", "/data/online/octopus-jobs/flink/conf", "3.1.0");
         tableEnvironment.registerCatalog("myhive", hiveCatalog);
-        tableEnvironment.loadModule("myhive", new HiveModule("3.1.0"));
+        tableEnvironment.loadModule("myhive", new HiveModule(monitorConfig.getHiveConfig().getVersion()));
 
         //register udf
         //registerUdf("insert_metrics_clickhouse", "org.metahut.octopus.jobs.udf.InsertMetricsToClickhouse");
@@ -269,7 +269,7 @@ public class OfflineHiveMetrics {
             ruleInstance.setCheckType(ruleInstanceResponseDTO.getCheckType());
             ruleInstance.setCheckMethod(ruleInstanceResponseDTO.getCheckMethod());
             ruleInstance.setComparisonUnit(ruleInstanceResponseDTO.getComparisonUnit());
-            ruleInstance.setCheckMethod(ruleInstanceResponseDTO.getComparisonMethod());
+            ruleInstance.setComparisonMethod(ruleInstanceResponseDTO.getComparisonMethod());
             ruleInstance.setExpectedValue(ruleInstanceResponseDTO.getExpectedValue());
 
             List<RuleInstance> ruleInstanceList = ruleInstancesMap.get(metricInfo);

@@ -354,7 +354,7 @@ public class StarfishMeta implements IMeta {
                     PulsarTenantResponseDTO tenant = namespace.getTenant();
                     if (Objects.nonNull(tenant) && CollectionUtils.isNotEmpty(tenant.getAllowedClusters())) {
                         Optional<PulsarClusterResponseDTO> optional = tenant.getAllowedClusters().stream().filter(Objects::nonNull).findFirst();
-                        if(optional.isPresent()) {
+                        if (optional.isPresent()) {
                             PulsarClusterResponseDTO pulsarCluster = optional.get();
                             datasource.setType(pulsarCluster.getType());
                             datasource.setName(pulsarCluster.getName());
