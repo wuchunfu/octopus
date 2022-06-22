@@ -94,6 +94,5 @@ public class MonitorFlowDefinitionServiceImpl implements MonitorFlowDefinitionSe
     @Override
     public MonitorFlowDefinitionResponseDTO queryByCode(Long code) {
         return conversionService.convert(findOneByCode(code), MonitorFlowDefinitionResponseDTO.class);
-
     }
 }

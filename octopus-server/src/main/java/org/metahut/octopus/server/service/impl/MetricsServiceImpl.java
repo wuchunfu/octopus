@@ -63,7 +63,7 @@ public class MetricsServiceImpl implements MetricsService {
         Metrics metrics = new Metrics();
         metrics.setCode(metricsCode);
         Optional<Metrics> optional = metricsRepository.findOne(Example.of(metrics));
-        Assert.notPresent(optional, METRICS_NOT_EXIST, metricsCode);
+        Assert.isPresent(optional, METRICS_NOT_EXIST, metricsCode);
         return optional.get();
     }
 
@@ -126,7 +126,7 @@ public class MetricsServiceImpl implements MetricsService {
             builder.or(builder.equal(root.get(Metrics_.name), metricsCreateOrUpdateRequestDTO.getName()),
                 builder.equal(root.get(Metrics_.code), metricsCreateOrUpdateRequestDTO.getCode()))
         );
-        Assert.empty(list, METRICS_NAME_OR_CODE_EXIST);
+        Assert.isEmpty(list, METRICS_NAME_OR_CODE_EXIST);
         Metrics convert = conversionService.convert(metricsCreateOrUpdateRequestDTO, Metrics.class);
         Metrics save = metricsRepository.save(convert);
         return conversionService.convert(save, MetricsResponseDTO.class);
@@ -134,14 +134,17 @@ public class MetricsServiceImpl implements MetricsService {
 
     @Override
     public MetricsResponseDTO update(MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO) {
+
+        // 1.Check if name already exists
         Metrics query = new Metrics();
         query.setName(metricsCreateOrUpdateRequestDTO.getName());
         Optional<Metrics> optional = metricsRepository.findOne(Example.of(query));
-        Assert.assertFalse(!optional.isPresent() || optional.get().getId().equals(metricsCreateOrUpdateRequestDTO.getId()), METRICS_NAME_OR_CODE_EXIST);
+        Assert.isTrue(!optional.isPresent() || optional.get().getId().equals(metricsCreateOrUpdateRequestDTO.getId()), METRICS_NAME_OR_CODE_EXIST);
 
+        // When the query exists, it can only be the current record
         optional = optional.isPresent() ? optional : metricsRepository.findById(metricsCreateOrUpdateRequestDTO.getId());
-        Assert.notPresent(optional, METRICS_NOT_EXIST, metricsCreateOrUpdateRequestDTO.getId());
-        Assert.assertFalse(StringUtils.equals(optional.get().getCode(), metricsCreateOrUpdateRequestDTO.getCode()), METRICS_CODE_UPDATE_ERROR);
+        Assert.isPresent(optional, METRICS_NOT_EXIST, metricsCreateOrUpdateRequestDTO.getId());
+        Assert.isTrue(optional.get().getCode().equals(metricsCreateOrUpdateRequestDTO.getCode()), METRICS_CODE_UPDATE_ERROR);
 
         Metrics convert = conversionService.convert(metricsCreateOrUpdateRequestDTO, Metrics.class);
         Metrics save = metricsRepository.save(convert);
@@ -151,21 +154,21 @@ public class MetricsServiceImpl implements MetricsService {
     @Override
     public void deleteById(Integer id) {
         Optional<Metrics> optional = metricsRepository.findById(id);
-        Assert.notPresent(optional, METRICS_NOT_EXIST, id);
+        Assert.isPresent(optional, METRICS_NOT_EXIST, id);
 
         String metricsCode = optional.get().getCode();
 
         MetricsConfigConditionsRequestDTO metricsConfigConditionsRequestDTO = new MetricsConfigConditionsRequestDTO();
         metricsConfigConditionsRequestDTO.setMetricsCode(metricsCode);
-        Assert.assertTrue(metricsConfigService.count(metricsConfigConditionsRequestDTO) > 0, METRICS_DELETE_ERROR, new Object[] {metricsCode, "metricsConfig"});
+        Assert.isTrue(metricsConfigService.count(metricsConfigConditionsRequestDTO) == 0, METRICS_DELETE_ERROR, metricsCode, "metricsConfig");
 
         RuleTemplateConditionRequestDTO ruleTemplateConditionRequestDTO = new RuleTemplateConditionRequestDTO();
         ruleTemplateConditionRequestDTO.setMetricsCode(metricsCode);
-        Assert.assertTrue(ruleTemplateService.count(ruleTemplateConditionRequestDTO) > 0, METRICS_DELETE_ERROR, new Object[] {metricsCode, "ruleTemplate"});
+        Assert.isTrue(ruleTemplateService.count(ruleTemplateConditionRequestDTO) == 0, METRICS_DELETE_ERROR, metricsCode, "ruleTemplate");
 
         RuleInstanceConditionRequestDTO ruleInstanceConditionRequestDTO = new RuleInstanceConditionRequestDTO();
         ruleInstanceConditionRequestDTO.setMetricsCode(metricsCode);
-        Assert.assertTrue(ruleInstanceService.count(ruleInstanceConditionRequestDTO) > 0, METRICS_DELETE_ERROR, new Object[] {metricsCode, "ruleInstance"});
+        Assert.isTrue(ruleInstanceService.count(ruleInstanceConditionRequestDTO) == 0, METRICS_DELETE_ERROR, metricsCode, "ruleInstance");
 
         metricsRepository.deleteById(id);
     }

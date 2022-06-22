@@ -3,6 +3,7 @@ package org.metahut.octopus.server.utils;
 import org.metahut.octopus.api.exception.BusinessException;
 import org.metahut.octopus.common.enums.StatusEnum;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.lang.Nullable;
 import org.springframework.util.CollectionUtils;
 
@@ -15,14 +16,8 @@ public class Assert {
 
     }
 
-    public static void notPresent(@Nullable Optional optional, StatusEnum status, @Nullable Object... args) {
+    public static void isPresent(@Nullable Optional optional, StatusEnum status, @Nullable Object... args) {
         if (!optional.isPresent()) {
-            throw new BusinessException(status, args);
-        }
-    }
-
-    public static void exists(@Nullable Optional optional, StatusEnum status, @Nullable Object... args) {
-        if (optional.isPresent()) {
             throw new BusinessException(status, args);
         }
     }
@@ -43,20 +38,22 @@ public class Assert {
         throw new BusinessException(status, args, cause);
     }
 
-    public static void empty(@Nullable Collection<?> collection, StatusEnum status, @Nullable Object... args) {
+    public static void isEmpty(@Nullable Collection<?> collection, StatusEnum status, @Nullable Object... args) {
         if (!CollectionUtils.isEmpty(collection)) {
             throw new BusinessException(status, args);
         }
     }
 
-    public static void assertTrue(boolean bool, StatusEnum status, @Nullable Object... args) {
-        if (bool) {
+    public static void isTrue(@Nullable Boolean expression, StatusEnum status, @Nullable Object... args) {
+        if (BooleanUtils.isNotTrue(expression)) {
             throw new BusinessException(status, args);
         }
     }
 
-    public static void assertFalse(boolean bool, StatusEnum status, @Nullable Object... args) {
-        assertTrue(!bool, status, args);
+    public static void isFalse(@Nullable Boolean expression, StatusEnum status, @Nullable Object... args) {
+        if (BooleanUtils.isTrue(expression)) {
+            throw new BusinessException(status, args);
+        }
     }
 
 }

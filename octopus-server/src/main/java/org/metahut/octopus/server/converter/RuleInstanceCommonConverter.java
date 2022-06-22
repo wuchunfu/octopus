@@ -5,16 +5,19 @@ import org.metahut.octopus.dao.entity.RuleInstance;
 
 import org.mapstruct.AfterMapping;
 import org.mapstruct.MappingTarget;
+import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 import java.util.StringJoiner;
 
 import static org.metahut.octopus.server.utils.Constants.NAME_SPLICE_SYMBOL;
 
-public interface RuleInstanceConverter {
+@Component
+public class RuleInstanceCommonConverter {
+
     @Deprecated
     @AfterMapping
-    default void metricsParameterHandler(@MappingTarget RuleInstance ruleInstance) {
+    public void metricsParameterHandler(@MappingTarget RuleInstance ruleInstance) {
         MetricsConfig metricsConfig = ruleInstance.getMetricsConfig();
         if (Objects.nonNull(metricsConfig)) {
             ruleInstance.setMetricsParams(metricsConfig.getMetricsParams());
@@ -23,7 +26,7 @@ public interface RuleInstanceConverter {
 
     @Deprecated
     @AfterMapping
-    default void metricsHandler(@MappingTarget RuleInstance ruleInstance) {
+    public void metricsHandler(@MappingTarget RuleInstance ruleInstance) {
         ruleInstance.setMetricsUniqueKey(new StringJoiner(NAME_SPLICE_SYMBOL)
                 .add(ruleInstance.getSubjectCategory().name())
                 .add(ruleInstance.getSubjectCode())

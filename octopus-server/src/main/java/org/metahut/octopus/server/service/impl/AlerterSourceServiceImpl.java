@@ -98,7 +98,7 @@ public class AlerterSourceServiceImpl implements AlerterSourceService {
         AlerterSource alerterSource = new AlerterSource();
         alerterSource.setCode(alertSourceCode);
         Optional<AlerterSource> optional = alerterSourceRepository.findOne(Example.of(alerterSource));
-        Assert.notPresent(optional, ALERT_SOURCE_NOT_EXIST, alertSourceCode);
+        Assert.isPresent(optional, ALERT_SOURCE_NOT_EXIST, alertSourceCode);
         return optional.get();
     }
 }

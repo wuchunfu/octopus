@@ -130,7 +130,7 @@ public class MetricsConfigServiceImpl implements MetricsConfigService {
         MetricsConfig metricsConfig = new MetricsConfig();
         metricsConfig.setCode(code);
         Optional<MetricsConfig> optional = metricsConfigRepository.findOne(Example.of(metricsConfig));
-        Assert.notPresent(optional, METRICS_CONFIG_NOT_EXIST, code);
+        Assert.isPresent(optional, METRICS_CONFIG_NOT_EXIST, code);
         return optional.get();
     }
 

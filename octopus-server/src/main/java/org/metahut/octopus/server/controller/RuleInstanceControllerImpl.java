@@ -8,11 +8,8 @@ import org.metahut.octopus.api.dto.RuleInstanceConditionRequestDTO;
 import org.metahut.octopus.api.dto.RuleInstanceResponseDTO;
 import org.metahut.octopus.api.dto.RuleInstanceSingleCreateOrUpdateRequestDTO;
 import org.metahut.octopus.server.service.RuleInstanceService;
-import org.metahut.octopus.server.utils.SnowflakeIdGenerator;
 
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Objects;
 
 @RestController
 public class RuleInstanceControllerImpl implements RuleInstanceController {
@@ -31,10 +28,6 @@ public class RuleInstanceControllerImpl implements RuleInstanceController {
 
     @Override
     public ResultEntity<RuleInstanceResponseDTO> create(RuleInstanceSingleCreateOrUpdateRequestDTO requestDTO) {
-        requestDTO.setCode(SnowflakeIdGenerator.getInstance().nextId());
-        if (Objects.nonNull(requestDTO.getSampleInstance()) && Objects.isNull(requestDTO.getSampleInstance().getId())) {
-            requestDTO.getSampleInstance().setCode(SnowflakeIdGenerator.getInstance().nextId());
-        }
         return ResultEntity.success(ruleInstanceService.createOrUpdate(requestDTO));
     }
 

@@ -12,12 +12,12 @@ import org.springframework.core.convert.converter.Converter;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = {MetricsService.class, MetricsConfigService.class})
-public abstract class RuleInstanceFromDTOConverter implements Converter<RuleInstanceCreateOrUpdateRequestDTO, RuleInstance>, RuleInstanceConverter {
+@Mapper(componentModel = "spring", uses = { CodeCommonConverter.class, MetricsService.class, MetricsConfigService.class, RuleInstanceCommonConverter.class })
+public interface RuleInstanceFromDTOConverter extends Converter<RuleInstanceCreateOrUpdateRequestDTO, RuleInstance> {
 
     @Override
     @Mappings({@Mapping(source = "metricsCode", target = "metrics"), @Mapping(source = "metricsConfigCode", target = "metricsConfig")})
-    public abstract RuleInstance convert(RuleInstanceCreateOrUpdateRequestDTO source);
+    RuleInstance convert(RuleInstanceCreateOrUpdateRequestDTO source);
 
-    public abstract List<RuleInstance> convert(List<RuleInstanceCreateOrUpdateRequestDTO> sources);
+    List<RuleInstance> convert(List<RuleInstanceCreateOrUpdateRequestDTO> sources);
 }

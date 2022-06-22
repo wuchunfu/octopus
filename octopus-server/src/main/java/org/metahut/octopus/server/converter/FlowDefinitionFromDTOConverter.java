@@ -9,12 +9,9 @@ import org.metahut.octopus.server.service.MetaService;
 import org.metahut.octopus.server.service.MonitorFlowDefinitionService;
 import org.metahut.octopus.server.service.SchedulerService;
 
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.mapstruct.AfterMapping;
 import org.mapstruct.BeforeMapping;
 import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 
@@ -23,7 +20,7 @@ import java.util.StringJoiner;
 
 import static org.metahut.octopus.server.utils.Constants.NAME_SPLICE_SYMBOL;
 
-@Mapper(componentModel = "spring", uses = { AlerterInstanceFromDTOConverter.class, RuleInstanceFromDTOConverter.class })
+@Mapper(componentModel = "spring", uses = { CodeCommonConverter.class, AlerterInstanceFromDTOConverter.class, RuleInstanceFromDTOConverter.class, SampleInstanceFromDTOConverter.class })
 public abstract class FlowDefinitionFromDTOConverter implements Converter<MonitorFlowDefinitionCreateOrUpdateRequestDTO, FlowDefinition> {
 
     @Override
@@ -64,16 +61,6 @@ public abstract class FlowDefinitionFromDTOConverter implements Converter<Monito
                 schedulerService.updateScheduleTimer(scheduleParameter);
             }
         }
-    }
-
-    @AfterMapping
-    public void sampleHandler(@MappingTarget FlowDefinition target) {
-        target.getRuleInstances().stream()
-                .filter(ruleInstance -> BooleanUtils.isTrue(ruleInstance.getSample()))
-                .forEach(ruleInstance -> ruleInstance.setSampleInstance(target.getSampleInstance()));
-
-        String parameter = target.getSampleInstance().getParameter();
-        target.getSampleInstance().setRuntimeParameter("{\"method\":\"BLOCK\",\"number\":" + parameter + ", \"unit\": \"percent\"}");
     }
 
 }

@@ -43,15 +43,6 @@ public class MonitorFlowDefinitionControllerImpl implements MonitorFlowDefinitio
 
     @Override
     public ResultEntity<MonitorFlowDefinitionResponseDTO> create(MonitorFlowDefinitionCreateOrUpdateRequestDTO requestDTO) {
-        if (Objects.isNull(requestDTO.getCode())) {
-            requestDTO.setCode(SnowflakeIdGenerator.getInstance().nextId());
-        }
-        if (Objects.nonNull(requestDTO.getSampleInstance())) {
-            requestDTO.getSampleInstance().setCode(SnowflakeIdGenerator.getInstance().nextId());
-        }
-        if (Objects.nonNull(requestDTO.getRuleInstances())) {
-            requestDTO.getRuleInstances().forEach(i -> i.setCode(SnowflakeIdGenerator.getInstance().nextId()));
-        }
         return ResultEntity.success(monitorFlowDefinitionService.createOrUpdate(requestDTO));
     }
 
@@ -66,11 +57,6 @@ public class MonitorFlowDefinitionControllerImpl implements MonitorFlowDefinitio
 
     @Override
     public ResultEntity<MonitorFlowDefinitionResponseDTO> update(MonitorFlowDefinitionCreateOrUpdateRequestDTO requestDTO) {
-        requestDTO.getRuleInstances().forEach(i -> {
-            if (Objects.isNull(i.getCode())) {
-                i.setCode(SnowflakeIdGenerator.getInstance().nextId());
-            }
-        });
         return ResultEntity.success(monitorFlowDefinitionService.createOrUpdate(requestDTO));
     }
 

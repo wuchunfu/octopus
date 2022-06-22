@@ -37,12 +37,14 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import org.apache.commons.lang3.StringUtils;
+import org.quartz.CronExpression;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -71,6 +73,34 @@ public class DolphinScheduler implements IScheduler {
 
     @Override
     public List<String> previewSchedule(ScheduleCronParameter scheduleCronParameter) {
+        setScheduleCronDefaultValue(scheduleCronParameter);
+        CronExpression cronExpression;
+        try {
+            cronExpression = new CronExpression(scheduleCronParameter.getCrontab());
+        } catch (ParseException e) {
+            throw new SchedulerException("dolphin scheduler call previewSchedule method exception", e);
+        }
+
+        Date startTime = scheduleCronParameter.getStartTime();
+        Date endTime = scheduleCronParameter.getEndTime();
+        int fireTimes = 10;
+        List<String> dateList = new ArrayList<>();
+        while (fireTimes > 0) {
+            startTime = cronExpression.getNextValidTimeAfter(startTime);
+            if (startTime == null || startTime.after(endTime) || startTime.equals(endTime)) {
+                break;
+            }
+            dateList.add(formatter.format(startTime.toInstant().atZone(ZoneId.systemDefault())));
+            fireTimes--;
+        }
+        return dateList;
+    }
+
+    @Deprecated
+    /**
+     * dolphin 2.0.1 bug
+     */
+    public List<String> previewScheduleOld(ScheduleCronParameter scheduleCronParameter) {
         setScheduleCronDefaultValue(scheduleCronParameter);
         String url = MessageFormat.format("/projects/{0}/schedules/preview", properties.getProjectCode());
         FormBody body = new FormBody.Builder()

@@ -31,6 +31,7 @@ import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.metahut.octopus.common.enums.StatusEnum.RULE_INSTANCE_EXIST;
@@ -51,7 +52,7 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
     public PageResponseDTO<RuleInstanceResponseDTO> queryListPage(RuleInstanceConditionRequestDTO requestDTO) {
         Sort.TypedSort<RuleInstance> typedSort = Sort.sort(RuleInstance.class);
         Sort sort = typedSort.by(RuleInstance::getUpdateTime).descending();
-        Pageable pageable = PageRequest.of(requestDTO.getPageNo() - 1, requestDTO.getPageSize());
+        Pageable pageable = PageRequest.of(requestDTO.getPageNo() - 1, requestDTO.getPageSize(), sort);
         Page<RuleInstance> ruleInstancePage = ruleInstanceRepository.findAll(withConditions(requestDTO), pageable);
         List<RuleInstanceResponseDTO> convert = (List<RuleInstanceResponseDTO>) conversionService.convert(ruleInstancePage.getContent(),
                 TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleInstance.class)),
@@ -109,12 +110,9 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
             conditions.add(root.get(RuleInstance_.subjectCode).as(String.class).in(ruleExistConditionDTO.getSubjectCodes()));
             return builder.and(conditions.toArray(new Predicate[conditions.size()]));
         };
-
-        List<RuleInstanceResponseDTO> convert = (List<RuleInstanceResponseDTO>) conversionService.convert(ruleInstanceRepository.findAll(specification),
-            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleInstance.class)),
-            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleInstanceResponseDTO.class)));
-        List<String> ruleExists = convert.stream().map(i -> i.getSubjectCode()).collect(Collectors.toList());
-        Assert.empty(convert, RULE_INSTANCE_EXIST, ruleExists);
+        List<RuleInstance> ruleInstances = ruleInstanceRepository.findAll(specification);
+        Set<String> collect = ruleInstances.stream().map(RuleInstance::getSubjectCode).collect(Collectors.toSet());
+        Assert.isEmpty(collect, RULE_INSTANCE_EXIST, collect);
     }
 
     @Override
