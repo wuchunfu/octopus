@@ -18,7 +18,9 @@ public interface MetricsService {
 
     PageResponseDTO<MetricsResponseDTO> queryListPage(MetricsConditionsRequestDTO requestDTO);
 
-    MetricsResponseDTO createOrUpdate(MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO);
+    MetricsResponseDTO create(MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO);
+
+    MetricsResponseDTO update(MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO);
 
     void deleteById(Integer id);
 }

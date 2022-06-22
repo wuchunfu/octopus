@@ -35,7 +35,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import static org.metahut.octopus.common.enums.StatusEnum.METRICS_CODE_UPDATE_ERROR;
 import static org.metahut.octopus.common.enums.StatusEnum.METRICS_DELETE_ERROR;
+import static org.metahut.octopus.common.enums.StatusEnum.METRICS_NAME_OR_CODE_EXIST;
 import static org.metahut.octopus.common.enums.StatusEnum.METRICS_NOT_EXIST;
 
 @Service
@@ -119,7 +121,28 @@ public class MetricsServiceImpl implements MetricsService {
     }
 
     @Override
-    public MetricsResponseDTO createOrUpdate(MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO) {
+    public MetricsResponseDTO create(MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO) {
+        List<Metrics> list = metricsRepository.findAll((root, query, builder) ->
+            builder.or(builder.equal(root.get(Metrics_.name), metricsCreateOrUpdateRequestDTO.getName()),
+                builder.equal(root.get(Metrics_.code), metricsCreateOrUpdateRequestDTO.getCode()))
+        );
+        Assert.empty(list, METRICS_NAME_OR_CODE_EXIST);
+        Metrics convert = conversionService.convert(metricsCreateOrUpdateRequestDTO, Metrics.class);
+        Metrics save = metricsRepository.save(convert);
+        return conversionService.convert(save, MetricsResponseDTO.class);
+    }
+
+    @Override
+    public MetricsResponseDTO update(MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO) {
+        Metrics query = new Metrics();
+        query.setName(metricsCreateOrUpdateRequestDTO.getName());
+        Optional<Metrics> optional = metricsRepository.findOne(Example.of(query));
+        Assert.assertFalse(!optional.isPresent() || optional.get().getId().equals(metricsCreateOrUpdateRequestDTO.getId()), METRICS_NAME_OR_CODE_EXIST);
+
+        optional = optional.isPresent() ? optional : metricsRepository.findById(metricsCreateOrUpdateRequestDTO.getId());
+        Assert.notPresent(optional, METRICS_NOT_EXIST, metricsCreateOrUpdateRequestDTO.getId());
+        Assert.assertFalse(StringUtils.equals(optional.get().getCode(), metricsCreateOrUpdateRequestDTO.getCode()), METRICS_CODE_UPDATE_ERROR);
+
         Metrics convert = conversionService.convert(metricsCreateOrUpdateRequestDTO, Metrics.class);
         Metrics save = metricsRepository.save(convert);
         return conversionService.convert(save, MetricsResponseDTO.class);

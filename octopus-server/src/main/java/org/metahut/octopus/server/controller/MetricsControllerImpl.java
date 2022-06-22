@@ -38,12 +38,12 @@ public class MetricsControllerImpl implements MetricsController {
 
     @Override
     public ResultEntity<MetricsResponseDTO> create(MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO) {
-        return ResultEntity.success(metricsService.createOrUpdate(metricsCreateOrUpdateRequestDTO));
+        return ResultEntity.success(metricsService.create(metricsCreateOrUpdateRequestDTO));
     }
 
     @Override
     public ResultEntity<MetricsResponseDTO> update(MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO) {
-        return ResultEntity.success(metricsService.createOrUpdate(metricsCreateOrUpdateRequestDTO));
+        return ResultEntity.success(metricsService.update(metricsCreateOrUpdateRequestDTO));
     }
 
     @Override

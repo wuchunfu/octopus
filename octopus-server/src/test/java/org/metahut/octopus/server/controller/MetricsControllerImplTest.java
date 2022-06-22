@@ -60,9 +60,8 @@ public class MetricsControllerImplTest extends WebMvcApplicationTest {
         MetricsResponseDTO createData = create(requestDTO);
 
         MetricsCreateOrUpdateRequestDTO updateRequestDTO = JSONUtils.parseObject(JSONUtils.toJSONString(createData), MetricsCreateOrUpdateRequestDTO.class);
-        String updateName = "new null_value metrics";
+        String updateName = "new null_value2 metrics";
         updateRequestDTO.setName(updateName);
-        updateRequestDTO.setCode(updateName);
         updateRequestDTO.setDescription(updateName);
         updateRequestDTO.setCategory(null);
 

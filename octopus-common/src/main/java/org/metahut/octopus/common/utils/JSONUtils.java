@@ -17,13 +17,19 @@
 
 package org.metahut.octopus.common.utils;
 
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.Objects;
 
 import static com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES;
@@ -46,9 +52,13 @@ public class JSONUtils {
             .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
             .configure(ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT, true)
             .configure(READ_UNKNOWN_ENUM_VALUES_AS_NULL, true)
-            .configure(UNWRAP_SINGLE_VALUE_ARRAYS,true)
+            .configure(UNWRAP_SINGLE_VALUE_ARRAYS, true)
             .setDateFormat(new ZhStdDateFormat());
 
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(java.util.Date.class, new DateSerializer());
+        module.addSerializer(java.sql.Date.class, new SqlDateSerializer());
+        OBJECT_MAPPER.registerModule(module);
     }
 
     public static ObjectMapper getObjectMapper() {
@@ -114,4 +124,21 @@ public class JSONUtils {
         }
     }
 
+    private static class DateSerializer extends JsonSerializer<java.util.Date> {
+        @Override
+        public void serialize(java.util.Date date, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String format = sdf.format(date);
+            gen.writeString(format);
+        }
+    }
+
+    private static class SqlDateSerializer extends JsonSerializer<java.sql.Date> {
+        @Override
+        public void serialize(java.sql.Date date, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String format = sdf.format(date);
+            gen.writeString(format);
+        }
+    }
 }
