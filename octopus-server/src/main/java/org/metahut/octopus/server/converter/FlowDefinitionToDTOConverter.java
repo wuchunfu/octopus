@@ -13,7 +13,6 @@ import java.util.List;
 @Mapper(componentModel = "spring", uses = { MetaService.class, AlerterInstanceToDTOConverter.class })
 public interface FlowDefinitionToDTOConverter extends Converter<FlowDefinition, MonitorFlowDefinitionResponseDTO> {
 
-
     @Mapping(source = "datasetCode", target = "meta")
     @Override
     MonitorFlowDefinitionResponseDTO convert(FlowDefinition source);

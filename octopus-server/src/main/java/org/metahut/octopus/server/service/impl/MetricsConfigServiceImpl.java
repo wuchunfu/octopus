@@ -12,7 +12,6 @@ import org.metahut.octopus.dao.entity.MetricsConfig_;
 import org.metahut.octopus.dao.entity.Metrics_;
 import org.metahut.octopus.dao.repository.MetricsConfigRepository;
 import org.metahut.octopus.server.service.MetricsConfigService;
-import org.metahut.octopus.server.utils.Assert;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -33,8 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-
-import static org.metahut.octopus.common.enums.StatusEnum.METRICS_CONFIG_NOT_EXIST;
 
 @Service
 public class MetricsConfigServiceImpl implements MetricsConfigService {
@@ -130,8 +127,7 @@ public class MetricsConfigServiceImpl implements MetricsConfigService {
         MetricsConfig metricsConfig = new MetricsConfig();
         metricsConfig.setCode(code);
         Optional<MetricsConfig> optional = metricsConfigRepository.findOne(Example.of(metricsConfig));
-        Assert.isPresent(optional, METRICS_CONFIG_NOT_EXIST, code);
-        return optional.get();
+        return optional.isPresent() ? optional.get() : null;
     }
 
     @Override

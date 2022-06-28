@@ -9,6 +9,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Random;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 public class WebMvcApplicationTest {
@@ -21,4 +23,6 @@ public class WebMvcApplicationTest {
 
     @MockBean
     private AlerterPluginParameterHelper alerterPluginParameterHelper;
+
+    protected static final Random RANDOM = new Random();
 }

@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ import java.util.stream.Collectors;
 public class ClickhouseMonitorDBSource implements IMonitorDBSource {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ClickhouseMonitorDBSource.class);
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:SS");
     private final JDBCDatasourceProvider jdbcDatasource;
 
     public ClickhouseMonitorDBSource(MonitorDBProperties.Clickhouse properties) {
@@ -90,8 +92,8 @@ public class ClickhouseMonitorDBSource implements IMonitorDBSource {
 
         if (Objects.nonNull(request.getCreateStartTime()) && Objects.nonNull(request.getCreateEndTime())) {
             builder.append(" AND create_time").append(" BETWEEN ? AND ?");
-            parameters.add(request.getCreateStartTime());
-            parameters.add(request.getCreateEndTime());
+            parameters.add(DATE_TIME_FORMATTER.format(request.getCreateStartTime().toInstant().atZone(ZoneId.systemDefault())));
+            parameters.add(DATE_TIME_FORMATTER.format(request.getCreateEndTime().toInstant().atZone(ZoneId.systemDefault())));
         }
 
         builder.append(" LIMIT ?,?");
@@ -147,7 +149,7 @@ public class ClickhouseMonitorDBSource implements IMonitorDBSource {
 
         if (Objects.nonNull(request.getMetricsConfigCode())) {
             builder.append(" AND metrics_config_code = ?");
-            parameters.add(request.getMetricsConfigCode());
+            parameters.add(request.getMetricsConfigCode().toString());
         }
 
         if (StringUtils.isNotBlank(request.getCheckType())) {
@@ -162,8 +164,8 @@ public class ClickhouseMonitorDBSource implements IMonitorDBSource {
 
         if (Objects.nonNull(request.getErrorStartTime()) && Objects.nonNull(request.getErrorEndTime())) {
             builder.append(" AND error_time").append(" BETWEEN ? AND ?");
-            parameters.add(request.getErrorStartTime());
-            parameters.add(request.getErrorEndTime());
+            parameters.add(DATE_TIME_FORMATTER.format(request.getErrorStartTime().toInstant().atZone(ZoneId.systemDefault())));
+            parameters.add(DATE_TIME_FORMATTER.format(request.getErrorEndTime().toInstant().atZone(ZoneId.systemDefault())));
         }
 
         builder.append(" LIMIT ?,?");
@@ -207,7 +209,6 @@ public class ClickhouseMonitorDBSource implements IMonitorDBSource {
     }
 
     private static String convertToInsertSql(Object model, String database, String table) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:SS");
         Preconditions.checkArgument(Objects.nonNull(model) && StringUtils.isNotBlank(table), "The arguments of model and table can not be null.");
         StringBuilder columnsBuilder = new StringBuilder();
         StringBuilder valuesBuilder = new StringBuilder();
@@ -224,7 +225,7 @@ public class ClickhouseMonitorDBSource implements IMonitorDBSource {
                     if (typeName.equalsIgnoreCase("java.lang.String") || typeName.equalsIgnoreCase("java.util.Date")) {
                         valuesBuilder.append("'");
                         if (typeName.equalsIgnoreCase("java.util.Date")) {
-                            valuesBuilder.append(dateTimeFormatter.format(((Date) field.get(model)).toInstant().atZone(ZoneId.systemDefault())));
+                            valuesBuilder.append(DATE_TIME_FORMATTER.format(((Date) field.get(model)).toInstant().atZone(ZoneId.systemDefault())));
                         } else {
                             valuesBuilder.append(field.get(model).toString());
                         }

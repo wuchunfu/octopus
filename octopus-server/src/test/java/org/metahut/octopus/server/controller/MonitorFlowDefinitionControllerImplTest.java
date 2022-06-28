@@ -367,6 +367,7 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
         ruleUpdate.setDatasetCode("dataset76");
         ruleUpdate.setSubjectCategory(SubjectCategoryEnum.TABLE);
         updateDTO.getRuleInstances().add(ruleUpdate);
+        updateDTO.setSchedulerCode("466");
 
         String sampleValue = "100";
         updateDTO.getSampleInstance().setParameter(sampleValue);

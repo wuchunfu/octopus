@@ -1,5 +1,7 @@
 package org.metahut.octopus.api.dto;
 
+import org.metahut.octopus.common.enums.SubjectCategoryEnum;
+
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Date;
@@ -26,6 +28,9 @@ public class RuleInstanceConditionRequestDTO extends PageRequestDTO {
 
     @ApiModelProperty(value = "updateEndTime")
     private Date updateEndTime;
+
+    @ApiModelProperty(value = "subjectCategory")
+    private SubjectCategoryEnum subjectCategory;
 
     public String getDatasetCode() {
         return datasetCode;
@@ -81,5 +86,13 @@ public class RuleInstanceConditionRequestDTO extends PageRequestDTO {
 
     public void setUpdateEndTime(Date updateEndTime) {
         this.updateEndTime = updateEndTime;
+    }
+
+    public SubjectCategoryEnum getSubjectCategory() {
+        return subjectCategory;
+    }
+
+    public void setSubjectCategory(SubjectCategoryEnum subjectCategory) {
+        this.subjectCategory = subjectCategory;
     }
 }

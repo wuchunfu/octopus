@@ -1,6 +1,16 @@
 package org.metahut.octopus.server.config;
 
-import org.metahut.octopus.server.converter.*;
+import org.metahut.octopus.server.converter.AlerterInstanceToDTOConverter;
+import org.metahut.octopus.server.converter.FlowDefinitionFromDTOConverter;
+import org.metahut.octopus.server.converter.FlowDefinitionToDTOConverter;
+import org.metahut.octopus.server.converter.MetricsConfigFromDTOConverter;
+import org.metahut.octopus.server.converter.MetricsResultToDTOConverter;
+import org.metahut.octopus.server.converter.MonitorLogToDTOConverter;
+import org.metahut.octopus.server.converter.RuleInstanceFromDTOConverter;
+import org.metahut.octopus.server.converter.RuleInstanceSingleFromDTOConverter;
+import org.metahut.octopus.server.converter.RuleTemplateFromDTOConverter;
+import org.metahut.octopus.server.converter.SampleInstanceFromDTOConverter;
+import org.metahut.octopus.server.converter.SchedulerTaskInstanceToDTOConverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

@@ -24,14 +24,14 @@ CREATE TABLE tb_octopus_user
     cn_name         varchar(64) DEFAULT NULL,
     password        varchar(64),
     email           varchar(64),
-    phone_number     varchar(11),
-    department_name  varchar(255),
-    group_name       varchar(255),
+    phone_number    varchar(11),
+    department_name varchar(255),
+    group_name      varchar(255),
     state           varchar(255),
-    create_time   timestamp   DEFAULT NULL,
-    update_time   timestamp   DEFAULT NULL,
-    creator        int       DEFAULT NULL,
-    updater        int       DEFAULT NULL,
+    create_time     timestamp   DEFAULT NULL,
+    update_time     timestamp   DEFAULT NULL,
+    creator         int         DEFAULT NULL,
+    updater         int         DEFAULT NULL,
     PRIMARY KEY (id),
     CONSTRAINT user_name_unique UNIQUE (name)
 );
@@ -39,20 +39,20 @@ CREATE TABLE tb_octopus_user
 DROP TABLE IF EXISTS tb_octopus_flow_definition;
 CREATE TABLE tb_octopus_flow_definition
 (
-    id             serial       NOT NULL,
-    code           bigint          NOT NULL,
-    dataset_code   varchar(64)  NOT NULL,
-    env            varchar(200),
-    crontab        varchar(200) NOT NULL,
-    scheduler_code varchar(254),
-    date_time_fields  text DEFAULT NULL,
-    window_type varchar(64) DEFAULT NULL,
-    window_size varchar(64) DEFAULT NULL,
-    window_unit varchar(64) DEFAULT NULL,
-    create_time    timestamp DEFAULT NULL,
-    update_time    timestamp DEFAULT NULL,
-    creator        int       DEFAULT NULL,
-    updater        int       DEFAULT NULL,
+    id               serial       NOT NULL,
+    code             bigint       NOT NULL,
+    dataset_code     varchar(64)  NOT NULL,
+    env              varchar(200),
+    crontab          varchar(200) NOT NULL,
+    scheduler_code   varchar(254),
+    date_time_fields text        DEFAULT NULL,
+    window_type      varchar(64) DEFAULT NULL,
+    window_size      varchar(64) DEFAULT NULL,
+    window_unit      varchar(64) DEFAULT NULL,
+    create_time      timestamp   DEFAULT NULL,
+    update_time      timestamp   DEFAULT NULL,
+    creator          int         DEFAULT NULL,
+    updater          int         DEFAULT NULL,
     PRIMARY KEY (id),
     CONSTRAINT flow_definition_code_unique UNIQUE (dataset_code)
 );
@@ -60,10 +60,10 @@ CREATE TABLE tb_octopus_flow_definition
 DROP TABLE IF EXISTS tb_octopus_alerter_instance;
 CREATE TABLE tb_octopus_alerter_instance
 (
-    id                  serial      NOT NULL,
+    id                  serial NOT NULL,
     dataset_code        varchar(64),
-    alerter_source_code bigint         NOT NULL,
-    parameter           text        NOT NULL,
+    alerter_source_code bigint NOT NULL,
+    parameter           text   NOT NULL,
 
     create_time         timestamp DEFAULT NULL,
     update_time         timestamp DEFAULT NULL,
@@ -77,7 +77,7 @@ CREATE TABLE tb_octopus_alerter_source
 (
     id          serial      NOT NULL,
     alert_type  varchar(64) NOT NULL,
-    code        bigint         NOT NULL,
+    code        bigint      NOT NULL,
     name        varchar(200) DEFAULT NULL,
     parameter   text        NOT NULL,
 
@@ -93,7 +93,7 @@ DROP TABLE IF EXISTS tb_octopus_rule_instance;
 CREATE TABLE tb_octopus_rule_instance
 (
     id                  serial       NOT NULL,
-    code                bigint          NOT NULL,
+    code                bigint       NOT NULL,
     name                varchar(64) DEFAULT NULL,
     dataset_code        varchar(64),
 
@@ -101,7 +101,7 @@ CREATE TABLE tb_octopus_rule_instance
     -- custom execution script
     metrics_config_code bigint,
 
-    metrics_params      text  NOT NULL,
+    metrics_params      text         NOT NULL,
     subject_category    varchar(16) DEFAULT 'TABLE',
     subject_code        varchar(64),
     metrics_unique_key  varchar(254) NOT NULL,
@@ -133,7 +133,7 @@ DROP TABLE IF EXISTS tb_octopus_rule_template;
 CREATE TABLE tb_octopus_rule_template
 (
     id                serial      NOT NULL,
-    code              bigint         NOT NULL,
+    code              bigint      NOT NULL,
     name              varchar(64) DEFAULT NULL,
     metrics_code      varchar(64) NOT NULL,
 
@@ -155,17 +155,17 @@ CREATE TABLE tb_octopus_rule_template
 DROP TABLE IF EXISTS tb_octopus_sample_instance;
 CREATE TABLE tb_octopus_sample_instance
 (
-    id            serial      NOT NULL,
-    code          bigint         NOT NULL,
+    id                serial NOT NULL,
+    code              bigint NOT NULL,
 
-    dataset_code  varchar(64),
-    executor_type varchar(64),
-    parameter     text,
+    dataset_code      varchar(64),
+    executor_type     varchar(64),
+    parameter         text,
     runtime_parameter text,
-    create_time   timestamp DEFAULT NULL,
-    update_time   timestamp DEFAULT NULL,
-    creator       int       DEFAULT NULL,
-    updater       int       DEFAULT NULL,
+    create_time       timestamp DEFAULT NULL,
+    update_time       timestamp DEFAULT NULL,
+    creator           int       DEFAULT NULL,
+    updater           int       DEFAULT NULL,
     PRIMARY KEY (id),
     CONSTRAINT sample_instance_code_unique UNIQUE (dataset_code, executor_type)
 );
@@ -179,7 +179,7 @@ CREATE TABLE tb_octopus_metrics_config
 
     metrics_code     varchar(64) NOT NULL,
     create_type      varchar(16) DEFAULT 'CUSTOM',
-    metrics_params   text NOT NULL,
+    metrics_params   text        NOT NULL,
     subject_category varchar(16) DEFAULT 'TABLE',
     source_category  varchar(64) NOT NULL,
 
@@ -189,7 +189,8 @@ CREATE TABLE tb_octopus_metrics_config
     creator          int         DEFAULT NULL,
     updater          int         DEFAULT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT metrics_config_code_unique UNIQUE (code)
+    CONSTRAINT metrics_config_code_unique UNIQUE (code),
+    CONSTRAINT metrics_config_unique UNIQUE (metrics_code, subject_category, source_category)
 );
 
 DROP TABLE IF EXISTS tb_octopus_metrics;

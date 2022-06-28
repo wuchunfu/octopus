@@ -47,4 +47,8 @@ public class RuleInstanceControllerImpl implements RuleInstanceController {
         return ResultEntity.success(ruleInstanceService.queryListPage(ruleInstanceConditionRequestDTO));
     }
 
+    @Override
+    public ResultEntity<Long> queryRuleInstanceCount(RuleInstanceConditionRequestDTO ruleInstanceConditionRequestDTO) {
+        return ResultEntity.success(ruleInstanceService.count(ruleInstanceConditionRequestDTO));
+    }
 }

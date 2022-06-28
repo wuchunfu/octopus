@@ -45,4 +45,8 @@ public interface RuleInstanceController {
     @ApiOperation(value = "check", notes = "CHECK_RULE_WHETHER_OR_NOT_NOTS")
     @GetMapping("check")
     ResultEntity checkExistRule(@Validated RuleExistConditionDTO ruleExistConditionDTO);
+
+    @ApiOperation(value = "queryRuleInstanceCount", notes = "QUERY_RULE_INSTANCE_COUNT_NOTS")
+    @GetMapping("queryRuleInstanceCount")
+    ResultEntity<Long> queryRuleInstanceCount(RuleInstanceConditionRequestDTO ruleInstanceConditionRequestDTO);
 }

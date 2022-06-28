@@ -33,12 +33,14 @@ public class RuleInstanceControllerImplTest extends WebMvcApplicationTest {
     private static final String REST_FUNCTION_URL_PREFIX = "/ruleInstance/";
 
     private MetricsResponseDTO createMetrics(MetricsCreateOrUpdateRequestDTO requestDTO) throws Exception {
+        requestDTO.setCode("c_count_instance" + RANDOM.nextInt(1000));
+        requestDTO.setName("c_count_instance" + RANDOM.nextInt(1000));
         String url = "/metrics/create";
         requestDTO.setMetricsDimension(MetricsDimensionEnum.INTEGRALITY);
         MvcResult mvcResult = mockMvc.perform(post(url).contentType(MediaType.APPLICATION_JSON).content(JSONUtils.toJSONString(requestDTO)))
-                .andExpect(status().isOk())
-                .andDo(MockMvcResultHandlers.print())
-                .andReturn();
+            .andExpect(status().isOk())
+            .andDo(MockMvcResultHandlers.print())
+            .andReturn();
         String result = mvcResult.getResponse().getContentAsString();
         ResultEntity<MetricsResponseDTO> create = JSONUtils.parseObject(result, new TypeReference<ResultEntity<MetricsResponseDTO>>() {
         });
@@ -51,9 +53,9 @@ public class RuleInstanceControllerImplTest extends WebMvcApplicationTest {
     private MetricsConfigResponseDTO createMetricsConfig(MetricsConfigCreateOrUpdateRequestDTO requestDTO) throws Exception {
         String url = "/metricsConfig/create";
         MvcResult mvcResult = mockMvc.perform(post(url).contentType(MediaType.APPLICATION_JSON).content(JSONUtils.toJSONString(requestDTO)))
-                .andExpect(status().isOk())
-                .andDo(MockMvcResultHandlers.print())
-                .andReturn();
+            .andExpect(status().isOk())
+            .andDo(MockMvcResultHandlers.print())
+            .andReturn();
         String result = mvcResult.getResponse().getContentAsString();
         ResultEntity<MetricsConfigResponseDTO> create = JSONUtils.parseObject(result, new TypeReference<ResultEntity<MetricsConfigResponseDTO>>() {
         });
@@ -67,9 +69,9 @@ public class RuleInstanceControllerImplTest extends WebMvcApplicationTest {
     private RuleInstanceResponseDTO create(RuleInstanceSingleCreateOrUpdateRequestDTO requestDTO) throws Exception {
         String url = REST_FUNCTION_URL_PREFIX + "create";
         MvcResult mvcResult = mockMvc.perform(put(url).contentType(MediaType.APPLICATION_JSON).content(JSONUtils.toJSONString(requestDTO)))
-                .andExpect(status().isOk())
-                .andDo(MockMvcResultHandlers.print())
-                .andReturn();
+            .andExpect(status().isOk())
+            .andDo(MockMvcResultHandlers.print())
+            .andReturn();
         String result = mvcResult.getResponse().getContentAsString();
         ResultEntity<RuleInstanceResponseDTO> create = JSONUtils.parseObject(result, new TypeReference<ResultEntity<RuleInstanceResponseDTO>>() {
         });
@@ -81,10 +83,7 @@ public class RuleInstanceControllerImplTest extends WebMvcApplicationTest {
 
     @Test
     public void testCreate() throws Exception {
-        MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO = new MetricsCreateOrUpdateRequestDTO();
-        metricsCreateOrUpdateRequestDTO.setCode("c_count_instance10");
-        metricsCreateOrUpdateRequestDTO.setName("c_count_instance10");
-        MetricsResponseDTO metrics = createMetrics(metricsCreateOrUpdateRequestDTO);
+        MetricsResponseDTO metrics = createMetrics(new MetricsCreateOrUpdateRequestDTO());
 
         MetricsConfigCreateOrUpdateRequestDTO metricsConfigCreateOrUpdateRequestDTO = new MetricsConfigCreateOrUpdateRequestDTO();
         metricsConfigCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
@@ -105,9 +104,9 @@ public class RuleInstanceControllerImplTest extends WebMvcApplicationTest {
         ruleInstanceSingleCreateOrUpdateRequestDTO.setDatasetCode("dataset26");
 
         SampleInstanceCreateOrUpdateRequestDTO sampleInstanceCreateOrUpdateRequestDTO = new SampleInstanceCreateOrUpdateRequestDTO();
-        sampleInstanceCreateOrUpdateRequestDTO.setCode(5857119121793L);
+        sampleInstanceCreateOrUpdateRequestDTO.setCode(5857119121793L + RANDOM.nextInt(1000));
         sampleInstanceCreateOrUpdateRequestDTO.setExecutorType("executorType");
-        sampleInstanceCreateOrUpdateRequestDTO.setDatasetCode("dataset26");
+        sampleInstanceCreateOrUpdateRequestDTO.setDatasetCode("dataset" + RANDOM.nextInt(1000));
         sampleInstanceCreateOrUpdateRequestDTO.setParameter("90");
         ruleInstanceSingleCreateOrUpdateRequestDTO.setSampleInstance(sampleInstanceCreateOrUpdateRequestDTO);
 
@@ -116,10 +115,7 @@ public class RuleInstanceControllerImplTest extends WebMvcApplicationTest {
 
     @Test
     public void testUpdate() throws Exception {
-        MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO = new MetricsCreateOrUpdateRequestDTO();
-        metricsCreateOrUpdateRequestDTO.setCode("c_count_instance50");
-        metricsCreateOrUpdateRequestDTO.setName("c_count_instance50");
-        MetricsResponseDTO metrics = createMetrics(metricsCreateOrUpdateRequestDTO);
+        MetricsResponseDTO metrics = createMetrics(new MetricsCreateOrUpdateRequestDTO());
 
         MetricsConfigCreateOrUpdateRequestDTO metricsConfigCreateOrUpdateRequestDTO = new MetricsConfigCreateOrUpdateRequestDTO();
         metricsConfigCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
@@ -156,9 +152,9 @@ public class RuleInstanceControllerImplTest extends WebMvcApplicationTest {
 
         String url = REST_FUNCTION_URL_PREFIX + "update";
         MvcResult mvcResult = mockMvc.perform(put(url).contentType(MediaType.APPLICATION_JSON).content(JSONUtils.toJSONString(updateRequestDTO)))
-                .andExpect(status().isOk())
-                .andDo(MockMvcResultHandlers.print())
-                .andReturn();
+            .andExpect(status().isOk())
+            .andDo(MockMvcResultHandlers.print())
+            .andReturn();
 
         String result = mvcResult.getResponse().getContentAsString();
         ResultEntity<RuleInstanceResponseDTO> update = JSONUtils.parseObject(result, new TypeReference<ResultEntity<RuleInstanceResponseDTO>>() {
@@ -170,10 +166,7 @@ public class RuleInstanceControllerImplTest extends WebMvcApplicationTest {
 
     @Test
     public void testDeleteById() throws Exception {
-        MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO = new MetricsCreateOrUpdateRequestDTO();
-        metricsCreateOrUpdateRequestDTO.setCode("c_count_instance20");
-        metricsCreateOrUpdateRequestDTO.setName("c_count_instance20");
-        MetricsResponseDTO metrics = createMetrics(metricsCreateOrUpdateRequestDTO);
+        MetricsResponseDTO metrics = createMetrics(new MetricsCreateOrUpdateRequestDTO());
 
         MetricsConfigCreateOrUpdateRequestDTO metricsConfigCreateOrUpdateRequestDTO = new MetricsConfigCreateOrUpdateRequestDTO();
         metricsConfigCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
@@ -204,9 +197,9 @@ public class RuleInstanceControllerImplTest extends WebMvcApplicationTest {
 
         String url = REST_FUNCTION_URL_PREFIX + ruleInstanceResponseDTOS.getId();
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.delete(url))
-                .andExpect(status().isOk())
-                .andDo(MockMvcResultHandlers.print())
-                .andReturn();
+            .andExpect(status().isOk())
+            .andDo(MockMvcResultHandlers.print())
+            .andReturn();
         String result = mvcResult.getResponse().getContentAsString();
         ResultEntity<ResultEntity> resultEntity = JSONUtils.parseObject(result, new TypeReference<ResultEntity<ResultEntity>>() {
         });
@@ -215,10 +208,7 @@ public class RuleInstanceControllerImplTest extends WebMvcApplicationTest {
 
     @Test
     public void testQueryListPage() throws Exception {
-        MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO = new MetricsCreateOrUpdateRequestDTO();
-        metricsCreateOrUpdateRequestDTO.setCode("c_count_instance30");
-        metricsCreateOrUpdateRequestDTO.setName("c_count_instance30");
-        MetricsResponseDTO metrics = createMetrics(metricsCreateOrUpdateRequestDTO);
+        MetricsResponseDTO metrics = createMetrics(new MetricsCreateOrUpdateRequestDTO());
 
         MetricsConfigCreateOrUpdateRequestDTO metricsConfigCreateOrUpdateRequestDTO = new MetricsConfigCreateOrUpdateRequestDTO();
         metricsConfigCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
@@ -248,10 +238,10 @@ public class RuleInstanceControllerImplTest extends WebMvcApplicationTest {
 
         String url = REST_FUNCTION_URL_PREFIX + "queryListPage";
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get(url).param("pageNo", "1")
-                        .param("pageSize", "10").param("datasetCode", "datasetCode0609"))
-                .andExpect(status().isOk())
-                .andDo(MockMvcResultHandlers.print())
-                .andReturn();
+                .param("pageSize", "10").param("datasetCode", "datasetCode0609"))
+            .andExpect(status().isOk())
+            .andDo(MockMvcResultHandlers.print())
+            .andReturn();
         String result = mvcResult.getResponse().getContentAsString();
         ResultEntity<PageResponseDTO<RuleInstanceResponseDTO>> resultEntity = JSONUtils.parseObject(result, new TypeReference<ResultEntity<PageResponseDTO<RuleInstanceResponseDTO>>>() {
         });
@@ -264,12 +254,28 @@ public class RuleInstanceControllerImplTest extends WebMvcApplicationTest {
     public void testCheck() throws Exception {
         String url = REST_FUNCTION_URL_PREFIX + "check";
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get(url)
-                        .param("metricsCode", "sum67-update")
-                        .param("subjectCodes", "dataset76")
-                        .param("subjectCategory", "TABLE"))
-                .andExpect(status().isOk())
-                .andDo(MockMvcResultHandlers.print())
-                .andReturn();
+                .param("metricsCode", "sum67-update")
+                .param("subjectCodes", "dataset76")
+                .param("subjectCategory", "TABLE"))
+            .andExpect(status().isOk())
+            .andDo(MockMvcResultHandlers.print())
+            .andReturn();
         String result = mvcResult.getResponse().getContentAsString();
+    }
+
+    @Test
+    public void testQueryRuleInstanceCount() throws Exception {
+        testCreate();
+        String url = REST_FUNCTION_URL_PREFIX + "queryRuleInstanceCount";
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get(url)
+                .param("SubjectCategoryEnum", "TABLE"))
+            .andExpect(status().isOk())
+            .andDo(MockMvcResultHandlers.print())
+            .andReturn();
+        String result = mvcResult.getResponse().getContentAsString();
+        ResultEntity<Long> resultEntity = JSONUtils.parseObject(result, new TypeReference<ResultEntity<Long>>() {
+        });
+        Assertions.assertTrue(resultEntity.isSuccess());
+        Assertions.assertTrue(resultEntity.getData() > 0);
     }
 }

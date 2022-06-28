@@ -55,8 +55,8 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
         Pageable pageable = PageRequest.of(requestDTO.getPageNo() - 1, requestDTO.getPageSize(), sort);
         Page<RuleInstance> ruleInstancePage = ruleInstanceRepository.findAll(withConditions(requestDTO), pageable);
         List<RuleInstanceResponseDTO> convert = (List<RuleInstanceResponseDTO>) conversionService.convert(ruleInstancePage.getContent(),
-                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleInstance.class)),
-                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleInstanceResponseDTO.class)));
+            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleInstance.class)),
+            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(RuleInstanceResponseDTO.class)));
         return PageResponseDTO.of(requestDTO.getPageNo(), ruleInstancePage.getSize(), ruleInstancePage.getTotalElements(), convert);
     }
 
@@ -126,6 +126,9 @@ public class RuleInstanceServiceImpl implements RuleInstanceService {
 
             if (StringUtils.isNotBlank(requestDTO.getMetricsCode())) {
                 conditions.add(builder.equal(root.get(RuleInstance_.metrics).get(Metrics_.code), requestDTO.getMetricsCode()));
+            }
+            if (Objects.nonNull(requestDTO.getSubjectCategory())) {
+                conditions.add(builder.equal(root.get(RuleInstance_.subjectCategory), requestDTO.getSubjectCategory()));
             }
 
             return builder.and(conditions.toArray(new Predicate[conditions.size()]));
