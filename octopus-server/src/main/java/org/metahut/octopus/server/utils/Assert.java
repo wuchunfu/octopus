@@ -4,6 +4,7 @@ import org.metahut.octopus.api.exception.BusinessException;
 import org.metahut.octopus.common.enums.StatusEnum;
 
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.lang.Nullable;
 import org.springframework.util.CollectionUtils;
 
@@ -18,6 +19,12 @@ public class Assert {
 
     public static void isPresent(@Nullable Optional optional, StatusEnum status, @Nullable Object... args) {
         if (!optional.isPresent()) {
+            throw new BusinessException(status, args);
+        }
+    }
+
+    public static void notPresent(@Nullable Optional optional, StatusEnum status, @Nullable Object... args) {
+        if (optional.isPresent()) {
             throw new BusinessException(status, args);
         }
     }
@@ -56,8 +63,8 @@ public class Assert {
         }
     }
 
-    public static void exists(@Nullable Optional optional, StatusEnum status, @Nullable Object... args) {
-        if (optional.isPresent()) {
+    public static void isEquals(@Nullable Object parm1, @Nullable Object parm2, StatusEnum status, @Nullable Object... args) {
+        if (ObjectUtils.notEqual(parm1, parm2)) {
             throw new BusinessException(status, args);
         }
     }

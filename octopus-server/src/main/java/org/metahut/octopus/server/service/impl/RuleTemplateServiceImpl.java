@@ -103,7 +103,7 @@ public class RuleTemplateServiceImpl implements RuleTemplateService {
             RuleTemplate ruleTemplate = new RuleTemplate();
             ruleTemplate.setName(ruleTemplate.getName());
             Optional<RuleTemplate> optional = ruleTemplateRespository.findOne(Example.of(ruleTemplate));
-            Assert.exists(optional, RULE_TEMPLATE_EXIST, ruleTemplate.getName());
+            Assert.notPresent(optional, RULE_TEMPLATE_EXIST, ruleTemplate.getName());
         }
         RuleTemplate ruleTemplate = conversionService.convert(ruleTemplateRequestDTO, RuleTemplate.class);
         RuleTemplate save = ruleTemplateRespository.save(ruleTemplate);

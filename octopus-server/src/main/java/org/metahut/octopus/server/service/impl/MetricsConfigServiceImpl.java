@@ -12,6 +12,7 @@ import org.metahut.octopus.dao.entity.MetricsConfig_;
 import org.metahut.octopus.dao.entity.Metrics_;
 import org.metahut.octopus.dao.repository.MetricsConfigRepository;
 import org.metahut.octopus.server.service.MetricsConfigService;
+import org.metahut.octopus.server.utils.Assert;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -32,6 +33,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+
+import static org.metahut.octopus.common.enums.StatusEnum.METRICS_CONFIG_CODE_UPDATE_ERROR;
+import static org.metahut.octopus.common.enums.StatusEnum.METRICS_CONFIG_NOT_EXIST;
+import static org.metahut.octopus.common.enums.StatusEnum.METRICS_CONFIG_UNIQUE_ERROR;
 
 @Service
 public class MetricsConfigServiceImpl implements MetricsConfigService {
@@ -106,8 +111,36 @@ public class MetricsConfigServiceImpl implements MetricsConfigService {
     }
 
     @Override
-    public MetricsConfigResponseDTO createOrUpdate(MetricsConfigCreateOrUpdateRequestDTO metricsConfigCreateOrUpdateRequestDTO) {
-        MetricsConfig convert = conversionService.convert(metricsConfigCreateOrUpdateRequestDTO, MetricsConfig.class);
+    public MetricsConfigResponseDTO create(MetricsConfigCreateOrUpdateRequestDTO requestDTO) {
+        MetricsConfig queryConditions = new MetricsConfig();
+        Metrics metrics = new Metrics();
+        metrics.setCode(requestDTO.getMetricsCode());
+
+        queryConditions.setMetrics(metrics);
+        queryConditions.setSubjectCategory(requestDTO.getSubjectCategory());
+        queryConditions.setSourceCategory(requestDTO.getSourceCategory());
+        Assert.isFalse(metricsConfigRepository.exists(Example.of(queryConditions)), METRICS_CONFIG_UNIQUE_ERROR);
+
+        MetricsConfig convert = conversionService.convert(requestDTO, MetricsConfig.class);
+        MetricsConfig save = metricsConfigRepository.save(convert);
+        return conversionService.convert(save, MetricsConfigResponseDTO.class);
+    }
+
+    @Override
+    public MetricsConfigResponseDTO update(MetricsConfigCreateOrUpdateRequestDTO requestDTO) {
+        Optional<MetricsConfig> optional = metricsConfigRepository.findOne((root, query, builder) ->
+            builder.and(builder.equal(root.get(MetricsConfig_.metrics).get(Metrics_.code), requestDTO.getMetricsCode()),
+                builder.equal(root.get(MetricsConfig_.subjectCategory), requestDTO.getSubjectCategory()),
+                builder.equal(root.get(MetricsConfig_.sourceCategory), requestDTO.getSourceCategory()),
+                builder.notEqual(root.get(MetricsConfig_.id), requestDTO.getId()))
+        );
+        Assert.notPresent(optional, METRICS_CONFIG_UNIQUE_ERROR);
+
+        Optional<MetricsConfig> metricsConfigOptional = metricsConfigRepository.findById(requestDTO.getId());
+        Assert.isPresent(metricsConfigOptional, METRICS_CONFIG_NOT_EXIST, requestDTO.getId());
+        Assert.isEquals(metricsConfigOptional.get().getCode(), requestDTO.getCode(), METRICS_CONFIG_CODE_UPDATE_ERROR);
+
+        MetricsConfig convert = conversionService.convert(requestDTO, MetricsConfig.class);
         MetricsConfig save = metricsConfigRepository.save(convert);
         return conversionService.convert(save, MetricsConfigResponseDTO.class);
     }

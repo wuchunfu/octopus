@@ -35,12 +35,12 @@ public class MetricsConfigControllerImpl implements MetricsConfigController {
     @Override
     public ResultEntity<MetricsConfigResponseDTO> create(MetricsConfigCreateOrUpdateRequestDTO metricsConfigCreateOrUpdateRequestDTO) {
         metricsConfigCreateOrUpdateRequestDTO.setCode(SnowflakeIdGenerator.getInstance().nextId());
-        return ResultEntity.success(metricsConfigService.createOrUpdate(metricsConfigCreateOrUpdateRequestDTO));
+        return ResultEntity.success(metricsConfigService.create(metricsConfigCreateOrUpdateRequestDTO));
     }
 
     @Override
     public ResultEntity<MetricsConfigResponseDTO> update(MetricsConfigCreateOrUpdateRequestDTO metricsConfigCreateOrUpdateRequestDTO) {
-        return ResultEntity.success(metricsConfigService.createOrUpdate(metricsConfigCreateOrUpdateRequestDTO));
+        return ResultEntity.success(metricsConfigService.update(metricsConfigCreateOrUpdateRequestDTO));
     }
 
     @Override
