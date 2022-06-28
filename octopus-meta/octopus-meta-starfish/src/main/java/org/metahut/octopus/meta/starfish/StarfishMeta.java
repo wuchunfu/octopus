@@ -179,7 +179,7 @@ public class StarfishMeta implements IMeta {
             if ("Hive".equals(request.getDataSourceType())) {
                 Object resultJson =
                     get(MessageFormat.format("/entity/hiveTables?hiveClusterId={0}&hiveTableName={1}&pageNo={2}&pageSize={3}",
-                        Objects.isNull(request.getDataSourceCode()) ? "" : request.getDataSourceCode(),
+                        StringUtils.isEmpty(request.getDatasourceCode()) ? "" : request.getDatasourceCode(),
                         StringUtils.isEmpty(request.getName()) ? "" : request.getName(),
                         request.getPageNo(), request.getPageSize()));
                 if (resultJson == null) {
@@ -223,7 +223,7 @@ public class StarfishMeta implements IMeta {
             } else if ("Pulsar".equals(request.getDataSourceType())) {
                 Object resultJson =
                     get(MessageFormat.format("/entity/pulsarTopics?clusterId={0}&topicName={1}&pageNo={2}&pageSize={3}",
-                        Objects.isNull(request.getDataSourceCode()) ? "" : request.getDataSourceCode(),
+                        StringUtils.isEmpty(request.getDatasourceCode()) ? "" : request.getDatasourceCode(),
                         StringUtils.isEmpty(request.getName()) ? "" : request.getName(),
                         request.getPageNo(),
                         request.getPageSize()));

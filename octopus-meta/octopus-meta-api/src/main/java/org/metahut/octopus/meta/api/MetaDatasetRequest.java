@@ -9,7 +9,7 @@ public class MetaDatasetRequest {
 
     private String name;
 
-    private Long dataSourceCode;
+    private String datasourceCode;
 
     private Integer pageSize;
 
@@ -31,12 +31,12 @@ public class MetaDatasetRequest {
         this.name = name;
     }
 
-    public Long getDataSourceCode() {
-        return dataSourceCode;
+    public String getDatasourceCode() {
+        return datasourceCode;
     }
 
-    public void setDataSourceCode(Long dataSourceCode) {
-        this.dataSourceCode = dataSourceCode;
+    public void setDatasourceCode(String datasourceCode) {
+        this.datasourceCode = datasourceCode;
     }
 
     public Integer getPageSize() {
