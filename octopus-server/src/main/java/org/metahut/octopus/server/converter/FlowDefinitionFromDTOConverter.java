@@ -12,6 +12,7 @@ import org.metahut.octopus.server.service.SchedulerService;
 import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 
@@ -36,7 +37,7 @@ public abstract class FlowDefinitionFromDTOConverter implements Converter<Monito
     private MetaService metaService;
 
     @AfterMapping
-    public void updateSchedule(MonitorFlowDefinitionCreateOrUpdateRequestDTO source) {
+    public void updateSchedule(MonitorFlowDefinitionCreateOrUpdateRequestDTO source, @MappingTarget FlowDefinition flowDefinition) {
         if (StringUtils.isBlank(source.getSchedulerCode())) {
             // create flow definition
 
@@ -45,10 +46,10 @@ public abstract class FlowDefinitionFromDTOConverter implements Converter<Monito
             StringJoiner taskName = new StringJoiner(NAME_SPLICE_SYMBOL)
                     .add(dataset.getDatasource().getCode())
                     .add(source.getDatasetCode())
-                    .add(String.valueOf(source.getCode()));
+                    .add(String.valueOf(flowDefinition.getCode()));
 
             String schedulerCode = schedulerService.createMetricsProductionTaskAndAddSchedule(taskName.toString(), source.getCode(), source.getCrontab());
-            source.setSchedulerCode(schedulerCode);
+            flowDefinition.setSchedulerCode(schedulerCode);
         } else {
             // update flow definition
             FlowDefinition one = monitorFlowDefinitionService.findOneByCode(source.getCode());
