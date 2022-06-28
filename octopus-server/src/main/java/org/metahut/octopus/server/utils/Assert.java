@@ -56,4 +56,9 @@ public class Assert {
         }
     }
 
+    public static void exists(@Nullable Optional optional, StatusEnum status, @Nullable Object... args) {
+        if (optional.isPresent()) {
+            throw new BusinessException(status, args);
+        }
+    }
 }

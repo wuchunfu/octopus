@@ -10,7 +10,7 @@ import org.metahut.octopus.server.service.MonitorFlowDefinitionService;
 import org.metahut.octopus.server.service.SchedulerService;
 
 import org.apache.commons.lang3.StringUtils;
-import org.mapstruct.BeforeMapping;
+import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
@@ -35,7 +35,7 @@ public abstract class FlowDefinitionFromDTOConverter implements Converter<Monito
     @Autowired
     private MetaService metaService;
 
-    @BeforeMapping
+    @AfterMapping
     public void updateSchedule(MonitorFlowDefinitionCreateOrUpdateRequestDTO source) {
         if (StringUtils.isBlank(source.getSchedulerCode())) {
             // create flow definition

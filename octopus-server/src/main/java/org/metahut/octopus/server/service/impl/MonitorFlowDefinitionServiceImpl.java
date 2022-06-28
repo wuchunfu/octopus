@@ -15,6 +15,7 @@ import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -40,17 +41,23 @@ public class MonitorFlowDefinitionServiceImpl implements MonitorFlowDefinitionSe
 
     @Override
     public PageResponseDTO<MonitorFlowDefinitionResponseDTO> queryListPage(MonitorFlowDefinitionConditionsRequestDTO requestDTO) {
-        Pageable pageable = PageRequest.of(requestDTO.getPageNo() - 1, requestDTO.getPageSize());
+        Sort.TypedSort<FlowDefinition> typedSort = Sort.sort(FlowDefinition.class);
+        Sort sort = typedSort.by(FlowDefinition::getUpdateTime).descending();
+        Pageable pageable = PageRequest.of(requestDTO.getPageNo() - 1, requestDTO.getPageSize(), sort);
         Page<FlowDefinition> flowDefinitionPage = flowDefinitionRepository.findAll(withConditions(requestDTO), pageable);
         List<MonitorFlowDefinitionResponseDTO> convert = (List<MonitorFlowDefinitionResponseDTO>) conversionService.convert(flowDefinitionPage.getContent(),
-            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(FlowDefinition.class)),
-            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MonitorFlowDefinitionResponseDTO.class)));
+                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(FlowDefinition.class)),
+                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MonitorFlowDefinitionResponseDTO.class)));
         return PageResponseDTO.of(requestDTO.getPageNo(), flowDefinitionPage.getSize(), flowDefinitionPage.getTotalElements(), convert);
     }
 
     private Specification<FlowDefinition> withConditions(MonitorFlowDefinitionConditionsRequestDTO requestDTO) {
         return (root, query, builder) -> {
             List<Predicate> conditions = new ArrayList<>();
+
+            if (StringUtils.isNotBlank(requestDTO.getDatasourceCode())) {
+                conditions.add(builder.equal(root.get(FlowDefinition_.datasourceCode), requestDTO.getDatasourceCode()));
+            }
 
             if (StringUtils.isNotBlank(requestDTO.getDatasetCode())) {
                 conditions.add(builder.like(root.get(FlowDefinition_.datasetCode), requestDTO.getDatasetCode()));

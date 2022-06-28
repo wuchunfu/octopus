@@ -31,6 +31,9 @@ public class MonitorFlowDefinitionResponseDTO {
     @ApiModelProperty(value = "sample instance")
     private SampleInstanceResponseDTO sampleInstance;
 
+    @ApiModelProperty(value = "datasourceCode")
+    private String datasourceCode;
+
     @ApiModelProperty(value = "env")
     private String env;
 
@@ -176,5 +179,13 @@ public class MonitorFlowDefinitionResponseDTO {
 
     public void setDateTimeFields(List<DateTimeFieldConfig> dateTimeFields) {
         this.dateTimeFields = dateTimeFields;
+    }
+
+    public String getDatasourceCode() {
+        return datasourceCode;
+    }
+
+    public void setDatasourceCode(String datasourceCode) {
+        this.datasourceCode = datasourceCode;
     }
 }

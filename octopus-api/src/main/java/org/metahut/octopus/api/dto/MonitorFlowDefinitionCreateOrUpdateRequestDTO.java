@@ -27,6 +27,9 @@ public class MonitorFlowDefinitionCreateOrUpdateRequestDTO {
     @NotEmpty(message = "{parameter.not.null}")
     private String datasetCode;
 
+    @ApiModelProperty(value = "datasource code")
+    private String datasourceCode;
+
     @ApiModelProperty(value = "crontab")
     @NotEmpty(message = "{parameter.not.null}")
     private String crontab;
@@ -153,5 +156,13 @@ public class MonitorFlowDefinitionCreateOrUpdateRequestDTO {
 
     public void setDateTimeFields(List<DateTimeFieldConfig> dateTimeFields) {
         this.dateTimeFields = dateTimeFields;
+    }
+
+    public String getDatasourceCode() {
+        return datasourceCode;
+    }
+
+    public void setDatasourceCode(String datasourceCode) {
+        this.datasourceCode = datasourceCode;
     }
 }

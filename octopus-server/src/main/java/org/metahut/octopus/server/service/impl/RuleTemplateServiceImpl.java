@@ -11,11 +11,13 @@ import org.metahut.octopus.dao.entity.RuleTemplate;
 import org.metahut.octopus.dao.entity.RuleTemplate_;
 import org.metahut.octopus.dao.repository.RuleTemplateRespository;
 import org.metahut.octopus.server.service.RuleTemplateService;
+import org.metahut.octopus.server.utils.Assert;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.TypeDescriptor;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +32,9 @@ import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+
+import static org.metahut.octopus.common.enums.StatusEnum.RULE_TEMPLATE_EXIST;
 
 @Service
 public class RuleTemplateServiceImpl implements RuleTemplateService {
@@ -94,6 +99,12 @@ public class RuleTemplateServiceImpl implements RuleTemplateService {
 
     @Override
     public RuleTemplateResponseDTO createOrUpdate(RuleTemplateCreateOrUpdateRequestDTO ruleTemplateRequestDTO) {
+        if (StringUtils.isNotBlank(ruleTemplateRequestDTO.getName())) {
+            RuleTemplate ruleTemplate = new RuleTemplate();
+            ruleTemplate.setName(ruleTemplate.getName());
+            Optional<RuleTemplate> optional = ruleTemplateRespository.findOne(Example.of(ruleTemplate));
+            Assert.exists(optional, RULE_TEMPLATE_EXIST, ruleTemplate.getName());
+        }
         RuleTemplate ruleTemplate = conversionService.convert(ruleTemplateRequestDTO, RuleTemplate.class);
         RuleTemplate save = ruleTemplateRespository.save(ruleTemplate);
         return conversionService.convert(save, RuleTemplateResponseDTO.class);

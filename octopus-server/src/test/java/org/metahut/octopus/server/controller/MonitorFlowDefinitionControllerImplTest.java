@@ -370,6 +370,7 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
 
         String sampleValue = "100";
         updateDTO.getSampleInstance().setParameter(sampleValue);
+        updateDTO.setSchedulerCode("schedulerCod");
         String url = REST_FUNCTION_URL_PREFIX + "update";
         MvcResult mvcResult = mockMvc.perform(put(url).contentType(MediaType.APPLICATION_JSON).content(JSONUtils.toJSONString(updateDTO)))
                 .andExpect(status().isOk())
@@ -428,11 +429,12 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
         sampleInstanceCreateOrUpdateRequestDTO.setExecutorType("executorType");
         sampleInstanceCreateOrUpdateRequestDTO.setParameter("90");
         requestDTO.setSampleInstance(sampleInstanceCreateOrUpdateRequestDTO);
+        requestDTO.setDatasourceCode("datesourceCode");
         MonitorFlowDefinitionResponseDTO monitorFlowDefinitionResponseDTO = create(requestDTO);
 
         String url = REST_FUNCTION_URL_PREFIX + "queryListPage";
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get(url).param("pageNo", "1")
-                        .param("pageSize", "10").param("datasetCode", "dataset86"))
+                        .param("pageSize", "10").param("datasourceCode", "datesourceCode"))
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();

@@ -42,6 +42,7 @@ CREATE TABLE tb_octopus_flow_definition
     id             int(11)      NOT NULL AUTO_INCREMENT,
     code           bigint(20)      NOT NULL,
     dataset_code    varchar(64) NOT NULL,
+    datasource_code varchar(16),
     env            varchar(200),
     crontab        varchar(200) NOT NULL,
     scheduler_code varchar(254),

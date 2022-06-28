@@ -126,7 +126,7 @@ CREATE TABLE tb_octopus_rule_instance
     PRIMARY KEY (id),
     CONSTRAINT rule_metrics_unique UNIQUE (dataset_code, metrics_unique_key, comparison_method),
     -- One metrics of one table has only one sampling proportion
-    CONSTRAINT rule_metrics_sample_unique UNIQUE (dataset_code, metrics_code, sample_code)
+    CONSTRAINT rule_metrics_sample_unique UNIQUE (subject_code, metrics_code, sample_code)
 );
 
 DROP TABLE IF EXISTS tb_octopus_rule_template;

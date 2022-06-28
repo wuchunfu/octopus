@@ -37,11 +37,13 @@ public class FlowDefinition extends BaseEntity {
     @Column(name = "dataset_code", insertable = false, updatable = false)
     private String datasetCode;
 
+    private String datasourceCode;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "dataset_code", referencedColumnName = "dataset_code", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private List<AlerterInstance> alerterInstances;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "dataset_code", referencedColumnName = "dataset_code", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private List<RuleInstance> ruleInstances;
 
@@ -165,5 +167,13 @@ public class FlowDefinition extends BaseEntity {
 
     public void setWindowUnit(WindowUnit windowUnit) {
         this.windowUnit = windowUnit;
+    }
+
+    public String getDatasourceCode() {
+        return datasourceCode;
+    }
+
+    public void setDatasourceCode(String datasourceCode) {
+        this.datasourceCode = datasourceCode;
     }
 }
