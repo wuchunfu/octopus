@@ -11,6 +11,8 @@ public class MetaDatasetRequest {
 
     private String datasourceCode;
 
+    private String databaseCode;
+
     private Integer pageSize;
 
     private Integer pageNo;
@@ -53,5 +55,13 @@ public class MetaDatasetRequest {
 
     public void setPageNo(Integer pageNo) {
         this.pageNo = pageNo;
+    }
+
+    public String getDatabaseCode() {
+        return databaseCode;
+    }
+
+    public void setDatabaseCode(String databaseCode) {
+        this.databaseCode = databaseCode;
     }
 }

@@ -178,8 +178,9 @@ public class StarfishMeta implements IMeta {
         try {
             if ("Hive".equals(request.getDataSourceType())) {
                 Object resultJson =
-                    get(MessageFormat.format("/entity/hiveTables?hiveClusterId={0}&hiveTableName={1}&pageNo={2}&pageSize={3}",
+                    get(MessageFormat.format("/entity/hiveTables?hiveClusterId={0}&hiveDbCode={1}&hiveTableName={2}&pageNo={3}&pageSize={4}",
                         StringUtils.isEmpty(request.getDatasourceCode()) ? "" : request.getDatasourceCode(),
+                        StringUtils.isEmpty(request.getDatabaseCode()) ? "" : request.getDatabaseCode(),
                         StringUtils.isEmpty(request.getName()) ? "" : request.getName(),
                         request.getPageNo(), request.getPageSize()));
                 if (resultJson == null) {
