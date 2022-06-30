@@ -101,7 +101,7 @@ public class RuleTemplateServiceImpl implements RuleTemplateService {
     public RuleTemplateResponseDTO createOrUpdate(RuleTemplateCreateOrUpdateRequestDTO ruleTemplateRequestDTO) {
         if (StringUtils.isNotBlank(ruleTemplateRequestDTO.getName())) {
             RuleTemplate ruleTemplate = new RuleTemplate();
-            ruleTemplate.setName(ruleTemplate.getName());
+            ruleTemplate.setName(ruleTemplateRequestDTO.getName());
             Optional<RuleTemplate> optional = ruleTemplateRespository.findOne(Example.of(ruleTemplate));
             Assert.notPresent(optional, RULE_TEMPLATE_EXIST, ruleTemplate.getName());
         }

@@ -216,7 +216,7 @@ public class DolphinScheduler implements IScheduler {
      * @throws IOException
      */
     private void updateScheduleToOnline(int scheduleId) throws IOException {
-        String url = MessageFormat.format("/projects/{0}/schedules/{1}/online", properties.getProjectCode(), scheduleId);
+        String url = MessageFormat.format("/projects/{0}/schedules/{1}/online", properties.getProjectCode(), String.valueOf(scheduleId));
         FormBody body = new FormBody.Builder().build();
         String resultJson = post(url, body);
         DolphinResult result = JSONUtils.parseObject(resultJson, DolphinResult.class);
@@ -229,7 +229,7 @@ public class DolphinScheduler implements IScheduler {
      * @throws IOException
      */
     private void updateScheduleToOffline(int scheduleId) throws IOException {
-        String url = MessageFormat.format("/projects/{0}/schedules/{1}/offline", properties.getProjectCode(), scheduleId);
+        String url = MessageFormat.format("/projects/{0}/schedules/{1}/offline", properties.getProjectCode(), String.valueOf(scheduleId));
         FormBody body = new FormBody.Builder().build();
         String resultJson = post(url, body);
         DolphinResult result = JSONUtils.parseObject(resultJson, DolphinResult.class);

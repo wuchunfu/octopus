@@ -8,6 +8,8 @@ import org.metahut.octopus.dao.entity.FlowDefinition;
 import org.metahut.octopus.dao.entity.FlowDefinition_;
 import org.metahut.octopus.dao.repository.FlowDefinitionRepository;
 import org.metahut.octopus.server.service.MonitorFlowDefinitionService;
+import org.metahut.octopus.server.service.SchedulerService;
+import org.metahut.octopus.server.utils.Assert;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.convert.ConversionService;
@@ -28,15 +30,20 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static org.metahut.octopus.common.enums.StatusEnum.FLOW_DEFINITION_CODE_NOT_EXIST;
+
 @Service
 public class MonitorFlowDefinitionServiceImpl implements MonitorFlowDefinitionService {
 
     private final FlowDefinitionRepository flowDefinitionRepository;
     private final ConversionService conversionService;
+    private final SchedulerService schedulerService;
 
-    public MonitorFlowDefinitionServiceImpl(FlowDefinitionRepository flowDefinitionRepository, ConversionService conversionService) {
+    public MonitorFlowDefinitionServiceImpl(FlowDefinitionRepository flowDefinitionRepository, ConversionService conversionService,
+                                            SchedulerService schedulerService) {
         this.flowDefinitionRepository = flowDefinitionRepository;
         this.conversionService = conversionService;
+        this.schedulerService = schedulerService;
     }
 
     @Override
@@ -46,8 +53,8 @@ public class MonitorFlowDefinitionServiceImpl implements MonitorFlowDefinitionSe
         Pageable pageable = PageRequest.of(requestDTO.getPageNo() - 1, requestDTO.getPageSize(), sort);
         Page<FlowDefinition> flowDefinitionPage = flowDefinitionRepository.findAll(withConditions(requestDTO), pageable);
         List<MonitorFlowDefinitionResponseDTO> convert = (List<MonitorFlowDefinitionResponseDTO>) conversionService.convert(flowDefinitionPage.getContent(),
-                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(FlowDefinition.class)),
-                TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MonitorFlowDefinitionResponseDTO.class)));
+            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(FlowDefinition.class)),
+            TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(MonitorFlowDefinitionResponseDTO.class)));
         return PageResponseDTO.of(requestDTO.getPageNo(), flowDefinitionPage.getSize(), flowDefinitionPage.getTotalElements(), convert);
     }
 
@@ -84,7 +91,10 @@ public class MonitorFlowDefinitionServiceImpl implements MonitorFlowDefinitionSe
 
     @Override
     public void deleteById(Integer id) {
+        Optional<FlowDefinition> optional = flowDefinitionRepository.findById(id);
+        Assert.isPresent(optional, FLOW_DEFINITION_CODE_NOT_EXIST, id);
         flowDefinitionRepository.deleteById(id);
+        schedulerService.deleteFlowByCode(optional.get().getSchedulerCode());
     }
 
     @Override

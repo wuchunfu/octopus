@@ -20,4 +20,6 @@ public interface SchedulerService {
     PageResponse<TaskInstance> queryTaskInstanceListPage(TaskInstanceRequestParameter parameter);
 
     void updateScheduleTimer(ScheduleParameter scheduleParameter);
+
+    void deleteFlowByCode(String flowCode);
 }

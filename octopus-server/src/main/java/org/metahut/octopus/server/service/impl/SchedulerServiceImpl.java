@@ -73,4 +73,8 @@ public class SchedulerServiceImpl implements SchedulerService {
         scheduler.updateSchedule(scheduleParameter);
     }
 
+    @Override
+    public void deleteFlowByCode(String flowCode) {
+        scheduler.deleteFlowByCode(flowCode);
+    }
 }
