@@ -40,6 +40,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -110,7 +112,7 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
     }
 
     private MonitorFlowDefinitionResponseDTO create(MonitorFlowDefinitionCreateOrUpdateRequestDTO requestDTO) throws Exception {
-        if(StringUtils.isEmpty(requestDTO.getDatasourceCode())){
+        if (StringUtils.isEmpty(requestDTO.getDatasourceCode())) {
             requestDTO.setDatasourceCode("123321");
         }
         MetaDatasourceResponseDTO metaDatasourceResponseDTO = new MetaDatasourceResponseDTO();
@@ -201,6 +203,7 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
         requestDTO.setAlerterInstances(Arrays.asList(alerterInstanceCreateOrUpdateRequestDTO));
         requestDTO.setCrontab("crontab");
         requestDTO.setDatasetCode("dataset66");
+        requestDTO.setDatasetCode("databaseCode");
 
         RuleInstanceCreateOrUpdateRequestDTO ruleInstanceCreateOrUpdateRequestDTO = new RuleInstanceCreateOrUpdateRequestDTO();
         ruleInstanceCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
@@ -258,6 +261,7 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
         requestDTO.setAlerterInstances(Arrays.asList(alerterInstanceCreateOrUpdateRequestDTO));
         requestDTO.setCrontab("crontab");
         requestDTO.setDatasetCode("dataset67");
+        requestDTO.setDatasetCode("databaseCode");
 
         RuleInstanceCreateOrUpdateRequestDTO ruleInstanceCreateOrUpdateRequestDTO = new RuleInstanceCreateOrUpdateRequestDTO();
         ruleInstanceCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
@@ -315,7 +319,7 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
         requestDTO.setAlerterInstances(Arrays.asList(alerterInstanceCreateOrUpdateRequestDTO));
         requestDTO.setCrontab("crontab");
         requestDTO.setDatasetCode("dataset76");
-
+        requestDTO.setDatasetCode("databaseCode");
         RuleInstanceCreateOrUpdateRequestDTO ruleInstanceCreateOrUpdateRequestDTO = new RuleInstanceCreateOrUpdateRequestDTO();
         ruleInstanceCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
         ruleInstanceCreateOrUpdateRequestDTO.setMetricsConfigCode(metricsConfig.getCode());
@@ -376,6 +380,16 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
         String sampleValue = "100";
         updateDTO.getSampleInstance().setParameter(sampleValue);
         updateDTO.setSchedulerCode("schedulerCod");
+        List<RuleInstanceCreateOrUpdateRequestDTO> rules = updateDTO.getRuleInstances().stream().filter(i -> Objects.isNull(i.getId())).collect(Collectors.toList());
+
+        AlerterInstanceCreateOrUpdateRequestDTO alerterInstanceCreateOrUpdateRequestDTOUpdate = new AlerterInstanceCreateOrUpdateRequestDTO();
+        alerterInstanceCreateOrUpdateRequestDTOUpdate.setAlerterSourceCode(alertInstance.getCode());
+        alerterInstanceCreateOrUpdateRequestDTOUpdate.setParameter("phone");
+        updateDTO.getAlerterInstances().clear();
+        updateDTO.getAlerterInstances().add(alerterInstanceCreateOrUpdateRequestDTOUpdate);
+        updateDTO.setRuleInstances(rules);
+        updateDTO.setDatasetCode("dataset76");
+        updateDTO.setDatasetCode("databaseCode");
         String url = REST_FUNCTION_URL_PREFIX + "update";
         MvcResult mvcResult = mockMvc.perform(put(url).contentType(MediaType.APPLICATION_JSON).content(JSONUtils.toJSONString(updateDTO)))
                 .andExpect(status().isOk())
@@ -420,6 +434,7 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
         requestDTO.setAlerterInstances(Arrays.asList(alerterInstanceCreateOrUpdateRequestDTO));
         requestDTO.setCrontab("crontab");
         requestDTO.setDatasetCode("dataset86");
+        requestDTO.setDatasetCode("databaseCode");
 
         RuleInstanceCreateOrUpdateRequestDTO ruleInstanceCreateOrUpdateRequestDTO = new RuleInstanceCreateOrUpdateRequestDTO();
         ruleInstanceCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
@@ -481,7 +496,8 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
         requestDTO.setAlerterInstances(Arrays.asList(alerterInstanceCreateOrUpdateRequestDTO));
         requestDTO.setCrontab("crontab");
         requestDTO.setDatasetCode("dataset96");
-
+        requestDTO.setDatasetCode("databaseCode");
+        
         RuleInstanceCreateOrUpdateRequestDTO ruleInstanceCreateOrUpdateRequestDTO = new RuleInstanceCreateOrUpdateRequestDTO();
         ruleInstanceCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
         ruleInstanceCreateOrUpdateRequestDTO.setMetricsConfigCode(metricsConfig.getCode());

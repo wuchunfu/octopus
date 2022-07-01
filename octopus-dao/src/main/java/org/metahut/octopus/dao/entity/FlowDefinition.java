@@ -41,7 +41,7 @@ public class FlowDefinition extends BaseEntity {
 
     private String databaseCode;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "dataset_code", referencedColumnName = "dataset_code", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private List<AlerterInstance> alerterInstances;
 

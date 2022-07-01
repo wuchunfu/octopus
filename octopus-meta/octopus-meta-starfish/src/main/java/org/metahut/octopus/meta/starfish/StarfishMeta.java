@@ -308,13 +308,13 @@ public class StarfishMeta implements IMeta {
             String body;
             if ("org.starfish.HiveTable".equals(className)) {
                 body =
-                    "{\"eachPointers\": {\"db\" : {\"relationType\": \"CHILD\", \"eachPointers\": {\"cluster\" : {\"relationType\": \"CHILD\", \"eachPointers\": {} } } }, "
-                        + "\"columns\": {\"relationType\": \"CHILD\", \"eachPointers\": {} } }, \"id\": " + code + ", \"typeName\": \"org.starfish.HiveTable\"}";
+                        "{\"eachPointers\": {\"db\" : {\"relationType\": \"CHILD\", \"category\":\"RELATIONSHIP\", \"eachPointers\": {\"cluster\" : {\"relationType\": \"CHILD\", \"category\":\"RELATIONSHIP\", \"eachPointers\": {} } } }, "
+                                + "\"columns\": {\"relationType\": \"CHILD\", \"category\":\"RELATIONSHIP\", \"eachPointers\": {} } }, \"id\": " + code + ", \"typeName\": \"org.starfish.HiveTable\"}";
             } else {
                 body =
-                    "{\"eachPointers\": {\"namespace\" : {\"relationType\": \"CHILD\", \"eachPointers\": {\"tenant\" : {\"relationType\": \"CHILD\", \"eachPointers\": {\"allowedClusters\" : "
-                        + "{\"relationType\": \"CHILD\", \"eachPointers\": { } } } } } }, \"schemas\": {\"relationType\": \"CHILD\", \"eachPointers\": {} } }, \"id\": "
-                        + code + " , \"typeName\": \"org.starfish.PulsarTopic\"}";
+                        "{\"eachPointers\": {\"namespace\" : {\"relationType\": \"CHILD\", \"category\":\"RELATIONSHIP\", \"eachPointers\": {\"tenant\" : {\"relationType\": \"CHILD\", \"category\":\"RELATIONSHIP\", \"eachPointers\": {\"allowedClusters\" : "
+                                + "{\"relationType\": \"CHILD\", \"category\":\"RELATIONSHIP\", \"eachPointers\": { } } } } } }, \"schemas\": {\"relationType\": \"CHILD\", \"category\":\"RELATIONSHIP\", \"eachPointers\": {} } }, \"id\": "
+                                + code + " , \"typeName\": \"org.starfish.PulsarTopic\"}";
             }
 
             Object instanceJson = post("/entity/queryByIdAndTypeNameAndCondition", body);

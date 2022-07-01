@@ -4,6 +4,7 @@ import org.metahut.octopus.api.dto.MonitorFlowDefinitionConditionsRequestDTO;
 import org.metahut.octopus.api.dto.MonitorFlowDefinitionCreateOrUpdateRequestDTO;
 import org.metahut.octopus.api.dto.MonitorFlowDefinitionResponseDTO;
 import org.metahut.octopus.api.dto.PageResponseDTO;
+import org.metahut.octopus.dao.entity.AlerterInstance;
 import org.metahut.octopus.dao.entity.FlowDefinition;
 import org.metahut.octopus.dao.entity.FlowDefinition_;
 import org.metahut.octopus.dao.repository.FlowDefinitionRepository;
@@ -12,6 +13,7 @@ import org.metahut.octopus.server.service.SchedulerService;
 import org.metahut.octopus.server.utils.Assert;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.data.domain.Page;
@@ -20,14 +22,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.metahut.octopus.common.enums.StatusEnum.FLOW_DEFINITION_CODE_NOT_EXIST;
@@ -39,8 +44,7 @@ public class MonitorFlowDefinitionServiceImpl implements MonitorFlowDefinitionSe
     private final ConversionService conversionService;
     private final SchedulerService schedulerService;
 
-    public MonitorFlowDefinitionServiceImpl(FlowDefinitionRepository flowDefinitionRepository, ConversionService conversionService,
-                                            SchedulerService schedulerService) {
+    public MonitorFlowDefinitionServiceImpl(FlowDefinitionRepository flowDefinitionRepository, ConversionService conversionService, SchedulerService schedulerService) {
         this.flowDefinitionRepository = flowDefinitionRepository;
         this.conversionService = conversionService;
         this.schedulerService = schedulerService;
@@ -87,10 +91,39 @@ public class MonitorFlowDefinitionServiceImpl implements MonitorFlowDefinitionSe
     }
 
     @Override
+    @Transactional
     public MonitorFlowDefinitionResponseDTO createOrUpdate(MonitorFlowDefinitionCreateOrUpdateRequestDTO requestDTO) {
         FlowDefinition convert = conversionService.convert(requestDTO, FlowDefinition.class);
-        FlowDefinition save = flowDefinitionRepository.save(convert);
-        return conversionService.convert(save, MonitorFlowDefinitionResponseDTO.class);
+        if (Objects.nonNull(requestDTO.getId())) {
+            FlowDefinition flowDefinition = new FlowDefinition();
+            flowDefinition.setCode(requestDTO.getCode());
+            Optional<FlowDefinition> optional = flowDefinitionRepository.findById(requestDTO.getId());
+            optional.get().getRuleInstances().addAll(convert.getRuleInstances());
+            BeanUtils.copyProperties(convert.getSampleInstance(), optional.get().getSampleInstance());
+            Map<Integer, AlerterInstance> targetAlert = optional.get().getAlerterInstances().stream().collect(Collectors.toMap(AlerterInstance::getId, user -> user, (v1, v2) -> v2));
+            Set<Integer> targetIds = targetAlert.keySet();
+            Map<Integer, AlerterInstance> sourceAlert = convert.getAlerterInstances().stream().collect(Collectors.toMap(AlerterInstance::getId, user -> user, (v1, v2) -> v2));
+            Set<Integer> sourceIds = sourceAlert.keySet();
+            sourceAlert.forEach((k, v) -> {
+                if (targetIds.contains(k)) {
+                    BeanUtils.copyProperties(v, targetAlert.get(k));
+                    targetAlert.get(k).setDatasetCode(convert.getDatasetCode());
+                } else {
+                    optional.get().getAlerterInstances().add(v);
+                }
+            });
+
+            targetAlert.forEach((k, v) -> {
+                if (!sourceIds.contains(k)) {
+                    optional.get().getAlerterInstances().remove(targetAlert.get(k));
+                }
+            });
+
+            return conversionService.convert(flowDefinitionRepository.findById(requestDTO.getId()).get(), MonitorFlowDefinitionResponseDTO.class);
+        } else {
+            FlowDefinition save = flowDefinitionRepository.save(convert);
+            return conversionService.convert(convert, MonitorFlowDefinitionResponseDTO.class);
+        }
     }
 
     @Override

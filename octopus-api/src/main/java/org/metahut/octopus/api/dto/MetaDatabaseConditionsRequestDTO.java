@@ -13,7 +13,7 @@ public class MetaDatabaseConditionsRequestDTO extends PageRequestDTO {
     private String dataSourceType;
 
     @ApiModelProperty(value = "datasourece code")
-    private String datasoureceCode;
+    private String datasourceCode;
 
     @ApiModelProperty(value = "code")
     private String code;
@@ -45,11 +45,11 @@ public class MetaDatabaseConditionsRequestDTO extends PageRequestDTO {
         this.dataSourceType = dataSourceType;
     }
 
-    public String getDatasoureceCode() {
-        return datasoureceCode;
+    public String getDatasourceCode() {
+        return datasourceCode;
     }
 
-    public void setDatasoureceCode(String datasoureceCode) {
-        this.datasoureceCode = datasoureceCode;
+    public void setDatasourceCode(String datasourceCode) {
+        this.datasourceCode = datasourceCode;
     }
 }

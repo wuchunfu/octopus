@@ -83,7 +83,10 @@ public class RuleInstanceControllerImplTest extends WebMvcApplicationTest {
 
     @Test
     public void testCreate() throws Exception {
-        MetricsResponseDTO metrics = createMetrics(new MetricsCreateOrUpdateRequestDTO());
+        MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO = new MetricsCreateOrUpdateRequestDTO();
+        metricsCreateOrUpdateRequestDTO.setCode("count" + RANDOM.nextInt(1000));
+        metricsCreateOrUpdateRequestDTO.setName("count" + RANDOM.nextInt(1000));
+        MetricsResponseDTO metrics = createMetrics(metricsCreateOrUpdateRequestDTO);
 
         MetricsConfigCreateOrUpdateRequestDTO metricsConfigCreateOrUpdateRequestDTO = new MetricsConfigCreateOrUpdateRequestDTO();
         metricsConfigCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
@@ -115,7 +118,10 @@ public class RuleInstanceControllerImplTest extends WebMvcApplicationTest {
 
     @Test
     public void testUpdate() throws Exception {
-        MetricsResponseDTO metrics = createMetrics(new MetricsCreateOrUpdateRequestDTO());
+        MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO = new MetricsCreateOrUpdateRequestDTO();
+        metricsCreateOrUpdateRequestDTO.setCode("count" + RANDOM.nextInt(1000));
+        metricsCreateOrUpdateRequestDTO.setName("count" + RANDOM.nextInt(1000));
+        MetricsResponseDTO metrics = createMetrics(metricsCreateOrUpdateRequestDTO);
 
         MetricsConfigCreateOrUpdateRequestDTO metricsConfigCreateOrUpdateRequestDTO = new MetricsConfigCreateOrUpdateRequestDTO();
         metricsConfigCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
@@ -166,7 +172,10 @@ public class RuleInstanceControllerImplTest extends WebMvcApplicationTest {
 
     @Test
     public void testDeleteById() throws Exception {
-        MetricsResponseDTO metrics = createMetrics(new MetricsCreateOrUpdateRequestDTO());
+        MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO = new MetricsCreateOrUpdateRequestDTO();
+        metricsCreateOrUpdateRequestDTO.setCode("count" + RANDOM.nextInt(1000));
+        metricsCreateOrUpdateRequestDTO.setName("count" + RANDOM.nextInt(1000));
+        MetricsResponseDTO metrics = createMetrics(metricsCreateOrUpdateRequestDTO);
 
         MetricsConfigCreateOrUpdateRequestDTO metricsConfigCreateOrUpdateRequestDTO = new MetricsConfigCreateOrUpdateRequestDTO();
         metricsConfigCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
@@ -208,7 +217,10 @@ public class RuleInstanceControllerImplTest extends WebMvcApplicationTest {
 
     @Test
     public void testQueryListPage() throws Exception {
-        MetricsResponseDTO metrics = createMetrics(new MetricsCreateOrUpdateRequestDTO());
+        MetricsCreateOrUpdateRequestDTO metricsCreateOrUpdateRequestDTO = new MetricsCreateOrUpdateRequestDTO();
+        metricsCreateOrUpdateRequestDTO.setCode("count" + RANDOM.nextInt(1000));
+        metricsCreateOrUpdateRequestDTO.setName("count" + RANDOM.nextInt(1000));
+        MetricsResponseDTO metrics = createMetrics(metricsCreateOrUpdateRequestDTO);
 
         MetricsConfigCreateOrUpdateRequestDTO metricsConfigCreateOrUpdateRequestDTO = new MetricsConfigCreateOrUpdateRequestDTO();
         metricsConfigCreateOrUpdateRequestDTO.setMetricsCode(metrics.getCode());
@@ -238,10 +250,10 @@ public class RuleInstanceControllerImplTest extends WebMvcApplicationTest {
 
         String url = REST_FUNCTION_URL_PREFIX + "queryListPage";
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get(url).param("pageNo", "1")
-                .param("pageSize", "10").param("datasetCode", "datasetCode0609"))
-            .andExpect(status().isOk())
-            .andDo(MockMvcResultHandlers.print())
-            .andReturn();
+                        .param("pageSize", "10").param("datasetCode", "datasetCode0609"))
+                .andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
         String result = mvcResult.getResponse().getContentAsString();
         ResultEntity<PageResponseDTO<RuleInstanceResponseDTO>> resultEntity = JSONUtils.parseObject(result, new TypeReference<ResultEntity<PageResponseDTO<RuleInstanceResponseDTO>>>() {
         });
