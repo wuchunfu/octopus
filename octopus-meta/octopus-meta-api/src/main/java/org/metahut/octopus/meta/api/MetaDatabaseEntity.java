@@ -9,6 +9,8 @@ public class MetaDatabaseEntity {
 
     private String name;
 
+    private MetaDatasourceEntity datasource;
+
     public String getCode() {
         return code;
     }
@@ -23,5 +25,13 @@ public class MetaDatabaseEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public MetaDatasourceEntity getDatasource() {
+        return datasource;
+    }
+
+    public void setDatasource(MetaDatasourceEntity datasource) {
+        this.datasource = datasource;
     }
 }

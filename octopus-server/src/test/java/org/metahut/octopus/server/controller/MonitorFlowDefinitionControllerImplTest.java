@@ -28,6 +28,7 @@ import org.metahut.octopus.server.service.MetaService;
 import org.metahut.octopus.server.service.SchedulerService;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -109,6 +110,9 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
     }
 
     private MonitorFlowDefinitionResponseDTO create(MonitorFlowDefinitionCreateOrUpdateRequestDTO requestDTO) throws Exception {
+        if(StringUtils.isEmpty(requestDTO.getDatasourceCode())){
+            requestDTO.setDatasourceCode("123321");
+        }
         MetaDatasourceResponseDTO metaDatasourceResponseDTO = new MetaDatasourceResponseDTO();
         metaDatasourceResponseDTO.setCode("123");
         MetaDatasetResponseDTO metaDatasetResponseDTO = new MetaDatasetResponseDTO();
@@ -435,10 +439,10 @@ public class MonitorFlowDefinitionControllerImplTest extends WebMvcApplicationTe
 
         String url = REST_FUNCTION_URL_PREFIX + "queryListPage";
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get(url).param("pageNo", "1")
-                        .param("pageSize", "10").param("datasourceCode", "datesourceCode"))
-                .andExpect(status().isOk())
-                .andDo(MockMvcResultHandlers.print())
-                .andReturn();
+                .param("pageSize", "10").param("datasourceCode", "datesourceCode"))
+            .andExpect(status().isOk())
+            .andDo(MockMvcResultHandlers.print())
+            .andReturn();
         String result = mvcResult.getResponse().getContentAsString();
         ResultEntity<PageResponseDTO<MonitorFlowDefinitionResponseDTO>> resultEntity =
                 JSONUtils.parseObject(result, new TypeReference<ResultEntity<PageResponseDTO<MonitorFlowDefinitionResponseDTO>>>() {

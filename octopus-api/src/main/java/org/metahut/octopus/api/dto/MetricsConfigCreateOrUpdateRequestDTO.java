@@ -105,13 +105,10 @@ public class MetricsConfigCreateOrUpdateRequestDTO {
     }
 
     public String getMetricsParams() {
-        if (StringUtils.isBlank(metricsParams)) {
-            Map<String, Object> map = new HashMap<>();
-            map.put(EXECUTOR_TYPE_STR, getExecutorType());
-            map.put(EXECUTOR_SCRIPT_STR, getExecutorScript());
-            metricsParams = JSONUtils.toJSONString(map);
-        }
-        return metricsParams;
+        Map<String, Object> map = new HashMap<>();
+        map.put(EXECUTOR_TYPE_STR, getExecutorType());
+        map.put(EXECUTOR_SCRIPT_STR, getExecutorScript());
+        return JSONUtils.toJSONString(map);
     }
 
     public void setMetricsParams(String metricsParams) {

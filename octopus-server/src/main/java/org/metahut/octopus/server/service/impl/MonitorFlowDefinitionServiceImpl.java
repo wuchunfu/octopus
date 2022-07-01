@@ -67,7 +67,11 @@ public class MonitorFlowDefinitionServiceImpl implements MonitorFlowDefinitionSe
             }
 
             if (StringUtils.isNotBlank(requestDTO.getDatasetCode())) {
-                conditions.add(builder.like(root.get(FlowDefinition_.datasetCode), requestDTO.getDatasetCode()));
+                conditions.add(builder.equal(root.get(FlowDefinition_.datasetCode), requestDTO.getDatasetCode()));
+            }
+
+            if (StringUtils.isNotBlank(requestDTO.getDatabaseCode())) {
+                conditions.add(builder.equal(root.get(FlowDefinition_.databaseCode), requestDTO.getDatabaseCode()));
             }
 
             if (Objects.nonNull(requestDTO.getCreateStartTime()) && Objects.nonNull(requestDTO.getCreateEndTime())) {

@@ -11,6 +11,9 @@ public class MetaDatabaseResponseDTO {
     @ApiModelProperty(value = "name")
     private String name;
 
+    @ApiModelProperty(value = "datasource")
+    private MetaDatasourceResponseDTO datasource;
+
     public String getCode() {
         return code;
     }
@@ -25,5 +28,13 @@ public class MetaDatabaseResponseDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public MetaDatasourceResponseDTO getDatasource() {
+        return datasource;
+    }
+
+    public void setDatasource(MetaDatasourceResponseDTO datasource) {
+        this.datasource = datasource;
     }
 }

@@ -14,6 +14,9 @@ public class MonitorFlowDefinitionConditionsRequestDTO extends PageRequestDTO {
     @ApiModelProperty(value = "datasource code")
     private String datasourceCode;
 
+    @ApiModelProperty(value = "database code")
+    private String databaseCode;
+
     @ApiModelProperty(value = "datasource type")
     private String datasourceType;
 
@@ -83,5 +86,13 @@ public class MonitorFlowDefinitionConditionsRequestDTO extends PageRequestDTO {
 
     public void setUpdateEndTime(Date updateEndTime) {
         this.updateEndTime = updateEndTime;
+    }
+
+    public String getDatabaseCode() {
+        return databaseCode;
+    }
+
+    public void setDatabaseCode(String databaseCode) {
+        this.databaseCode = databaseCode;
     }
 }

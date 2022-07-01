@@ -130,8 +130,9 @@ public class StarfishMeta implements IMeta {
         try {
             if ("Hive".equals(request.getDataSourceType())) {
                 Object resultJson =
-                    get(MessageFormat.format("/entity/hiveDbs?id={0}&name={1}&pageNo={2}&pageSize={3}",
-                        Objects.isNull(request.getCode()) ? "" : request.getCode(),
+                    get(MessageFormat.format("/entity/hiveDbs?clusterId={0}&id={1}&name={2}&pageNo={3}&pageSize={4}",
+                        StringUtils.isEmpty(request.getDatasourceCode()) ? "" : request.getDatasourceCode(),
+                        Objects.isNull(request.getCode()) ? "" : String.valueOf(request.getCode()),
                         StringUtils.isEmpty(request.getName()) ? "" : request.getName(),
                         request.getPageNo(), request.getPageSize()));
                 if (resultJson == null) {
@@ -144,6 +145,17 @@ public class StarfishMeta implements IMeta {
                     MetaDatabaseEntity entity = new MetaDatabaseEntity();
                     entity.setCode(String.valueOf(sourceResponseDTO.getId()));
                     entity.setName(sourceResponseDTO.getName());
+
+                    HiveClusterResponseDTO cluster = sourceResponseDTO.getCluster();
+                    if (Objects.nonNull(cluster)) {
+                        MetaDatasourceEntity datasource = new MetaDatasourceEntity();
+                        datasource.setType(cluster.getType());
+                        datasource.setName(cluster.getName());
+                        datasource.setCode(cluster.getId());
+                        entity.setDatasource(datasource);
+                    }
+
+
                     return entity;
                 }).collect(Collectors.toList()));
 

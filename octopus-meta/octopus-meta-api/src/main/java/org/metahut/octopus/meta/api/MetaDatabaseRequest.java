@@ -7,6 +7,8 @@ public class MetaDatabaseRequest {
 
     private String dataSourceType;
 
+    private String datasourceCode;
+
     private Long code;
 
     private String name;
@@ -53,5 +55,13 @@ public class MetaDatabaseRequest {
 
     public void setDataSourceType(String dataSourceType) {
         this.dataSourceType = dataSourceType;
+    }
+
+    public String getDatasourceCode() {
+        return datasourceCode;
+    }
+
+    public void setDatasourceCode(String datasourceCode) {
+        this.datasourceCode = datasourceCode;
     }
 }

@@ -39,6 +39,8 @@ public class FlowDefinition extends BaseEntity {
 
     private String datasourceCode;
 
+    private String databaseCode;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "dataset_code", referencedColumnName = "dataset_code", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private List<AlerterInstance> alerterInstances;
@@ -175,5 +177,13 @@ public class FlowDefinition extends BaseEntity {
 
     public void setDatasourceCode(String datasourceCode) {
         this.datasourceCode = datasourceCode;
+    }
+
+    public String getDatabaseCode() {
+        return databaseCode;
+    }
+
+    public void setDatabaseCode(String databaseCode) {
+        this.databaseCode = databaseCode;
     }
 }
