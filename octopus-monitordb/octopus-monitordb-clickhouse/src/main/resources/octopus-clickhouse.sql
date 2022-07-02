@@ -33,8 +33,8 @@ CREATE TABLE monitor_metrics_result_all
     `metrics_value`      String,
     `create_time`        DateTime default now()
 ) ENGINE = MergeTree()
-ORDER BY create_time
-PARTITION BY toYYYYMMDD(create_time)
+ORDER BY window_begin_time
+PARTITION BY toYYYYMMDD(window_begin_time)
 SETTINGS index_granularity = 8192;
 
 -- insert into monitor_metrics_result_all(id, window_begin_time, window_size, window_unit, schedule_time, report_channel, dataset_code, subject_code, subject_category, metrics_code, metrics_unique_key, metrics_value)
@@ -67,8 +67,8 @@ CREATE TABLE monitor_rule_log_all
     `error_time`          DateTime,
     `create_time`         DateTime default now()
 ) ENGINE = MergeTree()
-ORDER BY create_time
-PARTITION BY toYYYYMMDD(create_time)
+ORDER BY window_begin_time
+PARTITION BY toYYYYMMDD(window_begin_time)
 SETTINGS index_granularity = 8192;
 
 -- insert into monitor_rule_log_all(id, rule_instance_code,  window_begin_time, window_size, window_unit, schedule_time, datasource_code, dataset_code, metrics_code, metrics_config_code, subject_code, subject_category, check_type, check_method, comparison_method, comparison_unit, metrics_value, expected_value, result, error, error_info, error_time)

@@ -105,6 +105,15 @@ public class MonitorRuleTaskTest {
         MonitorRuleTask.executeTask(env, dataStream);
     }
 
+    @ParameterizedTest
+    @MethodSource("metricMessageProvider")
+    public void evaluateMonitorRuleTest(List<String> metricMessages) {
+        metricMessages.forEach(item -> {
+            MetricMessage metricMessage = JSONUtils.parseObject(item, MetricMessage.class);
+            List<MetricRule> metricRules = MonitorRuleTask.evaluateMonitorRule(metricMessage);
+        });
+    }
+
     @Test
     @Disabled
     public void batchSendWithDetailsTest() {

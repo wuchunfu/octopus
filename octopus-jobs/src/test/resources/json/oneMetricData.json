@@ -291,7 +291,7 @@
         "updateTime": "2022-06-14 17:38:17"
       },
       "checkType": "RATE",
-      "checkMethod": "FIXED_VALUE",
+      "checkMethod": "SEVEN_DAY_AVERAGE",
       "comparisonMethod": "LT",
       "comparisonUnit": "%",
       "expectedValue": ["100232132"],
@@ -325,6 +325,6 @@
       "format": "yyyyMMdd"
     }],
   "windowType": "TUMBLE",
-  "windowSize": "20",
+  "windowSize": "1",
   "windowUnit": "DAY"
 }

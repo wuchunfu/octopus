@@ -21,7 +21,7 @@
     "ruleInstances": [
       {
         "ruleInstanceCode": 5856993537314,
-        "checkType": "Number",
+        "checkType": "NUM",
         "checkMethod": "FIXED_VALUE",
         "comparisonUnit": "Num",
         "comparisonMethod": "EQ",
@@ -29,12 +29,41 @@
       },
       {
         "ruleInstanceCode": 5856993537314,
-        "checkType": "Fluctuation",
+        "checkType": "RATE",
         "checkMethod": "SEVEN_DAY_AVERAGE",
         "comparisonUnit": "Num",
         "comparisonMethod": "GT",
         "expectedValue": ["0.1"]
       }
     ]
+  },
+  {
+    "id": "4fda9171-2d22-48dc-9b70-0d37866cacbc",
+    "reportChannel": "",
+    "datasourceCode": "01",
+    "datasourceName": "Hive-HW-PROD",
+    "datasetCode": "01",
+    "datasetName": "test_obs_octopus_jobs",
+    "subjectCode": "35",
+    "subjectCategory": "FIELD",
+    "metricsCode": "null_rate",
+    "metricsName": "空值率",
+    "metricsConfigCode": 5856996519968,
+    "metricsUniqueKey": "TABLE-01-null_rate-null",
+    "metricsValue": "0",
+    "windowBeginTime": "2022-05-26 13:10:20",
+    "windowSize": 20,
+    "windowUnit": "DAY",
+    "scheduleTime": "2022-06-15 13:10:20",
+    "sendDate": "2022-06-23 16:32:46",
+    "ruleInstances": [
+      {
+        "ruleInstanceCode": 5858444450208,
+        "checkType": "RATE",
+        "checkMethod": "FIXED_VALUE",
+        "comparisonUnit": "%",
+        "comparisonMethod": "LT",
+        "expectedValue": ["100232132"]
+      }]
   }
 ]

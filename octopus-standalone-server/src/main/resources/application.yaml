@@ -73,8 +73,8 @@ octopus:
     type: clickhouse
     clickhouse:
       driverClassName: ru.yandex.clickhouse.ClickHouseDriver
-      jdbcUrl: jdbc:clickhouse://172.30.240.229:8123/quality
-      #      jdbcUrl: jdbc:clickhouse://172.17.60.11:8123/octopus_qa
+#      jdbcUrl: jdbc:clickhouse://172.30.240.229:8123/quality
+      jdbcUrl: jdbc:clickhouse://172.17.60.11:8123/octopus_qa
       user: default
       password:
   scheduler:

@@ -49,6 +49,6 @@ public class OfflineHiveMetricsTest {
                 //  .setDeliverGuarantee(DeliveryGuarantee.AT_LEAST_ONCE)
                 .build();
 
-        OfflineHiveMetrics.executeTask("2022-06-15 13:10:20",flowInstance,env, settings, sink);
+        OfflineHiveMetrics.executeTask("2022-06-15 13:10:20", flowInstance, env, settings, sink);
     }
 }

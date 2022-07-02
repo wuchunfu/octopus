@@ -24,7 +24,6 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;

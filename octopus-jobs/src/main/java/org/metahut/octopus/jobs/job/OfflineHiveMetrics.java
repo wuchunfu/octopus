@@ -20,6 +20,7 @@ import org.metahut.octopus.monitordb.api.MetricsResult;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Preconditions;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.configuration.Configuration;
@@ -45,6 +46,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -69,12 +71,20 @@ public class OfflineHiveMetrics {
         ParameterTool parameterTool = ParameterTool.fromArgs(args);
         Preconditions.checkArgument(parameterTool.has("scheduleTime") && parameterTool.has("flowCode"), "Missed the arguments of scheduleTime or flowCode.");
 
-        String schduleTimeStr = parameterTool.get("scheduleTime");
+        String scheduleTimeStr = parameterTool.get("scheduleTime");
 
         //--flowCode 5856993537312
         flowCode = parameterTool.get("flowCode");
 
-        String flowResponse = HttpUtils.get(monitorConfig.getMonitorFlowDefinitionService() + flowCode);
+        String flowDefinitionServiceUrl = monitorConfig.getMonitorFlowDefinitionService();
+
+        if (flowDefinitionServiceUrl.endsWith("/")) {
+            flowDefinitionServiceUrl = String.format("%s%s", flowDefinitionServiceUrl, flowCode);
+        } else {
+            flowDefinitionServiceUrl = String.format("%s/%s", flowDefinitionServiceUrl, flowCode);
+        }
+
+        String flowResponse = HttpUtils.get(flowDefinitionServiceUrl);
         JSONObject flowResponseJson = JSONObject.parseObject(flowResponse);
         if (flowResponseJson.getInteger("code") != 200) {
             throw new RuntimeException("the interface responses error: \n" + flowResponse);
@@ -98,7 +108,7 @@ public class OfflineHiveMetrics {
                 //  .setDeliverGuarantee(DeliveryGuarantee.AT_LEAST_ONCE)
                 .build();
 
-        executeTask(schduleTimeStr, flowInstance, env, settings, sink);
+        executeTask(scheduleTimeStr, flowInstance, env, settings, sink);
     }
 
     //register udf
@@ -231,11 +241,13 @@ public class OfflineHiveMetrics {
         String viewSamples = null;
         //get sampleInstance info
         SampleInstanceResponseDTO sampleInstance = flowInstance.getSampleInstance();
-        if (sampleInstance != null) {
-            String parameter = sampleInstance.getParameter();
+        if (sampleInstance != null && StringUtils.isNotBlank(sampleInstance.getParameter())) {
+            String parameter = sampleInstance.getRuntimeParameter();
             JSONObject parameterJson = JSONObject.parseObject(parameter);
-            int number = parameterJson.getInteger("number");
-            viewSamples = MessageFormat.format(viewSamplesPre, fullTableName, conditions, (float)number / 100);
+            if (parameterJson.containsKey("number") && Objects.nonNull(parameterJson.getInteger("number"))) {
+                int number = parameterJson.getInteger("number");
+                viewSamples = MessageFormat.format(viewSamplesPre, fullTableName, conditions, (float)number / 100);
+            }
         }
 
         //get ruleInstances info
@@ -260,10 +272,11 @@ public class OfflineHiveMetrics {
             metricInfo.setWindowUnit(windowUnit.toString());
             metricInfo.setScheduleTime(scheduleTime);
             SampleInstanceResponseDTO metricSampleInstance = ruleInstanceResponseDTO.getSampleInstance();
-            if (metricSampleInstance == null) {
-                metricInfo.setSampleFlag(Boolean.FALSE);
+            if (Objects.nonNull(metricSampleInstance) && StringUtils.isNotBlank(metricSampleInstance.getParameter())) {
+                metricInfo.setSampleFlag(true);
+            } else {
+                metricInfo.setSampleFlag(false);
             }
-
             RuleInstance ruleInstance = new RuleInstance();
             ruleInstance.setRuleInstanceCode(ruleInstanceResponseDTO.getCode());
             ruleInstance.setCheckType(ruleInstanceResponseDTO.getCheckType());
@@ -314,7 +327,7 @@ public class OfflineHiveMetrics {
             }
 
             Table table = tableEnvironment.sqlQuery(metricSql);
-            DataStream<MetricResult> metricResultDataStream = tableEnvironment.toDataStream(table, MetricResult.class); //这里改下类名，不然有些混淆MetricValue.class
+            DataStream<MetricResult> metricResultDataStream = tableEnvironment.toDataStream(table, MetricResult.class);
             SingleOutputStreamOperator<String> metricStringDataStream = metricResultDataStream
                     //insert into clickhouse
                     .map(data -> {

@@ -31,6 +31,8 @@ import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.util.Collector;
 import org.apache.pulsar.client.api.SubscriptionType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
@@ -53,6 +55,8 @@ public class MonitorRuleTask {
 
     private static final MonitorConfig monitorConfig = MonitorConfig.getMonitorConfig();
 
+    private static final Logger log = LoggerFactory.getLogger(MonitorRuleTask.class);
+
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setRuntimeMode(RuntimeExecutionMode.STREAMING);
@@ -61,7 +65,7 @@ public class MonitorRuleTask {
         PulsarSource<String> pulsarSource = PulsarSource.builder()
             .setServiceUrl(monitorConfig.getMessageQueue().getPulsar().getServiceUrl())
             .setAdminUrl(monitorConfig.getMessageQueue().getPulsar().getAdminUrl())
-            .setStartCursor(StartCursor.earliest())
+            .setStartCursor(StartCursor.latest())
             .setTopics(monitorConfig.getMessageQueue().getPulsar().getTopic())
             .setDeserializationSchema(PulsarDeserializationSchema.flinkSchema(new SimpleStringSchema()))
             .setSubscriptionName(monitorConfig.getMessageQueue().getPulsar().getSubscriptionName())
@@ -79,8 +83,6 @@ public class MonitorRuleTask {
         sourceDataStream.print().name("print-sink");
 
         env.execute();
-
-        // env.execute(monitorConfig.getMonitorRuleTask().getJobName());
     }
 
     public static final class EvaluateMonitorRuleMapFunction implements MapFunction<String, String> {
@@ -140,98 +142,110 @@ public class MonitorRuleTask {
                 // To save the monitor log into the backend storage.
                 try {
                     MonitorLog monitorLog = executeMonitorRule(metricRule);
-                    IMonitorDBSource monitorDBSource = MonitorDBPluginHelper.getMonitorDBSource();
-                    int affectedRecords = monitorDBSource.saveMonitorLog(monitorLog);
-                    metricRule.setActualValue(monitorLog.getResult());
-                    metricRule.setCheckStatus(monitorLog.getError());
-                    metricRule.setMessage(monitorLog.getErrorInfo());
-                    if (metricRule.getCheckStatus() != 0) {
-                        callAlertService(metricRule);
+                    if (StringUtils.isNotBlank(monitorLog.getId())) {
+                        IMonitorDBSource monitorDBSource = MonitorDBPluginHelper.getMonitorDBSource();
+                        int affectedRecords = monitorDBSource.saveMonitorLog(monitorLog);
+                        metricRule.setActualValue(monitorLog.getResult());
+                        metricRule.setCheckStatus(monitorLog.getError());
+                        metricRule.setMessage(monitorLog.getErrorInfo());
+                        if (metricRule.getCheckStatus() != 0) {
+                            callAlertService(metricRule);
+                        }
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    log.error("Failed to save the monitor log into the storage.", e);
                 }
                 return metricRule;
             })
-            .filter(metricRule -> metricRule.getCheckStatus() != 0)
+            .filter(metricRule -> Objects.nonNull(metricRule) && metricRule.getCheckStatus() != 0)
             .collect(Collectors.toList());
     }
 
-    public static MonitorLog executeMonitorRule(MetricRule metricRule)
-        throws InvocationTargetException, IllegalAccessException {
-        List<String> expectedValues = JSONUtils.parseObject(metricRule.getExpectedValue(), ArrayList.class);
+    public static MonitorLog executeMonitorRule(MetricRule metricRule) {
         MonitorLog monitorLog = new MonitorLog();
+        monitorLog.setError(0);
+        try {
+            BeanUtils.copyProperties(monitorLog, metricRule);
+            monitorLog.setId(UUID.randomUUID().toString());
+            monitorLog.setCreateTime(new Date());
 
-        BeanUtils.copyProperties(monitorLog, metricRule);
-        monitorLog.setId(UUID.randomUUID().toString());
-        monitorLog.setCreateTime(new Date());
+            List<String> expectedValues = JSONUtils.parseObject(metricRule.getExpectedValue(), ArrayList.class);
 
-        if (CollectionUtils.isEmpty(expectedValues)) {
-            monitorLog.setError(1);
-            monitorLog.setErrorInfo("No any expected values.");
-            monitorLog.setErrorTime(new Date());
-            return monitorLog;
-        }
-
-        if (StringUtils.isBlank(monitorLog.getComparisonMethod())) {
-            monitorLog.setError(1);
-            monitorLog.setErrorInfo("The value of comparison method is invalid.");
-            monitorLog.setErrorTime(new Date());
-            return monitorLog;
-        }
-
-        String comparisonMethod = monitorLog.getComparisonMethod().toLowerCase();
-
-        if (monitorLog.getCheckType().equalsIgnoreCase("Number")
-            && CheckMethodEnum.FIXED_VALUE.toString().equals(monitorLog.getCheckMethod())) {
-            Double actualValue = NumberUtils.toDouble(monitorLog.getMetricsValue());
-
-            return compare(monitorLog, comparisonMethod, actualValue, expectedValues);
-
-        } else if (monitorLog.getCheckType().equalsIgnoreCase("Fluctuation")) {
-            Double partialActualValue = NumberUtils.toDouble(monitorLog.getMetricsValue());
-            int days = 7;
-            if (CheckMethodEnum.SEVEN_DAY_AVERAGE.toString().equals(monitorLog.getCheckMethod())) {
-                days = 7;
-            } else if (CheckMethodEnum.FOURTEEN_DAY_AVERAGE.toString().equals(monitorLog.getCheckMethod())) {
-                days = 14;
-            } else if (CheckMethodEnum.TWENTY_ONE_DAY_AVERAGE.toString().equals(monitorLog.getCheckMethod())) {
-                days = 21;
-            } else if (CheckMethodEnum.THIRTY_DAY_AVERAGE.toString().equals(monitorLog.getCheckMethod())) {
-                days = 30;
-            }
-            List<Map<String, Object>> metricsResults = queryAverageValue(days,
-                monitorLog.getDatasetCode(),
-                monitorLog.getMetricsCode(),
-                monitorLog.getWindowBeginTime(),
-                monitorLog.getWindowSize(),
-                monitorLog.getWindowUnit());
-
-            if (metricsResults.isEmpty()) {
+            if (CollectionUtils.isEmpty(expectedValues)) {
                 monitorLog.setError(1);
-                monitorLog.setErrorInfo(String.format("Not found any historical metrics before %d days.", days));
+                monitorLog.setErrorInfo("No any expected values.");
                 monitorLog.setErrorTime(new Date());
                 return monitorLog;
-            } else {
-                Double averageValue = ((BigDecimal)metricsResults.get(0).get("avg")).doubleValue();
-                Double items = ((BigInteger)metricsResults.get(0).get("items")).doubleValue();
-                // TODO: adjust the error to checkStatus, errorInfo to MessageInfo, errorTime to checkTime
-                // if (items < days) {
-                //     monitorLog.setError(1);
-                //     monitorLog.setErrorInfo(String.format("Just found %d records, missed %d records.", items, days - items));
-                //     monitorLog.setErrorTime(new Date());
-                // }
+            }
 
-                if (Objects.isNull(averageValue) || Double.isNaN(averageValue) || averageValue.equals(0.0D)) {
+            if (StringUtils.isBlank(monitorLog.getComparisonMethod())) {
+                monitorLog.setError(1);
+                monitorLog.setErrorInfo("The value of comparison method is invalid.");
+                monitorLog.setErrorTime(new Date());
+                return monitorLog;
+            }
+
+            String comparisonMethod = monitorLog.getComparisonMethod().toLowerCase();
+
+            if (monitorLog.getCheckType().equalsIgnoreCase("NUM")
+                && CheckMethodEnum.FIXED_VALUE.toString().equals(monitorLog.getCheckMethod())) {
+                Double actualValue = NumberUtils.toDouble(monitorLog.getMetricsValue());
+
+                return compare(monitorLog, comparisonMethod, actualValue, expectedValues);
+
+            } else if (monitorLog.getCheckType().equalsIgnoreCase("RATE")) {
+                Double partialActualValue = NumberUtils.toDouble(monitorLog.getMetricsValue());
+                int days = 7;
+                if (CheckMethodEnum.SEVEN_DAY_AVERAGE.toString().equals(monitorLog.getCheckMethod())) {
+                    days = 7;
+                } else if (CheckMethodEnum.FOURTEEN_DAY_AVERAGE.toString().equals(monitorLog.getCheckMethod())) {
+                    days = 14;
+                } else if (CheckMethodEnum.TWENTY_ONE_DAY_AVERAGE.toString().equals(monitorLog.getCheckMethod())) {
+                    days = 21;
+                } else if (CheckMethodEnum.THIRTY_DAY_AVERAGE.toString().equals(monitorLog.getCheckMethod())) {
+                    days = 30;
+                }
+                List<Map<String, Object>> metricsResults = queryAverageValue(days,
+                    monitorLog.getDatasetCode(),
+                    monitorLog.getMetricsCode(),
+                    monitorLog.getWindowBeginTime(),
+                    monitorLog.getWindowSize(),
+                    monitorLog.getWindowUnit());
+
+                if (metricsResults.isEmpty()) {
                     monitorLog.setError(1);
-                    monitorLog.setErrorInfo(String.format("The historical average value is invalid", days));
+                    monitorLog.setErrorInfo(String.format("Not found any historical metrics before %d days.", days));
                     monitorLog.setErrorTime(new Date());
                     return monitorLog;
                 } else {
-                    Double changeRate = partialActualValue / averageValue - 1;
-                    return compare(monitorLog, comparisonMethod, changeRate, expectedValues);
+                    Double averageValue = ((BigDecimal)metricsResults.get(0).get("avg")).doubleValue();
+                    Double items = ((BigInteger)metricsResults.get(0).get("items")).doubleValue();
+                    // TODO: adjust the error to checkStatus, errorInfo to MessageInfo, errorTime to checkTime
+                    // if (items < days) {
+                    //     monitorLog.setError(1);
+                    //     monitorLog.setErrorInfo(String.format("Just found %d records, missed %d records.", items, days - items));
+                    //     monitorLog.setErrorTime(new Date());
+                    // }
+
+                    if (Objects.isNull(averageValue) || Double.isNaN(averageValue) || averageValue.equals(0.0D)) {
+                        monitorLog.setError(1);
+                        monitorLog.setErrorInfo(String.format("The historical average value is invalid", days));
+                        monitorLog.setErrorTime(new Date());
+                        return monitorLog;
+                    } else {
+                        Double changeRate = partialActualValue / averageValue - 1;
+                        return compare(monitorLog, comparisonMethod, changeRate, expectedValues);
+                    }
                 }
             }
+        } catch (IllegalAccessException  e) {
+            log.error("Failed to copy all properties of the metricRule to the monitorLog object.", e);
+        } catch (InvocationTargetException e) {
+            log.error("Failed to copy all properties of the metricRule to the monitorLog object.", e);
+        } catch (IllegalArgumentException  e) {
+            log.error("Failed to copy all properties of the metricRule to the monitorLog object.", e);
+        } catch (Exception e) {
+            log.error("Failed to execute the monitor rule.{}", JSONUtils.toJSONString(metricRule));
         }
         return monitorLog;
     }
@@ -306,22 +320,36 @@ public class MonitorRuleTask {
             dateTimePart = endDateTime.getMinute();
         }
 
-        String sql = String.format("select avg(toDecimal64(metrics_value,4)) as avg,count(1) as items "
-                + "from %s "
-                + "where dataset_code = '%s' and metrics_code = '%s' and window_begin_time>='%s' and window_begin_time<'%s' and %s(window_begin_time) = '%d' "
-                + "and metrics_value is not null and metrics_value !='null' and metrics_value !='' "
-                + "group by %s(window_begin_time)",
+        String sql = "";
 
-            monitorMetricsResultTable,
-            datasetCode,
-            metricsCode,
-            dateTimeFormatter.format(beginDateTime),
-            dateTimeFormatter.format(endDateTime),
-            dateFunctionName,
-            dateTimePart,
-            dateFunctionName,
-            dateTimeFormatter.format(endDateTime)
-        );
+        if (windowUnit.equalsIgnoreCase("day")) {
+            sql = String.format("select avg(toDecimal64(metrics_value,4)) as avg,count(1) as items "
+                    + "from %s "
+                    + "where dataset_code = '%s' and metrics_code = '%s' and window_begin_time>='%s' and window_begin_time<'%s' "
+                    + "and metrics_value is not null and metrics_value !='null' and metrics_value !=''",
+                monitorMetricsResultTable,
+                datasetCode,
+                metricsCode,
+                dateTimeFormatter.format(beginDateTime),
+                dateTimeFormatter.format(endDateTime)
+            );
+        } else {
+            sql = String.format("select avg(toDecimal64(metrics_value,4)) as avg,count(1) as items "
+                    + "from %s "
+                    + "where dataset_code = '%s' and metrics_code = '%s' and window_begin_time>='%s' and window_begin_time<'%s' and %s(window_begin_time) = '%d' "
+                    + "and metrics_value is not null and metrics_value !='null' and metrics_value !='' "
+                    + "group by %s(window_begin_time)",
+
+                monitorMetricsResultTable,
+                datasetCode,
+                metricsCode,
+                dateTimeFormatter.format(beginDateTime),
+                dateTimeFormatter.format(endDateTime),
+                dateFunctionName,
+                dateTimePart,
+                dateFunctionName
+            );
+        }
         return sql;
     }
 
