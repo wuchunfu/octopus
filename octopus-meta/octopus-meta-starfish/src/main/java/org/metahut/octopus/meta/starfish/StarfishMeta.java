@@ -154,8 +154,7 @@ public class StarfishMeta implements IMeta {
                         datasource.setCode(cluster.getId());
                         entity.setDatasource(datasource);
                     }
-
-
+                    
                     return entity;
                 }).collect(Collectors.toList()));
 
@@ -308,12 +307,15 @@ public class StarfishMeta implements IMeta {
             String body;
             if ("org.starfish.HiveTable".equals(className)) {
                 body =
-                        "{\"eachPointers\": {\"db\" : {\"relationType\": \"CHILD\", \"category\":\"RELATIONSHIP\", \"eachPointers\": {\"cluster\" : {\"relationType\": \"CHILD\", \"category\":\"RELATIONSHIP\", \"eachPointers\": {} } } }, "
+                        "{\"eachPointers\": {\"db\" : {\"relationType\": \"CHILD\", \"category\":\"RELATIONSHIP\", "
+                                + "\"eachPointers\": {\"cluster\" : {\"relationType\": \"CHILD\", \"category\":\"RELATIONSHIP\", \"eachPointers\": {} } } }, "
                                 + "\"columns\": {\"relationType\": \"CHILD\", \"category\":\"RELATIONSHIP\", \"eachPointers\": {} } }, \"id\": " + code + ", \"typeName\": \"org.starfish.HiveTable\"}";
             } else {
                 body =
-                        "{\"eachPointers\": {\"namespace\" : {\"relationType\": \"CHILD\", \"category\":\"RELATIONSHIP\", \"eachPointers\": {\"tenant\" : {\"relationType\": \"CHILD\", \"category\":\"RELATIONSHIP\", \"eachPointers\": {\"allowedClusters\" : "
-                                + "{\"relationType\": \"CHILD\", \"category\":\"RELATIONSHIP\", \"eachPointers\": { } } } } } }, \"schemas\": {\"relationType\": \"CHILD\", \"category\":\"RELATIONSHIP\", \"eachPointers\": {} } }, \"id\": "
+                        "{\"eachPointers\": {\"namespace\" : {\"relationType\": \"CHILD\", \"category\":\"RELATIONSHIP\", "
+                                + "\"eachPointers\": {\"tenant\" : {\"relationType\": \"CHILD\", \"category\":\"RELATIONSHIP\", \"eachPointers\": {\"allowedClusters\" : "
+                                + "{\"relationType\": \"CHILD\", \"category\":\"RELATIONSHIP\", \"eachPointers\": { } } } } } }, "
+                                + "\"schemas\": {\"relationType\": \"CHILD\", \"category\":\"RELATIONSHIP\", \"eachPointers\": {} } }, \"id\": "
                                 + code + " , \"typeName\": \"org.starfish.PulsarTopic\"}";
             }
 
